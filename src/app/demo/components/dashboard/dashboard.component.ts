@@ -9,6 +9,11 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    pieData: any;
+
+    barOptions: any;
+
+    pieOptions: any;
 
     items!: MenuItem[];
 
@@ -42,6 +47,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
+        this.pieData = {
+            labels: ['25% Approved', '35% Pending', '40% Unapproved'],
+            datasets: [
+                {
+                    data: [25, 35, 40],
+                    backgroundColor: ['#007EC6', '#7595D4', '#B4C5E7'],
+                    hoverBackgroundColor: ['#007EC6', '#7595D4', '#B4C5E7']
+                }]
+        };
+ 
+        this.pieOptions = {
+            cutout:'75%',
+            radius:'70%',
+            plugins: {
+                legend: {
+                    position: 'left',
+                    labels: {
+                        usePointStyle: true,
+                        color: textColor
+                    }
+                }
+            }
+        };
         this.chartData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
@@ -94,7 +122,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }
         };
     }
-
     ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();
