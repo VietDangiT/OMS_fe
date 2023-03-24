@@ -7,10 +7,52 @@ import { LayoutService } from './service/app.layout.service';
     templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent implements OnInit {
-
+    elements = [
+        {
+          name: 'dashboard',
+          path: '/dashboard',
+          icon: "pi pi-th-large"
+        },
+        {
+          name: 'order',
+          path: '/order',
+          icon: "pi pi-box"
+        },
+        {
+          name: 'catalogue',
+          path: '/catalogue',
+          icon : "pi pi-book"
+        },
+        {
+          name: 'inventory',
+          path: '/inventory',
+          icon: "pi pi-inbox"
+        },
+        {
+          name: 'user',
+          path: '/user',
+          icon: "pi pi-user"
+        },
+        {
+          name: 'customer',
+          path: '/customer',
+          icon: "pi pi-users"
+    
+        },
+        {
+          name: 'contact',
+          path: '/contact',
+          icon: "pi pi-phone"
+    
+        }
+    ];
+    isSubmenuOn: boolean | undefined;
     model: any[] = [];
 
-    constructor(public layoutService: LayoutService) { }
+    constructor(public layoutService: LayoutService) {
+   this.layoutService.currentSubMenuState.subscribe(state => this.isSubmenuOn = state);
+
+     }
 
     ngOnInit() {
         this.model = [
@@ -162,4 +204,5 @@ export class AppMenuComponent implements OnInit {
             }
         ];
     }
+
 }

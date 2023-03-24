@@ -15,22 +15,29 @@ import { SaleOnChannelComponent } from './total-sale-by-location/sale-on-channel
 import { TableComponent } from './table/table.component';
 import { CalendarModule } from 'primeng/calendar';
 import { SaleByChannelComponent } from './total-sale-by-location/sale-by-channel/sale-by-channel.component';
-import { NgApexchartsModule } from "ng-apexcharts";
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ChartModule,
-        MenuModule,
-        TableModule,
-        StyleClassModule,
-        PanelMenuModule,
-        ButtonModule,
-        DashboardsRoutingModule,
-        CalendarModule,
-        NgApexchartsModule
-    ],
-    declarations: [DashboardComponent, DashboardStatisticComponent, TotalSaleByLocationComponent, SaleOnChannelComponent, TableComponent, SaleByChannelComponent]
+  imports: [
+    CommonModule,
+    FormsModule,
+    ChartModule,
+    MenuModule,
+    TableModule,
+    StyleClassModule,
+    PanelMenuModule,
+    ButtonModule,
+    DashboardsRoutingModule,
+    CalendarModule,
+    NgApexchartsModule,
+  ],
+  declarations: [
+    DashboardComponent,
+    DashboardStatisticComponent,
+    TotalSaleByLocationComponent,
+    SaleOnChannelComponent,
+    TableComponent,
+    SaleByChannelComponent,
+  ],
 })
-export class DashboardModule { }
+export class DashboardModule {}
