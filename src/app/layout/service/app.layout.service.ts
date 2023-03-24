@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 export interface AppConfig {
     inputStyle: string;
@@ -96,5 +96,20 @@ export class LayoutService {
     onConfigUpdate() {
         this.configUpdate.next(this.config);
     }
-
+    
+    constructor() { }
+    private isSubmenuOn = new BehaviorSubject<boolean>(false);
+    currentSubMenuState = this.isSubmenuOn.asObservable();
+  
+    changeSubMenuState(state?:boolean){
+        if(state != null){
+            this.isSubmenuOn.next(state);
+        }else{
+            var result: boolean = false;
+            this.isSubmenuOn.subscribe(state => result = state);
+            this.isSubmenuOn.next(!result);
+        }
+    }
+  
+ 
 }

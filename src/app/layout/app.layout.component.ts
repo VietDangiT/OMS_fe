@@ -21,7 +21,10 @@ export class AppLayoutComponent implements OnDestroy {
 
     @ViewChild(AppTopBarComponent) appTopbar!: AppTopBarComponent;
 
+    isSubmenuOn!: boolean;
+
     constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router) {
+        this.layoutService.currentSubMenuState.subscribe(state => this.isSubmenuOn = state)
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
                 this.menuOutsideClickListener = this.renderer.listen('document', 'click', event => {

@@ -10,8 +10,8 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
 import { DashboardStatisticComponent } from './dashboard-statistic/dashboard-statistic.component';
-import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sale-by-channel.component';
-import { SaleOnChannelComponent } from './total-sale-by-location/sale-on-channel/sale-on-channel.component';
+import { TotalSaleByChannelComponent } from './total-sale-by-channel/total-sale-by-channel.component';
+import { SaleOnChannelComponent } from './total-sale-by-channel/sale-on-channel/sale-on-channel.component';
 import { TableComponent } from './table/table.component';
 import { CalendarModule } from 'primeng/calendar';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -20,7 +20,9 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
 import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.component';
 import { TreemapChartComponent } from './sale-by-channel/treemap-chart/treemap-chart.component';
 import { DonutChartComponent } from './donut-chart/donut-chart.component';
-
+import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/sale-by-channel-heatmap/sale-by-channel-heatmap.component';
+import { LinechartComponent } from './totalsalechart/linechart/linechart.component';
+import { TotalsalechartComponent } from './totalsalechart/totalsalechart.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +40,7 @@ import { DonutChartComponent } from './donut-chart/donut-chart.component';
   declarations: [
     DashboardComponent,
     DashboardStatisticComponent,
-    TotalSaleByLocationComponent,
+    TotalSaleByChannelComponent,
     SaleOnChannelComponent,
     TableComponent,
     SaleByChannelComponent,
@@ -47,6 +49,9 @@ import { DonutChartComponent } from './donut-chart/donut-chart.component';
     SaleByChannelComponent,
     TreemapChartComponent,
     DonutChartComponent
+    SaleByChannelHeatmapComponent,
+    LinechartComponent,
+    TotalsalechartComponent,
   ],
 })
 export class DashboardModule {}
