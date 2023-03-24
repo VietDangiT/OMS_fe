@@ -1,0 +1,25 @@
+<div  class="-z-10 shadow-xl ease-linear duration-200 absolute top-0 bottom-0 left-full bg-white border-r-2 border-opacity-80 md:py-3 lg:mb-4 pointer-events-none md:px-4 md:w-64 lg:w-96 lg:max-w-[250px] h-full opacity-0" [ngClass]="{'opacity-100 pointer-events-auto': isSubmenuOn}">
+    <div class="flex items-center gap-2 mb-8">
+        <i class="pi pi-th-large"></i>
+        <span class="text-sm font-bold">Dashboard</span>
+    </div>
+    <button type="button" class="flex items-center gap-2 mb-8 cursor-pointer" (click)="layoutService.changeSubMenuState(false)">
+        <i class="pi pi-arrow-left"></i>
+        <div class="text-left">
+            <p class="-mb-2 text-sm font-bold">Dashboard</p>
+            <span class="font-mono text-xs tracking-tighter break-words whitespace-normal text-primary ">Back to Main Navigation</span>
+        </div>
+    </button>
+    <ul class="flex flex-col items-center justify-center w-full gap-4"> 
+        <li *ngFor="let element of elements" class="relative flex w-full duration-100 ease-linear border-b-0 border-l-0 opacity-50 cursor-pointer lg:py-2 md:pl-4 group hover:opacity-100 hover:sm:border-b-4 hover:md:border-b-0 "  routerLinkActive="active" routerLink={{element.path}}>
+            <a class="flex items-center w-full gap-2 md:py-0 ">
+                <div class="">
+                    <i class="{{element.icon}}  text-gray-600 mx-auto "></i>
+                </div>
+                <span class="text-sm text-gray-600 break-words whitespace-normal">{{ element.content }}</span>
+            </a>
+            <div class="absolute top-0 bottom-0 left-0 invisible w-[3px] h-full duration-100 ease-linear opacity-0 pointer-events-none hover:block bg-primary">
+            </div>
+        </li>
+    </ul>
+</div>

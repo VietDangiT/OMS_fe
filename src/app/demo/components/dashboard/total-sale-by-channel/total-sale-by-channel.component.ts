@@ -6,7 +6,7 @@ import { SaleOnChannel } from '../interfaces/sale-on-channel';
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
 })
-export class TotalSaleByLocationComponent {
+export class TotalSaleByChannelComponent {
   saleOnChannelData: SaleOnChannel = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
     datasets: [
