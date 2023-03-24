@@ -14,30 +14,39 @@ import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sal
 import { SaleOnChannelComponent } from './total-sale-by-location/sale-on-channel/sale-on-channel.component';
 import { TableComponent } from './table/table.component';
 import { CalendarModule } from 'primeng/calendar';
-import { SaleByChannelComponent } from './total-sale-by-location/sale-by-channel/sale-by-channel.component';
-import { NgApexchartsModule } from "ng-apexcharts";
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ProductCatalogComponent } from './product-catalog/product-catalog.component';
+import { TotalSalesComponent } from './total-sales/total-sales.component';
+import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.component';
+import { TreemapChartComponent } from './sale-by-channel/treemap-chart/treemap-chart.component';
 import { DonutChartComponent } from './donut-chart/donut-chart.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ChartModule,
-        MenuModule,
-        TableModule,
-        StyleClassModule,
-        PanelMenuModule,
-        ButtonModule,
-        DashboardsRoutingModule,
-        CalendarModule,
-        NgApexchartsModule
-    ],
-    declarations: [
-        DashboardComponent, 
-        DashboardStatisticComponent, 
-        TotalSaleByLocationComponent, 
-        SaleOnChannelComponent, 
-        TableComponent, 
-        SaleByChannelComponent, DonutChartComponent]
+  imports: [
+    CommonModule,
+    FormsModule,
+    ChartModule,
+    MenuModule,
+    TableModule,
+    StyleClassModule,
+    PanelMenuModule,
+    ButtonModule,
+    DashboardsRoutingModule,
+    CalendarModule,
+    NgApexchartsModule,
+  ],
+  declarations: [
+    DashboardComponent,
+    DashboardStatisticComponent,
+    TotalSaleByLocationComponent,
+    SaleOnChannelComponent,
+    TableComponent,
+    SaleByChannelComponent,
+    ProductCatalogComponent,
+    TotalSalesComponent,
+    SaleByChannelComponent,
+    TreemapChartComponent,
+    DonutChartComponent
+  ],
 })
-export class DashboardModule { }
+export class DashboardModule {}
