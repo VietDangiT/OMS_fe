@@ -1,10 +1,10 @@
-<div class="w-full p-4 my-4 bg-white rounded-md">
+<div class="w-full p-4 my-4 bg-white rounded-md min-w-[550px]">
   <div class="flex flex-row justify-between w-full mb-4 items-center">
     <span class="font-bold">Orders on Channel</span>
     <div class="flex gap-2">
       <button class="py-1 px-3 bg-slate-100 hover:bg-sky-100 rounded-md"><i class="pi pi-filter text-sky-900"></i>
         Filter</button>
-      <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" inputId="icon" class="p-0"></p-calendar>
+      <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" appendTo="body" inputId="icon" class="p-0"></p-calendar>
       <button class="py-1 px-3 bg-slate-100 hover:bg-sky-100 rounded-md">View all</button>
     </div>
   </div>
@@ -17,43 +17,16 @@
 
     <!-- table body -->
     <div>
-      <div class="grid grid-cols-4 text-center px-2 py-4 border border-solid border-slate-100 mt-3 rounded-sm">
-        <span class="text-center">a</span>
-        <span class="text-center">b</span>
-        <span class="text-center">5,000</span>
-        <span class="text-center">$6,000</span>
-      </div>
-      <div class="grid grid-cols-4 text-center px-2 py-4 border border-solid border-slate-100 mt-3 rounded-sm">
-        <span class="text-center">a</span>
-        <span class="text-center">b</span>
-        <span class="text-center">5,000</span>
-        <span class="text-center">$6,000</span>
-      </div>
-      <div class="grid grid-cols-4 text-center px-2 py-4 border border-solid border-slate-100 mt-3 rounded-sm">
-        <span class="text-center">a</span>
-        <span class="text-center">b</span>
-        <span class="text-center">5,000</span>
-        <span class="text-center">$6,000</span>
-      </div>
-      <div class="grid grid-cols-4 text-center px-2 py-4 border border-solid border-slate-100 mt-3 rounded-sm">
-        <span class="text-center">a</span>
-        <span class="text-center">b</span>
-        <span class="text-center">5,000</span>
-        <span class="text-center">$6,000</span>
-      </div>
-      <div class="grid grid-cols-4 text-center px-2 py-4 border border-solid border-slate-100 mt-3 rounded-sm">
-        <span class="text-center">a</span>
-        <span class="text-center">b</span>
-        <span class="text-center">5,000</span>
-        <span class="text-center">$6,000</span>
-      </div>
-      <div class="grid grid-cols-4 text-center px-2 py-4 border border-solid border-slate-100 mt-3 rounded-sm">
-        <span class="text-center">a</span>
-        <span class="text-center">b</span>
-        <span class="text-center">5,000</span>
-        <span class="text-center">$6,000</span>
+      <div class="grid grid-cols-4 text-center px-2 py-4 border border-solid border-slate-100 mt-3 rounded-sm" *ngFor="let objectItem of tableData.bodyData">
+        <span class="text-center" *ngFor="let item of objectItem | keyvalue: originalOrder" [innerHtml]="item.value"></span>
       </div>
     </div>
     <!-- end of table body -->
-  </div>
+
+    <!-- pagination -->
+    <div class="flex justify-end mt-2">
+      <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="120"></p-paginator>
+    </div>
+    <!-- end of pagination -->
+    </div>
 </div>
