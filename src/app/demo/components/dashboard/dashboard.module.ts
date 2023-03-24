@@ -16,6 +16,7 @@ import { TableComponent } from './table/table.component';
 import { CalendarModule } from 'primeng/calendar';
 import { SaleByChannelComponent } from './total-sale-by-location/sale-by-channel/sale-by-channel.component';
 import { NgApexchartsModule } from "ng-apexcharts";
+import { PieChartComponent } from '../pie-chart/pie-chart.component';
 
 @NgModule({
     imports: [
@@ -31,6 +32,8 @@ import { NgApexchartsModule } from "ng-apexcharts";
         CalendarModule,
         NgApexchartsModule
     ],
-    declarations: [DashboardComponent, DashboardStatisticComponent, TotalSaleByLocationComponent, SaleOnChannelComponent, TableComponent, SaleByChannelComponent]
+    declarations: [
+        PieChartComponent
+        ,DashboardComponent, DashboardStatisticComponent, TotalSaleByLocationComponent, SaleOnChannelComponent, TableComponent, SaleByChannelComponent]
 })
 export class DashboardModule { }
