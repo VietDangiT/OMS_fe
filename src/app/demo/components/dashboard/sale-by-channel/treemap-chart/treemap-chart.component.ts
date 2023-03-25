@@ -15,6 +15,7 @@ export class TreemapChartComponent {
   constructor(ctx: ElementRef) {
     this.ctx = ctx;
   }
+  
   ngOnInit(): void {
     Chart.register(TreemapController, TreemapElement);
     this.CreateChart();
@@ -23,7 +24,6 @@ export class TreemapChartComponent {
   CreateChart() {
     this.chart = new Chart(this.ctx.nativeElement, {
       type: 'treemap',
-
       data: {
         labels: ['TotalSales'],
         datasets: [
