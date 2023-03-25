@@ -19,8 +19,6 @@ export class BreadcrumbComponent {
   constructor(private activatedRoute: ActivatedRoute) {}
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((routeData) => {
-      console.log(routeData['breadcrumbs']);
-
       this.createBreadCrumb(routeData);
     });
   }

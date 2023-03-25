@@ -26,7 +26,6 @@ import { AppTopBarModule } from './app.topbar.module';
         AppMenuComponent,
         AppSidebarComponent,
         AppLayoutComponent,
-        SubmenuComponent,
     ],
     imports: [
         BrowserModule,
