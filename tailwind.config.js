@@ -16,6 +16,10 @@ module.exports = {
       maxWidth :{
         sidebarWidth : "50px"
       },
+      padding:{
+        18: "4.6rem",
+        88:"22.2rem"
+      }
     },
   },
   plugins: [],
