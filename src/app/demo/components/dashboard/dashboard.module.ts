@@ -24,6 +24,7 @@ import { LinechartComponent } from './totalsalechart/linechart/linechart.compone
 import { TotalsalechartComponent } from './totalsalechart/totalsalechart.component';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
 import { SubmenuModule } from 'src/app/layout/app.submenu.module';
+import { PaginatorModule } from 'primeng/paginator';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +39,8 @@ import { SubmenuModule } from 'src/app/layout/app.submenu.module';
     CalendarModule,
     NgApexchartsModule,
     AppTopBarModule,
-    SubmenuModule
+    SubmenuModule,
+    PaginatorModule,
   ],
   declarations: [
     DashboardComponent,
