@@ -4,6 +4,7 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { SubMenu } from '../../interface/submenu';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -20,15 +21,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     subscription!: Subscription;
 
+    subMenu: SubMenu | null | undefined ;
+
     constructor(private productService: ProductService, public layoutService: LayoutService) {
         this.subscription = this.layoutService.configUpdate$.subscribe(() => {
             this.initChart();
         });
+
+        
     }
 
     ngOnInit() {
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
+        console.log(this.subMenu);
 
         this.items = [
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },

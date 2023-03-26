@@ -7,55 +7,24 @@ import { LayoutService } from './service/app.layout.service';
 @Component({
   selector: 'app-submenu',
   templateUrl: './app.submenu.component.html',
+  styles:[`
+    .active{
+    @apply  opacity-100 sm:border-b-4 border-primary md:border-b-0 ;    
+    }
+    .active div{
+        @apply visible block opacity-100 pointer-events-auto;
+    }
+  `]
 })
 export class SubmenuComponent {
-  @Input() subMenu: SubMenu = {
-    title:"Dashboard",
-   items: [
-    {
-      name: 'totalSales',
-      content:"Total Sales",
-      path: '/dashboard/totalsales',
-      icon :"pi-dollar"
-    },
-    {
-      name: 'totalOrder',
-      content:"Total Orders",
-      path: '/dashboard/total-order',
-      icon: "pi-shopping-cart"
-    },
-    {
-      name: 'cardStatic',
-      path: '/dashboard/card-static',
-      content:"Card Statistics Payment",
-      icon: "pi-credit-card"
-    },
-    {
-      name: 'saleByLocation',
-      path: '/dashboard/sale-by-location',
-      content:"Sales by Location",
-      icon: "pi-globe"
-    },
-    {
-      name: 'saleByPromotion',
-      path: '/dashboard/sale-by-promotion',
-      content:"Sale by Promotions",
-      icon:"pi-tag"
-    },
-    {
-      name: 'saleByChannel',
-      path: '/dashboard/total-sale-by-channel',
-      content:"Total sales by Channel",
-      icon:"pi-home"
-    },
-  ]
-  }
+  subMenu: SubMenu | null | undefined;
   isSubmenuOn: boolean | undefined;
-
+  @Input() subMenuType!: string;
   constructor(public layoutService: LayoutService) {
-    
+      console.log(this.subMenuType);
   }
   ngOnInit(){
     this.layoutService.currentSubMenuState.subscribe(state => this.isSubmenuOn = state);
+    this.subMenu = this.layoutService.getSubmenuList(this.subMenuType);
   }
 }

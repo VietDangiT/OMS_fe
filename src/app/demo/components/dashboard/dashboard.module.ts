@@ -27,6 +27,7 @@ import { SubmenuModule } from 'src/app/layout/app.submenu.module';
 import { PaginatorModule } from 'primeng/paginator';
 import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
 import { ChartsModule } from '../charts/charts.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -43,7 +44,7 @@ import { ChartsModule } from '../charts/charts.module';
     AppTopBarModule,
     SubmenuModule,
     PaginatorModule,
-    ChartsModule
+    ChartsModule,
   ],
   declarations: [
     DashboardComponent,
@@ -54,13 +55,12 @@ import { ChartsModule } from '../charts/charts.module';
     SaleByChannelComponent,
     ProductCatalogComponent,
     TotalSalesComponent,
-    SaleByChannelComponent,
     TreemapChartComponent,
     SaleByChannelHeatmapComponent,
     LinechartComponent,
     TotalsalechartComponent,
     SaleByLocationComponent,
-    SaleByLocationComponent
+    
   ],
 })
 export class DashboardModule {}

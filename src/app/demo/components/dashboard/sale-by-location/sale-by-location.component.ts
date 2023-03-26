@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { environment } from 'src/environments/environment';
 import { heatChartOptions } from '../../charts/apex-chart.component';
 import { DashboardTable } from '../interfaces/dashboard-table';
 
@@ -120,7 +121,7 @@ export class SaleByLocationComponent {
       dataLabels: {
         enabled: false
       },
-      colors: ["#27447C"],
+      colors: [environment.primaryColor],
       
     };
     

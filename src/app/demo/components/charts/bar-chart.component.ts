@@ -8,7 +8,4 @@ import { ChartData, ChartOptions } from "chart.js";
   export class BarChartComponent {
     @Input() chartData!: ChartData;
     @Input() baseChartOptions!: ChartOptions;
-    ngOnInit(){
-     
-    }
   }
