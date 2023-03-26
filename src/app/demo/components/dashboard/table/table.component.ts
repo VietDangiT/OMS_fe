@@ -10,13 +10,19 @@ import { DashboardTable } from '../interfaces/dashboard-table';
 })
 export class TableComponent {
   rangeDates: Date[] = [];
-  @Input() tableData: DashboardTable = {
+  @Input() tableData: Required<DashboardTable> = {
     headerData: [],
     bodyData: [],
   };
-  first: number = 0;
 
+  first: number = 0;
   rows: number = 10;
+
+  ngOnInit(){
+    if(this.tableData == null){
+
+    }
+  }
 
   onPageChange(event: any) {
     this.first = event.first;
