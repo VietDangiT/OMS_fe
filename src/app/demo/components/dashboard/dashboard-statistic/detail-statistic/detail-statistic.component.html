@@ -1,0 +1,23 @@
+<div class="border border-solid border-slate-400 border-opacity-40 rounded-sm mb-2">
+  <div
+    class="flex gap-1 flex-col lg:flex-row justify-between lg:items-center w-full border-b border-solid border-slate-400 border-opacity-40 p-1.5 px-4">
+    <span class="text-gray-400 text-xs">{{ detailStatistic.title | uppercase}}</span>
+    <a routerLink="{{ detailStatistic.manageUrl }}" class="text-blue-900 text-xs">
+      <i class="pi pi-plus-circle text-blue-900 text-xs"></i> Manage {{ detailStatistic.nameManage | titlecase}}
+    </a>
+  </div>
+  <div class="px-4 py-2">
+    <div class="flex flex-col mb-2" *ngFor="let item of detailStatistic.data">
+      <span class="lg:flex items-center gap-1 text-xs">{{ item.displayText }} <i
+          class="pi pi-circle-fill text-[3px] md:text-[5px] text-{{item.circleColor}}-500"
+          *ngIf="item.hasCircle === true"></i></span>
+      <span class="font-bold text-lg md:text-xl">{{ item.value }}</span>
+    </div>
+  </div>
+  <div *ngIf="detailStatistic.hasFooter"
+    class="pb-2 bg-slate-50 flex flex-col border-t border-solid border-slate-400 border-opacity-40 px-4">
+    <span class="text-xs mt-2">{{ detailStatistic.footer?.displayText }}</span>
+    <span class="font-bold text-lg md:text-xl">{{ detailStatistic.footer?.value }}</span>
+    <a routerLink="{{ detailStatistic.footer?.url }}" class="text-blue-900 text-xs">View Info</a>
+  </div>
+</div>

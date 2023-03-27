@@ -22,6 +22,7 @@ import { TreemapChartComponent } from './sale-by-channel/treemap-chart/treemap-c
 import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/sale-by-channel-heatmap/sale-by-channel-heatmap.component';
 import { LinechartComponent } from './totalsalechart/linechart/linechart.component';
 import { TotalsalechartComponent } from './totalsalechart/totalsalechart.component';
+import { DetailStatisticComponent } from './dashboard-statistic/detail-statistic/detail-statistic.component';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
 import { SubmenuModule } from 'src/app/layout/app.submenu.module';
 import { PaginatorModule } from 'primeng/paginator';
@@ -59,6 +60,7 @@ import { ChartsModule } from '../charts/charts.module';
     SaleByChannelHeatmapComponent,
     LinechartComponent,
     TotalsalechartComponent,
+    DetailStatisticComponent,
     SaleByLocationComponent,
     
   ],
