@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
+import { ChartData, ChartOptions } from 'chart.js';
 import { DashboardTable } from '../interfaces/dashboard-table';
-import { SaleOnChannel } from '../interfaces/sale-on-channel';
 
 @Component({
   selector: 'dashboard-total-sale-by-location',
@@ -44,7 +44,8 @@ export class TotalSaleByChannelComponent {
       },
     ],
   };
-  saleOnChannelData: SaleOnChannel = {
+
+  saleOnChannelData: ChartData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
     datasets: [
       {
