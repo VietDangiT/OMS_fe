@@ -19,8 +19,8 @@
                         <p class="font-bold ">Sales</p>
                         <div class="flex items-center px-2 py-1 bg-gray-50 rounded-xl">
                             <i class="mr-1 pi pi-globe"></i>
-                            <select class="focus:bg-none active:bg-none focus:outline-none bg-gray-50">       
-                                <option value="vietnam">Vietnam</option>
+                            <select #countries (change)="getSaleByLocation(countries.value)" class="focus:bg-none active:bg-none focus:outline-none bg-gray-50">       
+                                <option value="vietnam" default>Vietnam</option>
                                 <option value="singapore">Singapore</option>
                                 <option value="malaysia">Malaysia</option>
                             </select>
