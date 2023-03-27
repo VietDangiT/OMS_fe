@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ShareChartComponent } from './share-chart/share-chart.component';
+import { OMSChartComponent } from './oms-chart/oms-chart.component';
 import { ChartModule } from 'primeng/chart';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
@@ -8,13 +8,13 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
-    ShareChartComponent
+    OMSChartComponent
   ],
   imports: [
     CommonModule,
     ChartModule,
     NgApexchartsModule,
   ],
-  exports: [ShareChartComponent]
+  exports: [OMSChartComponent]
 })
 export class ShareModule { }

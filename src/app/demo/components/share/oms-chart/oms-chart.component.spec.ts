@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShareChartComponent } from './share-chart.component';
+import { OMSChartComponent } from './oms-chart.component';
 
 describe('ChartComponent', () => {
-  let component: ShareChartComponent;
-  let fixture: ComponentFixture<ShareChartComponent>;
+  let component: OMSChartComponent;
+  let fixture: ComponentFixture<OMSChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShareChartComponent ]
+      declarations: [ OMSChartComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ShareChartComponent);
+    fixture = TestBed.createComponent(OMSChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
