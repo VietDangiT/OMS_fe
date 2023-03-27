@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TotalSaleByLocationComponent } from './total-sale-by-channel.component';
+import { TotalSaleByChannelComponent } from './total-sale-by-channel.component';
 
 describe('TotalSaleByLocationComponent', () => {
-  let component: TotalSaleByLocationComponent;
-  let fixture: ComponentFixture<TotalSaleByLocationComponent>;
+  let component: TotalSaleByChannelComponent;
+  let fixture: ComponentFixture<TotalSaleByChannelComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TotalSaleByLocationComponent ]
+      declarations: [ TotalSaleByChannelComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TotalSaleByLocationComponent);
+    fixture = TestBed.createComponent(TotalSaleByChannelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
