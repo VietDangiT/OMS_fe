@@ -29,62 +29,62 @@ export class SaleByChannelHeatmapComponent {
     this.chartOptions = {
       series: [
         {
-          name: "Metric1",
+          name: 'Metric1',
           data: this.generateData(6, {
             min: 0,
-            max: 90
-          })
+            max: 90,
+          }),
         },
         {
-          name: "Metric2",
+          name: 'Metric2',
           data: this.generateData(6, {
             min: 0,
-            max: 90
-          })
+            max: 90,
+          }),
         },
         {
-          name: "Metric3",
+          name: 'Metric3',
           data: this.generateData(6, {
             min: 0,
-            max: 90
-          })
+            max: 90,
+          }),
         },
         {
-          name: "Metric4",
+          name: 'Metric4',
           data: this.generateData(6, {
             min: 0,
-            max: 90
-          })
+            max: 90,
+          }),
         },
         {
-          name: "Metric5",
+          name: 'Metric5',
           data: this.generateData(6, {
             min: 0,
-            max: 90
-          })
+            max: 90,
+          }),
         },
         {
-          name: "Metric6",
+          name: 'Metric6',
           data: this.generateData(6, {
             min: 0,
-            max: 90
-          })
-        }
+            max: 90,
+          }),
+        },
       ],
       chart: {
         height: 350,
-        type: "heatmap",
+        type: 'heatmap',
         toolbar: {
-          show: false
-        }
+          show: false,
+        },
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
-      colors: ["#008FFB"],
+      colors: ['#008FFB'],
       title: {
-        text: ""
-      }
+        text: '',
+      },
     };
   }
 

@@ -9,11 +9,7 @@ import { DashboardTable } from '../interfaces/dashboard-table';
 export class TableComponent {
   rangeDates: Date[] = [];
   tableData: DashboardTable = {
-    headerData: ["Channel", "Status", "Number of Orders", "Total Sales"],
-    bodyData: [
-      {
-        
-      }
-    ],
+    headerData: [],
+    bodyData: [],
   };
 }

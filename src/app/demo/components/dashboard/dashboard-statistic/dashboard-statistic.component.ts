@@ -1,28 +1,86 @@
 import { Component, Input } from '@angular/core';
-import { DashboardStatistic } from '../interfaces/dashboard-statistic';
+import { DetailStatistic } from './detail-statistic/detail-statistic.component';
 
 @Component({
-  selector: 'app-dashboard-statistic',
+  selector: 'dashboard-statistic',
   templateUrl: './dashboard-statistic.component.html',
-  styleUrls: ['./dashboard-statistic.component.css']
+  styleUrls: ['./dashboard-statistic.component.css'],
 })
 export class DashboardStatisticComponent {
-  @Input() data: DashboardStatistic  = {
-    orderData: {
-      newOrders: 0,
-      issue: 0
+  @Input() data: DetailStatistic[] = [
+    {
+      title: 'order',
+      nameManage: 'Orders',
+      manageUrl: './',
+      data: [
+        {
+          displayText: 'New Orders',
+          value: 234,
+        },
+        {
+          displayText: 'Issue',
+          value: 2,
+          hasCircle: true,
+          circleColor: 'red',
+        },
+      ],
     },
-    productInventoryData: {
-      productOutOfStock: 0,
-      nearlyOutOfStock: 0,
-      notSellingProductInLastThreeMonth: 0
+    {
+      title: 'product inventory',
+      nameManage: 'product',
+      manageUrl: './',
+      data: [
+        {
+          displayText: '#Products Out of Stock',
+          value: 12,
+          hasCircle: true,
+          circleColor: 'red',
+        },
+        {
+          displayText: '#Number Products Nearly out of Stock',
+          value: 2,
+          hasCircle: true,
+          circleColor: 'red',
+        },
+      ],
+      hasFooter: true,
+      footer: {
+        displayText: 'Not Selling Products in last 3 Months',
+        value: 345,
+        url: './',
+      },
     },
-    productData: {
-      Inactive: 0
+    {
+      title: 'product',
+      nameManage: 'product',
+      manageUrl: './',
+      data: [
+        {
+          displayText: 'Inactive',
+          value: 7,
+          hasCircle: true,
+          circleColor: 'red',
+        },
+      ],
     },
-    channelData: {
-      activeChannel: 0,
-      inactiveChannel: 0
-    }
-  };
+    {
+      title: 'channel',
+      nameManage: 'channel',
+      manageUrl: './',
+      data: [
+        {
+          displayText: 'Active Channel',
+          value: 9,
+          hasCircle: true,
+          circleColor: 'green',
+        },
+        {
+          displayText: 'Inactive Channel',
+          value: 1,
+          hasCircle: true,
+          circleColor: 'red',
+        },
+      ],
+    },
+  ];
 }
