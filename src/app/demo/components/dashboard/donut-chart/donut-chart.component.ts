@@ -32,6 +32,9 @@ export class DonutChartComponent {
           }]
   };
   this.pieOptions = {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 1,
       cutout:'75%',
       radius:'70%',
       plugins: {
