@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { ChartData, ChartOptions } from 'chart.js';
 import { DashboardTable } from '../interfaces/dashboard-table';
-import { SaleOnChannel } from '../interfaces/sale-on-channel';
 
 @Component({
   selector: 'app-total-sale-by-location',
@@ -43,7 +43,8 @@ export class TotalSaleByChannelComponent {
       },
     ],
   };
-  saleOnChannelData: SaleOnChannel = {
+
+  saleOnChannelData: ChartData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
     datasets: [
       {
@@ -68,5 +69,40 @@ export class TotalSaleByChannelComponent {
         tension: 0.3,
       },
     ],
+  };
+
+  saleOnChannelOption: ChartOptions = {
+    maintainAspectRatio: false,
+    aspectRatio: 1,
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: {
+          boxHeight: 5,
+          boxWidth: 10,
+          color: '#495057',
+          usePointStyle: true,
+          pointStyle: 'circle',
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: '#495057',
+        },
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        ticks: {
+          color: '#495057',
+        },
+        grid: {
+          color: '#ebedef',
+        },
+      },
+    },
   };
 }

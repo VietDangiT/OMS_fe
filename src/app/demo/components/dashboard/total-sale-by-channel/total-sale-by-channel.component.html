@@ -1,17 +1,14 @@
 <app-topbar></app-topbar>
 <app-submenu></app-submenu>
-<div class="flex flex-col pb-2">
-  <span class="mb-3 text-xl font-bold">Total sale by channel</span>
-  <div class="flex flex-col gap-4 md:flex-row">
 <div class="flex flex-col pb-2 mx-auto">
   <span class="text-xl font-bold mb-3">Total sale by channel</span>
   <div class="flex flex-col md:flex-row gap-4">
     <div class="w-full md:w-1/2">
-      <app-sale-on-channel [data]="saleOnChannelData"></app-sale-on-channel>
+      <app-sale-on-channel type="line" [data]="saleOnChannelData" [option]="saleOnChannelOption"></app-sale-on-channel>
     </div>
     <div class="w-full md:w-1/2">
       <app-sale-by-channel-heatmap></app-sale-by-channel-heatmap>
-    </div> 
+    </div>
   </div>
   <div>
     <app-table [tableData]="tableData"></app-table>
