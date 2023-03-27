@@ -24,6 +24,7 @@ import { LinechartComponent } from './totalsalechart/linechart/linechart.compone
 import { TotalsalechartComponent } from './totalsalechart/totalsalechart.component';
 import { DetailStatisticComponent } from './dashboard-statistic/detail-statistic/detail-statistic.component';
 import { PaginatorModule } from 'primeng/paginator';
+import { ShareModule } from '../share/share.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,6 +39,7 @@ import { PaginatorModule } from 'primeng/paginator';
     CalendarModule,
     NgApexchartsModule,
     PaginatorModule,
+    ShareModule,
   ],
   declarations: [
     DashboardComponent,

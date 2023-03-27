@@ -1,3 +1,7 @@
+share-chart {
+  @apply h-full;
+}
+
 p-chart div {
-  @apply h-[94%]  ;
+  @apply h-[94%];
 }
