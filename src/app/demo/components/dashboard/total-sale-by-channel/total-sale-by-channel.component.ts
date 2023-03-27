@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DashboardTable } from '../interfaces/dashboard-table';
 import { SaleOnChannel } from '../interfaces/sale-on-channel';
 
 @Component({
@@ -7,6 +8,41 @@ import { SaleOnChannel } from '../interfaces/sale-on-channel';
   styleUrls: ['./total-sale-by-channel.component.css'],
 })
 export class TotalSaleByChannelComponent {
+  tableData: DashboardTable = {
+    headerData: ['Channel', 'Status', 'Number of Orders', 'Total Sales'],
+    bodyData: [
+      {
+        channelName: 'abc',
+        status: 'Active',
+        numberOrder: 10,
+        totalSale: 12,
+      },
+      {
+        channelName: 'abc',
+        status: 'Active',
+        numberOrder: 10,
+        totalSale: 12,
+      },
+      {
+        channelName: 'abc',
+        status: 'Active',
+        numberOrder: 10,
+        totalSale: 12,
+      },
+      {
+        channelName: 'abc',
+        status: 'Active',
+        numberOrder: 10,
+        totalSale: 12,
+      },
+      {
+        channelName: 'abc',
+        status: 'Active',
+        numberOrder: 10,
+        totalSale: 12,
+      },
+    ],
+  };
   saleOnChannelData: SaleOnChannel = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
     datasets: [
