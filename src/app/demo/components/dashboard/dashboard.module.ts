@@ -48,7 +48,7 @@ import { TotalsalechartComponent } from './totalsalechart/totalsalechart.compone
     TotalSalesComponent,
     SaleByChannelComponent,
     TreemapChartComponent,
-    DonutChartComponent
+    DonutChartComponent,
     SaleByChannelHeatmapComponent,
     LinechartComponent,
     TotalsalechartComponent,
