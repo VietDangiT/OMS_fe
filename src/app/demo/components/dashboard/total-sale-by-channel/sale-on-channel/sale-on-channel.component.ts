@@ -4,7 +4,7 @@ import { ChartOptions } from 'chart.js';
 import { SaleOnChannel } from '../../interfaces/sale-on-channel';
 
 @Component({
-  selector: 'app-sale-on-channel',
+  selector: 'sale-on-channel',
   templateUrl: './sale-on-channel.component.html',
   styleUrls: ['./sale-on-channel.component.css'],
   encapsulation: ViewEncapsulation.None

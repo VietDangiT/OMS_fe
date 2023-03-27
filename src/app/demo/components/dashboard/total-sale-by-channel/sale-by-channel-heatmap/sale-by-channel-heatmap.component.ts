@@ -17,7 +17,7 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-sale-by-channel-heatmap',
+  selector: 'sale-by-channel-heatmap',
   templateUrl: './sale-by-channel-heatmap.component.html',
   styleUrls: ['./sale-by-channel-heatmap.component.scss'],
 })

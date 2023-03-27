@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { DashboardTable } from '../interfaces/dashboard-table';
 import { SaleOnChannel } from '../interfaces/sale-on-channel';
 
 @Component({
-  selector: 'app-total-sale-by-location',
+  selector: 'dashboard-total-sale-by-location',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
 })
@@ -53,20 +54,24 @@ export class TotalSaleByChannelComponent {
         borderColor: '#42A5F5',
         tension: 0.3,
       },
-      {
-        label: 'Second Dataset',
-        data: [28, 48, 40, 19, 86, 27, 90],
-        fill: false,
-        borderColor: '#FFA726',
-        tension: 0.3,
-      },
-      {
-        label: 'Third Dataset',
-        data: [30, 20, 30, 40, 50, 60, 90],
-        fill: false,
-        borderColor: '#FFF123',
-        tension: 0.3,
-      },
     ],
   };
+  constructor(private _dashboardService: DashboardService) {}
+
+  ngOnInit() {
+    this.handleFilterChange();
+  }
+
+  handleFilterChange(filter: string = 'weekly') {
+    console.log(filter);
+    
+    this._dashboardService
+      .getSaleOnChannel(`assets/api/countries-sale-by-${filter}.json`)
+      .subscribe((data: any) => {
+        console.log(data.data);
+        this.saleOnChannelData.datasets[0].data = data.data.map(
+          (item: any) => item.sales
+        );
+      });
+  }
 }
