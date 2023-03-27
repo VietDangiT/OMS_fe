@@ -4,6 +4,7 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { SubMenu } from '../../interface/submenu';
 import { DetailStatistic } from './dashboard-statistic/detail-statistic/detail-statistic.component';
 
 @Component({
@@ -97,6 +98,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   subscription!: Subscription;
 
+    subMenu: SubMenu | null | undefined ;
+
   constructor(
     private productService: ProductService,
     public layoutService: LayoutService
@@ -104,6 +107,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subscription = this.layoutService.configUpdate$.subscribe(() => {
       this.initChart();
     });
+
+        
   }
 
   ngOnInit() {

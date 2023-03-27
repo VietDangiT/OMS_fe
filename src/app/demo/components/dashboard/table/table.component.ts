@@ -10,13 +10,15 @@ import { DashboardTable } from '../interfaces/dashboard-table';
 })
 export class TableComponent {
   rangeDates: Date[] = [];
-  @Input() tableData: DashboardTable = {
+  date!: Date;
+  @Input() heading: string = 'Orders on Channel';
+  @Input() tableData: Required<DashboardTable> = {
     headerData: [],
     bodyData: [],
   };
-  first: number = 0;
 
-  rows: number = 10;
+  first: number = 0;
+  rows: number = 10;  
 
   onPageChange(event: any) {
     this.first = event.first;
