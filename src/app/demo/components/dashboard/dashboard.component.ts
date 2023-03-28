@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Product } from '../../api/product';
-import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { SubMenu } from '../../interface/submenu';
@@ -97,18 +96,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   items!: MenuItem[];
 
-  products!: Product[];
-
+  totalOrderData: any;
   orders!: Order[];
-
   ordersLabel: any[] = [];
   ordersData: any[] = [];
 
   chartData: any;
 
   productCatalogData: any;
-
-  totalOrderData: any;
 
   chartOptions: any;
 
@@ -117,7 +112,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   subMenu: SubMenu | null | undefined;
 
   constructor(
-    private productService: ProductService,
     public layoutService: LayoutService,
     private dashboardService: DashboardService
   ) {
