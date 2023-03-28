@@ -11,6 +11,87 @@ import { DetailStatistic } from './dashboard-statistic/detail-statistic/detail-s
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    pieData: any;
+
+    barOptions: any;
+
+    pieOptions: any;
+  statisticData: DetailStatistic[] = [
+    {
+      title: 'order',
+      nameManage: 'Orders',
+      manageUrl: './',
+      data: [
+        {
+          displayText: 'New Orders',
+          value: 234,
+        },
+        {
+          displayText: 'Issue',
+          value: 2,
+          hasCircle: true,
+          circleColor: 'red',
+        },
+      ],
+    },
+    {
+      title: 'product inventory',
+      nameManage: 'product',
+      manageUrl: './',
+      data: [
+        {
+          displayText: '#Products Out of Stock',
+          value: 12,
+          hasCircle: true,
+          circleColor: 'red',
+        },
+        {
+          displayText: '#Number Products Nearly out of Stock',
+          value: 2,
+          hasCircle: true,
+          circleColor: 'red',
+        },
+      ],
+      hasFooter: true,
+      footer: {
+        displayText: 'Not Selling Products in last 3 Months',
+        value: 345,
+        url: './',
+      },
+    },
+    {
+      title: 'product',
+      nameManage: 'product',
+      manageUrl: './',
+      data: [
+        {
+          displayText: 'Inactive',
+          value: 7,
+          hasCircle: true,
+          circleColor: 'red',
+        },
+      ],
+    },
+    {
+      title: 'channel',
+      nameManage: 'channel',
+      manageUrl: './',
+      data: [
+        {
+          displayText: 'Active Channel',
+          value: 9,
+          hasCircle: true,
+          circleColor: 'green',
+        },
+        {
+          displayText: 'Inactive Channel',
+          value: 1,
+          hasCircle: true,
+          circleColor: 'red',
+        },
+      ],
+    },
+  ];
 
   items!: MenuItem[];
 
@@ -22,39 +103,51 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   subscription!: Subscription;
 
-    subMenu: SubMenu | null | undefined ;
+    constructor(private productService: ProductService, public layoutService: LayoutService) {
+        this.subscription = this.layoutService.configUpdate$.subscribe(() => {
+            this.initChart();
+        });
+    }
 
-  constructor(
-    private productService: ProductService,
-    public layoutService: LayoutService
-  ) {
-    this.subscription = this.layoutService.configUpdate$.subscribe(() => {
-      this.initChart();
-    });
+    ngOnInit() {
+        this.initChart();
+        this.productService.getProductsSmall().then(data => this.products = data);
 
-        
-  }
+        this.items = [
+            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+        ];
+    }
 
-  ngOnInit() {
-    this.initChart();
-    this.productService
-      .getProductsSmall()
-      .then((data) => (this.products = data));
+    initChart() {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.items = [
-      { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-      { label: 'Remove', icon: 'pi pi-fw pi-minus' },
-    ];
-  }
-
-  initChart() {
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue(
-      '--text-color-secondary'
-    );
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
+        this.pieData = {
+            labels: ['25% Approved', '35% Pending', '40% Unapproved'],
+            datasets: [
+                {
+                    data: [25, 35, 40],
+                    backgroundColor: ['#007EC6', '#7595D4', '#B4C5E7'],
+                    hoverBackgroundColor: ['#007EC6', '#7595D4', '#B4C5E7'],
+                }]
+        };
+ 
+        this.pieOptions = {
+            cutout:'75%',
+            radius: '70%',
+            plugins: {
+                legend: {
+                    position: 'left',
+                    labels: {
+                        usePointStyle: true,
+                        color: textColor
+                    }
+                }
+            }
+        };
         this.chartData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
@@ -107,10 +200,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }
         };
     }
-
     ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
     }
-}
+  }
+

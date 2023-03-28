@@ -27,8 +27,8 @@ export class DonutChartComponent {
       datasets: [
           {
               data: [25, 35, 40],
-              backgroundColor: ['#007EC6', '#7595D4', '#B4C5E7'],
-              hoverBackgroundColor: ['#007EC6', '#7595D4', '#B4C5E7']
+              backgroundColor: ['#213969','#415b8c', '#2c55a0', ],
+              hoverBackgroundColor: ['#213969','#415b8c', '#2c55a0']
           }]
   };
   this.pieOptions = {
@@ -36,17 +36,22 @@ export class DonutChartComponent {
       maintainAspectRatio: true,
       aspectRatio: 1,
       cutout:'75%',
-      radius:'70%',
+      radius:'100%',
       plugins: {
           legend: {
-              position: 'left',
-              labels: {
-                  usePointStyle: true,
-                  color: textColor
+              position: 'right',
+              labels: {         
+                boxHeight: 20,
+                boxWidth: 20,
+                padding: 20,       
+                usePointStyle: true,
+                color: textColor,
+                font:{
+                  size: 10,
+                }
               }
           }
       }
-  };
-  }
-
+    };
+  } 
 }
