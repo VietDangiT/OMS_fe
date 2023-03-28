@@ -11,6 +11,11 @@ import { DetailStatistic } from './dashboard-statistic/detail-statistic/detail-s
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    pieData: any;
+
+    barOptions: any;
+
+    pieOptions: any;
   statisticData: DetailStatistic[] = [
     {
       title: 'order',
@@ -113,25 +118,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
-    this.initChart();
-    this.productService
-      .getProductsSmall()
-      .then((data) => (this.products = data));
+    ngOnInit() {
+        this.initChart();
+        this.productService.getProductsSmall().then(data => this.products = data);
 
-    this.items = [
-      { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-      { label: 'Remove', icon: 'pi pi-fw pi-minus' },
-    ];
-  }
+        this.items = [
+            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+        ];
+    }
 
-  initChart() {
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue(
-      '--text-color-secondary'
-    );
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    initChart() {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.chartData = {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
@@ -215,3 +216,4 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 }
+
