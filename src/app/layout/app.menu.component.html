@@ -1,15 +1,4 @@
-<!-- <ul class="layout-menu">
-    <ng-container *ngFor="let item of model; let i = index;">
-        <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
-        <li *ngIf="item.separator" class="menu-separator"></li>
-    </ng-container>
-    <li>
-        <a href="https://www.primefaces.org/primeblocks-ng/#/">
-            <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'banner-primeblocks' : 'banner-primeblocks-dark'}}.png" alt="Prime Blocks" class="w-full mt-3"/>
-        </a>
-    </li>
-</ul> -->
-<nav class="fixed bottom-0 left-0 right-0 z-50 shadow-lg md:py-2 md:h-full md:top-0 md:max-w-sidebarWidth bg-primary md:shadow-none ">
+<nav class="fixed left-0 z-50 h-screen shadow-lg md:py-2 md:top-0 md:max-w-sidebarWidth bg-primary md:shadow-none ">
     <div class="flex flex-col items-center h-full md:pt-1">
         <a routerLink="/"><img src="./assets/logo1.png" alt="" class="hidden px-1 mb-4 md:block " ></a>
         <ul class="flex items-center justify-center w-full gap-2 md:flex-col"> 
@@ -25,8 +14,5 @@
             <i class="w-full py-2 mx-auto opacity-50 cursor-pointer pi pi-cog md:py-4 hover:opacity-100"></i>
             <i class="w-full py-2 mx-auto opacity-50 cursor-pointer pi pi-bars md:py-4 hover:opacity-100" (click)="layoutService.changeSubMenuState()"></i>
         </div>
-
     </div>
-    <!-- <div class="flex-1 w-full h-screen bg-primary grow"></div> -->
-    <app-submenu></app-submenu>
 </nav>

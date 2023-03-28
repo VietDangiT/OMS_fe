@@ -4,72 +4,57 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { SubMenu } from '../../interface/submenu';
+import { DetailStatistic } from './dashboard-statistic/detail-statistic/detail-statistic.component';
 
 @Component({
-    templateUrl: './dashboard.component.html',
+  templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-    pieData: any;
 
-    barOptions: any;
+  items!: MenuItem[];
 
-    pieOptions: any;
+  products!: Product[];
 
-    items!: MenuItem[];
+  chartData: any;
 
-    products!: Product[];
+  chartOptions: any;
 
-    chartData: any;
+  subscription!: Subscription;
 
-    chartOptions: any;
+    subMenu: SubMenu | null | undefined ;
 
-    subscription!: Subscription;
+  constructor(
+    private productService: ProductService,
+    public layoutService: LayoutService
+  ) {
+    this.subscription = this.layoutService.configUpdate$.subscribe(() => {
+      this.initChart();
+    });
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
-        this.subscription = this.layoutService.configUpdate$.subscribe(() => {
-            this.initChart();
-        });
-    }
+        
+  }
 
-    ngOnInit() {
-        this.initChart();
-        this.productService.getProductsSmall().then(data => this.products = data);
+  ngOnInit() {
+    this.initChart();
+    this.productService
+      .getProductsSmall()
+      .then((data) => (this.products = data));
 
-        this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        ];
-    }
+    this.items = [
+      { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+      { label: 'Remove', icon: 'pi pi-fw pi-minus' },
+    ];
+  }
 
-    initChart() {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+  initChart() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue(
+      '--text-color-secondary'
+    );
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-        this.pieData = {
-            labels: ['25% Approved', '35% Pending', '40% Unapproved'],
-            datasets: [
-                {
-                    data: [25, 35, 40],
-                    backgroundColor: ['#007EC6', '#7595D4', '#B4C5E7'],
-                    hoverBackgroundColor: ['#007EC6', '#7595D4', '#B4C5E7']
-                }]
-        };
- 
-        this.pieOptions = {
-            cutout:'75%',
-            radius:'70%',
-            plugins: {
-                legend: {
-                    position: 'left',
-                    labels: {
-                        usePointStyle: true,
-                        color: textColor
-                    }
-                }
-            }
-        };
         this.chartData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
@@ -122,6 +107,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             }
         };
     }
+
     ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();
