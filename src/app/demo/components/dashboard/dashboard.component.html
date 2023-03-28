@@ -25,9 +25,10 @@
                 </div>
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
                     <dashboard-total-orders
-                    [chartData]="totalSaleData"
+                    [chartData]="totalOrderData"
                     [basicOptions]="chartOptions"
                   ></dashboard-total-orders>
+                  <app-topsellingproduct></app-topsellingproduct>
                 </div>
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-6">
                     <dashboard-sale-by-channel></dashboard-sale-by-channel>

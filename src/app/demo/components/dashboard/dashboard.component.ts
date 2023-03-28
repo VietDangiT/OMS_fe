@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
@@ -6,16 +6,18 @@ import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { SubMenu } from '../../interface/submenu';
 import { DetailStatistic } from './dashboard-statistic/detail-statistic/detail-statistic.component';
+import { DashboardService } from '../../service/dashboard.service';
+import { Order } from '../../api/order';
 
 @Component({
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-    pieData: any;
+  pieData: any;
 
-    barOptions: any;
+  barOptions: any;
 
-    pieOptions: any;
+  pieOptions: any;
   statisticData: DetailStatistic[] = [
     {
       title: 'order',
@@ -97,11 +99,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   products!: Product[];
 
+  orders!: Order[];
+
+  ordersLabel: any[] = [];
+  ordersData: any[] = [];
+
   chartData: any;
 
   productCatalogData: any;
 
-  totalSaleData: any;
+  totalOrderData: any;
 
   chartOptions: any;
 
@@ -111,28 +118,38 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
-    public layoutService: LayoutService
+    public layoutService: LayoutService,
+    private dashboardService: DashboardService
   ) {
     this.subscription = this.layoutService.configUpdate$.subscribe(() => {
       this.initChart();
     });
   }
 
-    ngOnInit() {
-        this.initChart();
-        this.productService.getProductsSmall().then(data => this.products = data);
+  ngOnInit() {
+    this.dashboardService.GetOrders().subscribe((data: any) => {
+      data['data'].map((src: Order) => {
+        this.ordersLabel.push(src.OrderedAt),
+          this.ordersData.push(src.OrderNumber);
+      });
 
-        this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        ];
-    }
+    this.initChart();
 
-    initChart() {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    this.items = [
+      { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+      { label: 'Remove', icon: 'pi pi-fw pi-minus' },
+    ];
+    
+    });
+  }
+
+  initChart() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue(
+      '--text-color-secondary'
+    );
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.chartData = {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
@@ -144,7 +161,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
           borderColor: documentStyle.getPropertyValue('--bluegray-700'),
           tension: 0.4,
-        }
+        },
       ],
     };
 
@@ -158,23 +175,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
           backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
           borderColor: documentStyle.getPropertyValue('--bluegray-700'),
           tension: 0.4,
-        }
+        },
       ],
-    }
+    };
 
-    this.totalSaleData = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    this.totalOrderData = {
+      labels: this.ordersLabel,
       datasets: [
         {
           label: 'Total Sales',
-          data: [74, 92, 80, 81, 33, 39, 69],
+          data: this.ordersData,
           fill: false,
           backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
           borderColor: documentStyle.getPropertyValue('--bluegray-700'),
           tension: 0.4,
-        }
+        },
       ],
-    }
+    };
 
     this.chartOptions = {
       responsive: true,
@@ -216,4 +233,3 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 }
-

@@ -1,0 +1,15 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Order } from '../api/order';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DashboardService {
+  constructor(private _http: HttpClient) {}
+  GetOrders() {
+    return this._http
+      .get<any>('./assets/demo/data/orders.json')
+      .pipe();
+  }
+}
