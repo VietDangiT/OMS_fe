@@ -16,49 +16,28 @@ export class DashboardService {
 
   getSaleByLocation(location: string): Observable<any> {
     var country = location.toLowerCase().split(' ').join();
-
-    switch (country) {
-      case 'malaysia':
-        return this._http.get(`${this.saleByLocationURL}/sale-malaysia.json`).pipe();
-      case 'singapore':
-        return this._http.get(`${this.saleByLocationURL}/sale-singapore.json`).pipe();
-      default:
-        return this._http.get(`${this.saleByLocationURL}/sale-vietnam.json`).pipe();
-    }
+  
+    return this._http.get(`${this.saleByLocationURL}/sale-${country}.json`).pipe();
   }
 
   getCountriesSaleInTotal(date: any): Observable<any>{
-    switch (date) {
-      case "month":
-        return this._http.get(`${this.saleByLocationURL}/total-countries-sale-by-month.json`).pipe();
-        case "year":
-          return this._http.get(`${this.saleByLocationURL}/total-countries-sale-by-year.json`).pipe();
-      default:
-        return this._http.get(`${this.saleByLocationURL}/total-countries-sale-by-week.json`).pipe();
+    if(date != null){
+      return this._http.get(`${this.saleByLocationURL}/total-countries-sale-by-${date}.json`).pipe();
     }
-    
+    return this._http.get(`${this.saleByLocationURL}/total-countries-sale-by-week.json`).pipe();
   }
 
   getLeads(date: any): Observable<any>{
-    switch (date) {
-      case "month":
-        return this._http.get(`${this.saleByLocationURL}/leads-by-month.json`).pipe();
-        case "year":
-          return this._http.get(`${this.saleByLocationURL}/leads-by-year.json`).pipe();
-      default:
-        return this._http.get(`${this.saleByLocationURL}/leads-by-week.json`).pipe();
-
+    if(date != null){
+      return this._http.get(`${this.saleByLocationURL}/leads-by-${date}.json`).pipe();
     }
+    return this._http.get(`${this.saleByLocationURL}/leads-by-week.json`).pipe();
   }
 
   getCountriesSale(date: any): Observable<any>{
-    switch (date) {
-      case "month":
-        return this._http.get(`${this.saleByLocationURL}/countries-sale-by-month.json`).pipe();
-        case "year":
-          return this._http.get(`${this.saleByLocationURL}/countries-sale-by-year.json`).pipe();
-      default:
-        return this._http.get(`${this.saleByLocationURL}/countries-sale-by-week.json`).pipe();
+    if(date != null){
+      return this._http.get(`${this.saleByLocationURL}/countries-sale-by-${date}.json`).pipe();
     }
+    return this._http.get(`${this.saleByLocationURL}/countries-sale-by-week.json`).pipe();
   }
 }

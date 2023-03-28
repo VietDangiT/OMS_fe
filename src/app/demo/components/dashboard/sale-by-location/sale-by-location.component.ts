@@ -70,7 +70,7 @@ export class SaleByLocationComponent {
     colors: ["#27447C"],
   };
 
-  filter: string = 'month';
+  filter: string = 'week';
 
   tableData: DashboardTable = {
     headerData: ['Location', 'Date', 'Number of Orders', 'Total Sales'],
@@ -146,6 +146,17 @@ export class SaleByLocationComponent {
       },
     };
 
+  }
+
+  dateFilterChanged(dateRange: Date[]){
+    console.log(dateRange);
+  }
+
+  filterChanged(filter:string){
+    this.filter = filter;
+    this.getCountriesSale();
+    this.getLeads();
+    this.getSalesAnalytics();
   }
 
   getSalesAnalytics(){

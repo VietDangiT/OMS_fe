@@ -1,11 +1,10 @@
-<div class="w-full p-4 my-4 bg-white rounded-md min-w-[550px]">
-  <div class="flex flex-row items-center justify-between w-full mb-4">
+<div class="w-full   bg-white rounded-md min-w-[550px]">
+  <div class="flex flex-row items-center justify-between w-full mb-2">
     <span class="font-bold">{{heading}}</span>
     <div class="flex gap-2">
-      <button class="px-3 py-1 rounded-md bg-slate-100 hover:bg-sky-100"><i class="pi pi-filter text-sky-900"></i>
+      <button class="px-4 py-2 rounded-md bg-slate-100 hover:bg-sky-100"><i class="pi pi-filter text-sky-900"></i>
         Filter</button>
-      <p-calendar selectionMode="range" [(ngModel)]="date" dateFormat="dd.mm.yy" [readonlyInput]="true" [showIcon]="true" appendTo="body" inputId="icon" class="p-0"></p-calendar>
-      <button class="px-3 py-1 rounded-md bg-slate-100 hover:bg-sky-100">View all</button>
+      <button class="px-4 py-2 rounded-md bg-slate-100 hover:bg-sky-100">View all</button>
     </div>
   </div>
   <div class="w-full">

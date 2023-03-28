@@ -9,7 +9,7 @@ import { LayoutService } from './service/app.layout.service';
   templateUrl: './app.submenu.component.html',
   styles:[`
     .active{
-      @apply  opacity-100 sm:border-b-4 border-primary md:border-b-0 ;    
+      @apply  opacity-100 border-primary md:border-b-0 ;    
     }
     .active div{
       @apply visible block opacity-100 pointer-events-auto;

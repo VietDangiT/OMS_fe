@@ -13,7 +13,6 @@ import { DashboardStatisticComponent } from './dashboard-statistic/dashboard-sta
 import { TotalSaleByChannelComponent } from './total-sale-by-channel/total-sale-by-channel.component';
 import { SaleOnChannelComponent } from './total-sale-by-channel/sale-on-channel/sale-on-channel.component';
 import { TableComponent } from './table/table.component';
-import { CalendarModule } from 'primeng/calendar';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ProductCatalogComponent } from './product-catalog/product-catalog.component';
 import { TotalSalesComponent } from './total-sales/total-sales.component';
@@ -41,7 +40,6 @@ import { ChartsModule } from '../charts/charts.module';
     PanelMenuModule,
     ButtonModule,
     DashboardsRoutingModule,
-    CalendarModule,
     NgApexchartsModule,
     AppTopBarModule,
     SubmenuModule,
