@@ -57,6 +57,42 @@ export class TotalSaleByChannelComponent {
       },
     ],
   };
+
+  saleOnChannelOption: ChartOptions = {
+    maintainAspectRatio: false,
+    aspectRatio: 1,
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: {
+          boxHeight: 5,
+          boxWidth: 10,
+          color: '#495057',
+          usePointStyle: true,
+          pointStyle: 'circle',
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: '#495057',
+        },
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        ticks: {
+          color: '#495057',
+        },
+        grid: {
+          color: '#ebedef',
+        },
+      },
+    },
+  };
+
   constructor(private _dashboardService: DashboardService) {}
 
   ngOnInit() {
@@ -64,15 +100,14 @@ export class TotalSaleByChannelComponent {
   }
 
   handleFilterChange(filter: string = 'weekly') {
-    console.log(filter);
-    
     this._dashboardService
       .getSaleOnChannel(`assets/api/countries-sale-by-${filter}.json`)
       .subscribe((data: any) => {
-        console.log(data.data);
-        this.saleOnChannelData.datasets[0].data = data.data.map(
-          (item: any) => item.sales
-        );
+        const tmp = this.saleOnChannelData;
+        // const tmp = JSON.parse(JSON.stringify(this.saleOnChannelData));
+        tmp.datasets[0].data = data.data.map((item: any) => item.sales);
+
+        this.saleOnChannelData = { ...tmp };
       });
   }
 }
