@@ -16,7 +16,7 @@ import { TableComponent } from './table/table.component';
 import { CalendarModule } from 'primeng/calendar';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ProductCatalogComponent } from './product-catalog/product-catalog.component';
-import { TotalSalesComponent } from './total-sales/total-sales.component';
+import { TotalOrdersComponent } from './total-orders/total-orders.component';
 import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.component';
 import { TreemapChartComponent } from './sale-by-channel/treemap-chart/treemap-chart.component';
 import { DonutChartComponent } from './donut-chart/donut-chart.component';
@@ -59,7 +59,7 @@ import { SalestoreComponent } from './salestore/salestore.component';
     TableComponent,
     SaleByChannelComponent,
     ProductCatalogComponent,
-    TotalSalesComponent,
+    TotalOrdersComponent,
     TreemapChartComponent,
     DonutChartComponent,
     SaleByChannelHeatmapComponent,

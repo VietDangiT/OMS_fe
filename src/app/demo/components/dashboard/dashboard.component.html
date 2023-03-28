@@ -9,31 +9,28 @@
                     <app-totalsalechart></app-totalsalechart>
                 </div>
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
-                    <app-donut-chart></app-donut-chart> 
+                    <app-totalsalechart></app-totalsalechart>
                 </div>
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-6">
-                  <dashboard-total-sales
-                    [chartData]="totalSaleData"
+                    <dashboard-product-catalog
+                    [dataChart]="productCatalogData"
                     [basicOptions]="chartOptions"
-                  ></dashboard-total-sales>
+                  ></dashboard-product-catalog>
                 </div>
               </div>
               <div class="grid-cols-6 gap-1 mt-1 md:grid lg:justify-between">
                 <!-- product catalog component -->
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
-                  <dashboard-product-catalog
-                    [dataChart]="productCatalogData"
-                    [basicOptions]="chartOptions"
-                  ></dashboard-product-catalog>
+                  
                 </div>
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
-                  <dashboard-sale-by-channel></dashboard-sale-by-channel>
+                    <dashboard-total-orders
+                    [chartData]="totalSaleData"
+                    [basicOptions]="chartOptions"
+                  ></dashboard-total-orders>
                 </div>
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-6">
-                  <dashboard-product-catalog
-                    [dataChart]="productCatalogData"
-                    [basicOptions]="chartOptions"
-                  ></dashboard-product-catalog>
+                    <dashboard-sale-by-channel></dashboard-sale-by-channel>
                 </div>
               </div>
             </div>

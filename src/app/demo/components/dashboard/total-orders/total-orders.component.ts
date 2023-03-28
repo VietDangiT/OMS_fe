@@ -2,12 +2,12 @@ import { Component, ViewEncapsulation, Input } from '@angular/core';
 import { ChartOptions } from 'chart.js';
 
 @Component({
-  selector: 'dashboard-total-sales',
-  templateUrl: './total-sales.component.html',
-  styleUrls: ['./total-sales.component.scss'],
+  selector: 'dashboard-total-orders',
+  templateUrl: './total-orders.component.html',
+  styleUrls: ['./total-orders.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class TotalSalesComponent {
+export class TotalOrdersComponent {
   @Input() chartData: any;
   @Input() basicOptions!: ChartOptions;
   ngOnInit() {}
