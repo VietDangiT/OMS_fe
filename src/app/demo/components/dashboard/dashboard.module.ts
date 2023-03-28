@@ -18,6 +18,7 @@ import { ProductCatalogComponent } from './product-catalog/product-catalog.compo
 import { TotalSalesComponent } from './total-sales/total-sales.component';
 import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.component';
 import { TreemapChartComponent } from './sale-by-channel/treemap-chart/treemap-chart.component';
+import { DonutChartComponent } from './donut-chart/donut-chart.component';
 import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/sale-by-channel-heatmap/sale-by-channel-heatmap.component';
 import { LinechartComponent } from './totalsalechart/linechart/linechart.component';
 import { TotalsalechartComponent } from './totalsalechart/totalsalechart.component';
@@ -57,6 +58,7 @@ import { ChartsModule } from '../charts/charts.module';
     ProductCatalogComponent,
     TotalSalesComponent,
     TreemapChartComponent,
+    DonutChartComponent,
     SaleByChannelHeatmapComponent,
     LinechartComponent,
     TotalsalechartComponent,

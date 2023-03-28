@@ -10,4 +10,6 @@ import { UIChart } from 'primeng/chart';
   styleUrls: ['./oms-chart.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class OMSChartComponent extends UIChart {}
+export class OMSChartComponent extends UIChart {
+  
+}

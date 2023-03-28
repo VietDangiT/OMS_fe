@@ -9,27 +9,40 @@
                     <app-totalsalechart></app-totalsalechart>
                 </div>
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
-                    <app-sale-by-channel></app-sale-by-channel>
+                    <app-donut-chart></app-donut-chart> 
                 </div>
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-6">
-                    <app-total-sales></app-total-sales>
+                  <dashboard-total-sales
+                    [chartData]="totalSaleData"
+                    [basicOptions]="chartOptions"
+                  ></dashboard-total-sales>
                 </div>
-            </div>
-            <div class="grid-cols-6 gap-1 mt-1 md:grid lg:justify-between">
+              </div>
+              <div class="grid-cols-6 gap-1 mt-1 md:grid lg:justify-between">
+                <!-- product catalog component -->
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
-                    <app-product-catalog></app-product-catalog>
+                  <dashboard-product-catalog
+                    [dataChart]="productCatalogData"
+                    [basicOptions]="chartOptions"
+                  ></dashboard-product-catalog>
                 </div>
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
-                    <app-sale-by-channel></app-sale-by-channel>
+                  <dashboard-sale-by-channel></dashboard-sale-by-channel>
                 </div>
                 <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-6">
-                    <app-total-sales></app-total-sales>
+                  <dashboard-product-catalog
+                    [dataChart]="productCatalogData"
+                    [basicOptions]="chartOptions"
+                  ></dashboard-product-catalog>
                 </div>
+              </div>
             </div>
+            <!-- statistic component -->
+            <div
+              class="p-1 bg-white rounded-md lg:col-span-2 md:col-span-2 sm:flex-row sm:w-full sm:object-cover"
+            >
+              <dashboard-statistic [data]="statisticData"></dashboard-statistic>
+            </div>
+          </div>
         </div>
-        <!-- statistic component -->
-        <div class="p-1 bg-white rounded-md lg:col-span-2 md:col-span-2 sm:flex-row sm:w-full sm:object-cover">
-            <dashboard-statistic [data]="statisticData"></dashboard-statistic>
-        </div>
-    </div>
-</div>
+        
