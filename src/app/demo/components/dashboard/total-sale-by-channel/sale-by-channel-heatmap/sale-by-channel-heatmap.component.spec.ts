@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SaleByChannelComponent } from './sale-by-channel.component';
+import { SaleByChannelHeatmapComponent } from './sale-by-channel-heatmap.component';
 
 describe('SaleByChannelComponent', () => {
-  let component: SaleByChannelComponent;
-  let fixture: ComponentFixture<SaleByChannelComponent>;
+  let component: SaleByChannelHeatmapComponent;
+  let fixture: ComponentFixture<SaleByChannelHeatmapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SaleByChannelComponent ]
+      declarations: [ SaleByChannelHeatmapComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SaleByChannelComponent);
+    fixture = TestBed.createComponent(SaleByChannelHeatmapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
