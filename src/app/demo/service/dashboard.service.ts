@@ -26,4 +26,39 @@ export class DashboardService {
         return this._http.get(`${this.saleByLocationURL}/sale-vietnam.json`).pipe();
     }
   }
+
+  getCountriesSaleInTotal(date: any): Observable<any>{
+    switch (date) {
+      case "month":
+        return this._http.get(`${this.saleByLocationURL}/total-countries-sale-by-month.json`).pipe();
+        case "year":
+          return this._http.get(`${this.saleByLocationURL}/total-countries-sale-by-year.json`).pipe();
+      default:
+        return this._http.get(`${this.saleByLocationURL}/total-countries-sale-by-week.json`).pipe();
+    }
+    
+  }
+
+  getLeads(date: any): Observable<any>{
+    switch (date) {
+      case "month":
+        return this._http.get(`${this.saleByLocationURL}/leads-by-month.json`).pipe();
+        case "year":
+          return this._http.get(`${this.saleByLocationURL}/leads-by-year.json`).pipe();
+      default:
+        return this._http.get(`${this.saleByLocationURL}/leads-by-week.json`).pipe();
+
+    }
+  }
+
+  getCountriesSale(date: any): Observable<any>{
+    switch (date) {
+      case "month":
+        return this._http.get(`${this.saleByLocationURL}/countries-sale-by-month.json`).pipe();
+        case "year":
+          return this._http.get(`${this.saleByLocationURL}/countries-sale-by-year.json`).pipe();
+      default:
+        return this._http.get(`${this.saleByLocationURL}/countries-sale-by-week.json`).pipe();
+    }
+  }
 }

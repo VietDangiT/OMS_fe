@@ -1,12 +1,11 @@
-import { Component } from "@angular/core";
-import { ChartData, ChartOptions } from "chart.js";
-import { DashboardService } from "src/app/demo/service/dashboard.service";
-import { LayoutService } from "src/app/layout/service/app.layout.service";
-import { environment } from "src/environments/environment";
-import { heatChartOptions } from "../../charts/apex-chart.component";
-import { DashboardTable } from "../interfaces/dashboard-table";
-
-
+import { Component } from '@angular/core';
+import { ChartData, ChartOptions } from 'chart.js';
+import { Subject } from 'rxjs';
+import { DashboardService } from 'src/app/demo/service/dashboard.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { environment } from 'src/environments/environment';
+import { heatChartOptions } from '../../charts/apex-chart.component';
+import { DashboardTable } from '../interfaces/dashboard-table';
 
 @Component({
   selector: 'app-sale-by-location',
@@ -21,6 +20,7 @@ export class SaleByLocationComponent {
   baseChartOptions!: ChartOptions;
   heatChartOptions: Partial<heatChartOptions> | any;
   navbarState: boolean | undefined;
+  filter: string = 'week';
 
   tableData: DashboardTable = {
     headerData: ['Location', 'Date', 'Number of Orders', 'Total Sales'],
@@ -57,6 +57,7 @@ export class SaleByLocationComponent {
       },
     ],
   };
+
   constructor(
     private layoutService: LayoutService,
     private dashboardService: DashboardService
@@ -64,70 +65,13 @@ export class SaleByLocationComponent {
 
   ngOnInit() {
     this.getSaleByLocation();
-    this.heatChartOptions = {
-      plotOptions: {
-        heatmap: {
-          radius: 10,
-          distributed: false,
-        },
-      },
-      series: [
-        {
-          name: 'Vietnam',
-          data: this.generateData(9, {
-            min: 1000,
-            max: 20000,
-          }),
-        },
-        {
-          name: 'Thailand',
-          data: this.generateData(9, {
-            min: 1000,
-            max: 20000,
-          }),
-        },
-        {
-          name: 'Malaysia',
-          data: this.generateData(9, {
-            min: 1000,
-            max: 20000,
-          }),
-        },
-        {
-          name: 'Singapore',
-          data: this.generateData(9, {
-            min: 1000,
-            max: 20000,
-          }),
-        },
-      ],
-      chart: {
-        height: 350,
-        type: 'heatmap',
-        toolbar: {
-          show: false,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: [environment.primaryColor],
-    };
+    this.getCountriesSale();
+    this.getLeads();
+    this.getSalesAnalytics();
 
     this.layoutService.currentSubMenuState.subscribe(
       (state) => (this.isSubmenuOn = state)
     );
-
-    //must return data by order (from largest)
-    this.countryData = {
-      labels: ['Vietnam', 'Thailand', 'Singapore', 'Malaysia'],
-      datasets: [
-        {
-          data: [300, 120, 100, 50],
-          backgroundColor: ['#27447C', '#FCA310', '#ED7D2D', '#F3F4F6'],
-        },
-      ],
-    };
     this.baseChartOptions = {
       responsive: true,
       maintainAspectRatio: false,
@@ -150,20 +94,88 @@ export class SaleByLocationComponent {
         },
       },
     };
-    
-    this.leadData = {
-      labels: ['Singapore', 'Thailand', 'Vietnam', 'Malaysia'],
-      datasets: [
-        {
-          backgroundColor: '#27447C',
-          data: [65, 59, 80, 81],
+  }
+
+  getSalesAnalytics(){
+    this.dashboardService.getCountriesSale("month").subscribe((data:any)=>{
+      var d = data['data'];
+      var series: any = [];
+      d.forEach((item: any)=> {
+        const dataArr: any = item.saleInfo.map((item: any)=>{
+          return {x:item.month, y:item.sales}
+        })
+        series.push({name: item.location, data: dataArr})
+      })
+
+     this.heatChartOptions = {
+      plotOptions: {
+        heatmap: {
+          radius: 10,
+          distributed: false,
         },
-        {
-          backgroundColor: '#FCA310',
-          data: [28, 48, 40, 19],
+      },
+      series: series,
+      chart: {
+        height: 350,
+        type: 'heatmap',
+        toolbar: {
+          show: false,
         },
-      ],
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: [environment.primaryColor],
     };
+    })
+  }
+
+  getCountriesSale() {
+    this.dashboardService.getCountriesSaleInTotal(this.filter).subscribe((data) => {
+      var totalArr: number[] = [];
+      var labelArr: number[] = [];
+      data['data'].map((item: any) => {
+        totalArr.push(item.sales);
+        labelArr.push(item.location);
+      });
+
+      this.countryData = {
+        labels: labelArr,
+        datasets: [
+          {
+            data: totalArr,
+            backgroundColor: [
+              environment.primaryColor,
+              environment.secondaryColor,
+              environment.thirdColor,
+              environment.fourthColor,
+            ],
+            tension: 0.4,
+          },
+        ],
+      };
+    });
+  }
+
+  getLeads() {
+    this.dashboardService.getLeads(this.filter).subscribe((data) => {
+      var totalArr: number[] = [];
+      var labelArr: number[] = [];
+      data['data'].map((item: any) => {
+        totalArr.push(item.sales);
+        labelArr.push(item.location);
+      });
+
+      this.leadData = {
+        labels: labelArr,
+        datasets: [
+          {
+            backgroundColor: environment.primaryColor,
+            data: totalArr,
+          },
+        ],
+      };
+    });
   }
 
   getSaleByLocation(location: string = 'vietnam') {
@@ -174,6 +186,7 @@ export class SaleByLocationComponent {
         totalArr.push(item.sales);
         labelArr.push(new Date(Date.parse(item.date)).getMonth());
       });
+
       this.salesData = {
         labels: this.convertMonthToString(labelArr),
         datasets: [
@@ -187,47 +200,46 @@ export class SaleByLocationComponent {
     });
   }
 
-  convertMonthToString(numbers: number[]): string[]{
-    var result:string[]=[];
-    numbers.forEach(num=> {
+  convertMonthToString(numbers: number[]): string[] {
+    var result: string[] = [];
+    numbers.forEach((num) => {
       switch (num) {
         case 0:
-          result.push('January')
+          result.push('January');
           break;
-          case 1:
-            result.push('Febuary')
-            break;
-            case 2:
-          result.push('March')
+        case 1:
+          result.push('Febuary');
           break;
-          case 3:
-          result.push('April')
+        case 2:
+          result.push('March');
           break;
-          case 4:
-          result.push('May')
+        case 3:
+          result.push('April');
           break;
-          case 5:
-          result.push('June')
+        case 4:
+          result.push('May');
           break;
-          case 6:
-          result.push('July')
+        case 5:
+          result.push('June');
           break;
-          case 7:
-          result.push('August')
+        case 6:
+          result.push('July');
           break;
-          case 8:
-          result.push('September')
+        case 7:
+          result.push('August');
           break;
-          case 9:
-          result.push('October')
+        case 8:
+          result.push('September');
           break;
-          case 10:
-          result.push('November')
+        case 9:
+          result.push('October');
           break;
-          case 11:
-            result.push('December')
-            break;
-
+        case 10:
+          result.push('November');
+          break;
+        case 11:
+          result.push('December');
+          break;
       }
     });
     return result;
@@ -237,21 +249,4 @@ export class SaleByLocationComponent {
     this.layoutService.changeSubMenuState(false);
   }
 
-  generateData(count: any, yrange: any) {
-    var i = 0;
-    var series = [];
-    while (i < count) {
-      var x = 'w' + (i + 1).toString();
-      var y =
-        Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-
-      series.push({
-        x: x,
-        y: y,
-      });
-      i++;
-    }
-    return series;
-  }
 }
-        

@@ -1,0 +1,201 @@
+{
+    "data":[
+        {
+            "saleInfo": [
+                {  
+                "date": "01/27/2023 12:00:00 AM ",
+                "month":"January",
+                "sales":1000
+                },
+                {  
+                "date": "02/27/2023 12:00:00 AM ",
+                "month":"Febuary",
+                "sales":5000
+                },
+                {  
+                "date": "03/27/2023 12:00:00 AM ",
+                "month":"March",
+                "sales":1000
+                },
+                {  
+                "date": "04/27/2023 12:00:00 AM ",
+                "month":"April",
+                "sales":1000
+                },
+                {  
+                "date": "05/27/2023 12:00:00 AM ",
+                "month":"May",
+                "sales":10000
+                },
+                {  
+                "date": "06/27/2023 12:00:00 AM ",
+                "month":"June",
+                "sales":1000
+                },
+                {  
+                "date": "07/27/2023 12:00:00 AM ",
+                "month":"July",
+                "sales":100
+                },
+                {  
+                "date": "08/27/2023 12:00:00 AM ",
+                "month":"August",
+                "sales":1000
+                },
+                {  
+                "date": "09/27/2023 12:00:00 AM ",
+                "month":"September",
+                "sales":3453
+                },
+                {  
+                "date": "10/27/2023 12:00:00 AM ",
+                "month":"October",
+                "sales":1223
+                },
+                {  
+                "date": "11/27/2023 12:00:00 AM ",
+                "month":"November",
+                "sales":4112
+                },
+                {  
+                "date": "12/27/2023 12:00:00 AM ",
+                "month":"December",
+                "sales":425
+                }
+            ],
+            "location": "Viet Nam"
+        },
+        {
+            "saleInfo": [
+                {  
+                "date": "01/27/2023 12:00:00 AM ",
+                "month":"January",
+                "sales":121
+                },
+                {  
+                "date": "02/27/2023 12:00:00 AM ",
+                "month":"Febuary",
+                "sales":5000
+                },
+                {  
+                "date": "03/27/2023 12:00:00 AM ",
+                "month":"March",
+                "sales":2434
+                },
+                {  
+                "date": "04/27/2023 12:00:00 AM ",
+                "month":"April",
+                "sales":6188
+                },
+                {  
+                "date": "05/27/2023 12:00:00 AM ",
+                "month":"May",
+                "sales":10000
+                },
+                {  
+                "date": "06/27/2023 12:00:00 AM ",
+                "month":"June",
+                "sales":1000
+                },
+                {  
+                "date": "07/27/2023 12:00:00 AM ",
+                "month":"July",
+                "sales":343
+                },
+                {  
+                "date": "08/27/2023 12:00:00 AM ",
+                "month":"August",
+                "sales":33
+                },
+                {  
+                "date": "09/27/2023 12:00:00 AM ",
+                "month":"September",
+                "sales":1000
+                },
+                {  
+                "date": "10/27/2023 12:00:00 AM ",
+                "month":"October",
+                "sales":8967
+                },
+                {  
+                "date": "11/27/2023 12:00:00 AM ",
+                "month":"November",
+                "sales":1231
+                },
+                {  
+                "date": "12/27/2023 12:00:00 AM ",
+                "month":"December",
+                "sales":45635
+                }
+            ],
+            "location": "Malaysia"
+        }
+        , {
+            "saleInfo": [
+                {  
+                "date": "01/27/2023 12:00:00 AM ",
+                "month":"January",
+                "sales":45645
+                },
+                {  
+                "date": "02/27/2023 12:00:00 AM ",
+                "month":"Febuary",
+                "sales":5000
+                },
+                {  
+                "date": "03/27/2023 12:00:00 AM ",
+                "month":"March",
+                "sales":1000
+                },
+                {  
+                "date": "04/27/2023 12:00:00 AM ",
+                "month":"April",
+                "sales":435
+                },
+                {  
+                "date": "05/27/2023 12:00:00 AM ",
+                "month":"May",
+                "sales":10000
+                },
+                {  
+                "date": "06/27/2023 12:00:00 AM ",
+                "month":"June",
+                "sales":1000
+                },
+                {  
+                "date": "07/27/2023 12:00:00 AM ",
+                "month":"July",
+                "sales":3322
+                },
+                {  
+                "date": "08/27/2023 12:00:00 AM ",
+                "month":"August",
+                "sales":3415
+                },
+                {  
+                "date": "09/27/2023 12:00:00 AM ",
+                "month":"September",
+                "sales":1000
+                },
+                {  
+                "date": "10/27/2023 12:00:00 AM ",
+                "month":"October",
+                "sales":5645
+                },
+                {  
+                "date": "11/27/2023 12:00:00 AM ",
+                "month":"November",
+                "sales":1000
+                },
+                {  
+                "date": "12/27/2023 12:00:00 AM ",
+                "month":"December",
+                "sales":2342
+                }
+            ],
+            "location": "Singapore"
+        }
+        
+      
+    ]
+}

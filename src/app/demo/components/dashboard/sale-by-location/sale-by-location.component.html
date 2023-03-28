@@ -5,15 +5,15 @@
         <h1 class="text-3xl font-bold ">Sale by location</h1>
         <div class="flex items-center p-2 bg-white rounded-xl ">
             <i class="mr-2 pi pi-calendar"></i>
-            <select class="focus:bg-none active:bg-none focus:outline-none">       
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-                <option value="yearly">Yearly</option>
+            <select  [(ngModel)]="filter" class="focus:bg-none active:bg-none focus:outline-none">       
+                <option value="week">Weekly</option>
+                <option value="month">Monthly</option>
+                <option value="year">Yearly</option>
             </select>
         </div>
     </div>
         <div class="flex flex-wrap justify-between w-full gap-6 mb-4">
-            <div class="flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[30%] overflow-auto px-4 py-2 bg-white rounded-lg">
+            <div class="flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[32%] overflow-auto px-4 py-2 bg-white rounded-lg">
                 <div class="mb-2">
                     <div class="flex justify-between">
                         <p class="font-bold ">Sales</p>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex gap-2 ">
+                <div class="flex gap-2 mb-4 ">
                     <div class="flex items-center justify-between w-full text-xs rounded-md md:px-2 md:py-1 bg-primary bg-opacity-10">
                         <div class="flex items-center">
                             <i class="mr-2 pi pi-dollar text-primary"></i>
@@ -47,7 +47,7 @@
                     <app-line-chart [baseChartOptions]="baseChartOptions" [chartData]="salesData"></app-line-chart>
                 </div>
             </div>
-            <div class="w-full md:w-[calc(50%-1rem)] lg:w-[30%]  px-4 py-2 bg-white rounded-lg  ">
+            <div class="w-full md:w-[calc(50%-1rem)] lg:w-[32%]  px-4 py-2 bg-white rounded-lg  ">
                     <div class="mb-2">
                         <p class="font-bold ">Country</p>
                     </div>
@@ -55,7 +55,7 @@
                         <app-pie-chart [chartData]="countryData" [baseChartOptions]="baseChartOptions"></app-pie-chart>
                     </div>
             </div>
-            <div class="px-4 py-2 w-full  lg:w-[30%]  overflow-auto bg-white rounded-lg " >
+            <div class="px-4 py-2 w-full  lg:w-[32%]  overflow-auto bg-white rounded-lg " >
                 
                     <div class="flex flex-col h-full">
                         <p class="font-bold ">Leads</p>
