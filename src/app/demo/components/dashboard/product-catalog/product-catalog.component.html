@@ -4,16 +4,21 @@
       <div class="text-sm font-bold">Product Catalog</div>
       <div class="text-sm text-yellow-400">Pineapple Thanh Hoa 10kg</div>
     </div>
-    
   </div>
 
   <div class="w-full">
     <div class="flex flex-row justify-between md:mt-8 lg:mt-8">
-        <p class="font-normal text-sm text-gray-500">PRODUCT SALES OVER TIME</p>
-        <div>
-          <i class="pi pi-filter-fill"></i>
-        </div>
+      <p class="font-normal text-sm text-gray-500">PRODUCT SALES OVER TIME</p>
+      <div>
+        <i class="pi pi-filter-fill"></i>
       </div>
-    <p-chart type="bar" [data]="chart" [options]="basicOptions"></p-chart>
+    </div>
+    <div>
+      <oms-chart
+        type="bar"
+        [data]="dataChart"
+        [options]="basicOptions"
+      ></oms-chart>
+    </div>
   </div>
 </div>

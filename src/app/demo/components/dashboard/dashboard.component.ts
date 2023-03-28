@@ -94,11 +94,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   chartData: any;
 
+  productCatalogData: any;
+
+  totalSaleData: any;
+
   chartOptions: any;
 
   subscription!: Subscription;
 
-    subMenu: SubMenu | null | undefined ;
+  subMenu: SubMenu | null | undefined;
 
   constructor(
     private productService: ProductService,
@@ -107,8 +111,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subscription = this.layoutService.configUpdate$.subscribe(() => {
       this.initChart();
     });
-
-        
   }
 
   ngOnInit() {
@@ -132,7 +134,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.chartData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
       datasets: [
         {
           label: 'First Dataset',
@@ -141,19 +143,42 @@ export class DashboardComponent implements OnInit, OnDestroy {
           backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
           borderColor: documentStyle.getPropertyValue('--bluegray-700'),
           tension: 0.4,
-        },
-        {
-          label: 'Second Dataset',
-          data: [28, 48, 40, 19, 86, 27, 90],
-          fill: false,
-          backgroundColor: documentStyle.getPropertyValue('--green-600'),
-          borderColor: documentStyle.getPropertyValue('--green-600'),
-          tension: 0.4,
-        },
+        }
       ],
     };
 
+    this.productCatalogData = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          label: 'Total Product',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false,
+          backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
+          borderColor: documentStyle.getPropertyValue('--bluegray-700'),
+          tension: 0.4,
+        }
+      ],
+    }
+
+    this.totalSaleData = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          label: 'Total Sales',
+          data: [74, 92, 80, 81, 33, 39, 69],
+          fill: false,
+          backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
+          borderColor: documentStyle.getPropertyValue('--bluegray-700'),
+          tension: 0.4,
+        }
+      ],
+    }
+
     this.chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      aspectRatio: 1,
       plugins: {
         legend: {
           labels: {
