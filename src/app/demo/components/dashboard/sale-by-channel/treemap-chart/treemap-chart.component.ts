@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Chart } from 'chart.js';
 import { color as colorLib } from 'chart.js/helpers';
 import {
@@ -6,6 +6,7 @@ import {
   TreemapElement,
   TreemapScriptableContext,
 } from 'chartjs-chart-treemap';
+import { OMSChartComponent } from '../../../share/oms-chart/oms-chart.component';
 
 @Component({
   selector: 'app-treemap-chart',
@@ -13,8 +14,11 @@ import {
   styleUrls: ['./treemap-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TreemapChartComponent {
+export class TreemapChartComponent  {
   chart: any;
+  @Input() data: any;
+  @Input() dataOptions: any;
+
   @ViewChild('ctx', { static: true }) private ctx;
 
   constructor(ctx: ElementRef) {
@@ -29,17 +33,7 @@ export class TreemapChartComponent {
   CreateChart() {
     this.chart = new Chart(this.ctx.nativeElement, {
       type: 'treemap',
-      data: {
-        labels: ['TotalSales'],
-        datasets: [
-          {
-            label: 'Total Sales',
-            data: [23, 32, 74, 43, 88, 19, 44, 34, 75, 93, 44],
-            backgroundColor: (ctx) => this.colorFromRaw(ctx),
-            borderColor: '#000',
-          },
-        ],
-      },
+      data: this.data,
       options: {
         responsive: true,
         maintainAspectRatio: false,

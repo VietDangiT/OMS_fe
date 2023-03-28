@@ -99,15 +99,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   chartData: any;
 
+  productCatalogData: any;
+
+  totalSaleData: any;
+
   chartOptions: any;
 
   subscription!: Subscription;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
-        this.subscription = this.layoutService.configUpdate$.subscribe(() => {
-            this.initChart();
-        });
-    }
+  subMenu: SubMenu | null | undefined;
+
+  constructor(
+    private productService: ProductService,
+    public layoutService: LayoutService
+  ) {
+    this.subscription = this.layoutService.configUpdate$.subscribe(() => {
+      this.initChart();
+    });
+  }
 
     ngOnInit() {
         this.initChart();
@@ -125,85 +134,86 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-        this.pieData = {
-            labels: ['25% Approved', '35% Pending', '40% Unapproved'],
-            datasets: [
-                {
-                    data: [25, 35, 40],
-                    backgroundColor: ['#007EC6', '#7595D4', '#B4C5E7'],
-                    hoverBackgroundColor: ['#007EC6', '#7595D4', '#B4C5E7'],
-                }]
-        };
- 
-        this.pieOptions = {
-            cutout:'75%',
-            radius: '70%',
-            plugins: {
-                legend: {
-                    position: 'left',
-                    labels: {
-                        usePointStyle: true,
-                        color: textColor
-                    }
-                }
-            }
-        };
-        this.chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    tension: .4
-                },
-                {
-                    label: 'Second Dataset',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--green-600'),
-                    borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: .4
-                }
-            ]
-        };
-
-        this.chartOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: textColor
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                }
-            }
-        };
-    }
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
+    this.chartData = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          label: 'First Dataset',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false,
+          backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
+          borderColor: documentStyle.getPropertyValue('--bluegray-700'),
+          tension: 0.4,
         }
+      ],
+    };
+
+    this.productCatalogData = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          label: 'Total Product',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false,
+          backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
+          borderColor: documentStyle.getPropertyValue('--bluegray-700'),
+          tension: 0.4,
+        }
+      ],
+    }
+
+    this.totalSaleData = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          label: 'Total Sales',
+          data: [74, 92, 80, 81, 33, 39, 69],
+          fill: false,
+          backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
+          borderColor: documentStyle.getPropertyValue('--bluegray-700'),
+          tension: 0.4,
+        }
+      ],
+    }
+
+    this.chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      aspectRatio: 1,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor,
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
+          },
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
+          },
+        },
+      },
+    };
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
+}
 
