@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
-import { Subject } from 'rxjs';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { environment } from 'src/environments/environment';
@@ -11,16 +10,67 @@ import { DashboardTable } from '../interfaces/dashboard-table';
   selector: 'app-sale-by-location',
   templateUrl: './sale-by-location.component.html',
   styleUrls: ['./sale-by-location.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SaleByLocationComponent {
-  isSubmenuOn: boolean | undefined;
+  
+  isSubmenuOn!: boolean ;
+
   salesData!: ChartData;
+
   countryData!: ChartData;
+
   leadData!: ChartData;
+
   baseChartOptions!: ChartOptions;
-  heatChartOptions: Partial<heatChartOptions> | any;
-  navbarState: boolean | undefined;
-  filter: string = 'week';
+
+  heatChartOptions: Partial<heatChartOptions> | any = {
+    plotOptions: {
+      heatmap: {
+        radius: 30,
+        distributed: false,
+      }
+    },
+    series: [
+      {
+        name: "Vietnam",
+        data: [{
+          x:1,y:1
+        }]
+      },
+      {
+        name: "Thailand",
+        data:  [{
+          x:1,y:1
+        }]
+      },
+      {
+        name: "Malaysia",
+        data:  [{
+          x:1,y:1
+        }]
+      },
+      {
+        name: "Singapore",
+        data:  [{
+          x:1,y:1
+        }]
+      }
+    ],
+    chart: {
+      height: 350,
+      type: "heatmap",
+      toolbar:{
+        show: false
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    colors: ["#27447C"],
+  };
+
+  filter: string = 'month';
 
   tableData: DashboardTable = {
     headerData: ['Location', 'Date', 'Number of Orders', 'Total Sales'],
@@ -72,6 +122,7 @@ export class SaleByLocationComponent {
     this.layoutService.currentSubMenuState.subscribe(
       (state) => (this.isSubmenuOn = state)
     );
+
     this.baseChartOptions = {
       responsive: true,
       maintainAspectRatio: false,
@@ -94,11 +145,12 @@ export class SaleByLocationComponent {
         },
       },
     };
+
   }
 
   getSalesAnalytics(){
-    this.dashboardService.getCountriesSale("month").subscribe((data:any)=>{
-      var d = data['data'];
+    this.dashboardService.getCountriesSale(this.filter).subscribe((data:any)=>{
+      var d = data.data;
       var series: any = [];
       d.forEach((item: any)=> {
         const dataArr: any = item.saleInfo.map((item: any)=>{

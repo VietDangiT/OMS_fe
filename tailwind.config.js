@@ -11,7 +11,8 @@ module.exports = {
         third:"#ED7D2D"
       },
       width: {
-        sidebarWidth : "50px"
+        sidebarWidth : "50px",
+        chartWidth: "32.5%"
       },
       maxWidth :{
         sidebarWidth : "50px"
