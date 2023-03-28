@@ -30,8 +30,8 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ShareModule } from '../share/share.module';
 import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
 import { ChartsModule } from '../charts/charts.module';
-import { TopsellingproductComponent } from './topsellingproduct/topsellingproduct.component';
-import { SalestoreComponent } from './salestore/salestore.component';
+import { TopSellingProductComponent } from './top-selling-product/top-selling-product.component';
+import { SaleStoreComponent } from './sale-store/sale-store.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -67,8 +67,8 @@ import { SalestoreComponent } from './salestore/salestore.component';
     TotalsalechartComponent,
     DetailStatisticComponent,
     SaleByLocationComponent,
-    TopsellingproductComponent,
-    SalestoreComponent
+    TopSellingProductComponent,
+    SaleStoreComponent
   ],
 })
 export class DashboardModule {}
