@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { DashboardTable } from '../interfaces/dashboard-table';
+import { SaleByChannelHeatmap } from './sale-by-channel-heatmap/sale-by-channel-heatmap.component';
 
 @Component({
   selector: 'dashboard-total-sale-by-location',
@@ -58,6 +59,125 @@ export class TotalSaleByChannelComponent {
     ],
   };
 
+  saleByChannelHeatmapData: SaleByChannelHeatmap[] = [
+    {
+      name: "Lazada SG",
+      data: [
+        {
+          x: 'Jul',
+          y: 80,
+        },
+        {
+          x: 'Aug',
+          y: 70,
+        },
+        {
+          x: 'Sep',
+          y: 60,
+        },
+        {
+          x: 'Oct',
+          y: 50,
+        },
+        {
+          x: 'Nov',
+          y: 40,
+        },
+        {
+          x: 'Dec',
+          y: 30,
+        },
+      ],
+    },
+    {
+      name: "Tiki VN",
+      data: [
+        {
+          x: 'Jul',
+          y: 80,
+        },
+        {
+          x: 'Aug',
+          y: 70,
+        },
+        {
+          x: 'Sep',
+          y: 60,
+        },
+        {
+          x: 'Oct',
+          y: 50,
+        },
+        {
+          x: 'Nov',
+          y: 40,
+        },
+        {
+          x: 'Dec',
+          y: 30,
+        },
+      ],
+    },
+    {
+      name: "Shopee VN",
+      data: [
+        {
+          x: 'Jul',
+          y: 1500,
+        },
+        {
+          x: 'Aug',
+          y: 1500,
+        },
+        {
+          x: 'Sep',
+          y: 4000,
+        },
+        {
+          x: 'Oct',
+          y: 4000,
+        },
+        {
+          x: 'Nov',
+          y: 4000,
+        },
+        {
+          x: 'Dec',
+          y: 1500,
+        },
+      ],
+    },
+    {
+      name: "Lazada VN",
+      data: [
+        {
+          x: 'Jul',
+          y: 1500,
+        },
+        {
+          x: 'Aug',
+          y: 4000,
+        },
+        {
+          x: 'Sep',
+          y: 4000,
+        },
+        {
+          x: 'Oct',
+          y: 1500,
+        },
+        {
+          x: 'Nov',
+          y: 1500,
+        },
+        {
+          x: 'Dec',
+          y: 4000,
+        },
+      ],
+    },
+  ]
+
   saleOnChannelOption: ChartOptions = {
     maintainAspectRatio: false,
     aspectRatio: 1,
@@ -104,7 +224,7 @@ export class TotalSaleByChannelComponent {
       .getSaleOnChannel(`assets/api/countries-sale-by-${filter}.json`)
       .subscribe((data: any) => {
         const tmp = this.saleOnChannelData;
-        // const tmp = JSON.parse(JSON.stringify(this.saleOnChannelData));
+
         tmp.datasets[0].data = data.data.map((item: any) => item.sales);
 
         this.saleOnChannelData = { ...tmp };

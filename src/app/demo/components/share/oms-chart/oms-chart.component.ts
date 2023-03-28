@@ -6,9 +6,35 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { ChartData, ChartDataset, ChartOptions, ChartType } from 'chart.js';
+import { ChartData, ChartOptions, ChartType } from 'chart.js';
 
 import { UIChart } from 'primeng/chart';
+
+import {
+  ChartComponent,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexTitleSubtitle,
+  ApexTooltip,
+  ApexPlotOptions,
+  ApexLegend,
+  ApexDataLabels,
+} from 'ng-apexcharts';
+
+type ApexChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  title: ApexTitleSubtitle;
+  plotOptions: ApexPlotOptions;
+  legend: ApexLegend;
+  dataLabels: ApexDataLabels;
+};
+
+export interface OmsChartOptions
+  extends Partial<ApexChartOptions>,
+    ChartOptions {}
 
 @Component({
   selector: 'oms-chart',
@@ -17,20 +43,22 @@ import { UIChart } from 'primeng/chart';
   encapsulation: ViewEncapsulation.None,
 })
 export class OMSChartComponent implements OnChanges {
-  @ViewChild('chart') omsChart: UIChart;
+  @ViewChild('chartJS') chartJS: UIChart;
+  @ViewChild('apexChart') apexChart: ChartComponent;
 
-  @Input() type: ChartType = 'line';
+  @Input() type: ChartType | 'heatmap' | 'treemap';
   @Input() data: ChartData;
-  @Input() options: ChartOptions;
+  @Input() options: OmsChartOptions | any;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data'].currentValue) {
+    if (changes['data']?.currentValue) {
       // update this.data here
-      
+
       this.data = changes['data'].currentValue;
       // then chart is getting updated
       setTimeout(() => {
-        this.omsChart?.refresh();
+        this.chartJS?.refresh();
+        this.apexChart?.render();
       }, 100);
     }
   }

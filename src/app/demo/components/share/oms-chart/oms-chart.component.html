@@ -1,2 +1,12 @@
-<p-chart #chart class="flex-1" [type]="type" [data]="data" [options]="options">
+<apx-chart
+    #apexChart
+    *ngIf="type === 'heatmap' || type === 'treemap'"
+    class="flex-1"
+    [series]="options.series"
+    [chart]="options.chart"
+    [dataLabels]="options.dataLabels"
+    [title]="options.title"
+    [colors]="options.colors"
+    ></apx-chart>
+<p-chart *ngIf="type!== 'heatmap' && type!=='treemap'" #chartJS class="flex-1" [type]="type" [data]="data" [options]="options">
 </p-chart>

@@ -28,4 +28,8 @@ export class TableComponent {
   originalOrder = (a: KeyValue<number,string>, b: KeyValue<number,string>): number => {
     return 0;
   }
+
+  test(dateRange: any[]) {
+    console.log(dateRange[0]);
+  }
 }
