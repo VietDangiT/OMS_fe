@@ -1,2 +1,20 @@
-<p-chart class="flex-1" [type]="type" [data]="data" [options]="options">
-</p-chart>
+<ng-container [ngSwitch]="type">
+  <ng-container *ngSwitchCase="'heatmap'" [ngTemplateOutlet]="chart1"></ng-container>
+  <ng-container *ngSwitchCase="'treemap'" [ngTemplateOutlet]="chart1"></ng-container>
+  <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultChart"></ng-container>
+</ng-container>
+
+<ng-template #chart1>
+  <apx-chart #apexChart class="flex-1" 
+    [series]="options.series" 
+    [chart]="options.chart"
+    [dataLabels]="options.dataLabels" 
+    [title]="options.title" 
+    [colors]="options.colors">
+  </apx-chart>
+</ng-template>
+
+<ng-template #defaultChart>
+  <p-chart #chartJS class="flex-1" [type]="type" [data]="data" [options]="options">
+  </p-chart>
+</ng-template>

@@ -8,10 +8,16 @@ import { environment } from 'src/environments/environment';
 })
 export class DashboardService {
 
+
+
   saleByLocationURL!: string;
   constructor(private _http: HttpClient) {
     this.saleByLocationURL = environment.baseURL + '/sale-by-location';
     
+  }
+
+  getSaleOnChannel(url: string){
+    return this._http.get(url).pipe();
   }
 
   getSaleByLocation(location: string): Observable<any> {
