@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { DashboardTable } from '../interfaces/dashboard-table';
+import { SaleByChannelHeatmap } from './sale-by-channel-heatmap/sale-by-channel-heatmap.component';
 
 @Component({
-  selector: 'app-total-sale-by-location',
+  selector: 'dashboard-total-sale-by-location',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
 })
@@ -54,22 +56,127 @@ export class TotalSaleByChannelComponent {
         borderColor: '#42A5F5',
         tension: 0.3,
       },
-      {
-        label: 'Second Dataset',
-        data: [28, 48, 40, 19, 86, 27, 90],
-        fill: false,
-        borderColor: '#FFA726',
-        tension: 0.3,
-      },
-      {
-        label: 'Third Dataset',
-        data: [30, 20, 30, 40, 50, 60, 90],
-        fill: false,
-        borderColor: '#FFF123',
-        tension: 0.3,
-      },
     ],
   };
+
+  saleByChannelHeatmapData: SaleByChannelHeatmap[] = [
+    {
+      name: "Lazada SG",
+      data: [
+        {
+          x: 'Jul',
+          y: 800,
+        },
+        {
+          x: 'Aug',
+          y: 1500,
+        },
+        {
+          x: 'Sep',
+          y: 4000,
+        },
+        {
+          x: 'Oct',
+          y: 4000,
+        },
+        {
+          x: 'Nov',
+          y: 1500,
+        },
+        {
+          x: 'Dec',
+          y: 800,
+        },
+      ],
+    },
+    {
+      name: "Tiki VN",
+      data: [
+        {
+          x: 'Jul',
+          y: 800,
+        },
+        {
+          x: 'Aug',
+          y: 1500,
+        },
+        {
+          x: 'Sep',
+          y: 4000,
+        },
+        {
+          x: 'Oct',
+          y: 4000,
+        },
+        {
+          x: 'Nov',
+          y: 1500,
+        },
+        {
+          x: 'Dec',
+          y: 800,
+        },
+      ],
+    },
+    {
+      name: "Shopee VN",
+      data: [
+        {
+          x: 'Jul',
+          y: 1500,
+        },
+        {
+          x: 'Aug',
+          y: 1500,
+        },
+        {
+          x: 'Sep',
+          y: 4000,
+        },
+        {
+          x: 'Oct',
+          y: 4000,
+        },
+        {
+          x: 'Nov',
+          y: 4000,
+        },
+        {
+          x: 'Dec',
+          y: 1500,
+        },
+      ],
+    },
+    {
+      name: "Lazada VN",
+      data: [
+        {
+          x: 'Jul',
+          y: 1500,
+        },
+        {
+          x: 'Aug',
+          y: 4000,
+        },
+        {
+          x: 'Sep',
+          y: 4000,
+        },
+        {
+          x: 'Oct',
+          y: 1500,
+        },
+        {
+          x: 'Nov',
+          y: 1500,
+        },
+        {
+          x: 'Dec',
+          y: 4000,
+        },
+      ],
+    },
+  ]
 
   saleOnChannelOption: ChartOptions = {
     maintainAspectRatio: false,
@@ -105,4 +212,22 @@ export class TotalSaleByChannelComponent {
       },
     },
   };
+
+  constructor(private _dashboardService: DashboardService) {}
+
+  ngOnInit() {
+    this.handleFilterChange();
+  }
+
+  handleFilterChange(filter: string = 'weekly') {
+    this._dashboardService
+      .getSaleOnChannel(`assets/api/countries-sale-by-${filter}.json`)
+      .subscribe((data: any) => {
+        const tmp = this.saleOnChannelData;
+
+        tmp.datasets[0].data = data.data.map((item: any) => item.sales);
+
+        this.saleOnChannelData = { ...tmp };
+      });
+  }
 }
