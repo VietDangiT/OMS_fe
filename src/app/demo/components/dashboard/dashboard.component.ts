@@ -7,6 +7,8 @@ import { SubMenu } from '../../interface/submenu';
 import { DetailStatistic } from './dashboard-statistic/detail-statistic/detail-statistic.component';
 import { DashboardService } from '../../service/dashboard.service';
 import { Order } from '../../api/order';
+import { environment } from 'src/environments/environment';
+import { OrderedInfo } from '../../api/OrderedInfo';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -111,6 +113,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   chartOptions: any;
 
   subscription!: Subscription;
+  //Total Sale Chart
+  totalSaleData: any;
+  totalSaleOption: any;
+  totalSale: number = 0;
+  Months: string[] = [];
+  totalSaleMonth: number[] = [];
 
   subMenu: SubMenu | null | undefined;
 
@@ -129,6 +137,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.ordersLabel.push(src.OrderedAt),
           this.ordersData.push(src.OrderNumber);
       });
+      this.calculateTotalSale();
 
       this.dashboardService.GetProductCatalogs().subscribe((data: any) => {
         data['data'].map((src: ProductCatalog) => {
@@ -145,7 +154,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.initChart();
     });
   }
-
+  calculateTotalSale() {
+    this.dashboardService.getOrders().subscribe((data: any) => {
+      data['data'].map((src: OrderedInfo) => {
+        this.totalSale += Number(src.price),
+          this.Months.push(src.orderedAt),
+          this.totalSaleMonth.push(src.price);
+      });
+    });
+  }
   initChart() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
@@ -224,6 +241,65 @@ export class DashboardComponent implements OnInit, OnDestroy {
           grid: {
             color: surfaceBorder,
             drawBorder: false,
+          },
+        },
+      },
+    };
+    this.totalSaleData = {
+      labels: this.Months,
+      datasets: [
+        {
+          label: 'Total Sales',
+          data: this.totalSaleMonth,
+          fill: false,
+          backgroundColor: environment.primaryColor,
+          borderColor: environment.primaryColor,
+          borderWidth: 3,
+          pointStyle: false,
+          pointBorderWidth: 2,
+        },
+      ],
+    };
+    this.totalSaleOption = {
+      elements: {
+        line: {
+          tension: 0.3,
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+      aspectRatio: 1,
+      plugins: {
+        legend: {
+          labels: {
+            color: environment.primaryColor,
+            font: {
+              size: 12,
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: environment.primaryColor,
+            font: {
+              size: 14,
+            },
+          },
+          grid: {
+            color: environment.primaryColor,
+          },
+        },
+        y: {
+          ticks: {
+            color: environment.primaryColor,
+            font: {
+              size: 14,
+            },
+          },
+          grid: {
+            color: environment.primaryColor,
           },
         },
       },

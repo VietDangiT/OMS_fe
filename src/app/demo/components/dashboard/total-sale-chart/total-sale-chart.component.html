@@ -1,11 +1,11 @@
 <div class="rounded-lg overflow-hidden bg-white">
     <h2 class="text-sm font-bold mb-4">Total Sales</h2>
-    <p class="font-bold text-sm">USD 1,737,046.68</p>
+    <p class="font-bold text-sm">USD {{totalSale}}</p>
     <div class="flex flex-col">
         <div class="flex items-center justify-between gap-2">
             <p class=" font-medium md:font-normal text-sm text-gray-500">SALES OVER TIME</p>
             <a href="#" class="text-sm font-normal text-blue-800 ">Analyse</a>
         </div>
-        <app-linechart></app-linechart>
+        <oms-chart type="line" [data]="data" [options]="option"></oms-chart>
     </div>
 </div>

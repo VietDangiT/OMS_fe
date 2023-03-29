@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TotalsalechartComponent } from './totalsalechart.component';
+import { TotalsalechartComponent } from './total-sale-chart.component';
 
 describe('TotalsalechartComponent', () => {
   let component: TotalsalechartComponent;
