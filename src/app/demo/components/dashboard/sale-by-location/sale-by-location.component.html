@@ -53,7 +53,6 @@
         ></oms-chart>
       </div>
     </div>
-<<<<<<< HEAD
     <div
       class="w-full md:w-[calc(49%)] lg:w-chartWidth px-4 py-2 bg-white rounded-lg"
     >
@@ -75,69 +74,6 @@
             [data]="leadData"
             [options]="baseChartOptions"
           ></oms-chart>
-=======
-        <div class="flex flex-wrap justify-between w-full gap-6 mb-4">
-            <div class="flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[30%] overflow-auto px-4 py-2 bg-white rounded-lg">
-                <div class="mb-2">
-                    <div class="flex justify-between">
-                        <p class="font-bold ">Sales</p>
-                        <div class="flex items-center px-2 py-1 bg-gray-50 rounded-xl">
-                            <i class="mr-1 pi pi-globe"></i>
-                            <select class="focus:bg-none active:bg-none focus:outline-none bg-gray-50">       
-                                <option value="vietnam">Vietnam</option>
-                                <option value="singapore">Singapore</option>
-                                <option value="malaysia">Malaysia</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex gap-2 ">
-                    <div class="flex items-center justify-between w-full text-xs rounded-md md:px-2 md:py-1 bg-primary bg-opacity-10">
-                        <div class="flex items-center">
-                            <i class="mr-2 pi pi-dollar text-primary"></i>
-                            <span class="my-auto font-bold">23k</span>
-                        </div>
-                        <div class="p-1 text-white rounded-full bg-primary">Dec</div>
-                    </div>
-                    <div class="flex items-center justify-between w-full text-xs rounded-md md:px-2 md:py-1 bg-success bg-opacity-10">
-                        <div class="flex items-center">
-                            <i class="mr-2 pi pi-arrow-up text-success"></i>
-                            <span class="my-auto font-bold">23k</span>
-                        </div>
-                        <div class="p-1 text-white rounded-full bg-success">vs Nov</div>
-                    </div>
-                </div>
-                <div class="h-full ">
-                    <app-line-chart [baseChartOptions]="baseChartOptions" [chartData]="salesData"></app-line-chart>
-                </div>
-            </div>
-            <div class="w-full md:w-[calc(50%-1rem)] lg:w-[30%]  px-4 py-2 bg-white rounded-lg  ">
-                    <div class="mb-2">
-                        <p class="font-bold ">Country</p>
-                    </div>
-                    <div class="w-full mx-auto lg:w-3/4">
-                        <app-pie-chart [chartData]="countryData" [baseChartOptions]="baseChartOptions"></app-pie-chart>
-                    </div>
-            </div>
-            <div class="px-4 py-2 w-full  lg:w-[30%]  overflow-auto bg-white rounded-lg " >
-                
-                    <div class="flex flex-col h-full">
-                        <p class="font-bold ">Leads</p>
-                        <div class="h-full">
-                            <app-bar-chart [baseChartOptions]="baseChartOptions" [chartData]="leadData"></app-bar-chart>
-                        </div>
-                    </div>
-            </div>
-        </div>
-        <div class="px-4 py-2 mb-4 overflow-y-auto bg-white rounded-lg">
-            <div class="w-full mb-2">
-                <p class="font-bold ">Sales Analytics</p>
-                <app-apex-chart [heatChartOptions]="heatChartOptions"></app-apex-chart>
-            </div>
-        </div>
-        <div class="px-4 py-2 bg-white rounded-lg">
-            <dashboard-table [tableData]="tableData" heading="Orders"></dashboard-table>
->>>>>>> dev
         </div>
       </div>
     </div>
@@ -149,7 +85,7 @@
     </div>
   </div>
   <div class="px-4 py-2 bg-white rounded-lg">
-    <app-table  (pagingInfo)="pagingInfo($event)" [currentPagingInfo]="currentPagingInfo" [tableData]="tableData" heading="Orders"></app-table>
+    <dashboard-table  (pagingInfo)="pagingInfo($event)" [currentPagingInfo]="currentPagingInfo" [tableData]="tableData" heading="Orders"></dashboard-table>
   </div>
 
 </div>
