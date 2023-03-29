@@ -1,0 +1,51 @@
+{
+    "data":
+        {
+            "page": 1,
+            "per_page": 5,
+            "page_count": 5,
+            "total_count": 25,
+            "links": [
+                {"self": "/table-data-1"},
+                {"first": "/table-data-0"},
+                {"next": "/table-data-2"},
+                {"last": "/table-data-4"}
+              ],
+            "records":[
+                {
+                    "id":6,
+                    "location":"Thailand",
+                    "date": "01/27/2023 12:00:00 AM ",
+                    "number_of_order":"235",
+                    "total_sale":"21"
+                },
+                {
+                    "id":7,
+                    "location":"Thailand",
+                    "date": "02/27/2023 12:00:00 AM ",
+                    "number_of_order":"545",
+                    "total_sale":"2312"
+                },{
+                    "id":8,
+                    "location":"Thailand",
+                    "date": "09/27/2023 12:00:00 AM ",
+                    "number_of_order":"213",
+                    "total_sale":"55"
+                },
+                {
+                    "id":9,
+                    "location":"Thailand",
+                    "date": "05/27/2023 12:00:00 AM ",
+                    "number_of_order":"1210",
+                    "total_sale":"53224"
+                },{
+                    "id":10,
+                    "location":"Thailand",
+                    "date": "03/27/2023 12:00:00 AM ",
+                    "number_of_order":"10",
+                    "total_sale":"213"
+                }
+            ]
+        }
+    
+}
