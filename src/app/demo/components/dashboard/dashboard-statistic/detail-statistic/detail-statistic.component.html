@@ -9,7 +9,8 @@
   <div class="px-4 py-2">
     <div class="flex flex-col mb-2" *ngFor="let item of detailStatistic.data">
       <span class="lg:flex items-center gap-1 text-xs">{{ item.displayText }} <i
-          class="pi pi-circle-fill text-[3px] md:text-[5px] text-{{item.circleColor}}-500"
+          class="pi pi-circle-fill text-[3px] md:text-[5px]"
+          [ngClass]="item.circleColor === 'red' ? 'text-red-500' : 'text-green-500'"
           *ngIf="item.hasCircle === true"></i></span>
       <span class="font-bold text-lg md:text-xl">{{ item.value }}</span>
     </div>

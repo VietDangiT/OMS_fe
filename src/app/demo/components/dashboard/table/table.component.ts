@@ -3,7 +3,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { DashboardTable } from '../interfaces/dashboard-table';
 
 @Component({
-  selector: 'app-table',
+  selector: 'dashboard-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
   encapsulation: ViewEncapsulation.None,
