@@ -137,23 +137,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.ordersLabel.push(src.OrderedAt),
           this.ordersData.push(src.OrderNumber);
       });
-      this.calculateTotalSale();
-
-      this.dashboardService.GetProductCatalogs().subscribe((data: any) => {
-        data['data'].map((src: ProductCatalog) => {
-          this.prodCatalogLabel.push(src.OrderedAt),
-            this.prodCatalogData.push(src.TotalSales);
-        });
-      });
-
-      this.items = [
-        { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-        { label: 'Remove', icon: 'pi pi-fw pi-minus' },
-      ];
-
-      this.initChart();
     });
+
+    this.calculateTotalSale();
+
+    this.dashboardService.GetProductCatalogs().subscribe((data: any) => {
+      data['data'].map((src: ProductCatalog) => {
+        this.prodCatalogLabel.push(src.OrderedAt),
+          this.prodCatalogData.push(src.TotalSales);
+      });
+    });
+
+    this.items = [
+      { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+      { label: 'Remove', icon: 'pi pi-fw pi-minus' },
+    ];
+
+    this.initChart();
   }
+
   calculateTotalSale() {
     this.dashboardService.getOrders().subscribe((data: any) => {
       data['data'].map((src: OrderedInfo) => {
@@ -163,6 +165,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
     });
   }
+
   initChart() {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
@@ -213,38 +216,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ],
     };
 
-    this.chartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 1,
-      plugins: {
-        legend: {
-          labels: {
-            color: textColor,
-          },
-        },
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-        y: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-      },
-    };
     this.totalSaleData = {
       labels: this.Months,
       datasets: [
@@ -260,6 +231,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
       ],
     };
+
     this.totalSaleOption = {
       elements: {
         line: {
@@ -300,6 +272,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
           },
           grid: {
             color: environment.primaryColor,
+          },
+        },
+      },
+    };
+
+    this.chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      aspectRatio: 1,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor,
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
+          },
+        },
+        y: {
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
           },
         },
       },
