@@ -4,42 +4,65 @@ import { ChartData, ChartOptions } from 'chart.js';
 import { DashboardTable } from '../interfaces/dashboard-table';
 import { SaleByChannelHeatmap } from './sale-by-channel-heatmap/sale-by-channel-heatmap.component';
 
+export interface OrderOnChannelData {
+  headerData: string[];
+  bodyData: {
+    channelImage: string;
+    channelName: string;
+    isActive: true;
+    numberOrder: number;
+    totalSale: number;
+  }[];
+}
+
 @Component({
   selector: 'dashboard-total-sale-by-location',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
 })
 export class TotalSaleByChannelComponent {
-  tableData: DashboardTable = {
+  tableData: OrderOnChannelData = {
     headerData: ['Channel', 'Status', 'Number of Orders', 'Total Sales'],
     bodyData: [
       {
+        channelImage: "",
         channelName: 'abc',
-        status: 'Active',
+        isActive: true,
         numberOrder: 10,
         totalSale: 12,
       },
       {
+        channelImage: "",
         channelName: 'abc',
-        status: 'Active',
+        isActive: true,
         numberOrder: 10,
         totalSale: 12,
       },
       {
+        channelImage: "",
         channelName: 'abc',
-        status: 'Active',
+        isActive: true,
         numberOrder: 10,
         totalSale: 12,
       },
       {
+        channelImage: "",
         channelName: 'abc',
-        status: 'Active',
+        isActive: true,
         numberOrder: 10,
         totalSale: 12,
       },
       {
+        channelImage: "",
         channelName: 'abc',
-        status: 'Active',
+        isActive: true,
+        numberOrder: 10,
+        totalSale: 12,
+      },
+      {
+        channelImage: "",
+        channelName: 'abc',
+        isActive: true,
         numberOrder: 10,
         totalSale: 12,
       },
@@ -61,7 +84,7 @@ export class TotalSaleByChannelComponent {
 
   saleByChannelHeatmapData: SaleByChannelHeatmap[] = [
     {
-      name: "Lazada SG",
+      name: 'Lazada SG',
       data: [
         {
           x: 'Jul',
@@ -90,7 +113,7 @@ export class TotalSaleByChannelComponent {
       ],
     },
     {
-      name: "Tiki VN",
+      name: 'Tiki VN',
       data: [
         {
           x: 'Jul',
@@ -119,7 +142,7 @@ export class TotalSaleByChannelComponent {
       ],
     },
     {
-      name: "Shopee VN",
+      name: 'Shopee VN',
       data: [
         {
           x: 'Jul',
@@ -148,7 +171,7 @@ export class TotalSaleByChannelComponent {
       ],
     },
     {
-      name: "Lazada VN",
+      name: 'Lazada VN',
       data: [
         {
           x: 'Jul',
@@ -176,42 +199,7 @@ export class TotalSaleByChannelComponent {
         },
       ],
     },
-  ]
-
-  saleOnChannelOption: ChartOptions = {
-    maintainAspectRatio: false,
-    aspectRatio: 1,
-    responsive: true,
-    plugins: {
-      legend: {
-        labels: {
-          boxHeight: 5,
-          boxWidth: 10,
-          color: '#495057',
-          usePointStyle: true,
-          pointStyle: 'circle',
-        },
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: '#495057',
-        },
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        ticks: {
-          color: '#495057',
-        },
-        grid: {
-          color: '#ebedef',
-        },
-      },
-    },
-  };
+  ];
 
   constructor(private _dashboardService: DashboardService) {}
 
@@ -220,6 +208,9 @@ export class TotalSaleByChannelComponent {
   }
 
   handleFilterChange(filter: string = 'weekly') {
+    this.getSaleOnChannel(filter);
+  }
+  getSaleOnChannel(filter: string = 'weekly') {
     this._dashboardService
       .getSaleOnChannel(`assets/api/countries-sale-by-${filter}.json`)
       .subscribe((data: any) => {
