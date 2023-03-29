@@ -65,27 +65,27 @@ export class TotalSaleByChannelComponent {
       data: [
         {
           x: 'Jul',
-          y: 80,
+          y: 800,
         },
         {
           x: 'Aug',
-          y: 70,
+          y: 1500,
         },
         {
           x: 'Sep',
-          y: 60,
+          y: 4000,
         },
         {
           x: 'Oct',
-          y: 50,
+          y: 4000,
         },
         {
           x: 'Nov',
-          y: 40,
+          y: 1500,
         },
         {
           x: 'Dec',
-          y: 30,
+          y: 800,
         },
       ],
     },
@@ -94,27 +94,27 @@ export class TotalSaleByChannelComponent {
       data: [
         {
           x: 'Jul',
-          y: 80,
+          y: 800,
         },
         {
           x: 'Aug',
-          y: 70,
+          y: 1500,
         },
         {
           x: 'Sep',
-          y: 60,
+          y: 4000,
         },
         {
           x: 'Oct',
-          y: 50,
+          y: 4000,
         },
         {
           x: 'Nov',
-          y: 40,
+          y: 1500,
         },
         {
           x: 'Dec',
-          y: 30,
+          y: 800,
         },
       ],
     },
