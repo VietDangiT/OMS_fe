@@ -1,7 +1,7 @@
-<nav class="fixed left-0 z-50 h-screen shadow-lg md:py-2 md:top-0 md:max-w-sidebarWidth bg-primary md:shadow-none ">
-    <div class="flex flex-col items-center h-full md:pt-1">
+<nav class="fixed left-0 z-50 h-screen shadow-lg py-2 top-0 max-w-sidebarWidth bg-primary md:shadow-none ">
+    <div class="flex flex-col items-center h-full pt-1">
         <a routerLink="/"><img src="./assets/logo1.png" alt="" class="hidden px-1 mb-4 md:block " ></a>
-        <ul class="flex items-center justify-center w-full gap-2 md:flex-col"> 
+        <ul class="flex items-center justify-center w-full gap-2 flex-col"> 
             <li *ngFor="let element of elements" class="relative flex w-full duration-100 ease-linear border-b-0 border-l-0 opacity-50 cursor-pointer group hover:opacity-100 " routerLink={{element.path}} routerLinkActive="active" >
                 <a class="flex w-full py-2 md:py-4 ">
                     <i class="{{element.icon}}  text-white mx-auto"></i>

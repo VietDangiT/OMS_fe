@@ -1,0 +1,51 @@
+{
+    "data":
+        {
+            "page": 3,
+            "per_page": 5,
+            "page_count": 5,
+            "total_count": 25,
+            "links": [
+                {"self": "/table-data-3"},
+                {"first": "/table-data-0"},
+                {"next": "/table-data-4"},
+                {"last": "/table-data-4"}
+              ],
+            "records":[
+                {
+                    "id":1,
+                    "location":"Singapore",
+                    "date": "4/27/2023 12:00:00 AM ",
+                    "number_of_order":"34510",
+                    "total_sale":"73412"
+                },
+                {
+                    "id":2,
+                    "location":"Singapore",
+                    "date": "5/27/2023 12:00:00 AM ",
+                    "number_of_order":"53410",
+                    "total_sale":"3412"
+                },{
+                    "id":3,
+                    "location":"Singapore",
+                    "date": "8/27/2023 12:00:00 AM ",
+                    "number_of_order":"31910",
+                    "total_sale":"45612"
+                },
+                {
+                    "id":4,
+                    "location":"Singapore",
+                    "date": "6/27/2023 12:00:00 AM ",
+                    "number_of_order":"3410",
+                    "total_sale":"56412"
+                },{
+                    "id":5,
+                    "location":"Singapore",
+                    "date": "7/27/2023 12:00:00 AM ",
+                    "number_of_order":"31210",
+                    "total_sale":"14352"
+                }
+            ]
+        }
+    
+}

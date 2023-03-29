@@ -1,0 +1,51 @@
+{
+    "data":
+        {
+            "page": 2,
+            "per_page": 5,
+            "page_count": 5,
+            "total_count": 25,
+            "links": [
+                {"self": "/table-data-2"},
+                {"first": "/table-data-0"},
+                {"next": "/table-data-3"},
+                {"last": "/table-data-4"}
+              ],
+            "records":[
+                {
+                    "id":1,
+                    "location":"Malaysia",
+                    "date": "08/27/2023 12:00:00 AM ",
+                    "number_of_order":"2135",
+                    "total_sale":"2315"
+                },
+                {
+                    "id":2,
+                    "location":"Malaysia",
+                    "date": "03/27/2023 12:00:00 AM ",
+                    "number_of_order":"10",
+                    "total_sale":"12"
+                },{
+                    "id":3,
+                    "location":"Malaysia",
+                    "date": "01/27/2023 12:00:00 AM ",
+                    "number_of_order":"312",
+                    "total_sale":"2135"
+                },
+                {
+                    "id":4,
+                    "location":"Malaysia",
+                    "date": "12/12/2023 12:00:00 AM ",
+                    "number_of_order":"875",
+                    "total_sale":"213"
+                },{
+                    "id":5,
+                    "location":"Malaysia",
+                    "date": "11/11/2023 12:00:00 AM ",
+                    "number_of_order":"211",
+                    "total_sale":"21358"
+                }
+            ]
+        }
+    
+}
