@@ -7,6 +7,7 @@ import { Order } from '../api/order';
 })
 export class DashboardService {
   constructor(private _http: HttpClient) {}
+
   getSaleOnChannel(url: string) {
     return this._http.get(url).pipe();
   }
@@ -14,7 +15,7 @@ export class DashboardService {
   GetOrders() {
     return this._http.get<any>('./assets/demo/data/orders.json').pipe();
   }
-  
+
   getOrders() {
     return this._http.get<any>(`./assets/demo/data/OrderedList.json`).pipe();
   }

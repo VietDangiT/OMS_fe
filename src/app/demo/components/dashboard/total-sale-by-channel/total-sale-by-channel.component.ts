@@ -51,7 +51,7 @@ export class TotalSaleByChannelComponent {
     datasets: [
       {
         label: 'First Dataset',
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: [],
         fill: false,
         borderColor: '#42A5F5',
         tension: 0.3,

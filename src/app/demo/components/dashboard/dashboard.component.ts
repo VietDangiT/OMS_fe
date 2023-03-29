@@ -9,6 +9,7 @@ import { DashboardService } from '../../service/dashboard.service';
 import { Order } from '../../api/order';
 import { environment } from 'src/environments/environment';
 import { OrderedInfo } from '../../api/OrderedInfo';
+import { ChartData } from 'chart.js';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -98,13 +99,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   items!: MenuItem[];
 
-  totalOrderData: any;
-  orders!: Order[];
+  //Total Order Chart
+  totalOrderData: ChartData = {
+    labels: [],
+    datasets: [
+      {
+        label: 'First Dataset',
+        data: [],
+        fill: false,
+        borderColor: '#42A5F5',
+        tension: 0.3,
+      },
+    ],
+  };
   ordersLabel: any[] = [];
   ordersData: any[] = [];
 
-  productCatalogData: any;
-  productCatalogs!: ProductCatalog[];
+  //Product Catalog Chart
+  productCatalogData: ChartData = {
+    labels: [],
+    datasets: [
+      {
+        label: 'First Dataset',
+        data: [],
+        fill: false,
+        borderColor: '#42A5F5',
+        tension: 0.3,
+      },
+    ],
+  };
   prodCatalogLabel: any[] = [];
   prodCatalogData: any[] = [];
 
@@ -113,6 +136,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   chartOptions: any;
 
   subscription!: Subscription;
+
   //Total Sale Chart
   totalSaleData: any;
   totalSaleOption: any;
@@ -132,37 +156,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.dashboardService.GetOrders().subscribe((data: any) => {
-      data['data'].map((src: Order) => {
-        this.ordersLabel.push(src.OrderedAt),
-          this.ordersData.push(src.OrderNumber);
-      });
-    });
+    this.initChart();
+
+    this.initOrderData();
+
+    this.initProductCatalogData();
 
     this.calculateTotalSale();
-
-    this.dashboardService.GetProductCatalogs().subscribe((data: any) => {
-      data['data'].map((src: ProductCatalog) => {
-        this.prodCatalogLabel.push(src.OrderedAt),
-          this.prodCatalogData.push(src.TotalSales);
-      });
-    });
 
     this.items = [
       { label: 'Add New', icon: 'pi pi-fw pi-plus' },
       { label: 'Remove', icon: 'pi pi-fw pi-minus' },
     ];
-
-    this.initChart();
   }
 
   calculateTotalSale() {
     this.dashboardService.getOrders().subscribe((data: any) => {
-      data['data'].map((src: OrderedInfo) => {
-        (this.totalSale += Number(src.price)),
-          this.Months.push(src.orderedAt),
-          this.totalSaleMonth.push(src.price);
-      });
+      // data['data'].map((src: OrderedInfo) => {
+      //   (this.totalSale += Number(src.price)),
+      //     this.Months.push(src.orderedAt),
+      //     this.totalSaleMonth.push(src.price);
+      // });
+      
     });
   }
 
@@ -173,20 +188,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       '--text-color-secondary'
     );
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-    this.chartData = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-      datasets: [
-        {
-          label: 'First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-          borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-          tension: 0.4,
-        },
-      ],
-    };
 
     this.productCatalogData = {
       labels: this.prodCatalogLabel,
@@ -309,6 +310,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
       },
     };
+  }
+
+  initOrderData() {
+    this.dashboardService.GetOrders().subscribe((data: any) => {
+      const tmp = this.totalOrderData;
+      
+      tmp.labels = data.data.map((item: any) => item.OrderedAt);
+      tmp.datasets[0].data = data.data.map((item: any) => item.OrderNumber);
+
+      this.totalOrderData = { ...tmp };
+      console.log(this.totalOrderData);
+    });
+  }
+
+  initProductCatalogData() {
+    this.dashboardService.GetProductCatalogs().subscribe((data: any) => {
+      const tmp = this.productCatalogData;
+
+      tmp.labels = data.data.map((item: any) => item.OrderedAt);
+      tmp.datasets[0].data = data.data.map((item: any) => item.TotalSales);
+
+      this.productCatalogData = { ...tmp };
+    });
   }
 
   ngOnDestroy() {
