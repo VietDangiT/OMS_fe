@@ -18,8 +18,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ProductCatalogComponent } from './product-catalog/product-catalog.component';
 import { TotalOrdersComponent } from './total-orders/total-orders.component';
 import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.component';
-import { TreemapChartComponent } from './sale-by-channel/treemap-chart/treemap-chart.component';
-import { DonutChartComponent } from './donut-chart/donut-chart.component';
+import { TotalReturnComponent } from './total-return/total-return.component';
 import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/sale-by-channel-heatmap/sale-by-channel-heatmap.component';
 import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.component';
 import { DetailStatisticComponent } from './dashboard-statistic/detail-statistic/detail-statistic.component';
@@ -59,8 +58,7 @@ import { SaleStoreComponent } from './sale-store/sale-store.component';
     SaleByChannelComponent,
     ProductCatalogComponent,
     TotalOrdersComponent,
-    TreemapChartComponent,
-    DonutChartComponent,
+    TotalReturnComponent,
     SaleByChannelHeatmapComponent,
     TotalsalechartComponent,
     DetailStatisticComponent,
