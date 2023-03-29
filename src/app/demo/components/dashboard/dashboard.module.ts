@@ -21,8 +21,7 @@ import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.compon
 import { TreemapChartComponent } from './sale-by-channel/treemap-chart/treemap-chart.component';
 import { DonutChartComponent } from './donut-chart/donut-chart.component';
 import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/sale-by-channel-heatmap/sale-by-channel-heatmap.component';
-import { LinechartComponent } from './totalsalechart/linechart/linechart.component';
-import { TotalsalechartComponent } from './totalsalechart/totalsalechart.component';
+import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.component';
 import { DetailStatisticComponent } from './dashboard-statistic/detail-statistic/detail-statistic.component';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
 import { SubmenuModule } from 'src/app/layout/app.submenu.module';
@@ -63,7 +62,6 @@ import { SaleStoreComponent } from './sale-store/sale-store.component';
     TreemapChartComponent,
     DonutChartComponent,
     SaleByChannelHeatmapComponent,
-    LinechartComponent,
     TotalsalechartComponent,
     DetailStatisticComponent,
     SaleByLocationComponent,

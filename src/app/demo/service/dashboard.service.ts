@@ -12,4 +12,9 @@ export class DashboardService {
       .get<any>('./assets/demo/data/orders.json')
       .pipe();
   }
+  getOrders() {
+    return this._http
+      .get<any>(`./assets/demo/data/OrderedList.json`)
+      .pipe();
+  }
 }
