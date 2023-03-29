@@ -40,4 +40,11 @@ export class DashboardService {
     }
     return this._http.get(`${this.saleByLocationURL}/countries-sale-by-week.json`).pipe();
   }
+
+  getTableData(pageNumber: number = 0){
+    if(pageNumber < 0){
+      return this._http.get(`${this.saleByLocationURL}/table-data-0.json`).pipe();
+    }
+    return this._http.get(`${this.saleByLocationURL}/table-data-${pageNumber}.json`).pipe();
+  }
 }

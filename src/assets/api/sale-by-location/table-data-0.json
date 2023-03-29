@@ -1,0 +1,51 @@
+{
+    "data":
+        {
+            "page": 0,
+            "per_page": 5,
+            "page_count": 5,
+            "total_count": 25,
+            "links": [
+                {"self": "/table-data-0"},
+                {"first": "/table-data-0"},
+                {"next": "/table-data-1"},
+                {"last": "/table-data-4"}
+              ],
+            "records":[
+                {
+                    "id":1,
+                    "location":"Vietnam",
+                    "date": "02/27/2023 12:00:00 AM ",
+                    "number_of_order":"4564",
+                    "total_sale":"78675"
+                },
+                {
+                    "id":2,
+                    "location":"Vietnam",
+                    "date": "03/27/2023 12:00:00 AM ",
+                    "number_of_order":"1238",
+                    "total_sale":"1238"
+                },{
+                    "id":3,
+                    "location":"Vietnam",
+                    "date": "05/27/2023 12:00:00 AM ",
+                    "number_of_order":"7895",
+                    "total_sale":"789"
+                },
+                {
+                    "id":4,
+                    "location":"Vietnam",
+                    "date": "06/27/2023 12:00:00 AM ",
+                    "number_of_order":"9782",
+                    "total_sale":"5564"
+                },{
+                    "id":5,
+                    "location":"Vietnam",
+                    "date": "07/27/2023 12:00:00 AM ",
+                    "number_of_order":"121210",
+                    "total_sale":"1152"
+                }
+            ]
+        }
+    
+}

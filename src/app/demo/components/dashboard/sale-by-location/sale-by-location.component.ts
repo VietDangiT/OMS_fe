@@ -6,6 +6,14 @@ import { environment } from 'src/environments/environment';
 import { heatChartOptions } from '../../charts/apex-chart.component';
 import { DashboardTable } from '../interfaces/dashboard-table';
 
+interface PagingInfo{
+  links: string[],
+  page: number,
+  page_count: number,
+  per_page: number,
+  total_count:number
+}
+
 @Component({
   selector: 'app-sale-by-location',
   templateUrl: './sale-by-location.component.html',
@@ -70,6 +78,16 @@ export class SaleByLocationComponent {
     colors: ["#27447C"],
   };
 
+  pagingNumber: number = 0;
+
+  currentPagingInfo: PagingInfo ={
+    links:[],
+    page:0,
+    page_count:1,
+    per_page:1,
+    total_count:1
+  }
+
   filter: string = 'week';
 
   tableData: DashboardTable = {
@@ -108,6 +126,10 @@ export class SaleByLocationComponent {
     ],
   };
 
+  monthNames = [
+    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+  ];
+
   constructor(
     private layoutService: LayoutService,
     private dashboardService: DashboardService
@@ -118,6 +140,7 @@ export class SaleByLocationComponent {
     this.getCountriesSale();
     this.getLeads();
     this.getSalesAnalytics();
+    this.getTableData(this.pagingNumber);    
 
     this.layoutService.currentSubMenuState.subscribe(
       (state) => (this.isSubmenuOn = state)
@@ -157,6 +180,29 @@ export class SaleByLocationComponent {
     this.getCountriesSale();
     this.getLeads();
     this.getSalesAnalytics();
+  }
+
+  getTableData(paging: number){
+    this.pagingNumber = paging;
+    
+    this.dashboardService.getTableData(this.pagingNumber).subscribe((item: any)=>{
+      
+      var data = item.data;
+      this.currentPagingInfo = {...data};
+      var result: any[] = [];
+      data.records.forEach((item: any)=>{
+        var date = this.monthNames[new Date(Date.parse(item.date)).getMonth()];
+        
+        var mapping =  {location: item.location, date:date, numberOrder:item.number_of_order, totalSale:item.total_sale};
+        result.push(mapping);
+      });
+
+      this.tableData.bodyData = result;
+    })
+  }
+
+  pagingInfo(pagingInfo: any){
+    this.getTableData(pagingInfo.page);
   }
 
   getSalesAnalytics(){

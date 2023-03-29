@@ -24,7 +24,7 @@
 
     <!-- pagination -->
     <div class="flex justify-end mt-2">
-      <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="120"></p-paginator>
+      <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="currentPagingInfo.per_page" [totalRecords]="currentPagingInfo.total_count"></p-paginator>
     </div>
     <!-- end of pagination -->
     </div>
