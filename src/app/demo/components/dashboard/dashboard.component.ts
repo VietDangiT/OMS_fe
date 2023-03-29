@@ -157,7 +157,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   calculateTotalSale() {
     this.dashboardService.getOrders().subscribe((data: any) => {
       data['data'].map((src: OrderedInfo) => {
-        this.totalSale += Number(src.price),
+        (this.totalSale += Number(src.price)),
           this.Months.push(src.orderedAt),
           this.totalSaleMonth.push(src.price);
       });
