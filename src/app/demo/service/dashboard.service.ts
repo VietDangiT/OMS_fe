@@ -1,19 +1,19 @@
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Injectable } from '@angular/core';
-import { Order } from '../api/order';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
+
   saleByLocationURL!: string;
   constructor(private _http: HttpClient) {
     this.saleByLocationURL = environment.baseURL + '/sale-by-location';
+    
   }
-
-  getSaleOnChannel(url: string) {
+  getSaleOnChannel(url: string){
     return this._http.get(url).pipe();
   }
 
