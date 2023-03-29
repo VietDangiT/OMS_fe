@@ -4,8 +4,11 @@
 
 export const environment = {
   production: false,
-  baseURL : './asset/api',
-  primaryColor : "#27447C"
+  baseURL : 'assets/api',
+  primaryColor : "#27447C",
+  secondaryColor: "#FCA310",
+  thirdColor:"#ED7D2D",
+  fourthColor:"#F3F4F6"
 };
 
 /*

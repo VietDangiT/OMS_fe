@@ -1,0 +1,22 @@
+p-calendar .p-button-icon-only {
+    @apply bg-primary outline-none opacity-90 transition-all duration-100 ease-linear;
+  }
+  
+  .p-ink {
+    @apply hidden;
+  }
+
+.p-button:enabled:hover{
+    @apply bg-primary outline-none opacity-100
+} 
+
+.p-inputtext:enabled:hover{
+    @apply border-primary
+}
+.p-button{
+    @apply border-none bg-primary
+}
+.p-inputtext:enabled:focus{
+    @apply  shadow-none border-primary;
+
+}

@@ -8,7 +8,7 @@ import { LayoutService } from './service/app.layout.service';
   styles: [
     `
       .active {
-        @apply font-semibold opacity-100 sm:border-b-4 border-secondary md:border-b-0 text-primary;
+        @apply font-semibold opacity-100  border-secondary md:border-b-0 text-primary;
       }
       .active div {
         @apply visible block opacity-100 pointer-events-auto;

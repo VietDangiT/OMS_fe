@@ -1,0 +1,66 @@
+{
+    "data":[
+        {
+            "saleInfo": [
+                {  
+                "date": "01/27/2023 12:00:00 AM ",
+                "month":"2022",
+                "sales":1000
+                },
+                {  
+                "date": "02/27/2023 12:00:00 AM ",
+                "month":"2023",
+                "sales":5000
+                }
+                
+            ],
+            "location": "Viet Nam"
+        },
+        {
+            "saleInfo": [
+                {  
+                "date": "01/27/2023 12:00:00 AM ",
+                "month":"2022",
+                "sales":121
+                },
+                {  
+                "date": "02/27/2023 12:00:00 AM ",
+                "month":"2023",
+                "sales":5000
+                }
+                
+            ],
+            "location": "Malaysia"
+        }
+        , {
+            "saleInfo": [
+                {  
+                "date": "01/27/2023 12:00:00 AM ",
+                "month":"2022",
+                "sales":45645
+                },
+                {  
+                "date": "02/27/2023 12:00:00 AM ",
+                "month":"2023",
+                "sales":5000
+                }
+            ],
+            "location": "Singapore"
+        }
+        , {
+            "saleInfo": [
+                {  
+                "date": "01/27/2023 12:00:00 AM ",
+                "month":"2022",
+                "sales":45645
+                },
+                {  
+                "date": "02/27/2023 12:00:00 AM ",
+                "month":"2023",
+                "sales":5000
+                }],
+            "location": "Thailand"
+        }
+      
+    ]
+}

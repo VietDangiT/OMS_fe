@@ -1,0 +1,64 @@
+{
+    "data":[
+        {
+            "date": "01/27/2023 12:00:00 AM ",
+            "sales": 12000,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "02/27/2023 12:00:00 AM ",
+            "sales": 20000,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "03/27/2023 12:00:00 AM ",
+            "sales": 50050,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "04/27/2023 12:00:00 AM ",
+            "sales": 19000,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "05/27/2023 12:00:00 AM ",
+            "sales": 23000,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "06/27/2023 12:00:00 AM ",
+            "sales": 25880,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "07/27/2023 12:00:00 AM ",
+            "sales": 30008,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "08/27/2023 12:00:00 AM ",
+            "sales": 28110,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "09/27/2023 12:00:00 AM ",
+            "sales": 55500,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "10/27/2023 12:00:00 AM ",
+            "sales": 12447,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "11/27/2023 12:00:00 AM ",
+            "sales": 23455,
+            "location": "Singapore"
+        }
+        ,{
+            "date": "12/27/2023 12:00:00 AM ",
+            "sales": 20050,
+            "location": "Singapore"
+        }
+    ]
+}
