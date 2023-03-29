@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Product } from '../../api/product';
+import { Product, ProductCatalog } from '../../api/product';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { SubMenu } from '../../interface/submenu';
@@ -101,9 +101,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ordersLabel: any[] = [];
   ordersData: any[] = [];
 
-  chartData: any;
-
   productCatalogData: any;
+  productCatalogs!: ProductCatalog[];
+  prodCatalogLabel: any[] = [];
+  prodCatalogData: any[] = [];
+
+  chartData: any;
 
   chartOptions: any;
 
@@ -127,13 +130,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.ordersData.push(src.OrderNumber);
       });
 
-    this.initChart();
+      this.dashboardService.GetProductCatalogs().subscribe((data: any) => {
+        data['data'].map((src: ProductCatalog) => {
+          this.prodCatalogLabel.push(src.OrderedAt),
+            this.prodCatalogData.push(src.TotalSales);
+        });
+      });
 
-    this.items = [
-      { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-      { label: 'Remove', icon: 'pi pi-fw pi-minus' },
-    ];
-    
+      this.items = [
+        { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+        { label: 'Remove', icon: 'pi pi-fw pi-minus' },
+      ];
+
+      this.initChart();
     });
   }
 
@@ -160,11 +169,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
 
     this.productCatalogData = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      labels: this.prodCatalogLabel,
       datasets: [
         {
           label: 'Total Product',
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data: this.prodCatalogData,
           fill: false,
           backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
           borderColor: documentStyle.getPropertyValue('--bluegray-700'),
