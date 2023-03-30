@@ -20,12 +20,14 @@ import {
   ApexPlotOptions,
   ApexLegend,
   ApexDataLabels,
+  ApexYAxis,
 } from 'ng-apexcharts';
 
 type ApexChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
   title: ApexTitleSubtitle;
   plotOptions: ApexPlotOptions;
   legend: ApexLegend;
