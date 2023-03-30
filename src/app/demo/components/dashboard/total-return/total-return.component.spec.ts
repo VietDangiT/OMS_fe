@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LinechartComponent } from './linechart.component';
+import { TotalReturnComponent } from './total-return.component';
 
-describe('LinechartComponent', () => {
-  let component: LinechartComponent;
-  let fixture: ComponentFixture<LinechartComponent>;
+describe('DonutChartComponent', () => {
+  let component: TotalReturnComponent;
+  let fixture: ComponentFixture<TotalReturnComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LinechartComponent ]
+      declarations: [ TotalReturnComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LinechartComponent);
+    fixture = TestBed.createComponent(TotalReturnComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

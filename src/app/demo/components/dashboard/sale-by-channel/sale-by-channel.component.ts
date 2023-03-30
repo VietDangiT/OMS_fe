@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { OmsChartOptions } from '../../share/oms-chart/oms-chart.component';
+
+export interface SaleByChannelData {
+    x: string;
+    y: string | number;
+}
 
 @Component({
   selector: 'dashboard-sale-by-channel',
@@ -6,16 +12,26 @@ import { Component } from '@angular/core';
   styleUrls: ['./sale-by-channel.component.scss'],
 })
 export class SaleByChannelComponent {
-  data = {
-    labels: ['TotalSales'],
-    datasets: [
-      {
-        label: 'Total Sales',
-        data: [23, 32, 74, 43, 88, 19, 44, 34, 75, 93, 44],
-        backgroundColor: '#213969',
-        borderColor: '#000',
-      },
-    ],
-  };
+  chartOptions!: Partial<OmsChartOptions> | any;
+  @Input() data: SaleByChannelData;
 
+  constructor() {
+    this.chartOptions = {
+      chart: {
+        height: 350,
+        type: "treemap",
+      },
+      series: [
+        {
+          data: this.data ? this.data : [],
+        },
+      ]
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data']?.currentValue) {
+      this.chartOptions.series = {...this.data};
+    }
+  }
 }

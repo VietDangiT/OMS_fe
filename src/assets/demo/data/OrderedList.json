@@ -1,0 +1,33 @@
+{
+    "data": [
+      {
+        "orderedAt": "Jan",
+        "price": "1568"
+      },
+      {
+        "orderedAt": "Feb",
+        "price": "7668"
+      },
+      {
+        "orderedAt": "Mar",
+        "price": "4737"
+      },
+      {
+        "orderedAt": "Apr",
+        "price": "4537"
+      },
+      {
+        "orderedAt": "May",
+        "price": "4237"
+      },
+      {
+        "orderedAt": "Jun",
+        "price": "4737"
+      },
+      {
+        "orderedAt": "Jul",
+        "price": "4207"
+      }
+    ]
+  }
+  

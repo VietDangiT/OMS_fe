@@ -1,21 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Product } from '../../api/product';
-import { ProductService } from '../../service/product.service';
+import { Product, ProductCatalog } from '../../api/product';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { SubMenu } from '../../interface/submenu';
 import { DetailStatistic } from './dashboard-statistic/detail-statistic/detail-statistic.component';
+import { DashboardService } from '../../service/dashboard.service';
+import { Order } from '../../api/order';
+import { environment } from 'src/environments/environment';
+import { OrderedInfo } from '../../api/OrderedInfo';
+import { ChartData } from 'chart.js';
 
 @Component({
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-    pieData: any;
+  pieData: any;
 
-    barOptions: any;
+  barOptions: any;
 
-    pieOptions: any;
+  pieOptions: any;
   statisticData: DetailStatistic[] = [
     {
       title: 'order',
@@ -95,86 +99,183 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   items!: MenuItem[];
 
-  products!: Product[];
+  //Total Order Chart
+  totalOrderData: ChartData = {
+    labels: [],
+    datasets: [
+      {
+        label: 'First Dataset',
+        data: [],
+        fill: false,
+        borderColor: '#42A5F5',
+        tension: 0.3,
+      },
+    ],
+  };
+  ordersLabel: any[] = [];
+  ordersData: any[] = [];
+
+  //Product Catalog Chart
+  productCatalogData: ChartData = {
+    labels: [],
+    datasets: [
+      {
+        label: 'First Dataset',
+        data: [],
+        fill: false,
+        borderColor: '#42A5F5',
+        tension: 0.3,
+      },
+    ],
+  };
+  prodCatalogLabel: any[] = [];
+  prodCatalogData: any[] = [];
 
   chartData: any;
-
-  productCatalogData: any;
-
-  totalSaleData: any;
 
   chartOptions: any;
 
   subscription!: Subscription;
 
+  //Total Sale Chart
+  totalSaleData: any;
+  totalSaleOption: any;
+  totalSale: number = 0;
+  Months: string[] = [];
+  totalSaleMonth: number[] = [];
+
   subMenu: SubMenu | null | undefined;
 
   constructor(
-    private productService: ProductService,
-    public layoutService: LayoutService
+    public layoutService: LayoutService,
+    private dashboardService: DashboardService
   ) {
     this.subscription = this.layoutService.configUpdate$.subscribe(() => {
       this.initChart();
     });
   }
 
-    ngOnInit() {
-        this.initChart();
-        this.productService.getProductsSmall().then(data => this.products = data);
+  ngOnInit() {
+    this.initChart();
 
-        this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        ];
-    }
+    this.initOrderData();
 
-    initChart() {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    this.initProductCatalogData();
 
-    this.chartData = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-      datasets: [
-        {
-          label: 'First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-          borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-          tension: 0.4,
-        }
-      ],
-    };
+    this.calculateTotalSale();
+
+    this.items = [
+      { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+      { label: 'Remove', icon: 'pi pi-fw pi-minus' },
+    ];
+  }
+
+  calculateTotalSale() {
+    this.dashboardService.getOrders().subscribe((data: any) => {
+      data['data'].map((src: OrderedInfo) => {
+        (this.totalSale += Number(src.price)),
+          this.Months.push(src.orderedAt),
+          this.totalSaleMonth.push(src.price);
+      });
+    });
+  }
+
+  initChart() {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue(
+      '--text-color-secondary'
+    );
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     this.productCatalogData = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      labels: this.prodCatalogLabel,
       datasets: [
         {
           label: 'Total Product',
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data: this.prodCatalogData,
           fill: false,
           backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
           borderColor: documentStyle.getPropertyValue('--bluegray-700'),
           tension: 0.4,
-        }
+        },
       ],
-    }
+    };
 
-    this.totalSaleData = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    this.totalOrderData = {
+      labels: this.ordersLabel,
       datasets: [
         {
           label: 'Total Sales',
-          data: [74, 92, 80, 81, 33, 39, 69],
+          data: this.ordersData,
           fill: false,
           backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
           borderColor: documentStyle.getPropertyValue('--bluegray-700'),
           tension: 0.4,
-        }
+        },
       ],
-    }
+    };
+
+    this.totalSaleData = {
+      labels: this.Months,
+      datasets: [
+        {
+          label: 'Total Sales',
+          data: this.totalSaleMonth,
+          fill: false,
+          backgroundColor: environment.primaryColor,
+          borderColor: environment.primaryColor,
+          borderWidth: 3,
+          pointStyle: false,
+          pointBorderWidth: 2,
+        },
+      ],
+    };
+
+    this.totalSaleOption = {
+      elements: {
+        line: {
+          tension: 0.3,
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+      aspectRatio: 1,
+      plugins: {
+        legend: {
+          labels: {
+            color: environment.primaryColor,
+            font: {
+              size: 12,
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: environment.primaryColor,
+            font: {
+              size: 14,
+            },
+          },
+          grid: {
+            color: environment.primaryColor,
+          },
+        },
+        y: {
+          ticks: {
+            color: environment.primaryColor,
+            font: {
+              size: 14,
+            },
+          },
+          grid: {
+            color: environment.primaryColor,
+          },
+        },
+      },
+    };
 
     this.chartOptions = {
       responsive: true,
@@ -210,10 +311,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
+  initOrderData() {
+    this.dashboardService.GetOrders().subscribe((data: any) => {
+      const tmp = this.totalOrderData;
+      
+      tmp.labels = data.data.map((item: any) => item.OrderedAt);
+      tmp.datasets[0].data = data.data.map((item: any) => item.OrderNumber);
+
+      this.totalOrderData = { ...tmp };
+      console.log(this.totalOrderData);
+    });
+  }
+
+  initProductCatalogData() {
+    this.dashboardService.GetProductCatalogs().subscribe((data: any) => {
+      const tmp = this.productCatalogData;
+
+      tmp.labels = data.data.map((item: any) => item.OrderedAt);
+      tmp.datasets[0].data = data.data.map((item: any) => item.TotalSales);
+
+      this.productCatalogData = { ...tmp };
+    });
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 }
-

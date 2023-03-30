@@ -15,13 +15,11 @@ import { SaleOnChannelComponent } from './total-sale-by-channel/sale-on-channel/
 import { TableComponent } from './table/table.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ProductCatalogComponent } from './product-catalog/product-catalog.component';
-import { TotalSalesComponent } from './total-sales/total-sales.component';
+import { TotalOrdersComponent } from './total-orders/total-orders.component';
 import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.component';
-import { TreemapChartComponent } from './sale-by-channel/treemap-chart/treemap-chart.component';
-import { DonutChartComponent } from './donut-chart/donut-chart.component';
+import { TotalReturnComponent } from './total-return/total-return.component';
 import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/sale-by-channel-heatmap/sale-by-channel-heatmap.component';
-import { LinechartComponent } from './totalsalechart/linechart/linechart.component';
-import { TotalsalechartComponent } from './totalsalechart/totalsalechart.component';
+import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.component';
 import { DetailStatisticComponent } from './dashboard-statistic/detail-statistic/detail-statistic.component';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
 import { SubmenuModule } from 'src/app/layout/app.submenu.module';
@@ -29,7 +27,8 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ShareModule } from '../share/share.module';
 import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
 import { ChartsModule } from '../charts/charts.module';
-
+import { TopSellingProductComponent } from './top-selling-product/top-selling-product.component';
+import { SaleStoreComponent } from './sale-store/sale-store.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -56,15 +55,14 @@ import { ChartsModule } from '../charts/charts.module';
     TableComponent,
     SaleByChannelComponent,
     ProductCatalogComponent,
-    TotalSalesComponent,
-    TreemapChartComponent,
-    DonutChartComponent,
+    TotalOrdersComponent,
+    TotalReturnComponent,
     SaleByChannelHeatmapComponent,
-    LinechartComponent,
     TotalsalechartComponent,
     DetailStatisticComponent,
     SaleByLocationComponent,
-    
+    TopSellingProductComponent,
+    SaleStoreComponent
   ],
 })
 export class DashboardModule {}
