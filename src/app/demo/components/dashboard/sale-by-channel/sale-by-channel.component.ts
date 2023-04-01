@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { OmsChartOptions } from '../../share/oms-chart/oms-chart.component';
 
 export interface SaleByChannelData {
@@ -10,6 +10,7 @@ export interface SaleByChannelData {
   selector: 'dashboard-sale-by-channel',
   templateUrl: './sale-by-channel.component.html',
   styleUrls: ['./sale-by-channel.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SaleByChannelComponent {
   chartOptions!: Partial<OmsChartOptions> | any;

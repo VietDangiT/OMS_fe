@@ -101,34 +101,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   items!: MenuItem[];
 
   //Total Order Chart
-  totalOrderData: ChartData = {
-    labels: [],
-    datasets: [
-      {
-        label: 'First Dataset',
-        data: [],
-        fill: false,
-        borderColor: '#42A5F5',
-        tension: 0.3,
-      },
-    ],
-  };
+  totalOrderData: ChartData;
   ordersLabel: any[] = [];
   ordersData: any[] = [];
 
   //Product Catalog Chart
-  productCatalogData: ChartData = {
-    labels: [],
-    datasets: [
-      {
-        label: 'First Dataset',
-        data: [],
-        fill: false,
-        borderColor: '#42A5F5',
-        tension: 0.3,
-      },
-    ],
-  };
+  productCatalogData: ChartData;
   prodCatalogLabel: any[] = [];
   prodCatalogData: any[] = [];
 
