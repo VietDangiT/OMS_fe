@@ -24,27 +24,54 @@ export interface TreeMapData {
 })
 export class SaleByChannelComponent {
   @Input() filter: string = '';
-  @Input() rangeDate: string[] = ['', ''];
-  @Input() chartData: TreeMapData[] = [];
+  @Input() rangeDate: (string | undefined)[] = [undefined, undefined];
+
+  chartData: TreeMapData[] = [];
   saleStoreData: SaleStore[];
 
-  chartOptions: Partial<OmsChartOptions> | any = {
-    chart: {
-      height: 300,
-      type: 'treemap',
-      toolbar: {
-        show: false,
-      },
-    },
-    series: [
-      {
-        data: this.chartData ? this.chartData : [],
-      },
-    ],
-    colors: [`${fullConfig.theme?.colors!['primary']}`],
-  };
+  chartOptions: Partial<OmsChartOptions> | any;
 
-  constructor(private _dashboardService: DashboardService) {}
+  constructor(private _dashboardService: DashboardService) {
+    this.chartOptions = {
+      chart: {
+        height: 300,
+        width: '100%',
+        type: 'treemap',
+        toolbar: {
+          show: false,
+        },
+        redrawOnParentResize: true,
+        offsetX: 15,
+      },
+      series: [
+        {
+          data: this.chartData ? this.chartData : [],
+        },
+      ],
+      colors: [`${fullConfig.theme?.colors!['primary']}`],
+      dataLabels: {
+        enabled: false,
+      },
+      apexResponsive: [
+        {
+          breakpoint: 1024,
+          options: {
+            chart: {
+              offsetX: 15,
+            },
+          },
+        },
+        {
+          breakpoint: 1102,
+          options: {
+            chart: {
+              offsetX: 0,
+            },
+          },
+        },
+      ],
+    };
+  }
 
   ngOnInit(): void {
     this.getTotalSaleByChannel();
@@ -54,28 +81,38 @@ export class SaleByChannelComponent {
     if (changes['data']?.currentValue) {
       this.chartOptions.series[0].data = [...changes['data'].currentValue];
     }
-    if (changes['filter']?.currentValue) {
+    if (
+      changes['filter']?.currentValue &&
+      changes['filter']?.currentValue !== ''
+    ) {
       this.getTotalSaleByChannel(changes['filter'].currentValue);
     }
     if (changes['rangeDate']?.currentValue) {
-      this.getTotalSaleByChannel(changes['rangeDate']?.currentValue);
+      if (this.rangeDate[0] && this.rangeDate[1])
+        this.getTotalSaleByChannel(changes['rangeDate']?.currentValue);
     }
   }
 
-  getTotalSaleByChannel(filter: string = '', rangeDate: any[] = ['', '']) {
+  getTotalSaleByChannel(
+    filter: string = '',
+    rangeDate: (string | null)[] = [null, null]
+  ) {
     this._dashboardService
-      .getSaleByChannel(filter, rangeDate)
-      .subscribe((data: any) => {
-        console.log(data);
-        this.saleStoreData = [...data.data];
-        const tmp = this.chartData;
-        data.data.map((item: SaleStore) => {
-          tmp.push({
-            x: item.channelName,
-            y: item.actualValue,
-          });
-        });
-        this.chartOptions.series[0].data = [...tmp];
+      .getSaleByChannel(
+        filter,
+        rangeDate[0] ? rangeDate[0] : '',
+        rangeDate[1] ? rangeDate[1] : ''
+      )
+      .subscribe((data: SaleStore[]) => {
+        this.saleStoreData = [...data];
+        const tmp = this.chartOptions;
+        this.chartData = data.map((item: SaleStore) => ({
+          x: item.channelName,
+          y: item.actualValue,
+        }));
+
+        tmp.series[0].data = this.chartData;
+        this.chartOptions = { ...tmp };
       });
   }
 }

@@ -21,6 +21,7 @@ import {
   ApexLegend,
   ApexDataLabels,
   ApexYAxis,
+  ApexResponsive,
 } from 'ng-apexcharts';
 
 type ApexChartOptions = {
@@ -32,6 +33,7 @@ type ApexChartOptions = {
   plotOptions: ApexPlotOptions;
   legend: ApexLegend;
   dataLabels: ApexDataLabels;
+  apexResponsive: ApexResponsive[];
 };
 
 export interface OmsChartOptions
@@ -68,7 +70,7 @@ export class OMSChartComponent implements OnChanges {
       this.options = changes['options'].currentValue;
       // then chart is getting updated
       setTimeout(() => {
-        this.apexChart?.render();
+        this.apexChart?.updateSeries(this.options.series);
       }, 100);
     }
   }
