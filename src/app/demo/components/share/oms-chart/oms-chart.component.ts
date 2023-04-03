@@ -60,6 +60,14 @@ export class OMSChartComponent implements OnChanges {
       // then chart is getting updated
       setTimeout(() => {
         this.chartJS?.refresh();
+      }, 100);
+    };
+    if (changes['options']?.currentValue) {
+      // update this.data here
+
+      this.options = changes['options'].currentValue;
+      // then chart is getting updated
+      setTimeout(() => {
         this.apexChart?.render();
       }, 100);
     }

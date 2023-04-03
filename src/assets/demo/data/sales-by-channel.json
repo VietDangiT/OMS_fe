@@ -1,11 +1,8 @@
 {
-    "data": [
-        {"x": "Shopee VN", "y": "40000"},
-        {"x": "Lazada TL", "y": "53460"},
-        {"x": "Alibaba TW", "y": "74000"},
-        {"x": "Tiki SG", "y": "64000"},
-        {"x": "Sendo VN", "y": "32000"},
-        {"x": "Shopee TL", "y": "21000"},
-        {"x": "Tiki SG", "y": "74000"}
-    ]
+  "data": [
+    { "channelName": "Shopee VN", "actualValue": "40000", "shareIn": "40%" },
+    { "channelName": "Tiki VN", "actualValue": "30000", "shareIn": "30%" },
+    { "channelName": "Lazada VN", "actualValue": "20000", "shareIn": "20%" },
+    { "channelName": "Sendo VN", "actualValue": "10000", "shareIn": "10%" }
+  ]
 }

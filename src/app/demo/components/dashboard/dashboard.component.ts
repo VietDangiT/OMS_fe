@@ -10,7 +10,7 @@ import { Order } from '../../api/order';
 import { environment } from 'src/environments/environment';
 import { OrderedInfo } from '../../api/OrderedInfo';
 import { ChartData } from 'chart.js';
-import { SaleByChannelData } from './sale-by-channel/sale-by-channel.component';
+import { TreeMapData } from './sale-by-channel/sale-by-channel.component';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -111,7 +111,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   prodCatalogData: any[] = [];
 
   //Sale By Channel Data
-  saleByChannelData: SaleByChannelData[] = [];
+  saleByChannelData: TreeMapData[] = [];
 
   chartData: any;
 
@@ -143,8 +143,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.initOrderData();
 
     this.initProductCatalogData();
-
-    this.initSaleByChannelData();
 
     this.calculateTotalSale();
 
@@ -314,16 +312,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       tmp.datasets[0].data = data.data.map((item: any) => item.TotalSales);
 
       this.productCatalogData = { ...tmp };
-    });
-  }
-
-  initSaleByChannelData() {
-    this.dashboardService.getSaleByChannel().subscribe((data: any) => {
-      const tmp = this.saleByChannelData;
-      data.data.map((item: SaleByChannelData) => {
-        tmp.push(item);
-      });
-      this.saleByChannelData = [...tmp];
     });
   }
 

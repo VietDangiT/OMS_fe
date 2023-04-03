@@ -81,7 +81,7 @@ export class DashboardService {
       .pipe();
   }
 
-  getSaleByChannel() {
+  getSaleByChannel(filter: string = '', rangeDate: any[] = ['', '']) {
     return this._http
       .get<any>('./assets/demo/data/sales-by-channel.json')
       .pipe();
