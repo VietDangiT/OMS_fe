@@ -32,11 +32,17 @@
     <div class="flex items-center font-medium transition-all duration-200 ease-linear md:pl-18 " [ngClass]="{'md:!pl-81 lg:!pl-88': isSubmenuOn}">
         <app-breadcrumb></app-breadcrumb>
     </div>
-    <div class="flex items-center gap-4 ml-auto md:justify-between user">
+    <div class="flex items-center gap-20 ml-auto md:justify-between user">
+       <div class="flex gap-4 items-center">
         <i class="pi pi-bell"></i>
         <i class="pi pi-comments "></i>
         <a href="/" class="w-8 h-8">
             <img src="./assets/avt.jpg" alt="Avatar" class="object-cover w-full h-full rounded-full" >
         </a>
+       </div>
+        <div class="flex gap-2 cursor-pointer items-end transition-all duration-100 hover:text-primary hover:opacity-100 opacity-60 " (click)="logOut()">
+            <span>Log out</span>
+            <i class="pi pi-sign-out"></i>
+        </div>
     </div>
 </div>

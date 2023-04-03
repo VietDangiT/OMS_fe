@@ -19,7 +19,9 @@ module.exports = {
         secondary : "#FCA310",
         success:"#1DD75B",
         grayData:"#6C757D",
-        third:"#ED7D2D"
+        third:"#ED7D2D",
+        danger:"#DE3B3B"
+
       },
       width: {
         sidebarWidth : "50px",
