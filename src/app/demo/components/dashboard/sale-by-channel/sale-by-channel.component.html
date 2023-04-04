@@ -1,12 +1,15 @@
 <div class="flex-col">
-    <div class="flex flex-col mb-4">
-        <h2 class="text-base font-bold">Total Sale by Channel</h2>
-    </div>
-    <div class="flex flex-row justify-between">
-        <p class="font-normal text-xs text-gray-500">SALES SHARE BY STORES</p>
-        <a href="#" class="text-xs text-blue-600">Analyse</a>
-    </div>
-    <div class="">
-        <oms-chart type="treemap" [options]="chartOptions"></oms-chart>
-    </div>
+  <div class="mb-4">
+    <h2 class="text-base font-bold">Total Sale by Channel</h2>
+  </div>
+  <div class="flex flex-row justify-between">
+    <p class="font-normal text-xs text-gray-500">SALES SHARE BY STORES</p>
+    <a routerLink="./" class="text-xs text-blue-600">Analyse</a>
+  </div>
+  <div class="w-full">
+    <oms-chart type="treemap" class="w-full" [options]="chartOptions"></oms-chart>
+  </div>
+  <div class="w-full flex-1">
+    <dashboard-sale-store [data]="saleStoreData"></dashboard-sale-store>
+  </div>
 </div>

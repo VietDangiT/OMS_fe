@@ -10,6 +10,7 @@ import { Order } from '../../api/order';
 import { environment } from 'src/environments/environment';
 import { OrderedInfo } from '../../api/OrderedInfo';
 import { ChartData } from 'chart.js';
+import { TreeMapData } from './sale-by-channel/sale-by-channel.component';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -100,36 +101,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   items!: MenuItem[];
 
   //Total Order Chart
-  totalOrderData: ChartData = {
-    labels: [],
-    datasets: [
-      {
-        label: 'First Dataset',
-        data: [],
-        fill: false,
-        borderColor: '#42A5F5',
-        tension: 0.3,
-      },
-    ],
-  };
+  totalOrderData: ChartData;
   ordersLabel: any[] = [];
   ordersData: any[] = [];
 
   //Product Catalog Chart
-  productCatalogData: ChartData = {
-    labels: [],
-    datasets: [
-      {
-        label: 'First Dataset',
-        data: [],
-        fill: false,
-        borderColor: '#42A5F5',
-        tension: 0.3,
-      },
-    ],
-  };
+  productCatalogData: ChartData;
   prodCatalogLabel: any[] = [];
   prodCatalogData: any[] = [];
+
+  //Sale By Channel Data
+  saleByChannelData: TreeMapData[] = [];
 
   chartData: any;
 
@@ -314,12 +296,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   initOrderData() {
     this.dashboardService.GetOrders().subscribe((data: any) => {
       const tmp = this.totalOrderData;
-      
+
       tmp.labels = data.data.map((item: any) => item.OrderedAt);
       tmp.datasets[0].data = data.data.map((item: any) => item.OrderNumber);
 
       this.totalOrderData = { ...tmp };
-      console.log(this.totalOrderData);
     });
   }
 
