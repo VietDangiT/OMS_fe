@@ -7,13 +7,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class DashboardService {
-
   saleByLocationURL!: string;
   constructor(private _http: HttpClient) {
     this.saleByLocationURL = environment.baseURL + '/sale-by-location';
-    
   }
-  getSaleOnChannel(url: string){
+  getSaleOnChannel(url: string) {
     return this._http.get(url).pipe();
   }
 
@@ -80,6 +78,12 @@ export class DashboardService {
   GetProductCatalogs() {
     return this._http
       .get<any>('./assets/demo/data/product-catalogs.json')
+      .pipe();
+  }
+
+  getSaleByChannel(filter: string = '', fromDate: string = '', toDate: string = '') {
+    return this._http
+      .get<any>('./assets/demo/data/sales-by-channel.json')
       .pipe();
   }
 }
