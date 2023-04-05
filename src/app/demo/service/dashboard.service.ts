@@ -86,4 +86,8 @@ export class DashboardService {
       .get<any>('./assets/demo/data/sales-by-channel.json')
       .pipe();
   }
+
+  getTotalSale(filter: string[]){
+    return this._http.get(`https://localhost:7121/api/Dashboard?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
+  }
 }

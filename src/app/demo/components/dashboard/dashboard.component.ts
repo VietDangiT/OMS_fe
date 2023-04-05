@@ -1,12 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Product, ProductCatalog } from '../../api/product';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { SubMenu } from '../../interface/submenu';
 import { DetailStatistic } from './dashboard-statistic/detail-statistic/detail-statistic.component';
 import { DashboardService } from '../../service/dashboard.service';
-import { Order } from '../../api/order';
 import { environment } from 'src/environments/environment';
 import { OrderedInfo } from '../../api/OrderedInfo';
 import { ChartData } from 'chart.js';
@@ -16,6 +14,11 @@ import { TreeMapData } from './sale-by-channel/sale-by-channel.component';
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  filterArr : string[] =[
+   new Date().toLocaleDateString().toString(),
+   new Date().toLocaleDateString().toString()
+  ];
+
   pieData: any;
 
   barOptions: any;
@@ -128,6 +131,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   subMenu: SubMenu | null | undefined;
 
+  filter: string[] ;
+
   constructor(
     public layoutService: LayoutService,
     private dashboardService: DashboardService
@@ -138,6 +143,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.initChart();
 
     this.initOrderData();
@@ -145,6 +151,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.initProductCatalogData();
 
     this.calculateTotalSale();
+
+    
 
     this.items = [
       { label: 'Add New', icon: 'pi pi-fw pi-plus' },
@@ -315,6 +323,37 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  dateFilterChanged(dateRange: Date[]){
+    if(dateRange[1] != null){
+      this.filterArr = dateRange.map((date:Date)=>{
+        return date.toLocaleDateString("en-EN");
+      })    
+      this.dashboardService.getTotalSale(this.filterArr).subscribe((result: any) =>{
+        var totalArr: number[] = [];
+        var labelArr: string[] = [];
+        result.map((item: any) => {
+          totalArr.push(item.value);
+          labelArr.push(new Date(item.date).toLocaleDateString())
+        });
+        this.totalSaleData = {
+          labels: labelArr,
+          datasets: [
+            {
+              data: totalArr,
+              borderColor: environment.primaryColor,
+              tension: 0.4,
+            },
+          ],
+        };
+      })
+    }
+    return null;
+  }
+
+  filterChanged(filter:string[]){
+    this.filter = filter;
+  }
+  
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
