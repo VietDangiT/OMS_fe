@@ -328,13 +328,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.filterArr = dateRange.map((date:Date)=>{
         return date.toLocaleDateString("en-EN");
       })    
+      console.log(this.filterArr);
       this.dashboardService.getTotalSale(this.filterArr).subscribe((result: any) =>{
         var totalArr: number[] = [];
         var labelArr: string[] = [];
+        
         result.map((item: any) => {
           totalArr.push(item.value);
-          labelArr.push(new Date(item.date).toLocaleDateString())
+          labelArr.push(new Date(item.date).toLocaleDateString())          
         });
+  
         this.totalSaleData = {
           labels: labelArr,
           datasets: [
@@ -352,6 +355,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   filterChanged(filter:string[]){
     this.filter = filter;
+    console.log(filter);
   }
   
   ngOnDestroy() {
