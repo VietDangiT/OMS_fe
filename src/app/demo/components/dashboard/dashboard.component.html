@@ -1,6 +1,7 @@
 <app-topbar></app-topbar>
 <app-submenu subMenuType="dashboard"></app-submenu>
 <div class="container w-full mx-auto">
+  <app-global-filter  (dateFilterChange)="dateFilterChanged($event)" ></app-global-filter>
   <div class="gap-2 md:grid md:grid-cols-8 sm:flex-col">
     <!-- dashboard component -->
     <div class="md:col-span-6 sm:flex-row">
