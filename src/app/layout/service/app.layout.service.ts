@@ -100,6 +100,9 @@ export class LayoutService {
   private isSubmenuOn = new BehaviorSubject<boolean>(false);
   currentSubMenuState = this.isSubmenuOn.asObservable();
 
+  private isNavbarOn = new BehaviorSubject<boolean>(false);
+  currentNavbarState = this.isNavbarOn.asObservable();
+
   changeSubMenuState(state?: boolean) {
     if (state != null) {
       this.isSubmenuOn.next(state);
@@ -107,6 +110,16 @@ export class LayoutService {
       var result: boolean = false;
       this.isSubmenuOn.subscribe((state) => (result = state));
       this.isSubmenuOn.next(!result);
+    }
+  }
+
+  changeNavbarState(state?: boolean) {
+    if (state != null) {
+      this.isNavbarOn.next(state);
+    } else {
+      var result: boolean = false;
+      this.isNavbarOn.subscribe((state) => (result = state));
+      this.isNavbarOn.next(!result);
     }
   }
 

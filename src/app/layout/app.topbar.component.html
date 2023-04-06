@@ -29,7 +29,7 @@
 </div> -->
 
 <div class="absolute top-0 left-0 right-0 flex items-center justify-between p-2 pl-0 border-b-2 border-gray-300 shadow-sm md:shadow-none border-opacity-70 lg:py-3 md:pr-3 lg:pr-4">
-    <div class="flex items-center font-medium transition-all duration-200 ease-linear md:pl-18 " [ngClass]="{'md:!pl-81 lg:!pl-88': isSubmenuOn}">
+    <div class="flex items-center font-medium transition-all  duration-150 ease-linear {{isNavbarOn ? 'md:pl-52 lg:pl-56' : 'pl-18' }}" >
         <app-breadcrumb></app-breadcrumb>
     </div>
     <div class="flex items-center gap-20 ml-auto md:justify-between user">
