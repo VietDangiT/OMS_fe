@@ -1,10 +1,10 @@
 <div class="flex-col">
-  <div class="mb-4">
+  <div class="mb-4 font-bold">
     <h2 class="text-base font-bold">Total Sale by Channel</h2>
   </div>
   <div class="flex flex-row justify-between">
-    <p class="font-normal text-xs text-gray-500">SALES SHARE BY STORES</p>
-    <a routerLink="./" class="text-xs text-blue-600">Analyse</a>
+    <p class="font-normal text-xs text-gray-500 capitalize">Sales share by stores</p>
+    <a routerLink="./" class="text-xs text-primary">Analyse</a>
   </div>
   <div class="w-full">
     <oms-chart type="treemap" class="w-full" [options]="chartOptions"></oms-chart>

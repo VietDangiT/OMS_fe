@@ -3,9 +3,9 @@
         <a routerLink="/" class="{{isNavbarOn ? 'w-full pl-2' : ''}} pt-1 mb-2"><img src="./assets/logo1.png" alt="Logo" class="hidden px-1  md:block " ></a>
         <ul class="flex items-center justify-center w-full gap-2 flex-col"> 
             <li *ngFor="let element of menuElements" class="relative flex w-full duration-100 ease-linear group border-b-0 border-l-0 opacity-50 cursor-pointer group hover:opacity-100 " routerLinkActive="active" >
-                <a class="flex gap-4 w-full items-center {{isNavbarOn ? 'w-auto ml-4': ''}} text-white py-4  " routerLink={{element.path}} >
+                <a class=" gap-4 w-full {{isNavbarOn ? 'w-auto ml-4 block': 'flex items-center'}} text-white py-4  " routerLink={{element.path}} >
                     <i class="{{element.icon}} mx-auto"></i>
-                    <span *ngIf="isNavbarOn" class="capitalize ">{{element.name}}</span>
+                    <span *ngIf="isNavbarOn" class="capitalize ml-4">{{element.name}}</span>
                 </a>
                 <div class="absolute top-0 bottom-0 left-0 opacity-0 invisible pointer-events-none w-[2px] h-full hover:block duration-100 ease-linear bg-secondary" >
                 </div>
