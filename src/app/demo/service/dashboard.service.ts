@@ -90,4 +90,12 @@ export class DashboardService {
   getTotalSale(filter: string[]){
     return this._http.get(`https://localhost:7121/api/Dashboard/sales?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
   }
+  
+  getTotalReturn(filter: string[]){
+    return this._http.get(`https://localhost:7121/api/Dashboard/returns/totalreturn?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
+  }
+
+  getProductVariant(){
+    return this._http.get(`https://localhost:7121/api/ProductVariant/productvariants`).pipe();
+  }
 }

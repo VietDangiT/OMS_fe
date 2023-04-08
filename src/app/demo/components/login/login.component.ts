@@ -53,7 +53,11 @@ export class LoginComponent {
       this.errorToast();
     }else{
       var user = this.signInForm.value;
-      this.authService.login(user.username, user.password);
+      
+      this.authService.login(user?.username, user.password).subscribe(token => {
+        localStorage.setItem("token", token);
+      });
+
       this.isLoading= true;
       setTimeout(() => {
         this.router.navigate(['']);

@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, Input } from '@angular/core';
 import { ChartOptions } from 'chart.js';
+import { DashboardService } from 'src/app/demo/service/dashboard.service';
 
 @Component({
   selector: 'dashboard-product-catalog',
@@ -12,7 +13,18 @@ export class ProductCatalogComponent {
   @Input() basicOptions!: ChartOptions;
   @Input() productName!: string;
 
+  //Product Variant list
+  productVariantList : any[];
+
   ngOnInit(): void {
+  }
+
+  constructor(private dashboardService: DashboardService) {
+    this.dashboardService.getProductVariant().subscribe((productList: any)=>{
+      this.productVariantList = productList;
+      console.log(this.productVariantList);
+    })
+    
   }
 
   

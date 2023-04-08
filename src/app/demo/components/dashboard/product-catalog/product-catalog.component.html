@@ -7,9 +7,12 @@
   <div class="w-full">
     <div class="flex items-center justify-between md:mt-8 lg:mt-8">
       <p class="font-normal text-sm text-gray-500">Product sales over time</p>
-      <button class="w-8 h-8 border  border-gray-300 rounded-md">
+      <div class="w-8 h-8 border relative border-gray-300 flex items-center justify-center rounded-md group">
         <i class="pi pi-filter text-primary "></i>
-      </button>
+        <ul class="group-hover:flex z-10 group flex-col  text-black absolute top-full  shadow-lg rounded-lg right-0 hidden bg-white after:content-[''] after:w-full after:h-8 after:bg-transparent after:-top-8 after:absolute after:right-0">
+          <li *ngFor="let product of productVariantList" class="break-words  whitespace-nowrap p-3 hover:bg-gray-200 cursor-pointer hover:text-primary">{{product.text}}</li>
+        </ul>
+      </div>
     </div>
     <div>
       <oms-chart

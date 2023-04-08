@@ -25,28 +25,16 @@ export class AuthService {
     return false;
   }
 
-  login(userName: any, password: any){
-    var user:any;
-    this.GetAll().subscribe(u => {
-       user = this.getUser(userName, u);
-           localStorage.setItem('isUserLoggedIn', user ? "true" : "false"); 
-           localStorage.setItem('userName', user ? userName : ""); 
-           localStorage.setItem('password', user ? password : ""); 
-           localStorage.setItem('role', user ? user.role : ""); 
-    })
-    // this.isUserLoggedIn = userName == 'admin' && password == 'admin';
+  login(userName: string | null | undefined, password: string | null | undefined) : Observable<string>{
+    return this._http.post<string>('https://localhost:7121/api/auth/login', {userName, password});
   }
 
   logout(): void {
-    // this.isUserLoggedIn = false;
-       localStorage.removeItem('isUserLoggedIn'); 
-       localStorage.removeItem('userName'); 
-       localStorage.removeItem('password'); 
-       localStorage.removeItem('role'); 
-    }
+   localStorage.removeItem("token");
+  }
 
-    isAuthenticated(): boolean{
-        const token = localStorage.getItem("isUserLoggedIn");
-        return token == "true";
-    }
+  isAuthenticated(): boolean{
+      const token = localStorage.getItem("token");
+      return token ? true : false;
+  }
 }

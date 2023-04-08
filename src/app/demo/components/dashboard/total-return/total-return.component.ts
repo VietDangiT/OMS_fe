@@ -11,5 +11,5 @@ export class TotalReturnComponent {
 
   @Input() pieOptions: any;
 
-  @Input() totalReturn: number = 0 ;
+  @Input() totalReturn: string = '0' ;
 }
