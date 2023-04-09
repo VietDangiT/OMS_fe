@@ -25,8 +25,10 @@ export class AuthService {
     return false;
   }
 
-  login(userName: string | null | undefined, password: string | null | undefined) : Observable<string>{
-    return this._http.post<string>('https://localhost:7121/api/auth/login', {userName, password});
+  login(user: any) : Observable<any>{
+    return this._http.post('https://localhost:7121/api/auth/login', user,{
+      responseType:'text'
+    });
   }
 
   logout(): void {

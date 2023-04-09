@@ -10,5 +10,6 @@ import { ChartOptions } from 'chart.js';
 export class TotalOrdersComponent {
   @Input() chartData: any;
   @Input() basicOptions!: ChartOptions;
+  @Input() totalOrder: string = '0';
   ngOnInit() {}
 }

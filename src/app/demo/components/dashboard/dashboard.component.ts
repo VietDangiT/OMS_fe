@@ -27,75 +27,74 @@ export class DashboardComponent implements OnInit, OnDestroy {
   statisticData: DetailStatistic[] = [
     {
       title: 'order',
-      nameManage: 'Orders',
-      manageUrl: './',
       data: [
         {
           displayText: 'New Orders',
           value: 234,
+          percent : '25%',
+          circleColor: '#117B34FF',
+          hasCircle:true,
+          hasArrow:true,
+          ArrowActivity: 'pi pi-arrow-up',
         },
         {
           displayText: 'Issue',
           value: 2,
+          circleColor: '#FCA310FF',
+          percent: '13%',
           hasCircle: true,
-          circleColor: 'red',
+          hasArrow:true,
+          ArrowActivity:'pi pi-arrow-down'
+
+
         },
       ],
     },
     {
-      title: 'product inventory',
-      nameManage: 'product',
-      manageUrl: './',
+      title: 'Product',
       data: [
         {
-          displayText: '#Products Out of Stock',
-          value: 12,
-          hasCircle: true,
-          circleColor: 'red',
+          displayText: 'Active',
+          value: 234,
+          circleColor: '#117B34FF',
+          percent:'25%',
+          hasCircle:true,
+          hasArrow:true,
+          ArrowActivity : 'pi pi-arrow-up',
         },
         {
-          displayText: '#Number Products Nearly out of Stock',
+          displayText: 'Problem',
           value: 2,
-          hasCircle: true,
-          circleColor: 'red',
+          circleColor: '#FCA310FF',
+          percent: '13%',
+          hasCircle:true,
+          hasArrow:true,
+          ArrowActivity:'pi pi-arrow-down'
         },
       ],
-      hasFooter: true,
-      footer: {
-        displayText: 'Not Selling Products in last 3 Months',
-        value: 345,
-        url: './',
-      },
+
+      
     },
     {
-      title: 'product',
-      nameManage: 'product',
-      manageUrl: './',
+      title: 'STOCK STATUS',
       data: [
         {
-          displayText: 'Inactive',
-          value: 7,
-          hasCircle: true,
-          circleColor: 'red',
-        },
-      ],
-    },
-    {
-      title: 'channel',
-      nameManage: 'channel',
-      manageUrl: './',
-      data: [
-        {
-          displayText: 'Active Channel',
-          value: 9,
-          hasCircle: true,
-          circleColor: 'green',
+          displayText: 'Restock soon',
+          value: 234,
+          circleColor: '#117B34FF',
+          percent:'25%',
+          hasCircle:true,
+          hasArrow:true,
+          ArrowActivity : 'pi pi-arrow-up',
         },
         {
-          displayText: 'Inactive Channel',
-          value: 1,
-          hasCircle: true,
-          circleColor: 'red',
+          displayText: 'Restock now',
+          value: 2,
+          circleColor: '#FCA310FF',
+          percent:'13%',
+          hasCircle:true,
+          hasArrow:true,
+          ArrowActivity : 'pi pi-arrow-down'
         },
       ],
     },
@@ -107,11 +106,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   totalOrderData: ChartData;
   ordersLabel: any[] = [];
   ordersData: any[] = [];
+  totalOrder: string = "0";
 
   //Product Catalog Chart
   productCatalogData: ChartData;
   prodCatalogLabel: any[] = [];
   prodCatalogData: any[] = [];
+  productVariantId: number = 0;
 
   //Sale By Channel Data
   saleByChannelData: TreeMapData[] = [];
@@ -148,9 +149,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.initChart();
 
-    this.initOrderData();
 
-    this.initProductCatalogData();
 
     this.initChartOption();
    
@@ -194,32 +193,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   initChart() {
   
-    this.productCatalogData = {
-      labels: this.prodCatalogLabel,
-      datasets: [
-        {
-          data: this.prodCatalogData,
-          fill: false,
-          backgroundColor: environment.primaryColor,
-          borderColor: environment.primaryColor,
-          tension: 0.4,
-        },
-      ],
-    };
+    
 
-    this.totalOrderData = {
-      labels: this.ordersLabel,
-      datasets: [
-        {
-          label: 'Total Sales',
-          data: this.ordersData,
-          fill: false,
-          backgroundColor: environment.primaryColor,
-          borderColor: environment.primaryColor,
-          tension: 0.4,
-        },
-      ],
-    };
+   
 
     this.totalSaleData = {
       labels: this.Months,
@@ -238,33 +214,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
    
   }
 
-  initOrderData() {
-    this.dashboardService.GetOrders().subscribe((data: any) => {
-      const tmp = this.totalOrderData;
-
-      tmp.labels = data.data.map((item: any) => item.OrderedAt);
-      tmp.datasets[0].data = data.data.map((item: any) => item.OrderNumber);
-
-      this.totalOrderData = { ...tmp };
-    });
-  }
-
-  initProductCatalogData() {
-    this.dashboardService.GetProductCatalogs().subscribe((data: any) => {
-      const tmp = this.productCatalogData;
-
-      tmp.labels = data.data.map((item: any) => item.OrderedAt);
-      tmp.datasets[0].data = data.data.map((item: any) => item.TotalSales);
-
-      this.productCatalogData = { ...tmp };
-    });
-  }
-
   dateFilterChanged(dateRange: Date[]){
     if(dateRange[1] != null){
       this.filterArr = dateRange.map((date:Date)=>{
         return date.toLocaleDateString("en-EN");
       });
+
+      
+      // this.dashboardService.getProductCatalogs(this.productVariantId, this.filterArr).subscribe((result: any) =>{
+      //   console.log(result);
+      // })
 
       this.dashboardService.getTotalSale(this.filterArr).subscribe((result: any) =>{
         this.initTotalSaleChart(result);
@@ -272,8 +231,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       this.dashboardService.getTotalReturn(this.filterArr).subscribe((result: any) => {
         this.initTotalReturnChart(result);
-
       }); 
+
+      this.dashboardService.getTotalOrder(this.filterArr).subscribe((result:any) =>{
+        this.initTotalOrderChart(result);
+      })
     }
     return null;
   }
@@ -326,6 +288,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ],
     };
   }
+
+  initTotalOrderChart(result: any){
+    var totalArr: number[] = [];
+        var labelArr: string[] = [];
+        var order: number = 0;
+        result.map((item: any) => {
+          totalArr.push(item.value);
+          labelArr.push(new Date(item.text).toLocaleDateString());
+          order += item.value;
+        });
+        
+        this.totalOrder = order.toLocaleString('en-US');
+        this.totalOrderData = {
+          labels: labelArr,
+          datasets: [
+            {
+              label: 'Total Orders',
+              data: totalArr,
+              borderColor: environment.primaryColor,
+              backgroundColor: environment.primaryColor,
+            },
+          ],
+        };
+  }
+
+
   
   ngOnDestroy() {
     if (this.subscription) {

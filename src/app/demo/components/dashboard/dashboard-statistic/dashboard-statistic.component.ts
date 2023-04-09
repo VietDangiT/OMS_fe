@@ -9,3 +9,4 @@ import { DetailStatistic } from './detail-statistic/detail-statistic.component';
 export class DashboardStatisticComponent {
   @Input() data: DetailStatistic[] = [];
 }
+ 

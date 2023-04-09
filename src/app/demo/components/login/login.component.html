@@ -8,19 +8,19 @@
             <form [formGroup]="signInForm"  class="py-2" (ngSubmit)="onSubmit()">
                 <div class="flex flex-col gap-1 mb-6  relative">
                     <label for="username" class=" cursor-pointer font-semibold ">Username</label>
-                    <input required formControlName="username" placeholder="Username" type="text" class=" input-class text-sm" id="username" required>
-                    <ng-container *ngIf="signInForm.get('username')?.dirty || signInForm.get('username')?.touched">
-                        <div *ngIf="signInForm.get('username')?.hasError('required')" class="validate">
+                    <input required formControlName="userName" placeholder="Username" type="text" class=" input-class text-sm" id="username" required>
+                    <ng-container *ngIf="signInForm.get('userName')?.dirty || signInForm.get('userName')?.touched">
+                        <div *ngIf="signInForm.get('userName')?.hasError('required')" class="validate">
                             Username is required.
                           </div>
                     </ng-container>
                 </div>
                 <div class="flex flex-col gap-1 mb-6  relative">
                     <label for="password" class=" cursor-pointer font-semibold ">Password</label>
-                    <input required formControlName="password" placeholder="Password" type="{{showPassword ? 'text' : 'password'}}"  class="input-class  text-sm !pr-12" id="password" required>
+                    <input required formControlName="userPassword" placeholder="Password" type="{{showPassword ? 'text' : 'password'}}"  class="input-class  text-sm !pr-12" id="password" required>
                     <i :[class]="!showPassword ? 'pi-eye': 'pi-eye-slash'" class="pi p-2 absolute right-0 -translate-x-1/2 top-1/2 cursor-pointer" (click)="togglePassword()"></i>
-                    <ng-container *ngIf="signInForm.get('password')?.dirty || signInForm.get('password')?.touched">
-                        <div *ngIf="signInForm.get('password')?.hasError('required')" class="validate">
+                    <ng-container *ngIf="signInForm.get('userPassword')?.dirty || signInForm.get('userPassword')?.touched">
+                        <div *ngIf="signInForm.get('userPassword')?.hasError('required')" class="validate">
                             Password is required.
                           </div>
                     </ng-container>

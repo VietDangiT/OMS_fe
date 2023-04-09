@@ -22,7 +22,8 @@ module.exports = {
         "warning": "#EFB034",
         "success": "#1DD75B",
         "grayData": "#6C757D",
-        "danger":"#DE3B3B"
+        "danger":"#DE3B3B",
+        "light-yellow": "#fff9ee"
       },
       width: {
         sidebarWidth: "50px",

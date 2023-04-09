@@ -1,24 +1,18 @@
-<div class="border border-solid border-slate-400 border-opacity-40 rounded-sm mb-2">
-  <div
-    class="flex gap-1 flex-col lg:flex-row justify-between lg:items-center w-full border-b border-solid border-slate-400 border-opacity-40 p-1.5 px-4">
-    <span class="text-gray-400 text-xs">{{ detailStatistic.title | uppercase}}</span>
-    <a routerLink="{{ detailStatistic.manageUrl }}" class="text-blue-900 text-xs">
-      <i class="pi pi-plus-circle text-blue-900 text-xs"></i> Manage {{ detailStatistic.nameManage | titlecase}}
-    </a>
-  </div>
-  <div class="px-4 py-2">
-    <div class="flex flex-col mb-2" *ngFor="let item of detailStatistic.data">
-      <span class="lg:flex items-center gap-1 text-xs">{{ item.displayText }} <i
-          class="pi pi-circle-fill text-[3px] md:text-[5px]"
-          [ngClass]="item.circleColor === 'red' ? 'text-red-500' : 'text-green-500'"
-          *ngIf="item.hasCircle === true"></i></span>
-      <span class="font-bold text-lg md:text-xl">{{ item.value }}</span>
+<div class="mb-6">
+  <span class=" text-sm font-bold">{{ detailStatistic.title | uppercase}}</span>
+  <div class="grid gap-4 flex-wrap  py-2 md:grid-cols-1 lg:grid-cols-2  ">
+    <div class="bg-light-yellow rounded-lg p-3 " *ngFor="let item of detailStatistic.data">
+      <div class="flex flex-col mb-2" >
+        <span class="lg:flex items-center gap-2 text-sm ">{{ item.displayText }} 
+          <i
+          class="pi pi-circle-fill text-[3px] md:text-[5px] "
+          [ngClass]="item.circleColor === '#FCA310FF' ?  'text-danger':'text-success'"
+          *ngIf="item.hasCircle === true"></i></span> 
+            <span class="font-bold text-lg md:text-xl max-w-[100px] text-ellipsis whitespace-nowrap overflow-hidden">{{ item.value }}</span>
+            <i class="pi pi-arrow font-bold  text-[7px] " [ngClass]="item.ArrowActivity === 'pi pi-arrow-up'? 'pi pi-arrow-up':'pi pi-arrow-down'"
+            *ngIf="item.hasArrow === true">
+              <span class="text-lg md:text-sm p-1">{{ item.percent }}</span></i>
+      </div>
     </div>
-  </div>
-  <div *ngIf="detailStatistic.hasFooter"
-    class="pb-2 bg-slate-50 flex flex-col border-t border-solid border-slate-400 border-opacity-40 px-4">
-    <span class="text-xs mt-2">{{ detailStatistic.footer?.displayText }}</span>
-    <span class="font-bold text-lg md:text-xl">{{ detailStatistic.footer?.value }}</span>
-    <a routerLink="{{ detailStatistic.footer?.url }}" class="text-blue-900 text-xs">View Info</a>
   </div>
 </div>

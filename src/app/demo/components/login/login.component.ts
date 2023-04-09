@@ -39,8 +39,8 @@ export class LoginComponent {
   constructor(private authService : AuthService, private router: Router , private messageService: MessageService){}
   
   signInForm = new FormGroup({
-    username: new FormControl('',Validators.required),
-    password: new FormControl('',Validators.required)
+    userName: new FormControl('',Validators.required),
+    userPassword: new FormControl('',Validators.required)
   });
   
   ngOnInit(){ 
@@ -53,8 +53,7 @@ export class LoginComponent {
       this.errorToast();
     }else{
       var user = this.signInForm.value;
-      
-      this.authService.login(user?.username, user.password).subscribe(token => {
+      this.authService.login(user).subscribe(token => {      
         localStorage.setItem("token", token);
       });
 
@@ -62,7 +61,7 @@ export class LoginComponent {
       setTimeout(() => {
         this.router.navigate(['']);
         this.isLoading=false;
-      }, 2000);
+      }, 1000);
   }}
   
   togglePassword(){

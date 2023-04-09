@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class DashboardService {
+
+ 
   saleByLocationURL!: string;
   constructor(private _http: HttpClient) {
     this.saleByLocationURL = environment.baseURL + '/sale-by-location';
@@ -95,7 +97,22 @@ export class DashboardService {
     return this._http.get(`https://localhost:7121/api/Dashboard/returns/totalreturn?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
   }
 
+  getTotalOrder(filter: string[]) {
+    return this._http.get(`https://localhost:7121/api/Dashboard/orders?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
+
+  }
+
+  getTopSellingProducts(filter: string[]){
+    return this._http.get(`https://localhost:7121/api/Dashboard/product/totalsale?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
+
+  }
+
   getProductVariant(){
     return this._http.get(`https://localhost:7121/api/ProductVariant/productvariants`).pipe();
   }
+
+  getProductCatalogs(id: number, filter: string[]) {    
+    return this._http.get(`https://localhost:7121/api/Dashboard/productcatalog/itemssold?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
+  }
+
 }

@@ -1,6 +1,8 @@
-import { Component, ViewEncapsulation, Input } from '@angular/core';
-import { ChartOptions } from 'chart.js';
+import { Component, ViewEncapsulation, Input, SimpleChanges } from '@angular/core';
+import { ChartData, ChartOptions } from 'chart.js';
+import { BehaviorSubject } from 'rxjs';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'dashboard-product-catalog',
@@ -9,23 +11,66 @@ import { DashboardService } from 'src/app/demo/service/dashboard.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ProductCatalogComponent {
-  @Input() dataChart: any;
   @Input() basicOptions!: ChartOptions;
-  @Input() productName!: string;
-
+  @Input() filterArr: string[];
+  
+  
   //Product Variant list
   productVariantList : any[];
+  product: any;
+  dataChart: ChartData;
 
-  ngOnInit(): void {
+  private productId = new BehaviorSubject<number>(0);
+  productId$ = this.productId.asObservable();
+  totalValue: string;
+
+  constructor(private dashboardService: DashboardService) {  
   }
 
-  constructor(private dashboardService: DashboardService) {
+  ngOnInit(){
     this.dashboardService.getProductVariant().subscribe((productList: any)=>{
-      this.productVariantList = productList;
-      console.log(this.productVariantList);
+      this.productVariantList = productList;  
     })
-    
   }
 
+  ngOnChanges(changes: SimpleChanges){
+    this.filterArr = changes['filterArr'].currentValue;
+    this.productId$.subscribe(id => 
+        this.dashboardService.getProductCatalogs(id, this.filterArr).subscribe((result: any) =>{
+          this.setupChartData(result);
+        })
+    )
+  }
+
+  handleProductVariant(id: number){
+    var index = this.productVariantList.findIndex(item => { return item.id == id });
+    this.product = this.productVariantList[index];
+    this.productId.next(this.product.id);
+  }
+
+  setupChartData(result:any){
+    var totalArr: number[] = [];
+    var labelArr: string[] = [];
+    var order: number = 0;
+    result.map((item: any) => {
+      totalArr.push(item.value);
+      labelArr.push(new Date(item.date).toLocaleDateString());
+    });
+
+    this.totalValue = order.toLocaleString('en-US');
+
+    this.dataChart = {
+      labels: labelArr,
+      datasets: [
+        {
+          label: 'Product Catalogs',
+          data: totalArr,
+          borderColor: environment.primaryColor,
+          backgroundColor: environment.primaryColor,
+        },
+      ],
+    };
   
+  }
+
 }

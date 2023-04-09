@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { DashboardService } from 'src/app/demo/service/dashboard.service';
 
 @Component({
   selector: 'dashboard-top-selling-product',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./top-selling-product.component.css']
 })
 export class TopSellingProductComponent {
+  products: any;
+  @Input() filterArr : string[];
+  constructor(private dashboardService: DashboardService){}
 
+  ngOnChanges(changes: SimpleChanges){    
+    this.filterArr = changes['filterArr'].currentValue;
+    this.dashboardService.getTopSellingProducts(this.filterArr).subscribe((result: any) => {
+      this.products  = result;
+    })
+  }
 }

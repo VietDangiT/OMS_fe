@@ -2,20 +2,16 @@ import { Component, Input } from '@angular/core';
 
 export interface DetailStatistic {
   title: string;
-  nameManage: string;
-  manageUrl: string;
   data: {
     displayText: string;
     value: string | number;
+    percent:string | number;
     hasCircle?: boolean;
-    circleColor?: 'red' | 'green' | 'yellow';
+    circleColor?: '#FCA310FF' | '#117B34FF' ;
+    hasArrow?:boolean;
+    ArrowActivity: 'pi pi-arrow-up'|'pi pi-arrow-down',
   }[];
-  hasFooter?: boolean;
-  footer?: {
-    displayText: string;
-    value: string | number;
-    url: string;
-  };
+
 }
 
 @Component({
@@ -26,8 +22,6 @@ export interface DetailStatistic {
 export class DetailStatisticComponent {
   @Input() detailStatistic: DetailStatistic = {
     title: '',
-    nameManage: '',
-    manageUrl: '',
     data: [],
   };
 }
