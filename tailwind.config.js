@@ -23,7 +23,9 @@ module.exports = {
         "success": "#1DD75B",
         "grayData": "#6C757D",
         "danger":"#DE3B3B",
-        "light-yellow": "#fff9ee"
+        "light-yellow": "#fff9ee",
+        "geomapBackground": "#F8F9FA",
+        "datalessRegion": "#DEE1E6"
       },
       width: {
         sidebarWidth: "50px",

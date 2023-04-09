@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 
-export interface SaleStore {
-  channelName: string;
-  actualValue: string;
-  shareIn: number | string;
+export interface DashboardItemPercentage {
+  displayText: string;
+  value: string;
+  percentage: number | string;
 }
 @Component({
   selector: 'dashboard-sale-store',
@@ -11,5 +11,5 @@ export interface SaleStore {
   styleUrls: ['./sale-store.component.css']
 })
 export class SaleStoreComponent {
-  @Input() data: SaleStore[];
+  @Input() data: DashboardItemPercentage[];
 }

@@ -31,6 +31,8 @@ import { TopSellingProductComponent } from './top-selling-product/top-selling-pr
 import { SaleStoreComponent } from './sale-store/sale-store.component';
 import { GlobalFilterComponent } from '../global-filter/global-filter.component';
 import { CalendarModule } from 'primeng/calendar';
+import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sale-by-location.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -66,7 +68,8 @@ import { CalendarModule } from 'primeng/calendar';
     SaleByLocationComponent,
     TopSellingProductComponent,
     SaleStoreComponent,
-    GlobalFilterComponent
+    GlobalFilterComponent,
+    TotalSaleByLocationComponent
   ],
 })
 export class DashboardModule {}

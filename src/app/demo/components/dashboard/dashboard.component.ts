@@ -159,7 +159,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   initChartOption(){
     this.chartOptions = {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       aspectRatio: 1,
       plugins: {
         legend: {
@@ -170,7 +170,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
     this.pieOptions = {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       aspectRatio: 1,
       cutout: 100,
       plugins: {
@@ -192,11 +192,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   initChart() {
-  
-    
-
-   
-
     this.totalSaleData = {
       labels: this.Months,
       datasets: [

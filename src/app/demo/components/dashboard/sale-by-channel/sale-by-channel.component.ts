@@ -8,7 +8,7 @@ import { OmsChartOptions } from '../../share/oms-chart/oms-chart.component';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import resolveConfig from 'tailwindcss/resolveConfig';
 import tailwindConfig from 'tailwind.config.js';
-import { SaleStore } from '../sale-store/sale-store.component';
+import { DashboardItemPercentage } from '../sale-store/sale-store.component';
 
 const fullConfig = resolveConfig(tailwindConfig);
 export interface TreeMapData {
@@ -23,18 +23,16 @@ export interface TreeMapData {
   encapsulation: ViewEncapsulation.None,
 })
 export class SaleByChannelComponent {
-  @Input() filter: string = '';
-  @Input() rangeDate: (string | undefined)[] = [undefined, undefined];
+  @Input() filterArr: (string | undefined)[] = [undefined, undefined];
 
   chartData: TreeMapData[] = [];
-  saleStoreData: SaleStore[];
+  saleStoreData: DashboardItemPercentage[];
 
   chartOptions: Partial<OmsChartOptions> | any;
 
   constructor(private _dashboardService: DashboardService) {
     this.chartOptions = {
       chart: {
-        height: 300,
         width: '100%',
         type: 'treemap',
         toolbar: {
@@ -81,34 +79,26 @@ export class SaleByChannelComponent {
     if (changes['data']?.currentValue) {
       this.chartOptions.series[0].data = [...changes['data'].currentValue];
     }
-    if (
-      changes['filter']?.currentValue &&
-      changes['filter']?.currentValue !== ''
-    ) {
-      this.getTotalSaleByChannel(changes['filter'].currentValue);
-    }
     if (changes['rangeDate']?.currentValue) {
-      if (this.rangeDate[0] && this.rangeDate[1])
+      if (this.filterArr[0] && this.filterArr[1])
         this.getTotalSaleByChannel(changes['rangeDate']?.currentValue);
     }
   }
 
   getTotalSaleByChannel(
-    filter: string = '',
     rangeDate: (string | null)[] = [null, null]
   ) {
     this._dashboardService
       .getSaleByChannel(
-        filter,
         rangeDate[0] ? rangeDate[0] : '',
         rangeDate[1] ? rangeDate[1] : ''
       )
-      .subscribe((data: SaleStore[]) => {
+      .subscribe((data: DashboardItemPercentage[]) => {
         this.saleStoreData = [...data];
         const tmp = this.chartOptions;
-        this.chartData = data.map((item: SaleStore) => ({
-          x: item.channelName,
-          y: item.actualValue,
+        this.chartData = data.map((item: DashboardItemPercentage) => ({
+          x: item.displayText,
+          y: item.value,
         }));
 
         tmp.series[0].data = this.chartData;

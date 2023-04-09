@@ -7,8 +7,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class DashboardService {
-
- 
   saleByLocationURL!: string;
   constructor(private _http: HttpClient) {
     this.saleByLocationURL = environment.baseURL + '/sale-by-location';
@@ -83,36 +81,67 @@ export class DashboardService {
       .pipe();
   }
 
-  getSaleByChannel(filter: string = '', fromDate: string = '', toDate: string = '') {
+  getSaleByChannel(
+    fromDate: string = '',
+    toDate: string = ''
+  ) {
     return this._http
-      .get<any>('./assets/demo/data/sales-by-channel.json')
+      .get<any>(`${environment.apiUrl}Dashboard/channels/total-sale?fromDate=${fromDate}&toDate=${toDate}`)
       .pipe();
   }
 
-  getTotalSale(filter: string[]){
-    return this._http.get(`https://localhost:7121/api/Dashboard/sales?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
+  getTotalSaleByLocation(
+    fromDate: string = '',
+    toDate: string = ''
+  ) {
+    return this._http
+      .get<any>(`${environment.apiUrl}Dashboard/location/total-sale?fromDate=${fromDate}&toDate=${toDate}`)
+      .pipe();
   }
-  
-  getTotalReturn(filter: string[]){
-    return this._http.get(`https://localhost:7121/api/Dashboard/returns/totalreturn?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
+
+  getTotalSale(filter: string[]) {
+    return this._http
+      .get(
+        `${environment.apiUrl}Dashboard/sales?fromDate=${filter[0]}&toDate=${filter[1]}`
+      )
+      .pipe();
+  }
+
+  getTotalReturn(filter: string[]) {
+    return this._http
+      .get(
+        `https://localhost:7121/api/Dashboard/returns/totalreturn?fromDate=${filter[0]}&toDate=${filter[1]}`
+      )
+      .pipe();
   }
 
   getTotalOrder(filter: string[]) {
-    return this._http.get(`https://localhost:7121/api/Dashboard/orders?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
-
+    return this._http
+      .get(
+        `https://localhost:7121/api/Dashboard/orders?fromDate=${filter[0]}&toDate=${filter[1]}`
+      )
+      .pipe();
   }
 
-  getTopSellingProducts(filter: string[]){
-    return this._http.get(`https://localhost:7121/api/Dashboard/product/totalsale?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
-
+  getTopSellingProducts(filter: string[]) {
+    return this._http
+      .get(
+        `https://localhost:7121/api/Dashboard/product/totalsale?fromDate=${filter[0]}&toDate=${filter[1]}`
+      )
+      .pipe();
   }
 
-  getProductVariant(){
-    return this._http.get(`https://localhost:7121/api/ProductVariant/productvariants`).pipe();
+  getProductVariant() {
+    return this._http
+      .get(`https://localhost:7121/api/ProductVariant/productvariants`)
+      .pipe();
   }
 
-  getProductCatalogs(id: number, filter: string[]) {    
-    return this._http.get(`https://localhost:7121/api/Dashboard/productcatalog/itemssold?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
+  getProductCatalogs(id: number, filter: string[]) {
+    return this._http
+      .get(
+        `https://localhost:7121/api/Dashboard/productcatalog/itemssold?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+      )
+      .pipe();
   }
-
 }
