@@ -16,7 +16,7 @@ export interface OrderOnChannelData {
 }
 
 @Component({
-  selector: 'dashboard-total-sale-by-location',
+  selector: 'dashboard-total-sale-by-channel',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
 })
@@ -74,7 +74,7 @@ export class TotalSaleByChannelComponent {
     datasets: [
       {
         label: 'First Dataset',
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: [],
         fill: false,
         borderColor: '#42A5F5',
         tension: 0.3,

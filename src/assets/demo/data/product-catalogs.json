@@ -1,0 +1,11 @@
+{
+    "data": [
+        {"OrderedAt": "Jan", "TotalSales": "2000"},
+        {"OrderedAt": "Feb", "TotalSales": "4000"},
+        {"OrderedAt": "Mar", "TotalSales": "5500"},
+        {"OrderedAt": "Apr", "TotalSales": "7500"},
+        {"OrderedAt": "May", "TotalSales": "8000"},
+        {"OrderedAt": "Jun", "TotalSales": "10000"},
+        {"OrderedAt": "Jul", "TotalSales": "5600"}
+    ]
+}

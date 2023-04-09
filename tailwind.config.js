@@ -2,20 +2,33 @@
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
+    screens: {
+      sm: "600px",
+      md: "640px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     extend: {
       colors: {
-        primary: "#27447C",
-        secondary: "#FCA310",
-        third: "#E3964A",
-        fourth: "#ED7D2D",
-        fifth: "#E05858",
-        success: "#1DD75B",
-        error: "#DD3B3B",
-        warning: "#EFB034",
-        grayData: "#6C757D",
+        "primary": "#27447C",
+        "primary-1": "#b4c5e7",
+        "primary-2": "#f3f6fb",
+        "secondary": "#FCA310",
+        "third": "#E3964A",
+        "forth": "#ED7D2D",
+        "fifth": "#E05858",
+        "errors": "#DD3B3B",
+        "warning": "#EFB034",
+        "success": "#1DD75B",
+        "grayData": "#6C757D",
+        "danger":"#DE3B3B",
+        "geomapBackground": "#F8F9FA",
+        "datalessRegion": "#DEE1E6"
       },
       width: {
         sidebarWidth: "50px",
+        chartWidth: "32.5%",
       },
       maxWidth: {
         sidebarWidth: "50px",
