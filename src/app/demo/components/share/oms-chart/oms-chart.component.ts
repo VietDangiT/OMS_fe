@@ -70,7 +70,7 @@ export class OMSChartComponent implements OnChanges {
       setTimeout(() => {
         this.chartJS?.refresh();
       }, 100);
-    };
+    }
     if (changes['options']?.currentValue) {
       // update this.data here
 
@@ -83,14 +83,16 @@ export class OMSChartComponent implements OnChanges {
   }
 
   ngAfterViewInit() {
-    google.charts.load('current', {
-      packages: ['geochart'],
-      mapsApiKey: `${environment.mapsApiKey}`,
-    });
-    google.charts.setOnLoadCallback(this.drawRegionsMap);
+    if (this.type === 'geomap') {
+      google.charts.load('current', {
+        packages: ['geochart'],
+        mapsApiKey: `${environment.mapsApiKey}`,
+      });
+      google.charts.setOnLoadCallback(this.drawRegionsMap);
+    }
   }
   onResize($event: any) {
-    this.drawRegionsMap(this.data);
+    this.type === 'geomap' && this.drawRegionsMap(this.data);
   }
 
   drawRegionsMap(apiData: any = undefined) {
