@@ -147,21 +147,21 @@ export class DashboardService {
   getOrderStatus(id:number, filter: string[]) {
     return this._http
       .get(
-        `${environment.apiUrl}/Dashboard/orders/statusordes?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+        `${environment.apiUrl}/Dashboard/orders/statusordes?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
       )
       .pipe();
   }
   getProductStatus(id:number, filter: string[]) {
     return this._http
       .get(
-        `${environment.apiUrl}/Dashboard/productchannel/statusproduct?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+        `${environment.apiUrl}/Dashboard/productchannel/statusproduct?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
       )
       .pipe();
   }
   getStockStatus(id:number, filter: string[]) {
     return this._http
       .get(
-        `${environment.apiUrl}/Dashboard/productchannel/statusstock?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+        `${environment.apiUrl}/Dashboard/productchannel/statusstock?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
       )
       .pipe();
   }
