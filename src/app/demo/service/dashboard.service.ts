@@ -68,10 +68,6 @@ export class DashboardService {
       .pipe();
   }
 
-  GetOrders() {
-    return this._http.get<any>('./assets/demo/data/orders.json').pipe();
-  }
-
   getOrders() {
     return this._http.get<any>(`./assets/demo/data/OrderedList.json`).pipe();
   }
@@ -82,7 +78,10 @@ export class DashboardService {
       .pipe();
   }
 
-  getSaleByChannel(fromDate: string = '', toDate: string = '') {
+  getSaleByChannel(
+    fromDate: string = '',
+    toDate: string = ''
+  ) {
     return this._http
       .get<any>(
         `${environment.apiUrl}Dashboard/channels/sale?fromDate=${fromDate}&toDate=${toDate}`
