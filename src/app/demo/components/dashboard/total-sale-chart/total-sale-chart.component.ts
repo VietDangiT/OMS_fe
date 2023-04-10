@@ -9,6 +9,6 @@ import { ChartOptions, ChartType } from 'chart.js';
 })
 export class TotalsalechartComponent {
   @Input() data: any;
-  @Input() option!: ChartOptions;
+  @Input() option: ChartOptions;
   @Input() totalSale: any;
 }

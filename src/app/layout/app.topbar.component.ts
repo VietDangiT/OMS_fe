@@ -18,13 +18,13 @@ export class AppTopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
     titles: string | undefined;
-     isSubmenuOn: boolean | undefined;
+     isNavbarOn: boolean | undefined;
     navbarState: boolean | undefined;
 
     constructor(public layoutService: LayoutService, private authService: AuthService, private route:ActivatedRoute, private router : Router) { }
     
     ngOnInit(){
-        this.layoutService.currentSubMenuState.subscribe(state => this.isSubmenuOn = state);
+        this.layoutService.currentNavbarState.subscribe(state => this.isNavbarOn = state);
         this.titles = this.route.snapshot.data['title'];
     }
 

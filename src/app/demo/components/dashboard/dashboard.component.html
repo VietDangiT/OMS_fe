@@ -1,6 +1,5 @@
 <app-topbar></app-topbar>
-<app-submenu subMenuType="dashboard"></app-submenu>
-<div class="container w-full mx-auto">
+<div class="w-full">
   <app-global-filter  (dateFilterChange)="dateFilterChanged($event)" ></app-global-filter>
   <div class="gap-2 md:grid md:grid-cols-8 sm:flex-col">
     <!-- dashboard component -->
@@ -11,12 +10,16 @@
           <dashboard-total-sale-chart
             [totalSale]="totalSale"
             [data]="totalSaleData"
-            [option]="totalSaleOption"
+            [option]="chartOptions"
           ></dashboard-total-sale-chart>
         </div>
         <!-- total return component -->
         <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
-          <dashboard-total-return></dashboard-total-return>
+          <dashboard-total-return
+          [pieData]="pieData"
+          [pieOptions]="pieOptions"
+          [totalReturn]="totalReturn">
+          </dashboard-total-return>
         </div>
         <!-- product catalog component -->
         <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-6">

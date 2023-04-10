@@ -19,11 +19,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
    new Date().toLocaleDateString().toString()
   ];
 
-  pieData: any;
+  //Total return
+  pieData: ChartData;
+  pieOptions: any;
+  totalReturn:number;
 
   barOptions: any;
 
-  pieOptions: any;
   statisticData: DetailStatistic[] = [
     {
       title: 'order',
@@ -125,11 +127,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //Total Sale Chart
   totalSaleData: any;
   totalSaleOption: any;
-  totalSale: number = 0;
+  totalSale: string = "0";
   Months: string[] = [];
   totalSaleMonth: number[] = [];
-
-  subMenu: SubMenu | null | undefined;
 
   filter: string[] ;
 
@@ -144,49 +144,80 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+
     this.initChart();
 
     this.initOrderData();
 
+    this.initPieChart();
+
     this.initProductCatalogData();
 
-    this.calculateTotalSale();
+    this.initChartOption();
 
-    
-
-    this.items = [
-      { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-      { label: 'Remove', icon: 'pi pi-fw pi-minus' },
-    ];
+   
   }
 
-  calculateTotalSale() {
-    this.dashboardService.getOrders().subscribe((data: any) => {
-      data['data'].map((src: OrderedInfo) => {
-        (this.totalSale += Number(src.price)),
-          this.Months.push(src.orderedAt),
-          this.totalSaleMonth.push(src.price);
-      });
-    });
+
+  initPieChart(){
+    this.pieData = {
+      labels: ['25% Approved', '35% Pending', '40% Unapproved'],
+      datasets: [
+        {
+          data: [25, 35, 40],
+          backgroundColor: ['#213969', '#415b8c', '#2c55a0'],
+          hoverBackgroundColor: ['#213969', '#415b8c', '#2c55a0'],
+        },
+      ],
+    };
+  
+  }
+
+  initChartOption(){
+    this.chartOptions = {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 1,
+      plugins: {
+        legend: {
+          display:false,
+        },
+      },
+    
+    };
+    this.pieOptions = {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 1,
+      cutout: 75,
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: {
+            boxHeight: 20,
+            boxWidth: 20,
+            padding: 20,
+            usePointStyle: true,
+            color: environment.primaryColor,
+            font: {
+              size: 12,
+            },
+          },
+        },
+      },
+    };
   }
 
   initChart() {
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue(
-      '--text-color-secondary'
-    );
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
+  
     this.productCatalogData = {
       labels: this.prodCatalogLabel,
       datasets: [
         {
-          label: 'Total Product',
           data: this.prodCatalogData,
           fill: false,
-          backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-          borderColor: documentStyle.getPropertyValue('--bluegray-700'),
+          backgroundColor: environment.primaryColor,
+          borderColor: environment.primaryColor,
           tension: 0.4,
         },
       ],
@@ -199,8 +230,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
           label: 'Total Sales',
           data: this.ordersData,
           fill: false,
-          backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-          borderColor: documentStyle.getPropertyValue('--bluegray-700'),
+          backgroundColor: environment.primaryColor,
+          borderColor: environment.primaryColor,
           tension: 0.4,
         },
       ],
@@ -215,90 +246,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
           fill: false,
           backgroundColor: environment.primaryColor,
           borderColor: environment.primaryColor,
-          borderWidth: 3,
-          pointStyle: false,
           pointBorderWidth: 2,
         },
       ],
     };
 
-    this.totalSaleOption = {
-      elements: {
-        line: {
-          tension: 0.3,
-        },
-      },
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 1,
-      plugins: {
-        legend: {
-          labels: {
-            color: environment.primaryColor,
-            font: {
-              size: 12,
-            },
-          },
-        },
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: environment.primaryColor,
-            font: {
-              size: 14,
-            },
-          },
-          grid: {
-            color: environment.primaryColor,
-          },
-        },
-        y: {
-          ticks: {
-            color: environment.primaryColor,
-            font: {
-              size: 14,
-            },
-          },
-          grid: {
-            color: environment.primaryColor,
-          },
-        },
-      },
-    };
-
-    this.chartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 1,
-      plugins: {
-        legend: {
-          labels: {
-            color: textColor,
-          },
-        },
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-        y: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-      },
-    };
+   
   }
 
   initOrderData() {
@@ -328,34 +281,38 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.filterArr = dateRange.map((date:Date)=>{
         return date.toLocaleDateString("en-EN");
       })    
-      console.log(this.filterArr);
       this.dashboardService.getTotalSale(this.filterArr).subscribe((result: any) =>{
-        var totalArr: number[] = [];
-        var labelArr: string[] = [];
-        
-        result.map((item: any) => {
-          totalArr.push(item.value);
-          labelArr.push(new Date(item.date).toLocaleDateString())          
-        });
-  
-        this.totalSaleData = {
-          labels: labelArr,
-          datasets: [
-            {
-              data: totalArr,
-              borderColor: environment.primaryColor,
-              tension: 0.4,
-            },
-          ],
-        };
+        this.initTotalSaleChart(result);
       })
     }
     return null;
   }
 
-  filterChanged(filter:string[]){
-    this.filter = filter;
-    console.log(filter);
+  initTotalSaleChart(result: any){
+    var sale: number = 0;
+    var totalArr: number[] = [];
+    var labelArr: string[] = [];
+    
+    result.map((item: any) => {
+      totalArr.push(item.value);
+      labelArr.push(new Date(item.date).toLocaleDateString());
+      sale += item.value;
+    });
+    
+    this.totalSale = sale.toLocaleString('en-US');
+    this.totalSaleData = {
+      labels: labelArr,
+      datasets: [
+        {
+          label: 'Total Sales',
+          data: totalArr,
+          borderColor: environment.primaryColor,
+          backgroundColor: environment.primaryColor,
+          tension: 0.4,
+          pointBorderWidth: 2,
+        },
+      ],
+    };
   }
   
   ngOnDestroy() {

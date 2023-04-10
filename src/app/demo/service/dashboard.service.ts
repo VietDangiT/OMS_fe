@@ -88,6 +88,6 @@ export class DashboardService {
   }
 
   getTotalSale(filter: string[]){
-    return this._http.get(`https://localhost:7121/api/Dashboard?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
+    return this._http.get(`https://localhost:7121/api/Dashboard/sales?fromDate=${filter[0]}&toDate=${filter[1]}`).pipe();
   }
 }

@@ -1,11 +1,15 @@
-<div class="rounded-lg overflow-hidden bg-white">
-    <h2 class="text-sm font-bold mb-4">Total Sales</h2>
-    <p class="font-bold text-sm">USD {{totalSale}}</p>
+<div class=" bg-white ">
+    <div class="mb-4  font-bold">
+        <p class=" ">Total Sales</p>
+        <p class="">{{totalSale}}</p>
+    </div>
     <div class="flex flex-col">
         <div class="flex items-center justify-between gap-2">
-            <p class=" font-medium md:font-normal text-sm text-gray-500">SALES OVER TIME</p>
-            <a href="#" class="text-sm font-normal text-blue-800 ">Analyse</a>
+            <p class=" font-medium md:font-normal text-sm text-gray-500">Sale Over Time</p>
+            <a routerLink="/" class="text-sm font-normal text-primary ">Analyse</a>
         </div>
-        <oms-chart type="line" [data]="data" [options]="option"></oms-chart>
+        <div class="h-full flex-1">
+            <oms-chart type="line" [data]="data" [options]="option"></oms-chart>
+        </div>
     </div>
 </div>

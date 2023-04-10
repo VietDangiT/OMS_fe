@@ -8,9 +8,9 @@ import { ChartOptions } from 'chart.js';
   encapsulation: ViewEncapsulation.None,
 })
 export class ProductCatalogComponent {
-  chart: any;
   @Input() dataChart: any;
   @Input() basicOptions!: ChartOptions;
+  @Input() productName!: string;
 
   ngOnInit(): void {
   }

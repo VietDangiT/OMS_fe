@@ -13,53 +13,197 @@ import { LayoutService } from './service/app.layout.service';
       .active div {
         @apply visible block opacity-100 pointer-events-auto;
       }
+      .active.submenu{
+        @apply block;
+      }
+      /* For Webkit-based browsers (Chrome, Safari and Opera) */
+      .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+      }
+
+      /* For IE, Edge and Firefox */
+      .scrollbar-hide {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+      }
     `,
   ],
 })
 export class AppMenuComponent implements OnInit {
-  elements = [
+  menuElements = [
     {
       name: 'dashboard',
       path: '/dashboard',
       icon: 'pi pi-th-large',
+      isDropDownMenu:true,
+      submenu: {
+        title:"Dashboard",
+        item: [
+          {
+            name: 'totalSales',
+            content: 'Total Sales',
+            path: 'dashboard/totalsales',
+            icon: 'pi-dollar',
+          },
+          {
+            name: 'totalOrder',
+            content: 'Total Orders',
+            path: 'dashboard/total-order',
+            icon: 'pi-shopping-cart',
+          },
+          {
+            name: 'cardStatic',
+            path: 'dashboard/card-static',
+            content: 'Card Statistics Payment',
+            icon: 'pi-credit-card',
+          },
+          {
+            name: 'saleByLocation',
+            path: 'dashboard/sale-by-location',
+            content: 'Sales by Location',
+            icon: 'pi-globe',
+          },
+          {
+            name: 'saleByPromotion',
+            path: 'dashboard/sale-by-promotion',
+            content: 'Sale by Promotions',
+            icon: 'pi-tag',
+          },
+          {
+            name: 'saleByChannel',
+            path: 'dashboard/total-sale-by-channel',
+            content: 'Total sales by Channel',
+            icon: 'pi-home',
+          },
+        ]
+      }
     },
     {
       name: 'order',
       path: '/order',
       icon: 'pi pi-box',
+      isDropDownMenu:true,
+      submenu: {
+        title:"Orders",
+        // item: [
+        //   {
+        //     name: 'totalSales',
+        //     content: 'Total Sales',
+        //     path: 'order/totalsales',
+        //     icon: 'pi-dollar',
+        //   },
+        //   {
+        //     name: 'totalOrder',
+        //     content: 'Total Orders',
+        //     path: 'order/total-order',
+        //     icon: 'pi-shopping-cart',
+        //   },
+        //   {
+        //     name: 'cardStatic',
+        //     path: 'order/card-static',
+        //     content: 'Card Statistics Payment',
+        //     icon: 'pi-credit-card',
+        //   },
+        //   {
+        //     name: 'saleByLocation',
+        //     path: 'order/sale-by-location',
+        //     content: 'Sales by Location',
+        //     icon: 'pi-globe',
+        //   },
+        //   {
+        //     name: 'saleByPromotion',
+        //     path: 'order/sale-by-promotion',
+        //     content: 'Sale by Promotions',
+        //     icon: 'pi-tag',
+        //   },
+        //   {
+        //     name: 'saleByChannel',
+        //     path: 'order/total-sale-by-channel',
+        //     content: 'Total sales by Channel',
+        //     icon: 'pi-home',
+        //   },
+        // ]
+      }
     },
     {
       name: 'catalogue',
       path: '/catalogue',
       icon: 'pi pi-book',
+      isDropDownMenu:true,
+      submenu: {
+        title: 'Catalogue',
+        item: [
+        
+        ],
+      }
     },
     {
       name: 'inventory',
       path: '/inventory',
       icon: 'pi pi-inbox',
+      isDropDownMenu:true,
+      submenu: {
+        title: 'Inventory',
+        item: [
+        
+        ],
+      }
     },
     {
       name: 'user',
       path: '/user',
       icon: 'pi pi-user',
+      isDropDownMenu:true,
+      submenu: {
+        title: 'Profile',
+        item: [
+        {
+          name: 'personalinfo',
+          content: 'Personal Info',
+          path: '/users/personal-info',
+          icon: 'pi-user',
+        },
+        {
+          name: 'changepassword',
+          content: 'Change Password',
+          path: '/users/change-password',
+          icon: 'pi-lock',
+        },
+        ],
+      }
     },
     {
       name: 'customer',
       path: '/customer',
       icon: 'pi pi-users',
+      isDropDownMenu:true,
+      submenu: {
+        title: 'Customer',
+        item: [
+        
+        ],
+      }
     },
     {
       name: 'contact',
       path: '/contact',
       icon: 'pi pi-phone',
+      isDropDownMenu:true,
+      submenu: {
+        title: 'Contacts',
+        item: [
+        
+        ],
+      }
     },
   ];
-  isSubmenuOn: boolean | undefined;
+  isNavbarOn: boolean | undefined;
   model: any[] = [];
 
   constructor(public layoutService: LayoutService) {
-    this.layoutService.currentSubMenuState.subscribe(
-      (state) => (this.isSubmenuOn = state)
+   
+    this.layoutService.currentNavbarState.subscribe(
+      (state) => (this.isNavbarOn = state)
     );
   }
 

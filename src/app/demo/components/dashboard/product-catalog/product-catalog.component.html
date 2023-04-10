@@ -1,17 +1,15 @@
   <div class="flex-col">
-    <div class="mb-4 flex-col">
-      <div class="flex justify-between">
-      <div class="text-sm font-bold">Product Catalog</div>
-      <div class="text-sm text-yellow-400">Pineapple Thanh Hoa 10kg</div>
-    </div>
+    <div class="mb-4 flex-col font-bold flex test-sm justify-between">
+        <div class="">Product Catalog</div>
+        <div class="text-yellow-400">{{productName}}</div>
   </div>
 
   <div class="w-full">
-    <div class="flex flex-row justify-between md:mt-8 lg:mt-8">
-      <p class="font-normal text-sm text-gray-500">PRODUCT SALES OVER TIME</p>
-      <div>
-        <i class="pi pi-filter-fill"></i>
-      </div>
+    <div class="flex items-center justify-between md:mt-8 lg:mt-8">
+      <p class="font-normal text-sm text-gray-500">Product sales over time</p>
+      <button class="w-8 h-8 border  border-gray-300 rounded-md">
+        <i class="pi pi-filter text-primary "></i>
+      </button>
     </div>
     <div>
       <oms-chart

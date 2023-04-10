@@ -1,15 +1,15 @@
-<div class="w-full">
-  <div>
-    <div class="flex flex-col mb-4">
-      <h2 class="text-sm font-bold">Total Return</h2>
+<div class=" bg-white ">
+    <div class="mb-4 font-bold">
+        <p class=" ">Total Return</p>
+        <p class="">{{totalReturn}}</p>
     </div>
-    <div class="flex flex-row justify-between">
-      <p class="font-sm text-sm text-gray-500">RETURN OVER TIME</p>
-      <a href="#" class="text-sm text-blue-600">Analyse</a>
+    <div class="flex flex-col">
+        <div class="flex items-center justify-between gap-2">
+            <p class=" font-medium md:font-normal text-sm text-gray-500">Return over time</p>
+            <a routerLink="/" class="text-sm font-normal text-primary ">Analyse</a>
+        </div>
+        <div class="h-full flex-1">
+            <oms-chart type="doughnut" [data]="pieData" [options]="pieOptions"></oms-chart>
+        </div>
     </div>
-  </div>
-    <div>
-        <oms-chart type="doughnut" [data]="pieData" [options]="pieOptions"></oms-chart>
-    </div>
-  </div>
-  
+</div>
