@@ -7,7 +7,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
-import { EChartsOption } from 'echarts';
 import { UIChart } from 'primeng/chart';
 
 import {
@@ -59,7 +58,7 @@ export class OMSChartComponent implements OnChanges {
 
   @Input() type: ChartType | 'heatmap' | 'treemap' | 'geomap';
   @Input() data: ChartData;
-  @Input() options: OmsChartOptions | EChartsOption | any;
+  @Input() options: OmsChartOptions |  any;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']?.currentValue) {

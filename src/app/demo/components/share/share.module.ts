@@ -6,8 +6,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { DateFilterComponent } from './date-filter/date-filter.component';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
-import * as echarts from 'echarts';
-import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [
@@ -20,7 +18,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
     NgApexchartsModule,
     CalendarModule,
     FormsModule,
-    NgxEchartsModule.forRoot({echarts})
   ],
   exports: [OMSChartComponent, DateFilterComponent]
 })

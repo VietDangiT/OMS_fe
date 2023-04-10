@@ -110,7 +110,7 @@ export class DashboardService {
   getTotalReturn(filter: string[]) {
     return this._http
       .get(
-        `https://localhost:7121/api/Dashboard/returns/totalreturn?fromDate=${filter[0]}&toDate=${filter[1]}`
+        `${environment.apiUrl}Dashboard/returns/totalreturn?fromDate=${filter[0]}&toDate=${filter[1]}`
       )
       .pipe();
   }
@@ -118,7 +118,7 @@ export class DashboardService {
   getTotalOrder(filter: string[]) {
     return this._http
       .get(
-        `https://localhost:7121/api/Dashboard/orders?fromDate=${filter[0]}&toDate=${filter[1]}`
+        `${environment.apiUrl}Dashboard/orders?fromDate=${filter[0]}&toDate=${filter[1]}`
       )
       .pipe();
   }
@@ -126,21 +126,21 @@ export class DashboardService {
   getTopSellingProducts(filter: string[]) {
     return this._http
       .get(
-        `https://localhost:7121/api/Dashboard/product/totalsale?fromDate=${filter[0]}&toDate=${filter[1]}`
+        `${environment.apiUrl}Dashboard/product/totalsale?fromDate=${filter[0]}&toDate=${filter[1]}`
       )
       .pipe();
   }
 
   getProductVariant() {
     return this._http
-      .get(`https://localhost:7121/api/ProductVariant/productvariants`)
+      .get(`${environment.apiUrl}ProductVariant/productvariants`)
       .pipe();
   }
 
   getProductCatalogs(id: number, filter: string[]) {
     return this._http
       .get(
-        `https://localhost:7121/api/Dashboard/productcatalog/itemssold?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+        `${environment.apiUrl}Dashboard/productcatalog/itemssold?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
       )
       .pipe();
   }

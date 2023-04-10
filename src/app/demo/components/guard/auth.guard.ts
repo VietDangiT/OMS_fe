@@ -8,7 +8,6 @@ import { AuthService } from '../../service/auth.service';
 export class AuthGuard  {
   constructor(private authService: AuthService, private router: Router) {}
   canActivate() {
-    return true;
     if(this.authService.isAuthenticated() == false){
       alert("You must sign in to access");
       this.router.navigate(["login"]);

@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { DetailStatistic } from './dashboard-statistic/detail-statistic/detail-statistic.component';
@@ -21,8 +20,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   pieData: ChartData;
   pieOptions: any;
   totalReturn: string = "0";
-
-  barOptions: any;
 
   statisticData: DetailStatistic[] = [
     {
@@ -100,66 +97,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
     },
   ];
 
-  items!: MenuItem[];
-
   //Total Order Chart
   totalOrderData: ChartData;
-  ordersLabel: any[] = [];
-  ordersData: any[] = [];
   totalOrder: string = "0";
 
   //Product Catalog Chart
   productCatalogData: ChartData;
-  prodCatalogLabel: any[] = [];
-  prodCatalogData: any[] = [];
   productVariantId: number = 0;
 
   //Sale By Channel Data
   saleByChannelData: TreeMapData[] = [];
-
-  chartData: any;
-
   chartOptions: any;
 
   subscription!: Subscription;
 
   //Total Sale Chart
-  totalSaleData: any;
-  totalSaleOption: any;
   totalSale: string = "0";
-  Months: string[] = [];
-  totalSaleMonth: number[] = [];
+  totalSaleData: ChartData;
 
-  
-  filter: string[] ;
-
-  constructor(
-    public layoutService: LayoutService,
-    private dashboardService: DashboardService
-  ) {
-    this.subscription = this.layoutService.configUpdate$.subscribe(() => {
-      this.initChart();
-    });
-    
-   
-
-  }
+  constructor(public layoutService: LayoutService,private dashboardService: DashboardService) {}
 
   ngOnInit() {
-
-    this.initChart();
-
-
-
     this.initChartOption();
-   
   }
-
 
   initChartOption(){
     this.chartOptions = {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       aspectRatio: 1,
       plugins: {
         legend: {
@@ -170,7 +135,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
     this.pieOptions = {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       aspectRatio: 1,
       cutout: 100,
       plugins: {
@@ -191,34 +156,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  initChart() {
-    this.totalSaleData = {
-      labels: this.Months,
-      datasets: [
-        {
-          label: 'Total Sales',
-          data: this.totalSaleMonth,
-          fill: false,
-          backgroundColor: environment.primaryColor,
-          borderColor: environment.primaryColor,
-          pointBorderWidth: 2,
-        },
-      ],
-    };
-
-   
-  }
-
   dateFilterChanged(dateRange: Date[]){
     if(dateRange[1] != null){
       this.filterArr = dateRange.map((date:Date)=>{
         return date.toLocaleDateString("en-EN");
       });
-
-      
-      // this.dashboardService.getProductCatalogs(this.productVariantId, this.filterArr).subscribe((result: any) =>{
-      //   console.log(result);
-      // })
 
       this.dashboardService.getTotalSale(this.filterArr).subscribe((result: any) =>{
         this.initTotalSaleChart(result);
@@ -230,7 +172,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       this.dashboardService.getTotalOrder(this.filterArr).subscribe((result:any) =>{
         this.initTotalOrderChart(result);
-      })
+      });
+      
     }
     return null;
   }
@@ -308,8 +251,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         };
   }
 
-
-  
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
