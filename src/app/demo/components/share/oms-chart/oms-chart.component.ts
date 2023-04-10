@@ -57,13 +57,19 @@ export class OMSChartComponent implements OnChanges {
   @ViewChild('apexChart') apexChart: ChartComponent;
 
   @Input() type: ChartType | 'heatmap' | 'treemap' | 'geomap';
-  @Input() data: ChartData;
-  @Input() options: OmsChartOptions |  any;
+  @Input() data: ChartData | any[][];
+  @Input() options: OmsChartOptions | any;
 
-  ngOnChanges(changes: SimpleChanges): void {
+  async ngOnChanges(changes: SimpleChanges) {
     if (changes['data']?.currentValue) {
+      if (this.type === 'geomap') {
+        await google.charts.load('current', {
+          packages: ['geochart'],
+          mapsApiKey: `${environment.mapsApiKey}`,
+        });
+        await google.charts.setOnLoadCallback(this.drawRegionsMap);
+      }
       // update this.data here
-
       this.data = changes['data'].currentValue;
       // then chart is getting updated
       setTimeout(() => {
@@ -83,27 +89,20 @@ export class OMSChartComponent implements OnChanges {
     }
   }
 
-  ngAfterViewInit() {
-    if (this.type === 'geomap') {
-      google.charts.load('current', {
-        packages: ['geochart'],
-        mapsApiKey: `${environment.mapsApiKey}`,
-      });
-      google.charts.setOnLoadCallback(this.drawRegionsMap);
-    }
-  }
   onResize($event: any) {
     this.type === 'geomap' && this.drawRegionsMap(this.data);
   }
 
   drawRegionsMap(apiData: any = undefined) {
-    let data = google.visualization.arrayToDataTable(apiData ? apiData : [['','']]);
+    let data = google.visualization.arrayToDataTable(
+      apiData ? apiData : [['Country', 'Value']]
+    );
 
     let options = {
       legend: 'none',
       backgroundColor: `${colors.geomapBackground}`,
       colorAxis: { colors: [`${colors.primary}`, `${colors.primary}`] },
-      displayMode: 'markers',
+      // displayMode: 'markers',
       datalessRegionColor: `${colors.datalessRegion}`,
     };
 

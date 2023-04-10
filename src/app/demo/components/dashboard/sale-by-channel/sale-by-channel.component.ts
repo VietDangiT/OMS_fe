@@ -23,7 +23,7 @@ export interface TreeMapData {
   encapsulation: ViewEncapsulation.None,
 })
 export class SaleByChannelComponent {
-  @Input() filterArr: (string | undefined)[] = [undefined, undefined];
+  @Input() filterArr: string[];
 
   chartData: TreeMapData[] = [];
   saleStoreData: DashboardItemPercentage[];
@@ -33,13 +33,13 @@ export class SaleByChannelComponent {
   constructor(private _dashboardService: DashboardService) {
     this.chartOptions = {
       chart: {
-        width: '100%',
+        width: '105%',
         type: 'treemap',
         toolbar: {
           show: false,
         },
         redrawOnParentResize: true,
-        offsetX: 15,
+        offsetX: 2,
       },
       series: [
         {
@@ -51,47 +51,40 @@ export class SaleByChannelComponent {
         enabled: false,
       },
       apexResponsive: [
-        {
-          breakpoint: 1024,
-          options: {
-            chart: {
-              offsetX: 15,
-            },
-          },
-        },
-        {
-          breakpoint: 1102,
-          options: {
-            chart: {
-              offsetX: 0,
-            },
-          },
-        },
+        // {
+        //   breakpoint: 1024,
+        //   options: {
+        //     chart: {
+        //       offsetX: 2,
+        //       width: '103%',
+        //     },
+        //   },
+        // },
+        // {
+        //   breakpoint: 1102,
+        //   options: {
+        //     chart: {
+        //       offsetX: 0,
+        //       width: '110%',
+        //     },
+        //   },
+        // },
       ],
     };
   }
 
-  ngOnInit(): void {
-    this.getTotalSaleByChannel();
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']?.currentValue) {
-      this.chartOptions.series[0].data = [...changes['data'].currentValue];
-    }
-    if (changes['rangeDate']?.currentValue) {
+    if (changes['filterArr']?.currentValue) {
       if (this.filterArr[0] && this.filterArr[1])
-        this.getTotalSaleByChannel(changes['rangeDate']?.currentValue);
+        this.getTotalSaleByChannel(changes['filterArr']?.currentValue);
     }
   }
 
-  getTotalSaleByChannel(
-    rangeDate: (string | null)[] = [null, null]
-  ) {
+  getTotalSaleByChannel(filterArr: string[] = ['', '']) {
     this._dashboardService
       .getSaleByChannel(
-        rangeDate[0] ? rangeDate[0] : '',
-        rangeDate[1] ? rangeDate[1] : ''
+        filterArr[0] ? filterArr[0] : '',
+        filterArr[1] ? filterArr[1] : ''
       )
       .subscribe((data: DashboardItemPercentage[]) => {
         this.saleStoreData = [...data];

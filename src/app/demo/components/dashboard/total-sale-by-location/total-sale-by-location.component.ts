@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  SimpleChanges,
+  ViewEncapsulation,
+} from '@angular/core';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { environment } from 'src/environments/environment';
 import resolveConfig from 'tailwindcss/resolveConfig';
@@ -9,48 +15,39 @@ import resolveConfig from 'tailwindcss/resolveConfig';
   styleUrls: ['./total-sale-by-location.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class TotalSaleByLocationComponent  {
-  @Input() filterArr: (string | null)[] = [null, null];
+export class TotalSaleByLocationComponent {
+  @Input() filterArr: string[] = ['', ''];
+  totalSale: number = 0;
+  chartData: string[][];
+  locationSale: { displayText: string; value: number }[] = [];
 
-  chartData: string[][] = [['Country','Sale']];
-  locationSale: {displayText: string, value: number}[];
-
-  constructor(private _dashboardService: DashboardService){}
-
-  ngOnInit(): void {
-    this.getTotalSaleByLocation();
-  }
+  constructor(private _dashboardService: DashboardService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']?.currentValue) {
-      // this.data.series[0].data = [...changes['data'].currentValue];
-    }
-    if (changes['rangeDate']?.currentValue) {
-      if (this.filterArr[0] && this.filterArr[1]){
-        // this.getTotalSaleByChannel(changes['rangeDate']?.currentValue);
+    if (changes['filterArr'].currentValue) {
+      if (this.filterArr[0] && this.filterArr[1]) {
+        this.filterArr = changes['filterArr']?.currentValue;
+        this.getTotalSaleByLocation(this.filterArr);
       }
     }
   }
 
-  getTotalSaleByLocation(
-    rangeDate: (string | null)[] = [null, null]
-  ) {
+  getTotalSaleByLocation(filterArr: string[] = ['', '']) {
     this._dashboardService
-      .getTotalSaleByLocation(
-        rangeDate[0] ? rangeDate[0] : '',
-        rangeDate[1] ? rangeDate[1] : ''
-      )
+      .getTotalSaleByLocation(filterArr[0], filterArr[1])
       .subscribe((data: any[]) => {
+        this.totalSale = 0;
         this.locationSale.length = 0;
-        const temp = [['Country','Sale']];
-        data.forEach((item: any)=> {
-          temp.push([`${item.displayText}`,`${item.value}`])
+        const temp = [['Country', 'Sale']];
+        data.forEach((item: any) => {
+          this.totalSale += item.value;
+          temp.push([`${item.displayText}`, item.value]);
           this.locationSale.push({
             displayText: item.displayText,
-            value: item.value
-          })
-        })
-        this.chartData = [...temp]
+            value: item.value,
+          });
+        });
+        this.chartData = [...temp];
       });
   }
 }

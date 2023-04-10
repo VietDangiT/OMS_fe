@@ -11,6 +11,7 @@ export class DashboardService {
   constructor(private _http: HttpClient) {
     this.saleByLocationURL = environment.baseURL + '/sale-by-location';
   }
+
   getSaleOnChannel(url: string) {
     return this._http.get(url).pipe();
   }
@@ -81,21 +82,19 @@ export class DashboardService {
       .pipe();
   }
 
-  getSaleByChannel(
-    fromDate: string = '',
-    toDate: string = ''
-  ) {
+  getSaleByChannel(fromDate: string = '', toDate: string = '') {
     return this._http
-      .get<any>(`${environment.apiUrl}Dashboard/channels/total-sale?fromDate=${fromDate}&toDate=${toDate}`)
+      .get<any>(
+        `${environment.apiUrl}Dashboard/channels/sale?fromDate=${fromDate}&toDate=${toDate}`
+      )
       .pipe();
   }
 
-  getTotalSaleByLocation(
-    fromDate: string = '',
-    toDate: string = ''
-  ) {
+  getTotalSaleByLocation(fromDate: string = '', toDate: string = '') {
     return this._http
-      .get<any>(`${environment.apiUrl}Dashboard/location/total-sale?fromDate=${fromDate}&toDate=${toDate}`)
+      .get<any>(
+        `${environment.apiUrl}Dashboard/locations/sale?fromDate=${fromDate}&toDate=${toDate}`
+      )
       .pipe();
   }
 
