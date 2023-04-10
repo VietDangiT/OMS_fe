@@ -1,7 +1,7 @@
 <div class=" mx-auto h-[100%] px-2">
   <!-- header -->
   <div class="flex flex-row justify-between items-center my-2">
-    <span class="text-orange-400 text-sm">- All Channel</span>
+    <span class="text-yellow-400 text-sm  font-bold justify-between">- All Channel</span>
     <div class="w-8 h-8 border relative border-gray-300 flex items-center justify-center rounded-md group">
       <i class="pi pi-filter text-primary "></i>
       <ul class="group-hover:flex z-10 group flex-col  text-black absolute top-full  shadow-lg rounded-lg right-0 hidden bg-white after:content-[''] after:w-full after:h-8 after:bg-transparent after:-top-8 after:absolute after:right-0">
@@ -11,5 +11,5 @@
   </div>
   <!-- end of header -->
 
-  <dashboard-detail-statistic *ngFor="let item of data" [detailStatistic]="item"></dashboard-detail-statistic>
+  <dashboard-detail-statistic *ngFor="let item of statisticData" [detailStatistic]="item"></dashboard-detail-statistic>
 </div>

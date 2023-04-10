@@ -22,79 +22,79 @@ export class DashboardComponent implements OnInit, OnDestroy {
   totalReturn: string = "0";
 
   statisticData: DetailStatistic[] = [
-    {
-      title: 'order',
-      data: [
-        {
-          displayText: 'New Orders',
-          value: 234,
-          percent : '25%',
-          circleColor: '#117B34FF',
-          hasCircle:true,
-          hasArrow:true,
-          ArrowActivity: 'pi pi-arrow-up',
-        },
-        {
-          displayText: 'Issue',
-          value: 2,
-          circleColor: '#FCA310FF',
-          percent: '13%',
-          hasCircle: true,
-          hasArrow:true,
-          ArrowActivity:'pi pi-arrow-down'
+    // {
+    //   title: 'order',
+    //   data: [
+    //     {
+    //       displayText: 'New Orders',
+    //       value: 234,
+    //       percent : '25%',
+    //       circleColor: 'd',
+    //       hasCircle:true,
+    //       hasArrow:true,
+    //       ArrowActivity: 'pi pi-arrow-up',
+    //     },
+    //     {
+    //       displayText: 'Issue',
+    //       value: 2,
+    //       circleColor: '#FCA310FF',
+    //       percent: '13%',
+    //       hasCircle: true,
+    //       hasArrow:true,
+    //       ArrowActivity:'pi pi-arrow-down'
 
 
-        },
-      ],
-    },
-    {
-      title: 'Product',
-      data: [
-        {
-          displayText: 'Active',
-          value: 234,
-          circleColor: '#117B34FF',
-          percent:'25%',
-          hasCircle:true,
-          hasArrow:true,
-          ArrowActivity : 'pi pi-arrow-up',
-        },
-        {
-          displayText: 'Problem',
-          value: 2,
-          circleColor: '#FCA310FF',
-          percent: '13%',
-          hasCircle:true,
-          hasArrow:true,
-          ArrowActivity:'pi pi-arrow-down'
-        },
-      ],
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: 'Product',
+    //   data: [
+    //     {
+    //       displayText: 'Active',
+    //       value: 234,
+    //       circleColor: '#117B34FF',
+    //       percent:'25%',
+    //       hasCircle:true,
+    //       hasArrow:true,
+    //       ArrowActivity : 'pi pi-arrow-up',
+    //     },
+    //     {
+    //       displayText: 'Problem',
+    //       value: 2,
+    //       circleColor: '#FCA310FF',
+    //       percent: '13%',
+    //       hasCircle:true,
+    //       hasArrow:true,
+    //       ArrowActivity:'pi pi-arrow-down'
+    //     },
+    //   ],
 
       
-    },
-    {
-      title: 'STOCK STATUS',
-      data: [
-        {
-          displayText: 'Restock soon',
-          value: 234,
-          circleColor: '#117B34FF',
-          percent:'25%',
-          hasCircle:true,
-          hasArrow:true,
-          ArrowActivity : 'pi pi-arrow-up',
-        },
-        {
-          displayText: 'Restock now',
-          value: 2,
-          circleColor: '#FCA310FF',
-          percent:'13%',
-          hasCircle:true,
-          hasArrow:true,
-          ArrowActivity : 'pi pi-arrow-down'
-        },
-      ],
-    },
+    // },
+    // {
+    //   title: 'STOCK STATUS',
+    //   data: [
+    //     {
+    //       displayText: 'Restock soon',
+    //       value: 234,
+    //       circleColor: '#117B34FF',
+    //       percent:'25%',
+    //       hasCircle:true,
+    //       hasArrow:true,
+    //       ArrowActivity : 'pi pi-arrow-up',
+    //     },
+    //     {
+    //       displayText: 'Restock now',
+    //       value: 2,
+    //       circleColor: '#FCA310FF',
+    //       percent:'13%',
+    //       hasCircle:true,
+    //       hasArrow:true,
+    //       ArrowActivity : 'pi pi-arrow-down'
+    //     },
+    //   ],
+    // },
   ];
 
   //Total Order Chart
@@ -173,7 +173,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.dashboardService.getTotalOrder(this.filterArr).subscribe((result:any) =>{
         this.initTotalOrderChart(result);
       });
-      
+
     }
     return null;
   }

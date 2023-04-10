@@ -1,4 +1,4 @@
 <div class="mb-2 flex gap-2">
-    <button type="button" class="dashboard-filter filter-button" (click)="handleButtonFilter($event)" *ngFor="let value of filterValue" name={{value.name}}>{{value.value}}</button>
+    <button type="button" class="dashboard-filter filter-button" (click)="handleButtonFilter($event)" *ngFor="let value of filterValue; let index = index " [class.active]="index === 0" name={{value.name}}>{{value.value}}</button>
     <p-calendar placeholder="Choose range of date" (mousedown)="handleCalendar($event)" (ngModelChange)="getDateRange($event)" [(ngModel)]="dateFilter" selectionMode="range" view="date" dateFormat="dd.mm.yy" [readonlyInput]="true" [showIcon]="true" appendTo="body" inputId="icon"  class="cursor-pointer"></p-calendar>
 </div>

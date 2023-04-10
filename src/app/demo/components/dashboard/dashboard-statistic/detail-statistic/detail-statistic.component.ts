@@ -7,7 +7,7 @@ export interface DetailStatistic {
     value: string | number;
     percent:string | number;
     hasCircle?: boolean;
-    circleColor?: '#FCA310FF' | '#117B34FF' ;
+    circleColor?: 'success' | 'danger' ;
     hasArrow?:boolean;
     ArrowActivity: 'pi pi-arrow-up'|'pi pi-arrow-down',
   }[];
@@ -20,8 +20,9 @@ export interface DetailStatistic {
   styleUrls: ['./detail-statistic.component.scss'],
 })
 export class DetailStatisticComponent {
-  @Input() detailStatistic: DetailStatistic = {
-    title: '',
-    data: [],
-  };
+  @Input() detailStatistic: DetailStatistic;
+  ngOnInit(){
+    console.log(this.detailStatistic);
+    
+  }
 }
