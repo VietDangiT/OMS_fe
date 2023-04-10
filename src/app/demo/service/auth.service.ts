@@ -26,9 +26,11 @@ export class AuthService {
   }
 
   login(user: any) : Observable<any>{
-    return this._http.post('https://localhost:7121/api/auth/login', user,{
-      responseType:'text'
-    });
+    console.log(user);
+    
+    return this._http.post(`https://localhost:7121/api/auth/login`, user, {
+      responseType: "text"
+    })
   }
 
   logout(): void {

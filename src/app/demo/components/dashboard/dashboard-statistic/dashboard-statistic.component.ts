@@ -1,5 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { DetailStatistic } from './detail-statistic/detail-statistic.component';
+import { DashboardService } from 'src/app/demo/service/dashboard.service';
+import { ChannelService } from 'src/app/demo/service/channel.service';
+import { BehaviorSubject } from 'rxjs';
+
+export interface Statistic {
+  current: number,
+  id: number,
+  previous: number,
+  value: number,
+  text: string
+}
 
 @Component({
   selector: 'dashboard-statistic',
@@ -8,80 +19,52 @@ import { DetailStatistic } from './detail-statistic/detail-statistic.component';
 })
 export class DashboardStatisticComponent {
   @Input() data: DetailStatistic[] = [];
-  statisticData: DetailStatistic[] = [
-    {
-      title: 'order',
-      data: [
-        {
-          displayText: 'New Orders',
-          value: 234,
-          percent : '25%',
-          circleColor: 'success',
-          hasCircle:true,
-          hasArrow:true,
-          ArrowActivity: 'pi pi-arrow-up',
-        },
-        {
-          displayText: 'Issue',
-          value: 2,
-          circleColor: 'danger',
-          percent: '13%',
-          hasCircle: true,
-          hasArrow:true,
-          ArrowActivity:'pi pi-arrow-down'
+  @Input() filterArr: string[];
+ 
+  channelList: any[];
+  channel: any;
 
+  orderStatistic : Statistic[];
+  productStatistic : Statistic[];
+  stockStatistic: Statistic[];
 
-        },
-      ],
-    },
-    {
-      title: 'Product',
-      data: [
-        {
-          displayText: 'Active',
-          value: 234,
-          circleColor: 'success',
-          percent:'25%',
-          hasCircle:true,
-          hasArrow:true,
-          ArrowActivity : 'pi pi-arrow-up',
-        },
-        {
-          displayText: 'Problem',
-          value: 2,
-          circleColor: 'danger',
-          percent: '13%',
-          hasCircle:true,
-          hasArrow:true,
-          ArrowActivity:'pi pi-arrow-down'
-        },
-      ],
+  selectedChannel: string = "ALL CHANNEL";
 
-      
-    },
-    {
-      title: 'STOCK STATUS',
-      data: [
-        {
-          displayText: 'Restock soon',
-          value: 2331423423423424,
-          circleColor: 'success',
-          percent:'25%',
-          hasCircle:true,
-          hasArrow:true,
-          ArrowActivity : 'pi pi-arrow-up',
-        },
-        {
-          displayText: 'Restock now',
-          value: 2,
-          circleColor: 'danger',
-          percent:'13%',
-          hasCircle:true,
-          hasArrow:true,
-          ArrowActivity : 'pi pi-arrow-down'
-        },
-      ],
-    },
-  ];
+  private channelId = new BehaviorSubject<number>(0);
+  channelId$ = this.channelId.asObservable();
+  
+
+  constructor(private dashboardService: DashboardService, private channelService: ChannelService) {
+    this.channelService.getChannels().subscribe((channels: any)=>{
+      this.channelList = channels;
+    })
+  }
+
+  ngOnChanges(changes: SimpleChanges){
+    const filter = changes['filterArr'].currentValue;
+    this.channelId$.subscribe(id => {
+      this.dashboardService.getOrderStatus(id, filter).subscribe((result: any)=>{
+        this.orderStatistic = result;
+      });
+      this.dashboardService.getProductStatus(id, filter).subscribe((result: any)=>{
+        this.productStatistic = result;
+      });
+      this.dashboardService.getStockStatus(id, filter).subscribe((result: any)=>{
+        this.stockStatistic = result;
+      });
+    })
+  }
+
+  handleSelectChannel(id: number){
+    var index = this.channelList.findIndex(channel => { return channel.id == id });
+    this.channel = this.channelList[index];
+    this.channelId.next(this.channel.id);
+    this.selectedChannel = this.channel.name;
+  }
+  
+  getAllChannels(){
+    this.channelId.next(0);
+    this.selectedChannel= "ALL CHANNEL";
+  }
 }
  

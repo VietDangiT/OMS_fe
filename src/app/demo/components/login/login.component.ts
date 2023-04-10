@@ -21,8 +21,8 @@ export enum Role{
 }
 
 export interface SignIn{
-    username: any;
-    password: any;
+    UserName: any;
+    UserPassword: any;
 }
 
 @Component({
@@ -39,8 +39,8 @@ export class LoginComponent {
   constructor(private authService : AuthService, private router: Router , private messageService: MessageService){}
   
   signInForm = new FormGroup({
-    userName: new FormControl('',Validators.required),
-    userPassword: new FormControl('',Validators.required)
+    UserName: new FormControl('',Validators.required),
+    UserPassword: new FormControl('',Validators.required)
   });
   
   ngOnInit(){ 
@@ -53,13 +53,13 @@ export class LoginComponent {
       this.errorToast();
     }else{
       var user = this.signInForm.value;
-      this.authService.login(user).subscribe(token => {      
+      this.authService.login(this.signInForm.value).subscribe(token => {
         localStorage.setItem("token", token);
       });
 
       this.isLoading= true;
       setTimeout(() => {
-        this.router.navigate(['']);
+        this.router.navigate(['/dashboard']);
         this.isLoading=false;
       }, 1000);
   }}

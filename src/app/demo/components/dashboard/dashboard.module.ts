@@ -32,6 +32,8 @@ import { SaleStoreComponent } from './sale-store/sale-store.component';
 import { GlobalFilterComponent } from '../global-filter/global-filter.component';
 import { CalendarModule } from 'primeng/calendar';
 import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sale-by-location.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from 'src/app/auth.interceptor';
 
 @NgModule({
   imports: [
@@ -67,9 +69,12 @@ import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sal
     DetailStatisticComponent,
     SaleByLocationComponent,
     TopSellingProductComponent,
-    SaleStoreComponent,
+    SaleStoreComponent, 
     GlobalFilterComponent,
     TotalSaleByLocationComponent
   ],
+  providers:[
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}
+  ]
 })
 export class DashboardModule {}
