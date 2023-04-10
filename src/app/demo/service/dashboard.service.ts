@@ -67,18 +67,8 @@ export class DashboardService {
       .pipe();
   }
 
-  GetOrders() {
-    return this._http.get<any>('./assets/demo/data/orders.json').pipe();
-  }
-
   getOrders() {
     return this._http.get<any>(`./assets/demo/data/OrderedList.json`).pipe();
-  }
-
-  GetProductCatalogs() {
-    return this._http
-      .get<any>('./assets/demo/data/product-catalogs.json')
-      .pipe();
   }
 
   getSaleByChannel(
