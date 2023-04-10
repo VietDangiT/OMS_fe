@@ -20,6 +20,8 @@ export class ProductCatalogComponent {
   product: any;
   dataChart: ChartData;
 
+  selectedProduct: string ="All products";
+
   private productId = new BehaviorSubject<number>(0);
   productId$ = this.productId.asObservable();
   
@@ -47,10 +49,12 @@ export class ProductCatalogComponent {
     var index = this.productVariantList.findIndex(item => { return item.id == id });
     this.product = this.productVariantList[index];
     this.productId.next(this.product.id);
+    this.selectedProduct = `${this.product.name} ${this.product.description}`
   }
 
   getAllProducts(){
     this.productId.next(0);
+    this.selectedProduct = "All products";
   }
 
   setupChartData(result:any){

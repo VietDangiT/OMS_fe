@@ -1,7 +1,7 @@
   <div class="flex-col">
     <div class="mb-4 flex-col font-bold flex test-sm justify-between">
         <div class="">Product Catalog</div>
-        <div class="text-yellow-400">{{product?.id ? product.text : "All products"}}</div>
+        <div class="text-yellow-400">{{selectedProduct}}</div>
   </div>
 
   <div class="w-full">
@@ -10,8 +10,8 @@
       <div class="w-8 h-8 border relative border-gray-300 flex items-center justify-center rounded-md group">
         <i class="pi pi-filter text-primary "></i>
         <ul class="group-hover:flex z-10 group flex-col  text-black absolute top-full  shadow-lg rounded-lg right-0 hidden bg-white after:content-[''] after:w-full after:h-8 after:bg-transparent after:-top-8 after:absolute after:right-0">
-          <li class="break-words  whitespace-nowrap p-3 hover:bg-gray-200 cursor-pointer hover:text-primary" (click)="getAllProducts(); product.text='All products'">All products</li>
-          <li *ngFor="let product of productVariantList" (click)="handleProductVariant(product.id)" class="break-words  whitespace-nowrap p-3 hover:bg-gray-200 cursor-pointer hover:text-primary">{{product.text}}</li>
+          <li class="break-words  whitespace-nowrap p-3 hover:bg-gray-200 cursor-pointer hover:text-primary" (click)="getAllProducts()">All products</li>
+          <li *ngFor="let product of productVariantList" (click)="handleProductVariant(product.id)" class="break-words  whitespace-nowrap p-3 hover:bg-gray-200 cursor-pointer hover:text-primary">{{product.name}} {{product.description}}</li>
         </ul>
       </div>
     </div>

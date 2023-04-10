@@ -1,22 +1,20 @@
 <div class="mb-3">
-  <span class=" text-sm font-bold">{{ detailStatistic.title | uppercase}}</span>
+  <span class=" text-sm font-bold">{{ heading | uppercase}}</span>
   <div class="grid gap-4 flex-wrap  py-2 md:grid-cols-1 lg:grid-cols-2  ">
-    <div class="bg-light-yellow rounded-lg p-3 relative group" *ngFor="let item of detailStatistic.data">
-        <span class="flex items-center font-medium mb-2 text-sm ">{{ item.displayText }} 
+    <div class="bg-light-yellow rounded-lg p-3 relative group" *ngFor="let item of detailStatistic">
+        <span class="flex items-center font-medium mb-2 text-sm ">{{ item.text }} 
           <i class="pi pi-circle-fill text-[3px] ml-2 md:text-[5px] "
-          [ngClass]="item.circleColor === 'danger' ?  'text-danger' : 'text-success'"
-          *ngIf="item.hasCircle === true"></i>
+          [ngClass]="item.previous > item.current ?  'text-danger' : 'text-success'"></i>
         </span> 
-        <div class=" font-bold text-lg md:text-xl max-w-[150px] text-ellipsis overflow-hidden whitespace-nowrap ">{{ item.value }}
+        <div class=" font-bold text-lg md:text-xl max-w-[150px] text-ellipsis overflow-hidden whitespace-nowrap ">{{ item.current }}
         </div>
         <span class="group-hover:opacity-100 transition-opacity bg-gray-400 px-1 text-sm text-white rounded-md absolute left-1/2 
-         -translate-x-1/2 -translate-y-full opacity-0 m-4 mx-auto">{{item.value}}</span>
-        <div class="text-xs font-medium gap-1 mt-2 flex items-center">
+         -translate-x-1/2 -translate-y-full opacity-0 m-4 mx-auto">{{item.current}}</span>
+        <div *ngIf="item.value" class="text-xs font-medium gap-1 mt-2 flex items-center">
             <i class="pi " 
-            [ngClass]="item.ArrowActivity === 'pi pi-arrow-up'? 'text-success pi-angle-up':'text-danger pi-angle-down'"
-            *ngIf="item.hasArrow === true"></i>
-            <span class="" >{{ item.percent }}</span>
-        </div>
+            [ngClass]="item.value >= 0 ? 'text-success pi-angle-up':'text-danger pi-angle-down'"></i>
+            <span  class="" >{{item.value | number : '1.2-2'}} %</span>
+          </div>
     </div>
   </div>
 </div>

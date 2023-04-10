@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Statistic } from '../dashboard-statistic.component';
 
 export interface DetailStatistic {
   title: string;
@@ -20,7 +21,8 @@ export interface DetailStatistic {
   styleUrls: ['./detail-statistic.component.scss'],
 })
 export class DetailStatisticComponent {
-  @Input() detailStatistic: DetailStatistic;
+  @Input() detailStatistic: Statistic[];
+  @Input() heading: string;
   ngOnInit(){
     console.log(this.detailStatistic);
     
