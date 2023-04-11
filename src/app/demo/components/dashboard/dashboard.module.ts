@@ -73,8 +73,6 @@ import { AuthInterceptor } from 'src/app/auth.interceptor';
     GlobalFilterComponent,
     TotalSaleByLocationComponent
   ],
-  providers:[
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}
-  ]
+ 
 })
 export class DashboardModule {}

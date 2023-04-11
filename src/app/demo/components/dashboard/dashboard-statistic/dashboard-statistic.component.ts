@@ -1,5 +1,4 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { DetailStatistic } from './detail-statistic/detail-statistic.component';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { ChannelService } from 'src/app/demo/service/channel.service';
 import { BehaviorSubject } from 'rxjs';
@@ -18,7 +17,6 @@ export interface Statistic {
   styleUrls: ['./dashboard-statistic.component.css'],
 })
 export class DashboardStatisticComponent {
-  @Input() data: DetailStatistic[] = [];
   @Input() filterArr: string[];
  
   channelList: any[];
@@ -28,7 +26,7 @@ export class DashboardStatisticComponent {
   productStatistic : Statistic[];
   stockStatistic: Statistic[];
 
-  selectedChannel: string = "ALL CHANNEL";
+  selectedChannel: string = "All Channels";
 
   private channelId = new BehaviorSubject<number>(0);
   channelId$ = this.channelId.asObservable();
@@ -43,15 +41,19 @@ export class DashboardStatisticComponent {
   ngOnChanges(changes: SimpleChanges){
     const filter = changes['filterArr'].currentValue;
     this.channelId$.subscribe(id => {
+      
       this.dashboardService.getOrderStatus(id, filter).subscribe((result: any)=>{
         this.orderStatistic = result;
       });
+
       this.dashboardService.getProductStatus(id, filter).subscribe((result: any)=>{
         this.productStatistic = result;
       });
+
       this.dashboardService.getStockStatus(id, filter).subscribe((result: any)=>{
         this.stockStatistic = result;
       });
+
     })
   }
 
@@ -64,7 +66,7 @@ export class DashboardStatisticComponent {
   
   getAllChannels(){
     this.channelId.next(0);
-    this.selectedChannel= "ALL CHANNEL";
+    this.selectedChannel= "All Channels";
   }
 }
  

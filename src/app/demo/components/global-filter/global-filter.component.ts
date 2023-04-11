@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
+import { HelperService } from '../../service/helper.service';
 
 @Component({
   selector: 'app-global-filter',
@@ -24,7 +25,9 @@ export class GlobalFilterComponent {
   @Output("filter") filterChange = new EventEmitter<string>();
   dateFilter!: Date[];
 
-
+  constructor(private helperService: HelperService) {
+    
+  }
   getDateRange(dateRange: Date[]) {
     this.dateFilterChange.emit(dateRange);    
   }
@@ -39,15 +42,15 @@ export class GlobalFilterComponent {
     this.handleActiveButtonFilter(event);
     switch (event.target.name) {
       case '1':
-        fromDate = this.addDays(now, -1);
+        fromDate = this.helperService.addDays(now, -1);
         this.dateFilterChange.emit([fromDate, now])
       break;
       case '2':
-        fromDate = this.addDays(now, -7);
+        fromDate = this.helperService.addDays(now, -7);
         this.dateFilterChange.emit([fromDate, now])
       break;
       case '3':
-        fromDate = this.addDays(now, -30);
+        fromDate = this.helperService.addDays(now, -30);
         this.dateFilterChange.emit([fromDate, now])
       break;
     }
@@ -62,12 +65,6 @@ export class GlobalFilterComponent {
     })
     event.target.classList.add("active");
     this.dateFilter = [];
-  }
-
-  addDays(date: Date, days: number) {
-    var result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
   }
 
   handleCalendar(event: any){

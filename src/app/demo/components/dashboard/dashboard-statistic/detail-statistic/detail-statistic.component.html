@@ -10,7 +10,7 @@
         </div>
         <span class="group-hover:opacity-100 transition-opacity bg-gray-400 px-1 text-sm text-white rounded-md absolute left-1/2 
          -translate-x-1/2 -translate-y-full opacity-0 m-4 mx-auto">{{item.current}}</span>
-        <div *ngIf="item.value" class="text-xs font-medium gap-1 mt-2 flex items-center">
+        <div  class="text-xs font-medium gap-1 mt-2 flex items-center">
             <i class="pi " 
             [ngClass]="item.value >= 0 ? 'text-success pi-angle-up':'text-danger pi-angle-down'"></i>
             <span  class="" >{{item.value | number : '1.2-2'}} %</span>

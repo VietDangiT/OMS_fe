@@ -6,8 +6,8 @@
   </div>
   <div class="flex flex-col justify-between py-4 gap-2 ">
     <div class="flex justify-between text-primary font-bold " *ngFor="let product of products">
-      <p>{{product.text}}</p>
-      <p>{{product.value}}</p>
+      <p>{{product.text | titlecase}}</p>
+      <p>{{product.value | number}}</p>
     </div>
   </div>
 </div>

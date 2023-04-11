@@ -11,6 +11,8 @@ import { EventService } from './demo/service/event.service';
 import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import { PhotoService } from './demo/service/photo.service';
         NodeService,
         PhotoService,
         ProductService,
+        {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}
+          
     ],
     bootstrap: [AppComponent],
 })
