@@ -6,13 +6,15 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { DateFilterComponent } from './date-filter/date-filter.component';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
+import { PaginationComponent } from './pagination/pagination.component';
 
 
 
 @NgModule({
   declarations: [
     OMSChartComponent,
-    DateFilterComponent
+    DateFilterComponent,
+    PaginationComponent
   ],
   imports: [
     CommonModule,
