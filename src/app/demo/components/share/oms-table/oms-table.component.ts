@@ -9,9 +9,10 @@ import { OmsTable } from '../model/oms-table';
 })
 export class OmsTableComponent {
   @Input() table : OmsTable = {
-    pageNumber: 0,
-    pageSize: 0,
-    totalRowCount: 0,
+    pageNumber: 1,
+    pageSize: 10,
+    totalRowCount: 25,
+    first: 0,
     data: {
       header: [],
       body: [

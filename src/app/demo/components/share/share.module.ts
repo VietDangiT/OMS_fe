@@ -9,12 +9,14 @@ import { FormsModule } from '@angular/forms';
 import { OmsTableComponent } from './oms-table/oms-table.component';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   declarations: [
     OMSChartComponent,
     DateFilterComponent,
-    OmsTableComponent
+    OmsTableComponent,
+    PaginationComponent
   ],
   imports: [
     CommonModule,
