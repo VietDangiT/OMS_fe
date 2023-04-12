@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { PagingInfo } from './paginginfo';
 
 @Component({
   selector: 'app-pagination',
@@ -9,7 +10,7 @@ export class PaginationComponent {
 
   @Output("pagingInfo") pagingInfo = new EventEmitter();
 
-  @Input() currentPagingInfo: any;
+  @Input() currentPagingInfo: PagingInfo;
   
   first: number = 0;
 
