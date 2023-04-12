@@ -1,19 +1,10 @@
 import { Component } from '@angular/core';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
-import { ChartData, ChartOptions } from 'chart.js';
-import { DashboardTable } from '../interfaces/dashboard-table';
+import { ChartData } from 'chart.js';
 import { SaleByChannelHeatmap } from './sale-by-channel-heatmap/sale-by-channel-heatmap.component';
+import { OrderOnChannelData } from '../interfaces/interfaces';
 
-export interface OrderOnChannelData {
-  headerData: string[];
-  bodyData: {
-    channelImage: string;
-    channelName: string;
-    isActive: true;
-    numberOrder: number;
-    totalSale: number;
-  }[];
-}
+
 
 @Component({
   selector: 'dashboard-total-sale-by-channel',

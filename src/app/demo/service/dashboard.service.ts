@@ -86,83 +86,72 @@ export class DashboardService {
     return this._http
       .get<any>(
         `${environment.apiUrl}/Dashboard/channels/sale?fromDate=${fromDate}&toDate=${toDate}`
-      )
-      .pipe();
+      );
   }
 
   getTotalSaleByLocation(fromDate: string = '', toDate: string = '') {
     return this._http
       .get<any>(
         `${environment.apiUrl}/Dashboard/locations/sale?fromDate=${fromDate}&toDate=${toDate}`
-      )
-      .pipe();
+      );
   }
 
   getTotalSale(filter: string[]) {
     return this._http
       .get(
         `${environment.apiUrl}/Dashboard/sales?fromDate=${filter[0]}&toDate=${filter[1]}`
-      )
-      .pipe();
+      );
   }
 
   getTotalReturn(filter: string[]) {
     return this._http
       .get(
         `${environment.apiUrl}/Dashboard/returns/totalreturn?fromDate=${filter[0]}&toDate=${filter[1]}`
-      )
-      .pipe();
+      );
   }
 
   getTotalOrder(filter: string[]) {
     return this._http
       .get(
         `${environment.apiUrl}/Dashboard/orders?fromDate=${filter[0]}&toDate=${filter[1]}`
-      )
-      .pipe();
+      );
   }
 
   getTopSellingProducts(filter: string[]) {
     return this._http
       .get(
         `${environment.apiUrl}/Dashboard/product/totalsale?fromDate=${filter[0]}&toDate=${filter[1]}`
-      )
-      .pipe();
+      );
   }
 
   getProductVariant() {
     return this._http
-      .get(`${environment.apiUrl}/Product/productvariants`)
-      .pipe();
+      .get(`${environment.apiUrl}/Product/productvariants`);
   }
 
   getProductCatalogs(id: number, filter: string[]) {
     return this._http
       .get(
         `${environment.apiUrl}/Dashboard/productcatalog/itemssold?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
-      )
-      .pipe();
+      );
   }
   
   getOrderStatus(id:number, filter: string[]) {
     return this._http
       .get(
-        `${environment.apiUrl}/Dashboard/orders/statusordes?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
-      )
-      .pipe();
+        `${environment.apiUrl}/Dashboard/orders/statusorders?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+      );
   }
   getProductStatus(id:number, filter: string[]) {
     return this._http
       .get(
         `${environment.apiUrl}/Dashboard/productchannel/statusproduct?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
-      )
-      .pipe();
+      );
   }
   getStockStatus(id:number, filter: string[]) {
     return this._http
       .get(
-        `${environment.apiUrl}/Dashboard/productchannel/statusstock?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
-      )
-      .pipe();
+        `${environment.apiUrl}/Dashboard/productchannel/statusquantity?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+      );
   }
 }

@@ -4,7 +4,7 @@ import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { environment } from 'src/environments/environment';
 import { heatChartOptions } from '../../charts/apex-chart.component';
-import { DashboardTable } from '../interfaces/dashboard-table';
+import { DashboardTable } from '../interfaces/interfaces';
 
 interface PagingInfo{
   links: string[],

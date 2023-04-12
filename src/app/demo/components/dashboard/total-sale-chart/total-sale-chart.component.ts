@@ -2,7 +2,7 @@ import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/cor
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { environment } from 'src/environments/environment';
-import { BaseChart } from '../interfaces/base-chart';
+import { BaseChart } from '../interfaces/interfaces';
 
 @Component({
   selector: 'dashboard-total-sale-chart',

@@ -1,7 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { Component, Input, Output, ViewEncapsulation } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { DashboardTable } from '../interfaces/dashboard-table';
+import { DashboardTable } from '../interfaces/interfaces';
 
 @Component({
   selector: 'dashboard-table',

@@ -1,5 +1,5 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { Statistic } from '../dashboard-statistic.component';
+import { Component, Input } from '@angular/core';
+import { Statistic } from '../../interfaces/interfaces';
 
 
 
@@ -11,6 +11,4 @@ import { Statistic } from '../dashboard-statistic.component';
 export class DetailStatisticComponent {
   @Input() detailStatistic: Statistic[];
   @Input() heading: string;
-  ngOnChanges(changes: SimpleChanges){    
-  }
 }

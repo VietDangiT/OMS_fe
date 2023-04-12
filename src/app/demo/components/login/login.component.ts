@@ -3,6 +3,7 @@ import { AuthService } from "../../service/auth.service";
 import { Router } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
+import { catchError, tap } from "rxjs";
 
 export interface User {
   id: number;
@@ -50,26 +51,28 @@ export class LoginComponent {
   onSubmit(){
     this.signInForm.markAllAsTouched();
     if(!this.signInForm.valid){
-      this.errorToast();
+      this.errorToast('Enter valid form value');
     }else{
-      var user = this.signInForm.value;
-      this.authService.login(this.signInForm.value).subscribe(token => {
-        localStorage.setItem("token", token);
-      });
-
       this.isLoading= true;
-      setTimeout(() => {
-        this.router.navigate(['/dashboard']);
-        this.isLoading=false;
-      }, 1000);
+      this.authService.login(this.signInForm.value)
+      .pipe(
+        catchError(async (err) =>  this.errorToast(err.error)),
+        tap((token: string) => {
+          this.isLoading=false;
+          if(!!token){
+            localStorage.setItem("token", token)
+            this.router.navigate(['/dashboard']);
+          }
+        }))
+      .subscribe();
   }}
   
   togglePassword(){
     this.showPassword = !this.showPassword;
   }
  
-  errorToast(){
-    this.messageService.add({severity:'error', summary:'Error', detail:'Enter valid form value', closable:true});
+  errorToast(message: string){
+    this.messageService.add({severity:'error', summary:'Error', detail:message, closable:true});
   }
 }
 

@@ -1,15 +1,10 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { ChannelService } from 'src/app/demo/service/channel.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
+import { Statistic } from '../interfaces/interfaces';
 
-export interface Statistic {
-  current: number,
-  id: number,
-  previous: number,
-  value: number,
-  text: string
-}
+
 
 @Component({
   selector: 'dashboard-statistic',
@@ -33,28 +28,42 @@ export class DashboardStatisticComponent {
   
 
   constructor(private dashboardService: DashboardService, private channelService: ChannelService) {
-    this.channelService.getChannels().subscribe((channels: any)=>{
-      this.channelList = channels;
-    })
+    this.channelService.getChannels()
+    .pipe(
+      tap((channels: any)=>{
+        this.channelList = channels;
+      })
+    )
+    .subscribe()
   }
 
   ngOnChanges(changes: SimpleChanges){
     const filter = changes['filterArr'].currentValue;
-    this.channelId$.subscribe(id => {
-      
-      this.dashboardService.getOrderStatus(id, filter).subscribe((result: any)=>{
-        this.orderStatistic = result;
-      });
-
-      this.dashboardService.getProductStatus(id, filter).subscribe((result: any)=>{
-        this.productStatistic = result;
-      });
-
-      this.dashboardService.getStockStatus(id, filter).subscribe((result: any)=>{
-        this.stockStatistic = result;
-      });
-
-    })
+    this.channelId$
+    .pipe(
+      tap((id: number)=> {
+        console.log("id"+id);
+        console.log("filter"+filter);
+        
+        this.dashboardService.getOrderStatus(id, filter).pipe(
+          tap((result: any)=>{
+            this.orderStatistic = result;            
+          })
+        ).subscribe();
+  
+        this.dashboardService.getProductStatus(id, filter).pipe(
+          tap((result: any)=>{
+            this.productStatistic = result;
+          })
+        ).subscribe();
+  
+        this.dashboardService.getStockStatus(id, filter).pipe(
+          tap((result: any)=>{
+            this.stockStatistic = result;
+          })
+        ).subscribe();
+      })
+    ).subscribe();
   }
 
   handleSelectChannel(id: number){

@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, Input, SimpleChanges } from '@angular/cor
 import { ChartData, ChartOptions } from 'chart.js';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { environment } from 'src/environments/environment';
-import { BaseChart } from '../interfaces/base-chart';
+import { BaseChart } from '../interfaces/interfaces';
 
 @Component({
   selector: 'dashboard-total-orders',
