@@ -7,6 +7,7 @@ import { DateFilterComponent } from './date-filter/date-filter.component';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from './pagination/pagination.component';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 
@@ -21,7 +22,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     ChartModule,
     NgApexchartsModule,
     CalendarModule,
-    FormsModule
+    FormsModule,
+    PaginatorModule
   ],
   exports: [OMSChartComponent, DateFilterComponent]
 })
