@@ -1,6 +1,6 @@
 <p-paginator
   (onPageChange)="onPageChange($event)"
-  [first]="first"
-  [rows]="rows"
-  [totalRecords]="totalRecords"
+  [first]="currentPagingInfo.first"
+  [rows]="currentPagingInfo.rows"
+  [totalRecords]="currentPagingInfo.totalRecord"
 ></p-paginator>

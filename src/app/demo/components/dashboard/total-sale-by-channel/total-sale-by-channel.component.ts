@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { DashboardTable } from '../interfaces/dashboard-table';
 import { SaleByChannelHeatmap } from './sale-by-channel-heatmap/sale-by-channel-heatmap.component';
+import { OmsTable } from '../../share/model/oms-table';
+import { KeyValue } from '@angular/common';
 
 @Component({
   selector: 'dashboard-total-sale-by-location',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TotalSaleByChannelComponent {
   tableData: DashboardTable = {

@@ -10,13 +10,14 @@ import { OmsTableComponent } from './oms-table/oms-table.component';
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { PaginationComponent } from './pagination/pagination.component';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
     OMSChartComponent,
     DateFilterComponent,
     OmsTableComponent,
-    PaginationComponent
+    PaginationComponent,
   ],
   imports: [
     CommonModule,
@@ -25,7 +26,9 @@ import { PaginationComponent } from './pagination/pagination.component';
     CalendarModule,
     FormsModule,
     TableModule,
-    PaginatorModule
+    PaginatorModule,
+    SkeletonModule
+
   ],
   exports: [OMSChartComponent, DateFilterComponent, OmsTableComponent]
 })
