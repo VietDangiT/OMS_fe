@@ -6,21 +6,25 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { DateFilterComponent } from './date-filter/date-filter.component';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
-
-
+import { OmsTableComponent } from './oms-table/oms-table.component';
+import { TableModule } from 'primeng/table';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [
     OMSChartComponent,
-    DateFilterComponent
+    DateFilterComponent,
+    OmsTableComponent
   ],
   imports: [
     CommonModule,
     ChartModule,
     NgApexchartsModule,
     CalendarModule,
-    FormsModule
+    FormsModule,
+    TableModule,
+    PaginatorModule
   ],
-  exports: [OMSChartComponent, DateFilterComponent]
+  exports: [OMSChartComponent, DateFilterComponent, OmsTableComponent]
 })
 export class ShareModule { }
