@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./channel-detail.component.scss']
 })
 export class ChannelDetailComponent {
-
+ 
 }

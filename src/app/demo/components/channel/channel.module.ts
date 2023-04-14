@@ -6,6 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { ChannelComponent } from './channel.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { ChannelDetailComponent } from './channel-detail/channel-detail.component';
+import { CalendarModule } from 'primeng/calendar';
+import { ShareModule } from '../share/share.module';
+import { ChannelListComponent } from './channel-list/channel-list.component';
 
 @NgModule({
   imports: [
@@ -13,11 +16,14 @@ import { ChannelDetailComponent } from './channel-detail/channel-detail.componen
     ChannelRoutingModule,
     AppTopBarModule,
     FormsModule,
-    TabMenuModule
+    TabMenuModule,
+    CalendarModule,
+    ShareModule
   ],
   declarations: [
     ChannelComponent,
-    ChannelDetailComponent
+    ChannelDetailComponent,
+    ChannelListComponent
   ],
 })
 export class ChannelModule {}

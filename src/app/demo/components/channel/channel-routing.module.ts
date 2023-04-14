@@ -1,18 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChannelComponent } from './channel.component';
-import { ChannelDetailComponent } from './channel-detail/channel-detail.component';
+import { ChannelListComponent } from './channel-list/channel-list.component';
 
 const route:Routes = [
     {
       path: '',
       data: { breadcrumbs: ['Channels'] },
-      component: ChannelComponent,
-      children:[ {
-        path: ':channelname',
-        data: {breadcrumbs: ['Channels']},
-        component: ChannelDetailComponent
-       }]
+      component: ChannelListComponent,
+      
     },
   
   ];

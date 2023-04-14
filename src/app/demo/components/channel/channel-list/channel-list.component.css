@@ -1,0 +1,70 @@
+.p-tabmenu-nav a{
+    @apply block bg-transparent !important;   
+}
+
+.p-tabmenu .p-tabmenu-nav{
+ @apply bg-transparent border-none;
+}
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem:hover{
+    @apply border-b-0 border-none !important; 
+}
+.p-tabmenu.p-tabmenu-nav.p-tabmenuitem.p-highlight.p-menuitem-link{
+    @apply bg-transparent hover:border-primary hover:text-primary ;
+}
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link:not(.p-disabled):focus{
+    @apply shadow-none
+}
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link{
+    @apply m-auto p-2;
+}
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem{
+    @apply hover:border-b-2 hover:border-solid
+}
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link{
+    @apply text-primary border-primary border-b-2 border-solid ;
+}
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link .badge{
+    @apply bg-opacity-100 text-white
+}
+
+.p-tabmenu-nav-content{
+    @apply overflow-y-auto !important;
+}
+p-calendar .p-button-icon-only {
+    @apply bg-primary text-white outline-none opacity-90 transition-all duration-100 ease-linear;
+  }
+  
+  .p-ink {
+    @apply hidden;
+  }
+
+.p-button:enabled:hover{
+    @apply bg-primary outline-none opacity-100
+} 
+
+.p-inputtext:enabled:hover{
+    @apply border-primary border-opacity-80 border placeholder:opacity-100 duration-100 transition-all;
+} 
+.p-inputtext{
+    @apply cursor-pointer border-gray-300  placeholder:opacity-50;
+   
+}
+.p-button{
+    @apply border-none bg-primary;
+}
+.p-inputtext:enabled:focus{
+    @apply  shadow-none border-primary border-opacity-80;  
+}
+.filter-button{
+    @apply  lg:min-w-[80px] border-gray-300 border bg-white rounded-lg text-gray-500 hover:border-primary  transition-all duration-100 hover:text-primary px-2 py-3;
+}
+
+.active{
+    @apply text-primary border-primary
+}
+
+.p-button-icon.pi.pi-calendar.active{
+    @apply text-white;
+}
