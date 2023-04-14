@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { environment } from 'src/environments/environment';
 import { HelperService } from '../../service/helper.service';
+import { ChartOptions } from 'chart.js';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -11,7 +12,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   currentDate = new Date(Date.now());
   previousDate = this.helperSerivce.addDays(this.currentDate, -7);
   pieOptions: any;
-  chartOptions: any;
+  chartOptions: ChartOptions;
   subscription!: Subscription;
 
   //default filter value - 7 days from currentDate
@@ -61,13 +62,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  dateFilterChanged(dateRange: Date[]){
+  dateFilterChanged(dateRange: Date[]): void{
     if(dateRange[1] != null){
       this.filterArr = dateRange.map((date:Date)=>{
         return date.toLocaleDateString("en-EN");
       });
     }
-    return null;
   }
 
   ngOnDestroy() {

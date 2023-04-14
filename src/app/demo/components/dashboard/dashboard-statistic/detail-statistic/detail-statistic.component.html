@@ -1,8 +1,8 @@
-<div class="mb-3">
+<div class="mb-1">
   <span class=" text-sm font-bold">{{ heading | titlecase}}</span>
-  <div class="grid gap-4 flex-wrap  py-2 md:grid-cols-1 lg:grid-cols-2  ">
-    <div class="bg-light-yellow rounded-lg p-3 relative group" *ngFor="let item of detailStatistic">
-        <span class="flex items-center font-medium mb-2 text-sm ">{{ item.text }} 
+  <div class="grid gap-2 flex-wrap  py-2 ">
+    <div class="bg-light-yellow rounded-lg py-2 px-3 relative group" *ngFor="let item of detailStatistic">
+        <span class="flex items-center font-medium  mb-1 text-sm ">{{ item.text }} 
           <i class="pi pi-circle-fill text-[3px] ml-2 md:text-[5px] "
           [ngClass]="item.previous > item.current ?  'text-danger' : 'text-success'"></i>
         </span> 
@@ -10,7 +10,7 @@
         </div>
         <span class="group-hover:opacity-100 transition-opacity bg-gray-400 px-1 text-sm text-white rounded-md absolute left-1/2 
          -translate-x-1/2 -translate-y-full opacity-0 m-4 mx-auto">{{item.current}}</span>
-        <div  class="text-xs font-medium gap-1 mt-2 flex items-center">
+        <div  class="text-xs font-medium gap-1 mt-1 flex items-center">
             <i class="pi " 
             [ngClass]="item.value >= 0 ? 'text-success pi-angle-up':'text-danger pi-angle-down'"></i>
             <span  class="" >{{item.value | number : '1.2-2'}} %</span>

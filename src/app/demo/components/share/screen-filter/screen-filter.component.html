@@ -1,0 +1,9 @@
+<div class="flex gap-2">
+    <span class="flex items-center px-3 hover:border-primary duration-100 transition-all rounded-lg bg-white border  border-light-gray  text-gray-500">
+        <label for="search">
+            <i class="pi pi-search"></i>
+        </label>
+        <input id="search" type="text" placeholder="Search" [(ngModel)]="searchValue" (ngModelChange)="getSearchValueInternal($event)" class=" h-full ml-2 bg-transparent outline-none">
+    </span>
+    <p-calendar placeholder="Choose range of date"  (ngModelChange)="getDateRange($event)" [(ngModel)]="dateFilter" selectionMode="range" view="date" dateFormat="dd.mm.yy" [readonlyInput]="true" [showIcon]="true" appendTo="body" inputId="icon"  class="cursor-pointer "></p-calendar>
+</div>

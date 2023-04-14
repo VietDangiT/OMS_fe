@@ -3,19 +3,19 @@
         <a routerLink="/" class="{{isNavbarOn ? 'w-full pl-2' : ''}} pt-1 mb-2"><img src="./assets/logo1.png" alt="Logo" class="hidden px-1  md:block " ></a>
         <ul class="flex items-center justify-center w-full gap-2 flex-col"> 
             <li *ngFor="let element of menuElements" class="relative flex w-full duration-100 ease-linear group border-b-0 border-l-0 opacity-50 cursor-pointer group hover:opacity-100 " routerLinkActive="active" >
-                <a class=" gap-4 w-full {{isNavbarOn ? 'w-auto ml-4 block': 'flex items-center'}} text-white py-4  " routerLink={{element.path}} >
+                <a class=" gap-4 w-full {{isNavbarOn ? 'w-auto ml-4 block': 'flex items-center'}} text-white py-4  " [routerLink]="element.path" >
                     <i class="{{element.icon}} mx-auto"></i>
-                    <span *ngIf="isNavbarOn" class="capitalize ml-4">{{element.name}}</span>
+                    <span *ngIf="isNavbarOn" class="capitalize ml-4" >{{element.name | titlecase}}</span>
                 </a>
                 <div class="absolute top-0 bottom-0 left-0 opacity-0 invisible pointer-events-none w-[2px] h-full hover:block duration-100 ease-linear bg-secondary" >
                 </div>
                 <section  class="absolute p-4 z-10 hidden w-full min-w-[220px] submenu  group-hover:block rounded-xl rounded-l-none  top-0 left-full bg-white shadow-md"> 
-                    <span class="flex items-center mb-10 gap-2 pointer-events-none">
+                    <span class="flex items-center mb-6 gap-2 pointer-events-none"  >
                         <i class="pi pi-th-large"></i>
-                        <span class="font-bold">{{element.submenu.title}}</span>
+                        <span class="font-bold" >{{element.submenu.title}}</span>
                     </span>
                     <ul class="flex flex-col items-center justify-center h-full w-full gap-8"> 
-                        <li *ngFor="let item of element.submenu?.item" class="relative flex w-full  duration-200 ease-linear border-b-0 border-l-0 opacity-50 cursor-pointer hover:opacity-100 "  routerLinkActive="active"  routerLink={{item.path}} >
+                        <li *ngFor="let item of element.submenu?.item" class="relative flex w-full  duration-200 ease-linear border-b-0 border-l-0 opacity-50 cursor-pointer hover:opacity-100 "  routerLinkActive="active"  [routerLink]='item.path' [queryParams]='item.param'>
                             <a class="flex items-center w-full gap-2 md:py-0 ">
                                 <div class="">
                                     <i class="pi {{item.icon}}  text-gray-600 mx-auto "></i>

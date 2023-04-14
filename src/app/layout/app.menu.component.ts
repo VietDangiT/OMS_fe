@@ -3,7 +3,25 @@ import { Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
 import { ChannelService } from '../demo/service/channel.service';
 import { tap } from 'rxjs';
+import { Router } from '@angular/router';
 
+
+export interface MenuElement{
+  name?: string,
+  path?:string,
+  icon?: string,
+  isDropDownMenu?: boolean,
+  submenu?:{
+    title?: string,
+    item?:{
+      name?: string,
+      content?:string,
+      path?: string,
+      icon?: string,
+      param?: {}
+    }
+  }
+}
 @Component({
   selector: 'app-menu',
   templateUrl: './app.menu.component.html',
@@ -34,7 +52,7 @@ import { tap } from 'rxjs';
 export class AppMenuComponent {
   channels: any[] =[];
 
-  menuElements = [
+  menuElements: any[] = [
     {
       name: 'dashboard',
       path: '/dashboard',
@@ -48,12 +66,15 @@ export class AppMenuComponent {
             content: 'Total Sales',
             path: 'dashboard/totalsales',
             icon: 'pi-dollar',
+            param:{}
           },
           {
             name: 'totalOrder',
             content: 'Total Orders',
             path: 'dashboard/total-order',
             icon: 'pi-shopping-cart',
+            param:{}
+
           },
           {
             name: 'cardStatic',
@@ -163,7 +184,7 @@ export class AppMenuComponent {
   isNavbarOn: boolean | undefined;
   model: any[] = [];
 
-  constructor(public layoutService: LayoutService, private channelService: ChannelService) {
+  constructor(public layoutService: LayoutService, private channelService: ChannelService, private router:Router) {
     this.channelService.getChannels().pipe(
      tap((result: any)=>{
        const resultArr: any[] = [];
@@ -171,17 +192,18 @@ export class AppMenuComponent {
          resultArr.push({
            name: channel.name,
            content: channel.name,
-           path: `channels/${channel.name.toLowerCase().replace(" ","")}`,
+           path: `/channels`,
+           param: {countryId: channel.id},  
            icon: 'pi-home'
          })
-       })
-      const index = this.menuElements.findIndex(c => c.path === '/channels');
+       });       
+      const index = this.menuElements.findIndex((c:any) => c.path === '/channels');
       this.menuElements[index].submenu.item = resultArr;       
       })
       ).subscribe();
 
    this.layoutService.currentNavbarState.pipe(
-    tap(  (state) => (this.isNavbarOn = state))
+    tap((state) => (this.isNavbarOn = state))
    ).subscribe();
     }
     
@@ -435,4 +457,5 @@ export class AppMenuComponent {
       },
     ];
   }
+
 }

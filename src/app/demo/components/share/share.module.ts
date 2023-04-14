@@ -6,11 +6,13 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { DateFilterComponent } from './date-filter/date-filter.component';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
+import { ScreenFilterComponent } from './screen-filter/screen-filter.component';
 
 @NgModule({
   declarations: [
     OMSChartComponent,
-    DateFilterComponent
+    DateFilterComponent,
+    ScreenFilterComponent
   ],
   imports: [
     CommonModule,
@@ -19,6 +21,6 @@ import { FormsModule } from '@angular/forms';
     CalendarModule,
     FormsModule,
   ],
-  exports: [OMSChartComponent, DateFilterComponent]
+  exports: [OMSChartComponent, DateFilterComponent, ScreenFilterComponent]
 })
 export class ShareModule { }

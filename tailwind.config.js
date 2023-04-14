@@ -24,6 +24,7 @@ module.exports = {
         "grayData": "#6C757D",
         "danger":"#DE3B3B",
         "light-yellow": "#fff9ee",
+        "light-gray":"#ced4da",
         "geomapBackground": "#F8F9FA",
         "datalessRegion": "#DEE1E6"
       },
