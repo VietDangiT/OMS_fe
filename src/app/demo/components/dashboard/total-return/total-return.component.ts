@@ -27,7 +27,7 @@ export class TotalReturnComponent {
     var dataArr : number[] = [];
     var total : number = 0;
     result.map((item:any)=>{
-      labelArr.push(`${item.value.toFixed(0)}% ${item.text}`);
+      labelArr.push(`${item.value.toFixed(1)}% ${item.text}`);
       dataArr.push(item.numberOfReturn);
       total += item.numberOfReturn;
     });

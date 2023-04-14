@@ -1,6 +1,8 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
+import { ChannelService } from '../demo/service/channel.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -29,7 +31,9 @@ import { LayoutService } from './service/app.layout.service';
     `,
   ],
 })
-export class AppMenuComponent implements OnInit {
+export class AppMenuComponent {
+  channels: any[] =[];
+
   menuElements = [
     {
       name: 'dashboard',
@@ -85,44 +89,6 @@ export class AppMenuComponent implements OnInit {
       isDropDownMenu:true,
       submenu: {
         title:"Orders",
-        // item: [
-        //   {
-        //     name: 'totalSales',
-        //     content: 'Total Sales',
-        //     path: 'order/totalsales',
-        //     icon: 'pi-dollar',
-        //   },
-        //   {
-        //     name: 'totalOrder',
-        //     content: 'Total Orders',
-        //     path: 'order/total-order',
-        //     icon: 'pi-shopping-cart',
-        //   },
-        //   {
-        //     name: 'cardStatic',
-        //     path: 'order/card-static',
-        //     content: 'Card Statistics Payment',
-        //     icon: 'pi-credit-card',
-        //   },
-        //   {
-        //     name: 'saleByLocation',
-        //     path: 'order/sale-by-location',
-        //     content: 'Sales by Location',
-        //     icon: 'pi-globe',
-        //   },
-        //   {
-        //     name: 'saleByPromotion',
-        //     path: 'order/sale-by-promotion',
-        //     content: 'Sale by Promotions',
-        //     icon: 'pi-tag',
-        //   },
-        //   {
-        //     name: 'saleByChannel',
-        //     path: 'order/total-sale-by-channel',
-        //     content: 'Total sales by Channel',
-        //     icon: 'pi-home',
-        //   },
-        // ]
       }
     },
     {
@@ -185,29 +151,41 @@ export class AppMenuComponent implements OnInit {
       }
     },
     {
-      name: 'contact',
-      path: '/contact',
+      name: 'channel',
+      path: '/channels',
       icon: 'pi pi-phone',
       isDropDownMenu:true,
       submenu: {
-        title: 'Contacts',
-        item: [
-        
-        ],
+        title: 'Channels',     
       }
     },
   ];
   isNavbarOn: boolean | undefined;
   model: any[] = [];
 
-  constructor(public layoutService: LayoutService) {
-   
-    this.layoutService.currentNavbarState.subscribe(
-      (state) => (this.isNavbarOn = state)
-    );
-  }
+  constructor(public layoutService: LayoutService, private channelService: ChannelService) {
+    this.channelService.getChannels().pipe(
+     tap((result: any)=>{
+       const resultArr: any[] = [];
+       result.forEach((channel: any)=> {
+         resultArr.push({
+           name: channel.name,
+           content: channel.name,
+           path: `channels/${channel.name.toLowerCase().replace(" ","")}`,
+           icon: 'pi-home'
+         })
+       })
+      const index = this.menuElements.findIndex(c => c.path === '/channels');
+      this.menuElements[index].submenu.item = resultArr;       
+      })
+      ).subscribe();
 
-  ngOnInit() {
+   this.layoutService.currentNavbarState.pipe(
+    tap(  (state) => (this.isNavbarOn = state))
+   ).subscribe();
+    }
+    
+  ngOnInit() {    
     this.model = [
       {
         label: 'Home',

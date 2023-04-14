@@ -56,6 +56,13 @@ import { RoleGuard } from './demo/components/guard/role.guard';
                   (m) => m.PagesModule
                 ),
             },
+            {
+              path: 'channels',
+              loadChildren: () =>
+                import('./demo/components/channel/channel.module').then(
+                  (m) => m.ChannelModule
+                ),
+            },
           ],
         },
         {

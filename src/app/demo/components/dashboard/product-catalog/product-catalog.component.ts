@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, Input, SimpleChanges } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { environment } from 'src/environments/environment';
 
@@ -14,7 +14,6 @@ export class ProductCatalogComponent {
   @Input() basicOptions!: ChartOptions;
   @Input() filterArr: string[];
   
-  
   //Product Variant list
   productVariantList : any[];
   product: any;
@@ -27,6 +26,8 @@ export class ProductCatalogComponent {
   
   totalValue: string;
 
+  private change$ = new Subject();
+
   constructor(private dashboardService: DashboardService) {  
   }
 
@@ -38,11 +39,17 @@ export class ProductCatalogComponent {
 
   ngOnChanges(changes: SimpleChanges){
     this.filterArr = changes['filterArr'].currentValue;
-    this.productId$.subscribe(id => 
-        this.dashboardService.getProductCatalogs(id, this.filterArr).subscribe((result: any) =>{
-          this.setupChartData(result);
-        })
-    )
+    this.change$.next('');
+    this.productId$.pipe(
+      switchMap((id: number) => {
+        return this.dashboardService.getProductCatalogs(id, this.filterArr).pipe(
+          tap((result: any) =>{
+            this.setupChartData(result);
+          }))
+       }
+    ),
+    takeUntil(this.change$)
+    ).subscribe();
   }
 
   handleProductVariant(id: number){
@@ -81,5 +88,6 @@ export class ProductCatalogComponent {
     };
   
   }
+  
 
 }

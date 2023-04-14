@@ -1,8 +1,8 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
-import { ChannelService } from 'src/app/demo/service/channel.service';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, Subject, forkJoin, switchMap, takeUntil, tap } from 'rxjs';
 import { Statistic } from '../interfaces/interfaces';
+import { ChannelService } from 'src/app/demo/service/channel.service';
 
 
 
@@ -25,6 +25,8 @@ export class DashboardStatisticComponent {
 
   private channelId = new BehaviorSubject<number>(0);
   channelId$ = this.channelId.asObservable();
+
+  private changes$ = new Subject();
   
 
   constructor(private dashboardService: DashboardService, private channelService: ChannelService) {
@@ -39,30 +41,29 @@ export class DashboardStatisticComponent {
 
   ngOnChanges(changes: SimpleChanges){
     const filter = changes['filterArr'].currentValue;
+    this.changes$.next('');
     this.channelId$
-    .pipe(
-      tap((id: number)=> {
-        console.log("id"+id);
-        console.log("filter"+filter);
+    .pipe( 
+        switchMap((id: number)=> {
         
-        this.dashboardService.getOrderStatus(id, filter).pipe(
+        const order$ = this.dashboardService.getOrderStatus(id, filter).pipe(
           tap((result: any)=>{
             this.orderStatistic = result;            
-          })
-        ).subscribe();
-  
-        this.dashboardService.getProductStatus(id, filter).pipe(
+          }));
+          
+        const product$ = this.dashboardService.getProductStatus(id, filter).pipe(
           tap((result: any)=>{
             this.productStatistic = result;
-          })
-        ).subscribe();
-  
-        this.dashboardService.getStockStatus(id, filter).pipe(
+          }));
+
+        const stock$ = this.dashboardService.getStockStatus(id, filter).pipe(
           tap((result: any)=>{
             this.stockStatistic = result;
-          })
-        ).subscribe();
-      })
+          }));
+
+        return forkJoin([order$, product$, stock$])
+      }),
+    takeUntil(this.changes$)  
     ).subscribe();
   }
 
