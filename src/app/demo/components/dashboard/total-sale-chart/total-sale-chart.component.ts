@@ -7,7 +7,6 @@ import { BaseChart } from '../interfaces/interfaces';
 @Component({
   selector: 'dashboard-total-sale-chart',
   templateUrl: './total-sale-chart.component.html',
-  styleUrls: ['./total-sale-chart.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class TotalsalechartComponent {

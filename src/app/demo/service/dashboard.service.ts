@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { BaseChart, BaseInterface, Statistic } from '../components/dashboard/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -124,33 +125,33 @@ export class DashboardService {
       );
   }
 
-  getProductVariant() {
+  getProductVariant(): Observable<BaseInterface[]> {
     return this._http
-      .get(`${environment.apiUrl}/Product/productvariants`);
+      .get<BaseInterface[]>(`${environment.apiUrl}/Product/productvariants`);
   }
 
-  getProductCatalogs(id: number, filter: string[]) {
+  getProductCatalogs(id: number, filter: string[]) : Observable<BaseChart[]>{
     return this._http
-      .get(
+      .get<BaseChart[]>(
         `${environment.apiUrl}/Dashboard/productcatalog/itemssold?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
       );
   }
   
-  getOrderStatus(id:number, filter: string[]) {
+  getOrderStatus(id:number, filter: string[]) :Observable<Statistic[]> {
     return this._http
-      .get(
+      .get<Statistic[]>(
         `${environment.apiUrl}/Dashboard/orders/statusorders?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
       );
   }
-  getProductStatus(id:number, filter: string[]) {
+  getProductStatus(id:number, filter: string[]) :Observable<Statistic[]> {
     return this._http
-      .get(
+      .get<Statistic[]>(
         `${environment.apiUrl}/Dashboard/productchannel/statusproduct?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
       );
   }
-  getStockStatus(id:number, filter: string[]) {
+  getStockStatus(id:number, filter: string[]) :Observable<Statistic[]> {
     return this._http
-      .get(
+      .get<Statistic[]>(
         `${environment.apiUrl}/Dashboard/productchannel/statusquantity?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
       );
   }
