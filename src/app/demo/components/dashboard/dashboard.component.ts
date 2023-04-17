@@ -30,8 +30,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   initChartOption(){
     this.chartOptions = {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       aspectRatio: 1,
+
       plugins: {
         legend: {
           display:false,
@@ -41,9 +42,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
     this.pieOptions = {
       responsive: true,
-      maintainAspectRatio: true,
-      aspectRatio: 1,
-      cutout: 100,
+      maintainAspectRatio: false,
+
+      cutout: 75,
       plugins: {
         legend: {
           position: 'bottom' ,

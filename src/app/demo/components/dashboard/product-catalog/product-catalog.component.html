@@ -1,21 +1,23 @@
   <div class="flex-col">
     <div class="mb-4 flex-col font-bold flex test-sm justify-between">
         <div class="">Product Catalog</div>
-        <div class="text-yellow-400">{{selectedProduct}}</div>
+        <div class="text-yellow-400">{{selectedProduct.name}} {{selectedProduct.description}}</div>
   </div>
 
   <div class="w-full">
     <div class="flex items-center justify-between md:mt-8 lg:mt-8">
-      <p class="font-normal text-sm text-gray-500">{{'Product sales over time' | titlecase}}</p>
-      <div class="w-8 h-8 border relative border-gray-300 flex items-center justify-center rounded-md group">
-        <i class="pi pi-filter text-primary "></i>
-        <ul class="group-hover:flex z-10 group flex-col  text-black absolute top-full  shadow-lg rounded-lg right-0 hidden bg-white after:content-[''] after:w-full after:h-8 after:bg-transparent after:-top-8 after:absolute after:right-0">
-          <li class="break-words  whitespace-nowrap p-3 hover:bg-gray-200 cursor-pointer hover:text-primary" (click)="getAllProducts()">All products</li>
-          <li *ngFor="let product of productVariantList" (click)="handleProductVariant(product.id)" class="break-words  whitespace-nowrap p-3 hover:bg-gray-200 cursor-pointer hover:text-primary">{{product.name}} {{product.description}}</li>
-        </ul>
+      <p class="font-normal text-sm text-gray-500">{{'Product sales over time'| titlecase}}</p>
+        <div class=" flex justify-center">
+          <p-dropdown [options]="productVariantList" [(ngModel)]="selectedProduct" optionLabel="name" dropdownIcon="pi pi-filter text-primary" [filter]="true" filterBy="name"  >
+            <ng-template let-product pTemplate="item" >
+                      <div class="dropdown-item px-2 py-3" (click)="handleProductVariant(product.id)">{{ product.name }} {{product.description}}</div>
+              </ng-template>
+          </p-dropdown>
       </div>
     </div>
     <div>
+
+     
       <oms-chart
         type="bar"
         [data]="dataChart"

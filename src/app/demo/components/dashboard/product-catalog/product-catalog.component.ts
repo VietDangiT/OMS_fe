@@ -3,28 +3,32 @@ import { ChartData, ChartOptions } from 'chart.js';
 import { BehaviorSubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { environment } from 'src/environments/environment';
+import { BaseChart, BaseInterface } from '../interfaces/interfaces';
 
 @Component({
   selector: 'dashboard-product-catalog',
   templateUrl: './product-catalog.component.html',
-  styleUrls: ['./product-catalog.component.scss'],
+  styleUrls: ['./product-catalog.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class ProductCatalogComponent {
   @Input() basicOptions!: ChartOptions;
   @Input() filterArr: string[];
-  
   //Product Variant list
-  productVariantList : any[];
-  product: any;
+  productVariantList : BaseInterface[];
+  product: BaseInterface;
   dataChart: ChartData;
+  totalValue: string;
 
-  selectedProduct: string ="All products";
+  selectedProduct: BaseInterface = {
+    name:"All products",
+    id: 0,
+    description: "",
+    number: 0
+  };
 
   private productId = new BehaviorSubject<number>(0);
   productId$ = this.productId.asObservable();
-  
-  totalValue: string;
 
   private change$ = new Subject();
 
@@ -32,9 +36,11 @@ export class ProductCatalogComponent {
   }
 
   ngOnInit(){
-    this.dashboardService.getProductVariant().subscribe((productList: any)=>{
-      this.productVariantList = productList;  
-    })
+    this.dashboardService.getProductVariant().pipe(
+      tap((productList: BaseInterface[])=>{
+        productList.unshift(this.selectedProduct);
+        this.productVariantList = productList;  
+      })).subscribe()
   }
 
   ngOnChanges(changes: SimpleChanges){
@@ -43,7 +49,7 @@ export class ProductCatalogComponent {
     this.productId$.pipe(
       switchMap((id: number) => {
         return this.dashboardService.getProductCatalogs(id, this.filterArr).pipe(
-          tap((result: any) =>{
+          tap((result: BaseChart[]) =>{
             this.setupChartData(result);
           }))
        }
@@ -53,22 +59,20 @@ export class ProductCatalogComponent {
   }
 
   handleProductVariant(id: number){
+    
     var index = this.productVariantList.findIndex(item => { return item.id == id });
     this.product = this.productVariantList[index];
     this.productId.next(this.product.id);
-    this.selectedProduct = `${this.product.name} ${this.product.description}`
+    this.selectedProduct = {...this.product}
   }
 
-  getAllProducts(){
-    this.productId.next(0);
-    this.selectedProduct = "All products";
-  }
 
-  setupChartData(result:any){
+
+  setupChartData(result: BaseChart[]){
     var totalArr: number[] = [];
     var labelArr: string[] = [];
     var order: number = 0;
-    result.map((item: any) => {
+    result.map((item: BaseChart) => {
       totalArr.push(item.value);
       labelArr.push(new Date(item.date).toLocaleDateString());
     });
@@ -88,6 +92,5 @@ export class ProductCatalogComponent {
     };
   
   }
-  
 
 }

@@ -6,8 +6,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
-import { environment } from 'src/environments/environment';
-import resolveConfig from 'tailwindcss/resolveConfig';
 
 @Component({
   selector: 'dashboard-total-sale-by-location',

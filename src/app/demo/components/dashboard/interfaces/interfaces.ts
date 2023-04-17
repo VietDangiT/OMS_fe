@@ -28,3 +28,10 @@ previous: number,
 value: number,
 text: string
 }
+
+export interface BaseInterface{
+    id:number,
+    name: string,
+    description: string,
+    number: number
+}
