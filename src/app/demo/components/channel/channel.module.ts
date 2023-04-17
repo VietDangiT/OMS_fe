@@ -9,6 +9,7 @@ import { ChannelDetailComponent } from './channel-detail/channel-detail.componen
 import { CalendarModule } from 'primeng/calendar';
 import { ShareModule } from '../share/share.module';
 import { ChannelListComponent } from './channel-list/channel-list.component';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ChannelListComponent } from './channel-list/channel-list.component';
     FormsModule,
     TabMenuModule,
     CalendarModule,
-    ShareModule
+    ShareModule,
+    InputSwitchModule
   ],
   declarations: [
     ChannelComponent,

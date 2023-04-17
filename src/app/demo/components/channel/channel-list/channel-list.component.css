@@ -68,3 +68,31 @@ p-calendar .p-button-icon-only {
 .p-button-icon.pi.pi-calendar.active{
     @apply text-white;
 }
+
+p-inputSwitch input {
+    @apply opacity-0;
+}
+
+.p-inputswitch.p-focus .p-inputswitch-slider {
+    @apply shadow-none;
+}
+
+.p-inputswitch .p-inputswitch-slider {
+    @apply h-[10px] my-auto;
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+    @apply bg-primary-2;
+}
+
+.p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider {
+    @apply bg-primary-1;
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+    @apply bg-primary;
+}
+
+.p-inputswitch .p-inputswitch-slider:before {
+    @apply bg-gray-400;
+}

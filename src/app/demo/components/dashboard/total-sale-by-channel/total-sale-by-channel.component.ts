@@ -1,15 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { ChartData } from 'chart.js';
 import { SaleByChannelHeatmap } from './sale-by-channel-heatmap/sale-by-channel-heatmap.component';
 import { OrderOnChannelData } from '../interfaces/interfaces';
 
-
-
 @Component({
   selector: 'dashboard-total-sale-by-channel',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TotalSaleByChannelComponent {
   tableData: OrderOnChannelData = {
