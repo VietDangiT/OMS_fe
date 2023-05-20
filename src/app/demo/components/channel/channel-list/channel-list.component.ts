@@ -5,6 +5,7 @@ import { tap } from 'rxjs';
 import { ChannelService } from 'src/app/demo/service/channel.service';
 import { OmsTable } from '../../share/model/oms-table';
 import { environment } from 'src/environments/environment';
+import { Channel } from '../interface/channel.component';
 
 @Component({
   selector: 'app-channel-list',
@@ -15,7 +16,7 @@ import { environment } from 'src/environments/environment';
 export class ChannelListComponent {
   channelStatus: boolean[] = [];
   defaultRowPerPage: number = environment.rowPerPage[0];
-  table: OmsTable = {
+  table: OmsTable<Channel> = {
     page: 0,
     first: 0,
     rows: 0,
@@ -47,7 +48,7 @@ export class ChannelListComponent {
   ) {
     this._route.queryParamMap
       .pipe(
-        tap((params) => {
+        tap(params => {
           this.countryId = params.get('countryId') || 0;
           console.log(this.countryId);
         })
@@ -86,7 +87,6 @@ export class ChannelListComponent {
             element.status === 'ACTIVE' ? true : false
           );
           console.log(this.channelStatus);
-          
         })
       )
       .subscribe();
@@ -111,8 +111,9 @@ export class ChannelListComponent {
   dateFilterChange(dateRange: Date[]) {
     console.log(dateRange);
   }
+
   searchValue(search: string) {
-    this.getChannelData(this.table.rows);
+    this.getChannelData(this.table.rows!);
   }
 
   trackByIndex(index: number, obj: unknown): unknown {

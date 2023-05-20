@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { LayoutService } from './service/app.layout.service';
+import { Subject, takeUntil, tap } from 'rxjs';
+import {
+  Channel,
+  Country,
+} from '../demo/components/channel/interface/channel.component';
 import { ChannelService } from '../demo/service/channel.service';
-import { tap } from 'rxjs';
-import { Router } from '@angular/router';
-import { Channel, Country } from '../demo/components/channel/interface/channel.component';
+import { LayoutService } from './service/app.layout.service';
+import { MenuElement, MenuElementItem } from './service/models/menu.models';
 
 @Component({
   selector: 'app-menu',
@@ -16,48 +19,47 @@ import { Channel, Country } from '../demo/components/channel/interface/channel.c
       .active div {
         @apply visible block opacity-100 pointer-events-auto;
       }
-      .active.submenu{
+      .active.submenu {
         @apply block;
       }
       /* For Webkit-based browsers (Chrome, Safari and Opera) */
       .scrollbar-hide::-webkit-scrollbar {
-      display: none;
+        display: none;
       }
 
       /* For IE, Edge and Firefox */
       .scrollbar-hide {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
       }
     `,
   ],
 })
 export class AppMenuComponent {
-  channels: Channel[] ;
+  channels: Channel[];
 
-  menuElements: any[] = [
+  menuElements: MenuElement[] = [
     {
       name: 'dashboard',
       path: '/dashboard',
       icon: 'pi pi-th-large',
-      isDropDownMenu:true,
+      isDropDownMenu: true,
       submenu: {
-        title:"Dashboard",
-        item: [
+        title: 'Dashboard',
+        items: [
           {
             name: 'totalSales',
             content: 'Total Sales',
             path: 'dashboard/totalsales',
             icon: 'pi-dollar',
-            param:{}
+            param: {},
           },
           {
             name: 'totalOrder',
             content: 'Total Orders',
             path: 'dashboard/total-order',
             icon: 'pi-shopping-cart',
-            param:{}
-
+            param: {},
           },
           {
             name: 'cardStatic',
@@ -83,110 +85,129 @@ export class AppMenuComponent {
             content: 'Total sales by Channel',
             icon: 'pi-home',
           },
-        ]
-      }
+        ],
+      },
     },
     {
-      name: 'order',
-      path: '/order',
+      name: 'orders',
+      path: '/orders',
       icon: 'pi pi-box',
-      isDropDownMenu:true,
+      isDropDownMenu: true,
       submenu: {
-        title:"Orders",
-      }
+        title: 'Orders',
+      },
     },
     {
       name: 'catalogue',
       path: '/catalogue',
       icon: 'pi pi-book',
-      isDropDownMenu:true,
+      isDropDownMenu: true,
       submenu: {
         title: 'Catalogue',
-        item: [
-        
-        ],
-      }
+        items: [],
+      },
     },
     {
       name: 'inventory',
       path: '/inventory',
       icon: 'pi pi-inbox',
-      isDropDownMenu:true,
+      isDropDownMenu: true,
       submenu: {
         title: 'Inventory',
-        item: [
-        
-        ],
-      }
+        items: [],
+      },
     },
     {
       name: 'user',
       path: '/user',
       icon: 'pi pi-user',
-      isDropDownMenu:true,
+      isDropDownMenu: true,
       submenu: {
         title: 'Profile',
-        item: [
-        {
-          name: 'personalinfo',
-          content: 'Personal Info',
-          path: '/users/personal-info',
-          icon: 'pi-user',
-        },
-        {
-          name: 'changepassword',
-          content: 'Change Password',
-          path: '/users/change-password',
-          icon: 'pi-lock',
-        },
+        items: [
+          {
+            name: 'personalinfo',
+            content: 'Personal Info',
+            path: '/users/personal-info',
+            icon: 'pi-user',
+          },
+          {
+            name: 'changepassword',
+            content: 'Change Password',
+            path: '/users/change-password',
+            icon: 'pi-lock',
+          },
         ],
-      }
+      },
     },
     {
       name: 'customer',
       path: '/customer',
       icon: 'pi pi-users',
-      isDropDownMenu:true,
+      isDropDownMenu: true,
       submenu: {
         title: 'Customer',
-        item: [
-        
-        ],
-      }
+        items: [],
+      },
     },
     {
       name: 'channel',
       path: '/channels',
       icon: 'pi pi-phone',
-      isDropDownMenu:true,
+      isDropDownMenu: true,
       submenu: {
-        title: 'Channels',     
-      }
+        title: 'Channels',
+      },
     },
   ];
+
   isNavbarOn: boolean | undefined;
 
-  constructor(public layoutService: LayoutService, private channelService: ChannelService, private router:Router) {
-    this.channelService.getCountries().pipe(
-     tap((result: Country[])=>{
-       const resultArr: any[] = [];
-       result.forEach((c: Country)=> {
-         resultArr.push({
-           name: c.name,
-           content: c.name,
-           path: `/channels`,
-           param: {countryId: c.id},  
-           icon: 'pi-home'
-         })
-       });       
-      const index = this.menuElements.findIndex(c => c.path === '/channels');
-      this.menuElements[index].submenu.item = resultArr;       
-      })
-      ).subscribe();
+  private readonly destroy$ = new Subject();
 
-   this.layoutService.currentNavbarState.pipe(
-    tap((state) => (this.isNavbarOn = state))
-   ).subscribe();
-    }
+  constructor(
+    public layoutService: LayoutService,
+    private channelService: ChannelService
+  ) {
+    this.layoutService.currentNavbarState
+      .pipe(tap(state => (this.isNavbarOn = state)))
+      .subscribe();
+  }
 
+  ngOnInit(): void {
+    this.initCountries();
+  }
+
+  initCountries(): void {
+    this.channelService
+      .getCountries()
+      .pipe(
+        tap((result: Country[]) => {
+          const resultArr: MenuElementItem[] = [];
+
+          result.forEach((c: Country) => {
+            resultArr.push({
+              name: c.name,
+              content: c.name,
+              path: `/channels`,
+              param: { countryId: c.id },
+              icon: 'pi-home',
+            });
+          });
+
+          const index = this.menuElements.findIndex(
+            c => c.path === '/channels'
+          );
+
+          this.menuElements[index].submenu.items = resultArr;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
+  }
 }

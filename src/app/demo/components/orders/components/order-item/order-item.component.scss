@@ -1,0 +1,7 @@
+:host { display: contents; }
+
+.order-item{
+  &-row{
+    @apply text-center align-middle py-4;
+  }
+}

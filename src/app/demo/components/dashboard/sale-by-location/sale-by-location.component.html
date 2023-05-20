@@ -1,13 +1,16 @@
 <app-topbar></app-topbar>
-<app-submenu subMenuType="dashboard"></app-submenu>
-<div class="">
+<div>
   <div class="flex items-center justify-between w-full mb-2">
     <h1 class="mb-0 text-3xl font-bold">Sale by location</h1>
-    <oms-date-filter (dateFilterChange)="dateFilterChanged($event)" (filter)="filterChanged($event)"></oms-date-filter>
+    <oms-date-filter
+      (dateFilterChange)="dateFilterChanged($event)"
+      (filter)="filterChanged($event)"
+    ></oms-date-filter>
   </div>
   <div class="flex flex-wrap justify-between w-full gap-2 mb-4 md:mb-2">
     <div
-      class="flex flex-col w-full md:w-[calc(49%)] lg:w-chartWidth overflow-auto px-4 py-2 bg-white rounded-lg">
+      class="flex flex-col w-full md:w-[calc(49%)] lg:w-chartWidth overflow-auto px-4 py-2 bg-white rounded-lg"
+    >
       <div class="mb-2">
         <div class="flex justify-between">
           <p class="mb-0 font-bold">Sales</p>
@@ -81,10 +84,15 @@
   <div class="px-4 py-2 mb-4 overflow-y-auto bg-white rounded-lg">
     <div class="w-full mb-2">
       <p class="font-bold">Sales Analytics</p>
-        <app-apex-chart [heatChartOptions]="heatChartOptions"></app-apex-chart>
+      <app-apex-chart [heatChartOptions]="heatChartOptions"></app-apex-chart>
     </div>
   </div>
   <div class="px-4 py-2 bg-white rounded-lg">
-    <dashboard-table  (pagingInfo)="pagingInfo($event)" [currentPagingInfo]="currentPagingInfo" [tableData]="tableData" heading="Orders"></dashboard-table>
+    <dashboard-table
+      (pagingInfo)="pagingInfo($event)"
+      [currentPagingInfo]="currentPagingInfo"
+      [tableData]="tableData"
+      heading="Orders"
+    ></dashboard-table>
   </div>
 </div>

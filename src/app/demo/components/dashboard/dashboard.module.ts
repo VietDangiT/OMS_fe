@@ -22,7 +22,6 @@ import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/sale-by-c
 import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.component';
 import { DetailStatisticComponent } from './dashboard-statistic/detail-statistic/detail-statistic.component';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
-import { SubmenuModule } from 'src/app/layout/app.submenu.module';
 import { PaginatorModule } from 'primeng/paginator';
 import { ShareModule } from '../share/share.module';
 import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
@@ -32,8 +31,7 @@ import { SaleStoreComponent } from './sale-store/sale-store.component';
 import { GlobalFilterComponent } from '../global-filter/global-filter.component';
 import { CalendarModule } from 'primeng/calendar';
 import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sale-by-location.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from 'src/app/auth.interceptor';
+import { DateFilterComponent } from '../share/date-filter/date-filter.component';
 
 @NgModule({
   imports: [
@@ -48,11 +46,11 @@ import { AuthInterceptor } from 'src/app/auth.interceptor';
     DashboardsRoutingModule,
     NgApexchartsModule,
     AppTopBarModule,
-    SubmenuModule,
     PaginatorModule,
     ShareModule,
     ChartsModule,
-    CalendarModule
+    DateFilterComponent,
+    CalendarModule,
   ],
   declarations: [
     DashboardComponent,
@@ -69,10 +67,9 @@ import { AuthInterceptor } from 'src/app/auth.interceptor';
     DetailStatisticComponent,
     SaleByLocationComponent,
     TopSellingProductComponent,
-    SaleStoreComponent, 
+    SaleStoreComponent,
     GlobalFilterComponent,
-    TotalSaleByLocationComponent
+    TotalSaleByLocationComponent,
   ],
- 
 })
 export class DashboardModule {}

@@ -16,21 +16,21 @@ import { SkeletonModule } from 'primeng/skeleton';
 @NgModule({
   declarations: [
     OMSChartComponent,
-    DateFilterComponent,
     ScreenFilterComponent,
     OmsTableComponent,
     PaginationComponent,
   ],
   imports: [
+    DateFilterComponent,
     CommonModule,
     ChartModule,
     NgApexchartsModule,
-    CalendarModule,
     FormsModule,
     TableModule,
     PaginatorModule,
-    SkeletonModule
+    SkeletonModule,
+    CalendarModule,
   ],
-  exports: [OMSChartComponent, DateFilterComponent, ScreenFilterComponent, OmsTableComponent],
+  exports: [OMSChartComponent, ScreenFilterComponent, OmsTableComponent],
 })
-export class ShareModule { }
+export class ShareModule {}

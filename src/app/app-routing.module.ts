@@ -18,21 +18,21 @@ import { RoleGuard } from './demo/components/guard/role.guard';
               path: 'dashboard',
               loadChildren: () =>
                 import('./demo/components/dashboard/dashboard.module').then(
-                  (m) => m.DashboardModule
+                  m => m.DashboardModule
                 ),
             },
             {
               path: 'uikit',
               loadChildren: () =>
                 import('./demo/components/uikit/uikit.module').then(
-                  (m) => m.UIkitModule
+                  m => m.UIkitModule
                 ),
             },
             {
               path: 'utilities',
               loadChildren: () =>
                 import('./demo/components/utilities/utilities.module').then(
-                  (m) => m.UtilitiesModule
+                  m => m.UtilitiesModule
                 ),
             },
             {
@@ -40,27 +40,34 @@ import { RoleGuard } from './demo/components/guard/role.guard';
               loadChildren: () =>
                 import(
                   './demo/components/documentation/documentation.module'
-                ).then((m) => m.DocumentationModule),
+                ).then(m => m.DocumentationModule),
             },
             {
               path: 'blocks',
               loadChildren: () =>
                 import('./demo/components/primeblocks/primeblocks.module').then(
-                  (m) => m.PrimeBlocksModule
+                  m => m.PrimeBlocksModule
                 ),
             },
             {
               path: 'pages',
               loadChildren: () =>
                 import('./demo/components/pages/pages.module').then(
-                  (m) => m.PagesModule
+                  m => m.PagesModule
                 ),
             },
             {
               path: 'channels',
               loadChildren: () =>
                 import('./demo/components/channel/channel.module').then(
-                  (m) => m.ChannelModule
+                  m => m.ChannelModule
+                ),
+            },
+            {
+              path: 'orders',
+              loadChildren: () =>
+                import('./demo/components/orders/orders.module').then(
+                  m => m.OrdersModule
                 ),
             },
           ],
@@ -69,21 +76,21 @@ import { RoleGuard } from './demo/components/guard/role.guard';
           path: 'auth',
           loadChildren: () =>
             import('./demo/components/auth/auth.module').then(
-              (m) => m.AuthModule
+              m => m.AuthModule
             ),
         },
         {
           path: 'landing',
           loadChildren: () =>
             import('./demo/components/landing/landing.module').then(
-              (m) => m.LandingModule
+              m => m.LandingModule
             ),
         },
         {
           path: 'login',
           loadChildren: () =>
             import('./demo/components/login/login.module').then(
-              (m) => m.LoginModule
+              m => m.LoginModule
             ),
         },
         {
@@ -92,7 +99,7 @@ import { RoleGuard } from './demo/components/guard/role.guard';
           data: { expectedRole: 'admin' },
           loadChildren: () =>
             import('./demo/components/admin/admin.module').then(
-              (m) => m.AdminModule
+              m => m.AdminModule
             ),
         },
         { path: 'notfound', component: NotfoundComponent },

@@ -1,0 +1,13 @@
+.oms-order-detail {
+  .p-datatable .p-datatable-tbody > tr > td {
+    @apply text-center;
+  }
+
+  &-header {
+    @apply font-bold;
+  }
+
+  &-info {
+    @apply font-normal;
+  }
+}

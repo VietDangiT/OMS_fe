@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   Output,
   ViewEncapsulation,
@@ -14,11 +15,18 @@ import { OmsTable } from '../model/oms-table';
   encapsulation: ViewEncapsulation.None,
 })
 export class OmsTableComponent {
+  @HostBinding('class') hostClass = 'oms-table-host';
+
   @Output() pagingInfo = new EventEmitter();
-  @Input() table: OmsTable = {
-    page: 0, 
-    first: 0, 
-    rows: 0, 
+
+  @Input() isCheckboxShown = false;
+
+  @Input() isPaginationShown = false;
+
+  @Input() table: OmsTable<any> = {
+    page: 0,
+    first: 0,
+    rows: 0,
     pageCount: 0,
     totalRecord: 0,
     data: {
@@ -27,7 +35,9 @@ export class OmsTableComponent {
     },
   };
 
-  onPageChange(event: any) {
+  selectedRows: any[];
+
+  onPageChange(event: Event) {
     this.pagingInfo.emit(event);
   }
 }

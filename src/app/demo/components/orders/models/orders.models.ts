@@ -1,0 +1,31 @@
+export interface Order {
+  id?: number;
+  metaData?: string;
+  orderedAt?: string;
+  channelId?: number;
+  userId?: number;
+  totalPrice?: number;
+  voucherId?: number;
+  note?: string;
+  orderNumber?: string;
+  taxCode?: string;
+  cancelBy?: string;
+  cancelReason?: string;
+  buyerId?: number;
+  buyerName?: string;
+  shippingAddress?: string;
+  recipientName?: string;
+  recipientPhoneNumber?: string;
+  country?: string;
+  city?: string;
+  district?: string;
+  ward?: string;
+  zipCode?: string;
+  shippingServiceCost?: number;
+  shippingFee?: number;
+  shipmentProvider?: string;
+  customerPaymentMethod?: string;
+  orderStatus?: string;
+  totalProduct?: number;
+  channelName?: string;
+}

@@ -6,23 +6,22 @@ import { environment } from 'src/environments/environment';
 import { heatChartOptions } from '../../charts/apex-chart.component';
 import { DashboardTable } from '../interfaces/interfaces';
 
-interface PagingInfo{
-  links: string[],
-  page: number,
-  page_count: number,
-  per_page: number,
-  total_count:number
+interface PagingInfo {
+  links: string[];
+  page: number;
+  page_count: number;
+  per_page: number;
+  total_count: number;
 }
 
 @Component({
   selector: 'app-sale-by-location',
   templateUrl: './sale-by-location.component.html',
   styleUrls: ['./sale-by-location.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SaleByLocationComponent {
-  
-  isSubmenuOn!: boolean ;
+  isSubmenuOn!: boolean;
 
   salesData!: ChartData;
 
@@ -37,56 +36,68 @@ export class SaleByLocationComponent {
       heatmap: {
         radius: 30,
         distributed: false,
-      }
+      },
     },
     series: [
       {
-        name: "Vietnam",
-        data: [{
-          x:1,y:1
-        }]
+        name: 'Vietnam',
+        data: [
+          {
+            x: 1,
+            y: 1,
+          },
+        ],
       },
       {
-        name: "Thailand",
-        data:  [{
-          x:1,y:1
-        }]
+        name: 'Thailand',
+        data: [
+          {
+            x: 1,
+            y: 1,
+          },
+        ],
       },
       {
-        name: "Malaysia",
-        data:  [{
-          x:1,y:1
-        }]
+        name: 'Malaysia',
+        data: [
+          {
+            x: 1,
+            y: 1,
+          },
+        ],
       },
       {
-        name: "Singapore",
-        data:  [{
-          x:1,y:1
-        }]
-      }
+        name: 'Singapore',
+        data: [
+          {
+            x: 1,
+            y: 1,
+          },
+        ],
+      },
     ],
     chart: {
       height: 350,
-      type: "heatmap",
-      toolbar:{
-        show: false
-      }
+      type: 'heatmap',
+      toolbar: {
+        show: false,
+      },
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
-    colors: ["#27447C"],
+    colors: ['#27447C'],
   };
 
   pagingNumber: number = 0;
 
-  currentPagingInfo: PagingInfo ={
-    links:[],
-    page:0,
-    page_count:1,
-    per_page:1,
-    total_count:1
-  }
+  currentPagingInfo: PagingInfo = {
+    links: [],
+    page: 0,
+    page_count: 1,
+    per_page: 1,
+    total_count: 1,
+  };
 
   filter: string = 'week';
 
@@ -127,7 +138,18 @@ export class SaleByLocationComponent {
   };
 
   monthNames = [
-    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   constructor(
@@ -140,10 +162,10 @@ export class SaleByLocationComponent {
     this.getCountriesSale();
     this.getLeads();
     this.getSalesAnalytics();
-    this.getTableData(this.pagingNumber);    
+    this.getTableData(this.pagingNumber);
 
     this.layoutService.currentSubMenuState.subscribe(
-      (state) => (this.isSubmenuOn = state)
+      state => (this.isSubmenuOn = state)
     );
 
     this.baseChartOptions = {
@@ -168,106 +190,116 @@ export class SaleByLocationComponent {
         },
       },
     };
-
   }
 
-  dateFilterChanged(dateRange: Date[]){
+  dateFilterChanged(dateRange: Date[]) {
     console.log(dateRange);
   }
 
-  filterChanged(filter:string){
+  filterChanged(filter: string) {
     this.filter = filter;
     this.getCountriesSale();
     this.getLeads();
     this.getSalesAnalytics();
   }
 
-  getTableData(paging: number){
+  getTableData(paging: number) {
     this.pagingNumber = paging;
-    
-    this.dashboardService.getTableData(this.pagingNumber).subscribe((item: any)=>{
-      
-      var data = item.data;
-      this.currentPagingInfo = {...data};
-      var result: any[] = [];
-      data.records.forEach((item: any)=>{
-        var date = this.monthNames[new Date(Date.parse(item.date)).getMonth()];
-        
-        var mapping =  {location: item.location, date:date, numberOrder:item.number_of_order, totalSale:item.total_sale};
-        result.push(mapping);
-      });
 
-      this.tableData.bodyData = result;
-    })
+    this.dashboardService
+      .getTableData(this.pagingNumber)
+      .subscribe((item: any) => {
+        var data = item.data;
+        this.currentPagingInfo = { ...data };
+        var result: any[] = [];
+        data.records.forEach((item: any) => {
+          var date =
+            this.monthNames[new Date(Date.parse(item.date)).getMonth()];
+
+          var mapping = {
+            location: item.location,
+            date: date,
+            numberOrder: item.number_of_order,
+            totalSale: item.total_sale,
+          };
+          result.push(mapping);
+        });
+
+        this.tableData.bodyData = result;
+      });
   }
 
-  pagingInfo(pagingInfo: any){
+  pagingInfo(pagingInfo: any) {
     this.getTableData(pagingInfo.page);
   }
 
-  getSalesAnalytics(){
-    this.dashboardService.getCountriesSale(this.filter).subscribe((data:any)=>{
-      var d = data.data;
-      var series: any = [];
-      d.forEach((item: any)=> {
-        const dataArr: any = item.saleInfo.map((item: any)=>{
-          return {x:item.month, y:item.sales}
-        })
-        series.push({name: item.location, data: dataArr})
-      })
+  getSalesAnalytics() {
+    this.dashboardService
+      .getCountriesSale(this.filter)
+      .subscribe((data: any) => {
+        var d = data.data;
+        var series: any = [];
+        d.forEach((item: any) => {
+          const dataArr: any = item.saleInfo.map((item: any) => {
+            return { x: item.month, y: item.sales };
+          });
+          series.push({ name: item.location, data: dataArr });
+        });
 
-     this.heatChartOptions = {
-      plotOptions: {
-        heatmap: {
-          radius: 10,
-          distributed: false,
-        },
-      },
-      series: series,
-      chart: {
-        height: 350,
-        type: 'heatmap',
-        toolbar: {
-          show: false,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: [environment.primaryColor],
-    };
-    })
+        this.heatChartOptions = {
+          plotOptions: {
+            heatmap: {
+              radius: 10,
+              distributed: false,
+            },
+          },
+          series: series,
+          chart: {
+            height: 350,
+            type: 'heatmap',
+            toolbar: {
+              show: false,
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          colors: [environment.primaryColor],
+        };
+      });
   }
 
   getCountriesSale() {
-    this.dashboardService.getCountriesSaleInTotal(this.filter).subscribe((data) => {
-      var totalArr: number[] = [];
-      var labelArr: number[] = [];
-      data['data'].map((item: any) => {
-        totalArr.push(item.sales);
-        labelArr.push(item.location);
-      });
+    this.dashboardService
+      .getCountriesSaleInTotal(this.filter)
+      .subscribe(data => {
+        var totalArr: number[] = [];
+        var labelArr: number[] = [];
+        data['data'].map((item: any) => {
+          totalArr.push(item.sales);
+          labelArr.push(item.location);
+        });
 
-      this.countryData = {
-        labels: labelArr,
-        datasets: [
-          {
-            data: totalArr,
-            backgroundColor: [
-              environment.primaryColor,
-              environment.secondaryColor,
-              environment.thirdColor,
-              environment.fourthColor,
-            ],
-            tension: 0.4,
-          },
-        ],
-      };
-    });
+        this.countryData = {
+          labels: labelArr,
+          datasets: [
+            {
+              data: totalArr,
+              backgroundColor: [
+                environment.primaryColor,
+                environment.secondaryColor,
+                environment.thirdColor,
+                environment.fourthColor,
+              ],
+              tension: 0.4,
+            },
+          ],
+        };
+      });
   }
 
   getLeads() {
-    this.dashboardService.getLeads(this.filter).subscribe((data) => {
+    this.dashboardService.getLeads(this.filter).subscribe(data => {
       var totalArr: number[] = [];
       var labelArr: number[] = [];
       data['data'].map((item: any) => {
@@ -297,7 +329,7 @@ export class SaleByLocationComponent {
       });
 
       this.salesData = {
-        labels: this.convertMonthToString(labelArr),
+        labels: labelArr,
         datasets: [
           {
             data: totalArr,
@@ -309,53 +341,7 @@ export class SaleByLocationComponent {
     });
   }
 
-  convertMonthToString(numbers: number[]): string[] {
-    var result: string[] = [];
-    numbers.forEach((num) => {
-      switch (num) {
-        case 0:
-          result.push('January');
-          break;
-        case 1:
-          result.push('Febuary');
-          break;
-        case 2:
-          result.push('March');
-          break;
-        case 3:
-          result.push('April');
-          break;
-        case 4:
-          result.push('May');
-          break;
-        case 5:
-          result.push('June');
-          break;
-        case 6:
-          result.push('July');
-          break;
-        case 7:
-          result.push('August');
-          break;
-        case 8:
-          result.push('September');
-          break;
-        case 9:
-          result.push('October');
-          break;
-        case 10:
-          result.push('November');
-          break;
-        case 11:
-          result.push('December');
-          break;
-      }
-    });
-    return result;
-  }
-
   triggerSubmenu() {
     this.layoutService.changeSubMenuState(false);
   }
-
 }

@@ -20,12 +20,12 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     TabMenuModule,
     CalendarModule,
     ShareModule,
-    InputSwitchModule
+    InputSwitchModule,
   ],
   declarations: [
     ChannelComponent,
     ChannelDetailComponent,
-    ChannelListComponent
+    ChannelListComponent,
   ],
 })
 export class ChannelModule {}

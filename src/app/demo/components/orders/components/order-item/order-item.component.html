@@ -1,0 +1,51 @@
+<tr
+  class="mt-3 cursor-pointer hover:!bg-gray-200 transition-all duration-100"
+  (click)="handleOrderDetail($event)"
+>
+  <td class="order-item-row">{{ order.orderNumber }}</td>
+
+  <td class="order-item-row">{{ order.orderedAt | date }}</td>
+
+  <td class="order-item-row">
+    <div class="flex justify-center items-center">
+      <img src="" alt="order-item.channel.logo" />
+      <span>{{ order.channelName | titlecase }}</span>
+    </div>
+  </td>
+
+  <td class="order-item-row">{{ order.totalProduct }}</td>
+
+  <td class="order-item-row">
+    {{ order.totalPrice | number : '1.1-1' | currency }}
+  </td>
+
+  <td class="order-item-row">{{ order.shipmentProvider | titlecase }}</td>
+
+  <td
+    class="order-item-row flex gap-2 justify-center items-center"
+    [class.text-success]="order.orderStatus === 'completed'"
+    [class.text-danger]="order.orderStatus === 'failed'"
+    [class.text-orange-400]="order.orderStatus === 'pending'"
+    [class.text-warning]="order.orderStatus === 'delivery'"
+    [class.text-blue-500]="order.orderStatus === 'return'"
+  >
+    <i class="pi-circle-fill pi"></i>
+
+    <span class="font-bold">
+      {{ order.orderStatus | titlecase }}
+    </span>
+  </td>
+
+  <td class="order-item-row" (click)="handleAction($event)">
+    <i
+      class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"
+    ></i>
+  </td>
+</tr>
+
+<oms-order-detail
+  *ngIf="modalVisible"
+  [visible]="modalVisible"
+  [order]="order"
+  (onClose)="handleCloseModal()"
+></oms-order-detail>
