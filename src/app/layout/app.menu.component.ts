@@ -50,7 +50,7 @@ export class AppMenuComponent {
           {
             name: 'totalSales',
             content: 'Total Sales',
-            path: 'dashboard/totalsales',
+            path: 'dashboard/total-sales',
             icon: 'pi-dollar',
             param: {},
           },

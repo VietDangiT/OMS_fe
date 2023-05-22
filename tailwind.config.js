@@ -40,6 +40,10 @@ module.exports = {
         88: "22.2rem",
         81: "20.3rem",
       },
+      gridTemplateColumns: {
+        // Simple 8 row grid
+        'fit-300': 'repeat(auto-fit, minmax(300px, 1fr))',
+      }
     },
   },
   plugins: [],

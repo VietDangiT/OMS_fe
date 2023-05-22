@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChartOptions } from 'chart.js';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { environment } from 'src/environments/environment';
 import { HelperService } from '../../service/helper.service';
-import { ChartOptions } from 'chart.js';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -16,18 +16,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   subscription!: Subscription;
 
   //default filter value - 7 days from currentDate
-  filterArr : string[] =[
-  this.previousDate.toLocaleDateString("en-US"),
-  this.currentDate.toLocaleDateString("en-US")
+  filterArr: string[] = [
+    this.previousDate.toLocaleDateString('en-US'),
+    this.currentDate.toLocaleDateString('en-US'),
   ];
 
-  constructor(public layoutService: LayoutService, private helperSerivce: HelperService) {}
+  constructor(
+    public layoutService: LayoutService,
+    private helperSerivce: HelperService
+  ) {}
 
   ngOnInit() {
     this.initChartOption();
   }
 
-  initChartOption(){
+  initChartOption() {
     this.chartOptions = {
       responsive: true,
       maintainAspectRatio: false,
@@ -35,10 +38,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       plugins: {
         legend: {
-          display:false,
+          display: false,
         },
       },
-    
     };
     this.pieOptions = {
       responsive: true,
@@ -47,7 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       cutout: 75,
       plugins: {
         legend: {
-          position: 'bottom' ,
+          position: 'bottom',
           labels: {
             boxHeight: 20,
             boxWidth: 20,
@@ -63,10 +65,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  dateFilterChanged(dateRange: Date[]): void{
-    if(dateRange[1] != null){
-      this.filterArr = dateRange.map((date:Date)=>{
-        return date.toLocaleDateString("en-EN");
+  dateFilterChanged(dateRange: Date[]): void {
+    if (dateRange[1] != null) {
+      this.filterArr = dateRange.map((date: Date) => {
+        return date.toLocaleDateString('en-EN');
       });
     }
   }

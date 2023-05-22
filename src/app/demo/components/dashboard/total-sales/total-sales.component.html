@@ -1,0 +1,82 @@
+<app-topbar></app-topbar>
+
+<div class="flex-between-center w-full mb-2">
+  <h1 class="text-3xl font-bold">Total Sales</h1>
+
+  <oms-date-filter
+    (dateFilterChange)="dateFilterChanged($event)"
+    (filter)="filterChanged($event)"
+  ></oms-date-filter>
+</div>
+
+<div class="grid md:grid-cols-fit-300 lg:grid-cols-6 w-full gap-2 mb-4 md:mb-2">
+  <div class="w-full md:col-span-3 lg:col-span-1 dashboard-detail-container">
+    <div class="font-bold text-black">Sales</div>
+
+    <div class="flex flex-col gap-2 mb-4">
+      <oms-sales-detail
+        dateRange="This month"
+        type="Sales"
+        styleClass="bg-secondary bg-opacity-10"
+      ></oms-sales-detail>
+
+      <oms-sales-detail
+        dateRange="This month"
+        type="Avg. Order Sales"
+        styleClass="bg-secondary bg-opacity-20"
+      ></oms-sales-detail>
+
+      <oms-sales-detail
+        dateRange="This month"
+        type="Return"
+        styleClass="bg-secondary bg-opacity-30"
+      ></oms-sales-detail>
+    </div>
+  </div>
+
+  <div class="flex flex-col col-span-3 w-full dashboard-detail-container">
+    <div class="font-bold text-black">Revenue</div>
+
+    <div class="h-full w-full">
+      <oms-chart
+        type="line"
+        [options]="baseChartOptions"
+        [data]="revenueData"
+      ></oms-chart>
+    </div>
+  </div>
+
+  <div
+    class="flex flex-col lg:col-span-2 md:col-span-3 w-full dashboard-detail-container"
+  >
+    <div class="font-bold text-black">Overview</div>
+
+    <div class="h-full w-full">
+      <oms-chart
+        type="bar"
+        [options]="baseChartOptions"
+        [data]="overviewData"
+      ></oms-chart>
+    </div>
+  </div>
+</div>
+
+<div class="">
+  <oms-table
+    (pagingInfo)="onPageChange($event)"
+    [isPaginationShown]="true"
+    [table]="tableData"
+  >
+    <tr *ngFor="let item of tableData.data.body">
+      <td>{{ item.date }}</td>
+
+      <td>{{ item.numberOfOrders | number : '1.2-2' }}</td>
+
+      <td>{{ item.avgOrderSales | number : '1.2-2' }}</td>
+
+      <td>{{ item.numberOfReturn | number : '1.2-2' }}</td>
+
+      <td>{{ item.totalSales | number : '1.2-2' }}</td>
+    </tr>
+  </oms-table>
+</div>

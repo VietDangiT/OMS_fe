@@ -34,5 +34,17 @@
 }
 
 .text-heading {
-  @apply text-2xl font-bold text-primary;
+  @apply text-2xl font-bold;
+}
+
+.flex-center {
+  @apply flex justify-center items-center;
+}
+
+.flex-between-center {
+  @apply flex justify-between items-center;
+}
+
+.dashboard-detail-container {
+  @apply px-4 py-2 bg-white rounded-lg;
 }

@@ -1,37 +1,39 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { MenuModule } from 'primeng/menu';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { StyleClassModule } from 'primeng/styleclass';
+import { PaginatorModule } from 'primeng/paginator';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { StyleClassModule } from 'primeng/styleclass';
+import { TableModule } from 'primeng/table';
+import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
+import { ChartsModule } from '../charts/charts.module';
+import { GlobalFilterComponent } from '../global-filter/global-filter.component';
+import { DateFilterComponent } from '../share/date-filter/date-filter.component';
+import { ShareModule } from '../share/share.module';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
 import { DashboardStatisticComponent } from './dashboard-statistic/dashboard-statistic.component';
-import { TotalSaleByChannelComponent } from './total-sale-by-channel/total-sale-by-channel.component';
-import { SaleOnChannelComponent } from './total-sale-by-channel/sale-on-channel/sale-on-channel.component';
-import { TableComponent } from './table/table.component';
-import { NgApexchartsModule } from 'ng-apexcharts';
+import { DetailStatisticComponent } from './dashboard-statistic/detail-statistic/detail-statistic.component';
+import { DashboardComponent } from './dashboard.component';
 import { ProductCatalogComponent } from './product-catalog/product-catalog.component';
-import { TotalOrdersComponent } from './total-orders/total-orders.component';
 import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.component';
+import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
+import { SaleStoreComponent } from './sale-store/sale-store.component';
+import { TableComponent } from './table/table.component';
+import { TopSellingProductComponent } from './top-selling-product/top-selling-product.component';
+import { TotalOrdersComponent } from './total-orders/total-orders.component';
 import { TotalReturnComponent } from './total-return/total-return.component';
 import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/sale-by-channel-heatmap/sale-by-channel-heatmap.component';
-import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.component';
-import { DetailStatisticComponent } from './dashboard-statistic/detail-statistic/detail-statistic.component';
-import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
-import { PaginatorModule } from 'primeng/paginator';
-import { ShareModule } from '../share/share.module';
-import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
-import { ChartsModule } from '../charts/charts.module';
-import { TopSellingProductComponent } from './top-selling-product/top-selling-product.component';
-import { SaleStoreComponent } from './sale-store/sale-store.component';
-import { GlobalFilterComponent } from '../global-filter/global-filter.component';
-import { CalendarModule } from 'primeng/calendar';
+import { SaleOnChannelComponent } from './total-sale-by-channel/sale-on-channel/sale-on-channel.component';
+import { TotalSaleByChannelComponent } from './total-sale-by-channel/total-sale-by-channel.component';
 import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sale-by-location.component';
-import { DateFilterComponent } from '../share/date-filter/date-filter.component';
+import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.component';
+import { SalesDetailComponent } from './total-sales/components/sales-detail/sales-detail.component';
+import { TotalSalesComponent } from './total-sales/total-sales.component';
 
 @NgModule({
   imports: [
@@ -70,6 +72,8 @@ import { DateFilterComponent } from '../share/date-filter/date-filter.component'
     SaleStoreComponent,
     GlobalFilterComponent,
     TotalSaleByLocationComponent,
+    TotalSalesComponent,
+    SalesDetailComponent,
   ],
 })
 export class DashboardModule {}

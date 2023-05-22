@@ -10,20 +10,19 @@ import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { UIChart } from 'primeng/chart';
 
 import {
-  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
-  ApexXAxis,
-  ApexTitleSubtitle,
-  ApexTooltip,
-  ApexPlotOptions,
-  ApexLegend,
   ApexDataLabels,
-  ApexYAxis,
+  ApexLegend,
+  ApexPlotOptions,
   ApexResponsive,
+  ApexTitleSubtitle,
+  ApexXAxis,
+  ApexYAxis,
+  ChartComponent,
 } from 'ng-apexcharts';
-import resolveConfig from 'tailwindcss/resolveConfig';
 import { environment } from 'src/environments/environment';
+import resolveConfig from 'tailwindcss/resolveConfig';
 
 type ApexChartOptions = {
   series: ApexAxisChartSeries;
@@ -41,6 +40,29 @@ declare const google: any;
 const tailwindConfig = require('tailwind.config.js');
 const fullConfig = resolveConfig(tailwindConfig);
 const colors = fullConfig.theme['colors'];
+
+export const baseChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+    },
+  },
+};
 
 export interface OmsChartOptions
   extends Partial<ApexChartOptions>,
