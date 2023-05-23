@@ -25,11 +25,11 @@ export class ChannelListComponent {
     data: {
       header: [
         { field: 'channel', col: 'Channel' },
-        { field: 'number-of-orders', col: 'Number Of Orders' },
-        { field: 'total-sales', col: 'Total Sales' },
+        { field: 'numberOfOrders', col: 'Number Of Orders' },
+        { field: 'totalSales', col: 'Total Sales' },
         { field: 'status', col: 'Status' },
-        { field: 'created-at', col: 'Created At' },
-        { field: 'updated-at', col: 'Updated At' },
+        { field: 'createdAt', col: 'Created At' },
+        { field: 'updatedAt', col: 'Updated At' },
       ],
       body: [],
     },
