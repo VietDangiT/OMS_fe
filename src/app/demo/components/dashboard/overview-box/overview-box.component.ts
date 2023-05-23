@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'oms-sales-detail',
-  templateUrl: './sales-detail.component.html',
-  styleUrls: ['./sales-detail.component.scss'],
+  selector: 'overview-box',
+  templateUrl: './overview-box.component.html',
+  styleUrls: ['./overview-box.component.scss'],
 })
-export class SalesDetailComponent {
+export class OverviewBoxComponent {
   @Input() dateRange: string;
 
   @Input() total: number = 0;

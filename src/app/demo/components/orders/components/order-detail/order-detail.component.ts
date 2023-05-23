@@ -27,7 +27,12 @@ export class OrderDetailComponent {
 
   tableData: OmsTable<Product> = {
     data: {
-      header: ['Product', 'Barcode', 'Quantity', 'Price'],
+      header: [
+        { field: 'product', col: 'Product' },
+        { field: 'barcode', col: 'Barcode' },
+        { field: 'quantity', col: 'Quantity' },
+        { field: 'price', col: 'Price' },
+      ],
       body: [
         {
           image: '123',

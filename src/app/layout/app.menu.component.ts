@@ -43,7 +43,6 @@ export class AppMenuComponent {
       name: 'dashboard',
       path: '/dashboard',
       icon: 'pi pi-th-large',
-      isDropDownMenu: true,
       submenu: {
         title: 'Dashboard',
         items: [
@@ -57,27 +56,16 @@ export class AppMenuComponent {
           {
             name: 'totalOrder',
             content: 'Total Orders',
-            path: 'dashboard/total-order',
+            path: 'dashboard/total-orders',
             icon: 'pi-shopping-cart',
             param: {},
           },
-          {
-            name: 'cardStatic',
-            path: 'dashboard/card-static',
-            content: 'Card Statistics Payment',
-            icon: 'pi-credit-card',
-          },
+
           {
             name: 'saleByLocation',
             path: 'dashboard/sale-by-location',
             content: 'Sales by Location',
             icon: 'pi-globe',
-          },
-          {
-            name: 'saleByPromotion',
-            path: 'dashboard/sale-by-promotion',
-            content: 'Sale by Promotions',
-            icon: 'pi-tag',
           },
           {
             name: 'saleByChannel',
@@ -92,7 +80,6 @@ export class AppMenuComponent {
       name: 'orders',
       path: '/orders',
       icon: 'pi pi-box',
-      isDropDownMenu: true,
       submenu: {
         title: 'Orders',
       },
@@ -101,7 +88,6 @@ export class AppMenuComponent {
       name: 'catalogue',
       path: '/catalogue',
       icon: 'pi pi-book',
-      isDropDownMenu: true,
       submenu: {
         title: 'Catalogue',
         items: [],
@@ -111,7 +97,6 @@ export class AppMenuComponent {
       name: 'inventory',
       path: '/inventory',
       icon: 'pi pi-inbox',
-      isDropDownMenu: true,
       submenu: {
         title: 'Inventory',
         items: [],
@@ -121,7 +106,6 @@ export class AppMenuComponent {
       name: 'user',
       path: '/user',
       icon: 'pi pi-user',
-      isDropDownMenu: true,
       submenu: {
         title: 'Profile',
         items: [
@@ -144,7 +128,6 @@ export class AppMenuComponent {
       name: 'customer',
       path: '/customer',
       icon: 'pi pi-users',
-      isDropDownMenu: true,
       submenu: {
         title: 'Customer',
         items: [],
@@ -154,7 +137,6 @@ export class AppMenuComponent {
       name: 'channel',
       path: '/channels',
       icon: 'pi pi-phone',
-      isDropDownMenu: true,
       submenu: {
         title: 'Channels',
       },

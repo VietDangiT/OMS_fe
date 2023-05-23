@@ -1,51 +1,102 @@
-import { Component, ViewEncapsulation, Input, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
-import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { environment } from 'src/environments/environment';
-import { BaseChart } from '../interfaces/interfaces';
+import { OmsTable } from '../../share/model/oms-table';
+import { baseChartOptions } from '../../share/oms-chart/oms-chart.component';
 
+interface TotalOrder {
+  date: string;
+  completed: number;
+  failed: number;
+  return: number;
+  numberOfOrders: number;
+}
 @Component({
-  selector: 'dashboard-total-orders',
+  selector: 'oms-total-orders',
   templateUrl: './total-orders.component.html',
   styleUrls: ['./total-orders.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class TotalOrdersComponent {
-  @Input() basicOptions!: ChartOptions;
-  @Input() filterArr: string[];
-  
-  totalOrderData: ChartData;
-  totalOrder: string = '0';
+  filterValue = '';
 
-  constructor(private dashboardService: DashboardService){}
-  ngOnChanges(changes : SimpleChanges){
-    this.dashboardService.getTotalOrder(changes['filterArr'].currentValue).subscribe((result:any) =>{
-      this.initTotalOrderChart(result);
-    });
-  }
+  baseChartOptions: ChartOptions = baseChartOptions;
 
-  initTotalOrderChart(result: any){
-    var totalArr: number[] = [];
-    var labelArr: string[] = [];
-    var order: number = 0;
-    result.map((item: BaseChart) => {          
-      totalArr.push(item.value);
-      labelArr.push(new Date(item.text).toLocaleDateString());
-      order += item.value;
-    });
-    
-    this.totalOrder = order.toLocaleString('en-US');
-    this.totalOrderData = {
-      labels: labelArr,
-      datasets: [
+  tableData: OmsTable<TotalOrder> = {
+    page: 0,
+    first: 0,
+    rows: 0,
+    pageCount: 0,
+    totalRecord: 0,
+    data: {
+      header: [
+        { field: 'date', col: 'Date' },
+        { field: 'completed', col: 'Completed' },
+        { field: 'failed', col: 'Failed' },
+        { field: 'return', col: 'Return' },
+        { field: 'numberOfOrders', col: 'Number of Orders' },
+      ],
+      body: [
         {
-          label: 'Total Orders',
-          data: totalArr,
-          borderColor: environment.primaryColor,
-          backgroundColor: environment.primaryColor,
+          date: '5/19/2023',
+          completed: Math.random() * 1000,
+          return: Math.random() * 1000,
+          failed: Math.random() * 1000,
+          numberOfOrders: Math.random() * 1000,
+        },
+        {
+          date: '5/20/2023',
+          completed: Math.random() * 1000,
+          return: Math.random() * 1000,
+          failed: Math.random() * 1000,
+          numberOfOrders: Math.random() * 1000,
+        },
+        {
+          date: '5/21/2023',
+          completed: Math.random() * 1000,
+          return: Math.random() * 1000,
+          failed: Math.random() * 1000,
+          numberOfOrders: Math.random() * 1000,
+        },
+        {
+          date: '5/22/2023',
+          completed: Math.random() * 1000,
+          return: Math.random() * 1000,
+          failed: Math.random() * 1000,
+          numberOfOrders: Math.random() * 1000,
         },
       ],
-    };
+    },
+  };
+
+  overviewData: ChartData = {
+    labels: [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ],
+    datasets: [
+      {
+        label: 'Orders on Swiggy',
+        data: [66, 49, 81, 71, 26, 65, 60],
+        backgroundColor: environment.primaryColor,
+      },
+    ],
+  };
+
+  dateFilterChanged(dateRange: Date[]): void {
+    console.log(dateRange);
   }
 
+  filterChanged(filter: string): void {
+    this.filterValue = filter;
+    console.log(this.filterValue);
+  }
+
+  onPageChange(e: Event): void {
+    console.log(e);
+  }
 }

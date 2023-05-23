@@ -1,6 +1,11 @@
 import { KeyValue } from '@angular/common';
-import { Component, Input, Output, ViewEncapsulation } from '@angular/core';
-import { EventEmitter } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { DashboardTable } from '../interfaces/interfaces';
 
 @Component({
@@ -11,28 +16,30 @@ import { DashboardTable } from '../interfaces/interfaces';
 })
 export class TableComponent {
   date!: Date;
-  
+
   @Input() heading: string = 'Orders on Channel';
-  
+
   @Input() tableData: Required<DashboardTable> = {
     headerData: [],
     bodyData: [],
   };
-  
+
   @Input() currentPagingInfo: any;
 
-  @Output("pagingInfo") pagingInfo = new EventEmitter();
+  @Output('pagingInfo') pagingInfo = new EventEmitter();
 
   first: number = 0;
 
-  ngOnInit(){
-  }
-  
+  ngOnInit() {}
+
   onPageChange(event: any) {
     this.pagingInfo.emit(event);
-  } 
-
-  originalOrder = (a: KeyValue<number,string>, b: KeyValue<number,string>): number => {
-    return 0;
   }
+
+  originalOrder = (
+    a: KeyValue<number, string>,
+    b: KeyValue<number, string>
+  ): number => {
+    return 0;
+  };
 }

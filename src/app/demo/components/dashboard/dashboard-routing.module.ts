@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { OmsTableComponent } from '../share/oms-table/oms-table.component';
 import { DashboardComponent } from './dashboard.component';
 import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
+import { TotalOrdersComponent } from './total-orders/total-orders.component';
 import { TotalSaleByChannelComponent } from './total-sale-by-channel/total-sale-by-channel.component';
 import { TotalSalesComponent } from './total-sales/total-sales.component';
 
@@ -31,6 +32,11 @@ const route: Routes = [
     path: 'total-sales',
     data: { breadcrumbs: ['Dashboard', 'Total sales'] },
     component: TotalSalesComponent,
+  },
+  {
+    path: 'total-orders',
+    data: { breadcrumbs: ['Dashboard', 'Total orders'] },
+    component: TotalOrdersComponent,
   },
 ];
 

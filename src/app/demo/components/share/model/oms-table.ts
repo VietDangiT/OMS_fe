@@ -5,7 +5,12 @@ export interface OmsTable<T> {
   pageCount?: number;
   totalRecord?: number;
   data: {
-    header: string[];
+    header: TableHeader[];
     body: T[];
   };
+}
+
+interface TableHeader {
+  col: string;
+  field: string;
 }

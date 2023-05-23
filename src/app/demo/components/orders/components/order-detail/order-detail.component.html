@@ -56,21 +56,27 @@
       </li>
     </ul>
 
-    <oms-table [table]="tableData" [isPaginationShown]="false">
-      <tr *ngFor="let p of tableData.data.body">
-        <td>
-          <div class="flex items-center gap-4 justify-center">
-            <div>{{ p.image }}</div>
-            <div class="flex flex-col gap-1">
-              <div>{{ p.name }}</div>
-              <div>{{ p.description }}</div>
+    <oms-table
+      [table]="tableData"
+      [contentRef]="contentRef"
+      [isPaginationShown]="false"
+    >
+      <ng-template #contentRef let-rowData>
+        <tr>
+          <td>
+            <div class="flex items-center gap-4 justify-center">
+              <div>{{ rowData.image }}</div>
+              <div class="flex flex-col gap-1">
+                <div>{{ rowData.name }}</div>
+                <div>{{ rowData.description }}</div>
+              </div>
             </div>
-          </div>
-        </td>
-        <td>{{ p.code }}</td>
-        <td>{{ p.quantity }}</td>
-        <td>{{ p.price }}</td>
-      </tr>
+          </td>
+          <td>{{ rowData.code }}</td>
+          <td>{{ rowData.quantity }}</td>
+          <td>{{ rowData.price }}</td>
+        </tr>
+      </ng-template>
     </oms-table>
   </div>
 </p-dialog>

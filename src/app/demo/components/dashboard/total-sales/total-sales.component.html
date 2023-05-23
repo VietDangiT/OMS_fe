@@ -14,23 +14,23 @@
     <div class="font-bold text-black">Sales</div>
 
     <div class="flex flex-col gap-2 mb-4">
-      <oms-sales-detail
+      <overview-box
         dateRange="This month"
         type="Sales"
         styleClass="bg-secondary bg-opacity-10"
-      ></oms-sales-detail>
+      ></overview-box>
 
-      <oms-sales-detail
+      <overview-box
         dateRange="This month"
         type="Avg. Order Sales"
         styleClass="bg-secondary bg-opacity-20"
-      ></oms-sales-detail>
+      ></overview-box>
 
-      <oms-sales-detail
+      <overview-box
         dateRange="This month"
         type="Return"
         styleClass="bg-secondary bg-opacity-30"
-      ></oms-sales-detail>
+      ></overview-box>
     </div>
   </div>
 
@@ -61,22 +61,9 @@
   </div>
 </div>
 
-<div class="">
-  <oms-table
-    (pagingInfo)="onPageChange($event)"
-    [isPaginationShown]="true"
-    [table]="tableData"
-  >
-    <tr *ngFor="let item of tableData.data.body">
-      <td>{{ item.date }}</td>
-
-      <td>{{ item.numberOfOrders | number : '1.2-2' }}</td>
-
-      <td>{{ item.avgOrderSales | number : '1.2-2' }}</td>
-
-      <td>{{ item.numberOfReturn | number : '1.2-2' }}</td>
-
-      <td>{{ item.totalSales | number : '1.2-2' }}</td>
-    </tr>
-  </oms-table>
-</div>
+<oms-table
+  (pagingInfo)="onPageChange($event)"
+  [isPaginationShown]="true"
+  [table]="tableData"
+>
+</oms-table>

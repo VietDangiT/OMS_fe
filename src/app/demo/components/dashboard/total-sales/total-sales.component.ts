@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { environment } from 'src/environments/environment';
 import { OmsTable } from '../../share/model/oms-table';
@@ -17,7 +17,6 @@ export interface TotalSale {
   selector: 'oms-total-sales',
   templateUrl: './total-sales.component.html',
   styleUrls: ['./total-sales.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class TotalSalesComponent {
   filterValue: string;
@@ -74,11 +73,11 @@ export class TotalSalesComponent {
     totalRecord: 0,
     data: {
       header: [
-        'Date',
-        'Number of Orders',
-        'AVG Order Sales',
-        'Number of Return',
-        'Total Sales',
+        { field: 'date', col: 'Date' },
+        { field: 'numberOfOrders', col: 'Number of Orders' },
+        { field: 'avgOrderSales', col: 'AVG Order Sales' },
+        { field: 'numberOfReturn', col: 'Number of Return' },
+        { field: 'totalSales', col: 'Total Sales' },
       ],
       body: [
         {

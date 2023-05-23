@@ -30,11 +30,11 @@
       (pagingInfo)="onPageChange($event)"
       [isPaginationShown]="true"
       [table]="tableData"
+      [contentRef]="contentRef"
     >
-      <oms-order-item
-        *ngFor="let order of tableData.data.body"
-        [order]="order"
-      ></oms-order-item>
+      <ng-template #contentRef let-rowData let-columns="columns">
+        <oms-order-item [order]="rowData"></oms-order-item>
+      </ng-template>
     </oms-table>
   </div>
 </div>

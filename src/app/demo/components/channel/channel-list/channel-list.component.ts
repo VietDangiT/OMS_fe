@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { tap } from 'rxjs';
 import { ChannelService } from 'src/app/demo/service/channel.service';
-import { OmsTable } from '../../share/model/oms-table';
 import { environment } from 'src/environments/environment';
+import { OmsTable } from '../../share/model/oms-table';
 import { Channel } from '../interface/channel.component';
 
 @Component({
@@ -24,12 +24,12 @@ export class ChannelListComponent {
     totalRecord: 0,
     data: {
       header: [
-        'Channel',
-        'Number Of Order',
-        'Total Sales',
-        'Status',
-        'Created At',
-        'Update At',
+        { field: 'channel', col: 'Channel' },
+        { field: 'number-of-orders', col: 'Number Of Orders' },
+        { field: 'total-sales', col: 'Total Sales' },
+        { field: 'status', col: 'Status' },
+        { field: 'created-at', col: 'Created At' },
+        { field: 'updated-at', col: 'Updated At' },
       ],
       body: [],
     },

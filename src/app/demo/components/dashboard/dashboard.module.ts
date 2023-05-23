@@ -18,7 +18,9 @@ import { ShareModule } from '../share/share.module';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
 import { DashboardStatisticComponent } from './dashboard-statistic/dashboard-statistic.component';
 import { DetailStatisticComponent } from './dashboard-statistic/detail-statistic/detail-statistic.component';
+import { DashboardTotalOrdersComponent } from './dashboard-total-orders/total-orders.component';
 import { DashboardComponent } from './dashboard.component';
+import { OverviewBoxComponent } from './overview-box/overview-box.component';
 import { ProductCatalogComponent } from './product-catalog/product-catalog.component';
 import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.component';
 import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
@@ -32,7 +34,6 @@ import { SaleOnChannelComponent } from './total-sale-by-channel/sale-on-channel/
 import { TotalSaleByChannelComponent } from './total-sale-by-channel/total-sale-by-channel.component';
 import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sale-by-location.component';
 import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.component';
-import { SalesDetailComponent } from './total-sales/components/sales-detail/sales-detail.component';
 import { TotalSalesComponent } from './total-sales/total-sales.component';
 
 @NgModule({
@@ -62,7 +63,7 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
     TableComponent,
     SaleByChannelComponent,
     ProductCatalogComponent,
-    TotalOrdersComponent,
+    DashboardTotalOrdersComponent,
     TotalReturnComponent,
     SaleByChannelHeatmapComponent,
     TotalsalechartComponent,
@@ -73,7 +74,8 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
     GlobalFilterComponent,
     TotalSaleByLocationComponent,
     TotalSalesComponent,
-    SalesDetailComponent,
+    OverviewBoxComponent,
+    TotalOrdersComponent,
   ],
 })
 export class DashboardModule {}
