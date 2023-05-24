@@ -155,7 +155,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.initChartOption();
 
-   
+
   }
 
 
@@ -170,7 +170,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
       ],
     };
-  
+
   }
 
   initChartOption(){
@@ -183,7 +183,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           display:false,
         },
       },
-    
+
     };
     this.pieOptions = {
       responsive: true,
@@ -209,7 +209,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   initChart() {
-  
+
     this.productCatalogData = {
       labels: this.prodCatalogLabel,
       datasets: [
@@ -251,7 +251,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ],
     };
 
-   
+
   }
 
   initOrderData() {
@@ -280,7 +280,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if(dateRange[1] != null){
       this.filterArr = dateRange.map((date:Date)=>{
         return date.toLocaleDateString("en-EN");
-      })    
+      })
       this.dashboardService.getTotalSale(this.filterArr).subscribe((result: any) =>{
         this.initTotalSaleChart(result);
       })
@@ -292,13 +292,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     var sale: number = 0;
     var totalArr: number[] = [];
     var labelArr: string[] = [];
-    
+
     result.map((item: any) => {
       totalArr.push(item.value);
       labelArr.push(new Date(item.date).toLocaleDateString());
       sale += item.value;
     });
-    
+
     this.totalSale = sale.toLocaleString('en-US');
     this.totalSaleData = {
       labels: labelArr,
@@ -314,7 +314,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ],
     };
   }
-  
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

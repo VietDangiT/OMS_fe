@@ -1,0 +1,41 @@
+<app-topbar></app-topbar>
+<div class="w-full">
+  <app-global-filter></app-global-filter>
+  <div class="gap-2 md:grid md:grid-cols-9 sm:flex-col">
+
+    <div class="md:col-span-6 sm:flex-row">
+      <div class="grid-cols-6 gap-2 md:grid lg:justify-between">
+
+        <div class="p-4 bg-white rounded-md lg:col-span-3 md:col-span-3">
+          <app-customer-loyalty [pieData]="pieData"  [pieOptions]="pieOptions"></app-customer-loyalty>
+        </div>
+
+        <div class="p-4 bg-white rounded-md lg:col-span-3 md:col-span-3">
+         <app-customer-feedback    [dataChart]="lineData" [basicOptions]="chartOptions"></app-customer-feedback>
+        </div>
+      </div>
+      <div class="grid-cols-6 gap-2 mt-2 md:grid lg:justify-between">
+        <div class="p-4 bg-white rounded-md lg:col-span-3 md:col-span-3">
+          <app-customer-bychannel [pieData]="pieData"  [pieOptions]="pieOptions"></app-customer-bychannel>
+        </div>
+
+        <div class="p-4 bg-white rounded-md lg:col-span-3 md:col-span-6">
+          <app-customer-rating [pieData]="pieData"  [pieOptions]="pieOptions"></app-customer-rating>
+        </div>
+      </div>
+    </div>
+    <div class=" p-4 bg-white rounded-md lg:col-span-3 md:col-span-2">
+      <div class="flex flex-col gap-2">
+        <!-- order component -->
+        <div>
+       <app-customer-location> </app-customer-location>
+        </div>
+        <!-- top selling product component -->
+        <div class="sm:mb-2 md:mb-0">
+         <app-customer-topproduct></app-customer-topproduct>
+        </div>
+      </div>
+    </div>
+  </div>
+
+

@@ -123,7 +123,7 @@ export class LayoutService {
     }
   }
 
-  getSubmenuList(type: string) {    
+  getSubmenuList(type: string) {
     var filter = type?.toLowerCase();
     switch (filter) {
       case 'dashboard':

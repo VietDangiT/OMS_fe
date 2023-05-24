@@ -12,7 +12,7 @@ export class GlobalFilterComponent {
     name:1
   },
   {
-    value: "Last 7 days", 
+    value: "Last 7 days",
     name:2
   },
   {
@@ -20,13 +20,13 @@ export class GlobalFilterComponent {
     name:3
   }
   ]
-  @Output("dateFilterChange") dateFilterChange = new EventEmitter<Date[]>(); 
+  @Output("dateFilterChange") dateFilterChange = new EventEmitter<Date[]>();
   @Output("filter") filterChange = new EventEmitter<string>();
   dateFilter!: Date[];
 
 
   getDateRange(dateRange: Date[]) {
-    this.dateFilterChange.emit(dateRange);    
+    this.dateFilterChange.emit(dateRange);
   }
 
   getFilter(dateFilter: string){
@@ -71,6 +71,6 @@ export class GlobalFilterComponent {
   }
 
   handleCalendar(event: any){
-    this.handleActiveButtonFilter(event);    
+    this.handleActiveButtonFilter(event);
   }
 }

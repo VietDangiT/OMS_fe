@@ -20,6 +20,15 @@ import { RoleGuard } from './demo/components/guard/role.guard';
                 import('./demo/components/dashboard/dashboard.module').then(
                   (m) => m.DashboardModule
                 ),
+
+            },
+            {
+              path: 'customer',
+              loadChildren: () =>
+                import('./demo/components/customer/customer.module').then(
+                  (m) => m.CustomerModule
+                ),
+
             },
             {
               path: 'uikit',

@@ -29,7 +29,6 @@ import { SaleByLocationComponent } from './sale-by-location/sale-by-location.com
 import { ChartsModule } from '../charts/charts.module';
 import { TopSellingProductComponent } from './top-selling-product/top-selling-product.component';
 import { SaleStoreComponent } from './sale-store/sale-store.component';
-import { GlobalFilterComponent } from '../global-filter/global-filter.component';
 import { CalendarModule } from 'primeng/calendar';
 @NgModule({
   imports: [
@@ -48,7 +47,7 @@ import { CalendarModule } from 'primeng/calendar';
     PaginatorModule,
     ShareModule,
     ChartsModule,
-    CalendarModule
+    CalendarModule,
   ],
   declarations: [
     DashboardComponent,
@@ -66,7 +65,6 @@ import { CalendarModule } from 'primeng/calendar';
     SaleByLocationComponent,
     TopSellingProductComponent,
     SaleStoreComponent,
-    GlobalFilterComponent
   ],
 })
 export class DashboardModule {}
