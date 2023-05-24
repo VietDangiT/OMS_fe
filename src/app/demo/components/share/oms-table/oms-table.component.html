@@ -39,11 +39,15 @@
 
       <tr *ngIf="!contentRef">
         <td *ngFor="let col of columns">
-          <span *ngIf="isNumber(rowData[col.field]); else notNumberField">{{
-            rowData[col.field] | number : '1.2-2'
-          }}</span>
+          <span
+            *ngIf="isNumber(rowData[col.field]); else notNumberField"
+            class="!text-right"
+            >{{ rowData[col.field] | number : '1.2-2' }}</span
+          >
 
-          <ng-template #notNumberField>{{ rowData[col.field] }}</ng-template>
+          <ng-template #notNumberField class="!text-left">{{
+            rowData[col.field]
+          }}</ng-template>
         </td>
       </tr>
     </ng-template>

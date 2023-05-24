@@ -7,7 +7,9 @@
   (onHide)="closeModal()"
 >
   <ng-template pTemplate="header">
-    <span class="text-heading">Order #{{ order.orderNumber }}</span>
+    <span class="font-bold text-3xl text-primary"
+      >Order #{{ order.orderNumber }}</span
+    >
   </ng-template>
 
   <div>
@@ -64,10 +66,10 @@
       <ng-template #contentRef let-rowData>
         <tr>
           <td>
-            <div class="flex items-center gap-4 justify-center">
+            <div class="flex items-center gap-4">
               <div>{{ rowData.image }}</div>
-              <div class="flex flex-col gap-1">
-                <div>{{ rowData.name }}</div>
+              <div>
+                <div class="font-bold text-lg">{{ rowData.name }}</div>
                 <div>{{ rowData.description }}</div>
               </div>
             </div>
