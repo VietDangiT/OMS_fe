@@ -8,7 +8,8 @@ export const environment = {
   primaryColor : "#27447C",
   secondaryColor: "#FCA310",
   thirdColor:"#ED7D2D",
-  fourthColor:"#F3F4F6"
+  fourthColor:"#F3F4F6",
+  mapsApiKey: 'AIzaSyBKhYI_73zbRK6a-CLq-w-M4F1pZpPghOE',
 };
 
 /*

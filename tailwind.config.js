@@ -22,7 +22,9 @@ module.exports = {
         "warning": "#EFB034",
         "success": "#1DD75B",
         "grayData": "#6C757D",
-        "danger":"#DE3B3B"
+        "danger":"#DE3B3B",
+        "geomapBackground": "#F8F9FA",
+        "datalessRegion": "#DEE1E6"
       },
       width: {
         sidebarWidth: "50px",

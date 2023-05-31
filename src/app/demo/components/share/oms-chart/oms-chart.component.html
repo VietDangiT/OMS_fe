@@ -1,6 +1,7 @@
 <ng-container [ngSwitch]="type">
   <ng-container *ngSwitchCase="'heatmap'" [ngTemplateOutlet]="chart1"></ng-container>
   <ng-container *ngSwitchCase="'treemap'" [ngTemplateOutlet]="chart1"></ng-container>
+  <ng-container *ngSwitchCase="'geomap'" [ngTemplateOutlet]="geomap"></ng-container>
   <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultChart"></ng-container>
 </ng-container>
 
@@ -22,4 +23,7 @@
 <ng-template #defaultChart>
   <p-chart #chartJS class="flex-1" [type]="type" [data]="data" [options]="options">
   </p-chart>
+</ng-template>
+<ng-template #geomap>
+  <div (window:resize)="onResize($event)" #geomap id="regions_div" class="w-full"></div>
 </ng-template>

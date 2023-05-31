@@ -8,6 +8,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { GlobalFilterComponent } from './global-filter/global-filter.component';
 
+
+
 @NgModule({
   declarations: [
     OMSChartComponent,
