@@ -65,14 +65,14 @@ export class CustomerComponent implements OnInit {
       responsive: true,
       maintainAspectRatio: true,
       aspectRatio: 1,
-      cutout: 140,
+      cutout: 120,
       plugins: {
         legend: {
           position: 'right',
           labels: {
-            boxHeight: 15,
-            boxWidth: 15,
-            padding: 34,
+            boxHeight: 10,
+            boxWidth: 10,
+            padding: 30,
             usePointStyle: true,
             color: environment.primaryColor,
             font: {
