@@ -1,3 +1,5 @@
+import { PagingParams } from 'src/app/demo/interface/global.model';
+
 export interface Channel {
   description: string;
   id: number;
@@ -19,4 +21,19 @@ export interface Country {
 
 export interface CountryApiResponse {
   countries: Country[];
+}
+
+export interface ChannelTableApiResponse {
+  channelsTableData: {
+    data: Channel[];
+    first: number;
+    page: number;
+    pageCount: number;
+    rows: number;
+    totalRecord: number;
+  };
+}
+
+export interface ChannelParams extends PagingParams {
+  countryId: number;
 }

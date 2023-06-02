@@ -22,7 +22,7 @@ import {
   StatisticOrderStatusApiResponse,
   StatisticProductChannelByStatusApiResponse,
   StatisticProductMarketplaceStockApiResponse,
-} from '../interfaces/interfaces';
+} from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 
 @Component({

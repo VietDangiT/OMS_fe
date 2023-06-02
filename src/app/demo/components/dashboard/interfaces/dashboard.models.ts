@@ -71,12 +71,9 @@ export interface OrderOnChannelData {
   }[];
 }
 
-export interface Statistic {
+export interface Statistic extends BaseChart {
   current: number;
-  id: number;
   previous: number;
-  value: number;
-  text: string;
 }
 
 export interface BaseItem {

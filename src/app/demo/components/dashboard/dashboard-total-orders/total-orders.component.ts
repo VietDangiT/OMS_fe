@@ -7,7 +7,10 @@ import {
 import { ChartData, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { BaseChart, TotalOrderApiResponse } from '../interfaces/interfaces';
+import {
+  BaseChart,
+  TotalOrderApiResponse,
+} from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 
 @Component({

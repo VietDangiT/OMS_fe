@@ -12,7 +12,7 @@ import {
   BaseItem,
   ProductVariantApiResponse,
   ProductVariantItemsSoldApiResponse,
-} from '../interfaces/interfaces';
+} from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 
 @Component({

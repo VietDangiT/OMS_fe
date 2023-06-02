@@ -25,7 +25,9 @@ export class OrderListComponent {
 
   activeItem: MenuItem;
 
-  defaultDateRange = [this.helperService.addDays(new Date(), -7), new Date()];
+  dateRange = [this.helperService.addDays(new Date(), -7), new Date()];
+
+  dateFilterValue: string[];
 
   marketPlaceId = 0;
 
@@ -81,8 +83,8 @@ export class OrderListComponent {
 
           this.orderParams = {
             ...this.orderParams,
-            fromDate: this.defaultDateRange[0],
-            toDate: this.defaultDateRange[1],
+            fromDate: this.dateRange[0],
+            toDate: this.dateRange[1],
             channelId: this.marketPlaceId,
           };
 

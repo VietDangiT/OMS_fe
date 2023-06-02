@@ -6,7 +6,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { DashboardTable } from '../interfaces/interfaces';
+import { DashboardTable } from '../interfaces/dashboard.models';
 
 @Component({
   selector: 'dashboard-table',

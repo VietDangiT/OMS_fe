@@ -7,6 +7,7 @@ import {
   Channel,
   CountryApiResponse,
 } from '../components/channel/interface/channel.component';
+
 const GET_COUNTRIES = gql`
   query {
     countries {
@@ -16,6 +17,7 @@ const GET_COUNTRIES = gql`
     }
   }
 `;
+
 @Injectable({
   providedIn: 'root',
 })

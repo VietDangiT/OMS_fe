@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BaseChart } from '../interfaces/interfaces';
+import { BaseChart } from '../interfaces/dashboard.models';
 
 export interface DashboardItemPercentage {
   displayText: string;

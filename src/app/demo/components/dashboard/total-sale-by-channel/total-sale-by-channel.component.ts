@@ -1,56 +1,56 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { DashboardService } from 'src/app/demo/service/dashboard.service';
 import { ChartData } from 'chart.js';
+import { DashboardService } from 'src/app/demo/service/dashboard.service';
+import { OrderOnChannelData } from '../interfaces/dashboard.models';
 import { SaleByChannelHeatmap } from './sale-by-channel-heatmap/sale-by-channel-heatmap.component';
-import { OrderOnChannelData } from '../interfaces/interfaces';
 
 @Component({
   selector: 'dashboard-total-sale-by-channel',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class TotalSaleByChannelComponent {
   tableData: OrderOnChannelData = {
     headerData: ['Channel', 'Status', 'Number of Orders', 'Total Sales'],
     bodyData: [
       {
-        channelImage: "",
+        channelImage: '',
         channelName: 'abc',
         isActive: true,
         numberOrder: 10,
         totalSale: 12,
       },
       {
-        channelImage: "",
+        channelImage: '',
         channelName: 'abc',
         isActive: true,
         numberOrder: 10,
         totalSale: 12,
       },
       {
-        channelImage: "",
+        channelImage: '',
         channelName: 'abc',
         isActive: true,
         numberOrder: 10,
         totalSale: 12,
       },
       {
-        channelImage: "",
+        channelImage: '',
         channelName: 'abc',
         isActive: true,
         numberOrder: 10,
         totalSale: 12,
       },
       {
-        channelImage: "",
+        channelImage: '',
         channelName: 'abc',
         isActive: true,
         numberOrder: 10,
         totalSale: 12,
       },
       {
-        channelImage: "",
+        channelImage: '',
         channelName: 'abc',
         isActive: true,
         numberOrder: 10,

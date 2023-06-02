@@ -8,7 +8,7 @@ import { tap } from 'rxjs';
 import {
   BaseChart,
   TotalSalesByLocationApiResponse,
-} from '../interfaces/interfaces';
+} from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 
 @Component({

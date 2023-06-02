@@ -13,6 +13,7 @@ export class ScreenFilterComponent {
   @Output('filter') filterChange = new EventEmitter<string>();
 
   dateFilter: string[];
+
   searchValue: string;
 
   getDateRange(dateRange: Date[]) {

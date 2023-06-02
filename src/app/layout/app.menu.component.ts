@@ -88,22 +88,31 @@ export class AppMenuComponent {
     },
     {
       name: 'catalogue',
-      path: '/catalogue',
-      icon: 'pi pi-book',
+      path: '/catalogues',
+      icon: 'pi pi-inbox',
       submenu: {
         title: 'Catalogue',
         items: [],
       },
     },
-    {
-      name: 'inventory',
-      path: '/inventory',
-      icon: 'pi pi-inbox',
-      submenu: {
-        title: 'Inventory',
-        items: [],
-      },
-    },
+    // {
+    //   name: 'payment',
+    //   path: '/payment',
+    //   icon: 'pi pi-credit-card',
+    //   submenu: {
+    //     title: 'Payment',
+    //     items: [],
+    //   },
+    // },
+    // {
+    //   name: 'inventory',
+    //   path: '/inventory',
+    //   icon: 'pi pi-inbox',
+    //   submenu: {
+    //     title: 'Inventory',
+    //     items: [],
+    //   },
+    // },
     {
       name: 'user',
       path: '/user',

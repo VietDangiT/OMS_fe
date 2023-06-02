@@ -2,7 +2,7 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import {
   BaseChart,
   TotalSalesByProductApiResponse,
-} from '../interfaces/interfaces';
+} from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 
 @Component({

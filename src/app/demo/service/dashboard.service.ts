@@ -6,7 +6,7 @@ import {
   BaseChart,
   BaseItem,
   Statistic,
-} from '../components/dashboard/interfaces/interfaces';
+} from '../components/dashboard/interfaces/dashboard.models';
 
 @Injectable({
   providedIn: 'root',

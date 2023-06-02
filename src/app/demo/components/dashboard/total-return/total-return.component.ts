@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import {
   TotalReturn,
   TotalReturnByApiResponse,
-} from '../interfaces/interfaces';
+} from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 
 @Component({

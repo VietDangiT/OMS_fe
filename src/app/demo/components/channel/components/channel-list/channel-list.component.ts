@@ -2,9 +2,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { tap } from 'rxjs';
+import { PageChangeEvent } from 'src/app/demo/interface/event';
 import { ChannelService } from 'src/app/demo/service/channel.service';
-import { OmsTable } from '../../share/model/oms-table';
-import { Channel } from '../interface/channel.component';
+import { OmsTable } from '../../../share/model/oms-table';
+import { Channel } from '../../interface/channel.component';
 
 @Component({
   selector: 'app-channel-list',
@@ -14,6 +15,7 @@ import { Channel } from '../interface/channel.component';
 })
 export class ChannelListComponent {
   channelStatus: boolean[] = [];
+
   table: OmsTable<Channel> = {
     page: 0,
     first: 0,
@@ -32,19 +34,22 @@ export class ChannelListComponent {
       body: [],
     },
   };
+
   items: MenuItem[] = [
-    { label: 'All', id: '0', badge: '1123' },
-    { label: 'Active', id: '1', badge: '1243' },
-    { label: 'Inactive', id: '2', badge: '1' },
+    { label: '', id: '0', badge: '0', title: 'All' },
+    { label: 'active', id: '1', badge: '0', title: 'Active' },
+    { label: 'inactive', id: '2', badge: '0', title: 'Inactive' },
   ];
+
   activeItem: MenuItem = this.items[0];
+
   countryId: string | number;
 
   constructor(
-    private _channelService: ChannelService,
-    private _route: ActivatedRoute
+    private channelService: ChannelService,
+    private route: ActivatedRoute
   ) {
-    this._route.queryParamMap
+    this.route.queryParamMap
       .pipe(
         tap(params => {
           this.countryId = params.get('countryId') || 0;
@@ -63,7 +68,7 @@ export class ChannelListComponent {
     countryId: number = 0,
     status: string = ''
   ) => {
-    this._channelService
+    this.channelService
       .getChannelList(rows, currentPage, search, countryId, status)
       .pipe(
         tap((item: any) => {
@@ -88,16 +93,12 @@ export class ChannelListComponent {
       .subscribe();
   };
 
-  onPageChange(event: {
-    page: number;
-    first: number;
-    rows: number;
-    pageCount: number;
-  }) {
+  onPageChange(event: PageChangeEvent) {
     if (event.page === 0) {
       event.page = 1;
     }
-    this.getChannelData(event.rows, event.page);
+
+    this.getChannelData(event.row, event.page);
   }
 
   onActiveItemChange(event: any) {

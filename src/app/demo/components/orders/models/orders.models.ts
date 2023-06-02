@@ -1,4 +1,5 @@
 import { Product } from 'src/app/demo/api/product';
+import { PagingParams } from 'src/app/demo/interface/global.model';
 
 export interface Order {
   id?: number;
@@ -20,14 +21,8 @@ export interface OrderDetail extends Order {
   products: Partial<Product>[];
 }
 
-export interface OrderParams {
+export interface OrderParams extends PagingParams {
   channelId: number;
-  fromDate: Date;
-  toDate: Date;
-  keyword: string;
-  status: string;
-  limit: number;
-  page: number;
 }
 
 export interface OrderApiResponse {

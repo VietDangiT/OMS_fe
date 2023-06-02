@@ -1,9 +1,9 @@
-import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { NotfoundComponent } from './demo/components/notfound/notfound.component';
-import { AppLayoutComponent } from './layout/app.layout.component';
+import { RouterModule } from '@angular/router';
 import { AuthGuard } from './demo/components/guard/auth.guard';
 import { RoleGuard } from './demo/components/guard/role.guard';
+import { NotfoundComponent } from './demo/components/notfound/notfound.component';
+import { AppLayoutComponent } from './layout/app.layout.component';
 
 @NgModule({
   imports: [
@@ -61,6 +61,20 @@ import { RoleGuard } from './demo/components/guard/role.guard';
               loadChildren: () =>
                 import('./demo/components/channel/channel.module').then(
                   m => m.ChannelModule
+                ),
+            },
+            {
+              path: 'catalogues',
+              loadChildren: () =>
+                import('./demo/components/catalogue/catalogue.module').then(
+                  m => m.CatalogueModule
+                ),
+            },
+            {
+              path: 'customer',
+              loadChildren: () =>
+                import('./demo/components/customer/customer.module').then(
+                  m => m.CustomerModule
                 ),
             },
             {

@@ -11,7 +11,7 @@ import { OmsChartOptions } from '../../share/oms-chart/oms-chart.component';
 import {
   BaseChart,
   TotalSalesByChannelApiResponse,
-} from '../interfaces/interfaces';
+} from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 
 const fullConfig = resolveConfig(tailwindConfig);

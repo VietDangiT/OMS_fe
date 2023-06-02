@@ -13,7 +13,7 @@ import {
   TotalSalesByChannelApiResponse,
   TotalSalesByLocationApiResponse,
   TotalSalesByProductApiResponse,
-} from '../interfaces/interfaces';
+} from '../interfaces/dashboard.models';
 
 const GET_TOTAL_SALES = gql`
   query GetTotalSale($fromDate: DateTime!, $toDate: DateTime!) {
