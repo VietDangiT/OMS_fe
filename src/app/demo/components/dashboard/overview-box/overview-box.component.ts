@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./overview-box.component.scss'],
 })
 export class OverviewBoxComponent {
-  @Input() dateRange: string;
+  @Input() dateRange: Date[];
 
   @Input() total: number = 0;
 

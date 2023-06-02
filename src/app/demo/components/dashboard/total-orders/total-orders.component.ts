@@ -21,6 +21,9 @@ export class TotalOrdersComponent {
 
   baseChartOptions: ChartOptions = baseChartOptions;
 
+  // defaultDateRange = [new Date(), this.helperService.addDays(new Date(), -7)];
+  defaultDateRange = [new Date('1/22/23'), new Date('4/22/23')];
+
   tableData: OmsTable<TotalOrder> = {
     page: 0,
     first: 0,

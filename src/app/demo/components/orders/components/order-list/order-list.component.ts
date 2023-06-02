@@ -1,8 +1,18 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { tap } from 'rxjs';
+import { PageChangeEvent } from 'src/app/demo/interface/event';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { OmsTable } from '../../../share/model/oms-table';
-import { Order } from '../../models/orders.models';
-import { OrdersService } from '../../services/orders.service';
+import { Order, OrderParams } from '../../models/orders.models';
+import {
+  OrdersService,
+  orderHeaderTable,
+  orderLabelItems,
+} from '../../services/orders.service';
+
+type key = keyof OrderParams;
 
 @Component({
   selector: 'oms-order-list',
@@ -11,9 +21,27 @@ import { OrdersService } from '../../services/orders.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class OrderListComponent {
-  labelItems: MenuItem[];
+  labelItems: MenuItem[] = orderLabelItems;
 
   activeItem: MenuItem;
+
+  defaultDateRange = [this.helperService.addDays(new Date(), -7), new Date()];
+
+  marketPlaceId = 0;
+
+  gapPageNumber = 1;
+
+  pageLimit = 6;
+
+  orderParams: OrderParams = {
+    channelId: this.marketPlaceId,
+    fromDate: new Date(),
+    keyword: '',
+    limit: this.pageLimit,
+    page: 1,
+    status: '',
+    toDate: new Date(),
+  };
 
   tableData: OmsTable<Order> = {
     page: 0,
@@ -22,66 +50,108 @@ export class OrderListComponent {
     pageCount: 0,
     totalRecord: 0,
     data: {
-      header: [
-        { field: 'order', col: 'Order' },
-        { field: 'date', col: 'Date' },
-        { field: 'channelName', col: 'Channel name' },
-        { field: 'productUnits', col: 'Product Units' },
-        { field: 'price', col: 'Price' },
-        { field: 'shippingCarrier', col: 'Shipping carrier' },
-        { field: 'status', col: 'Status' },
-        { field: 'actions', col: 'Actions' },
-      ],
+      header: orderHeaderTable,
       body: [
         {
-          orderNumber: '123123',
-          orderedAt: '5/19/2023',
-          channelId: 1,
-          channelName: 'shopee',
-          totalProduct: 3,
-          totalPrice: 123,
-          shipmentProvider: 'Tiki',
-          orderStatus: 'completed',
-          buyerName: 'Trung Tin',
-          shippingAddress: 'Quang trung software center, Anna building',
-          customerPaymentMethod: 'card',
-          recipientPhoneNumber: '0981449214',
-          recipientName: 'Trung Tin',
-        },
-        {
-          orderNumber: '123123',
-          orderedAt: '5/19/2023',
-          channelId: 1,
-          channelName: 'shopee',
-          totalProduct: 3,
-          totalPrice: 123,
-          shipmentProvider: 'Tiki',
-          orderStatus: 'return',
+          id: 1,
+          orderedAt: '',
+          channelName: '',
+          totalProduct: 1,
+          price: 1,
+          shippingCarrier: '',
+          status: '',
         },
       ],
     },
   };
 
-  constructor(private ordersService: OrdersService) {}
+  constructor(
+    private ordersService: OrdersService,
+    private helperService: HelperService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.labelItems = this.ordersService.getLabelItems();
-
     this.activeItem = this.labelItems[0];
+
+    this.route.queryParamMap
+      .pipe(
+        tap(params => {
+          this.marketPlaceId = Number(params.get('marketPlaceId'));
+
+          this.orderParams = {
+            ...this.orderParams,
+            fromDate: this.defaultDateRange[0],
+            toDate: this.defaultDateRange[1],
+            channelId: this.marketPlaceId,
+          };
+
+          this.getOrderTable();
+        })
+      )
+      .subscribe();
+  }
+
+  getOrderTable(): void {
+    this.ordersService.getOrders(this.orderParams).subscribe(res => {
+      const { orders } = res;
+
+      this.tableData = {
+        data: {
+          header: [...this.tableData.data.header],
+          body: [...orders.data],
+        },
+        first: orders.first,
+        page: orders.page,
+        pageCount: orders.pageCount,
+        rows: orders.rows,
+        totalRecord: orders.totalRecord,
+      };
+    });
   }
 
   dateFilterChange(dates: Date[]): void {
-    console.log(`order list dates ${dates}`);
+    if (dates[1] !== null) {
+      this.handleOrderParams('fromDate', dates[0]);
+
+      this.handleOrderParams('toDate', dates[1]);
+
+      this.getOrderTable();
+    }
   }
 
   searchValue(search: string): void {
-    console.log(`order list search ${search}`);
+    this.orderParams = {
+      ...this.orderParams,
+      keyword: search,
+    };
+
+    this.handleOrderParams('keyword', search);
+
+    this.getOrderTable();
   }
 
   onActiveItemChange(label: MenuItem): void {
     this.activeItem = label;
-    console.log(this.activeItem);
+
+    this.handleOrderParams('status', this.activeItem.label!);
+
+    this.getOrderTable();
   }
 
-  onPageChange(e: Event): void {}
+  onPageChange(e: PageChangeEvent): void {
+    this.handleOrderParams('page', e.page + this.gapPageNumber);
+
+    this.getOrderTable();
+  }
+
+  handleOrderParams(
+    key: keyof OrderParams,
+    value: string | number | Date
+  ): void {
+    this.orderParams = {
+      ...this.orderParams,
+      [key]: value,
+    };
+  }
 }

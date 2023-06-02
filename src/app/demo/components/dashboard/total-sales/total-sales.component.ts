@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
 import { ChartData, ChartOptions } from 'chart.js';
+import { map, tap } from 'rxjs';
+import { PageChangeEvent } from 'src/app/demo/interface/event';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
 import { OmsTable } from '../../share/model/oms-table';
 import { baseChartOptions } from '../../share/oms-chart/oms-chart.component';
+import { totalSalesTableHeader } from './constants/total-sales.constants';
+import { TotalSalesTableDTO } from './models/total-sales.models';
 import { TotalSalesService } from './services/total-sales.service';
-
-export interface TotalSale {
-  date: string;
-  numberOfOrders: number;
-  avgOrderSales: number;
-  numberOfReturn: number;
-  totalSales: number;
-}
 
 @Component({
   selector: 'oms-total-sales',
@@ -23,23 +21,34 @@ export class TotalSalesComponent {
 
   baseChartOptions: ChartOptions = baseChartOptions;
 
-  revenueData: ChartData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'First Dataset',
-        data: [65, 59, 80, 81, 56, 55, 40],
-        borderColor: environment.primaryColor,
-        fill: false,
-      },
-      {
-        label: 'Second Dataset',
-        borderColor: environment.secondaryColor,
-        data: [28, 48, 40, 19, 86, 27, 90],
-        fill: false,
-      },
-    ],
-  };
+  saleBoxTitle = 'sales';
+
+  avgOrderSaleBoxTitle = 'avg. order sales';
+
+  returnBoxTitle = 'return';
+
+  overviewStyleClass = 'bg-brightOrange';
+
+  // defaultDateRange = [new Date(), this.helperService.addDays(new Date(), -7)];
+  defaultDateRange = [new Date('1/22/23'), new Date('4/22/23')];
+
+  defaultPageNumber = 1;
+
+  itemsPerPage = 6;
+
+  totalSales = 0;
+
+  totalSalesPercent = 0;
+
+  avgSales = 0;
+
+  avgSalesPercent = 0;
+
+  totalReturn = 0;
+
+  totalReturnPercent = 0;
+
+  revenueData: ChartData;
 
   overviewData: ChartData = {
     labels: [
@@ -65,54 +74,145 @@ export class TotalSalesComponent {
     ],
   };
 
-  tableData: OmsTable<TotalSale> = {
+  tableData: OmsTable<TotalSalesTableDTO> = {
     page: 0,
     first: 0,
     rows: 0,
     pageCount: 0,
     totalRecord: 0,
     data: {
-      header: [
-        { field: 'date', col: 'Date' },
-        { field: 'numberOfOrders', col: 'Number of Orders' },
-        { field: 'avgOrderSales', col: 'AVG Order Sales' },
-        { field: 'numberOfReturn', col: 'Number of Return' },
-        { field: 'totalSales', col: 'Total Sales' },
-      ],
-      body: [
-        {
-          date: '5/19/2023',
-          numberOfOrders: Math.random() * 1000,
-          avgOrderSales: Math.random() * 1000,
-          numberOfReturn: Math.random() * 1000,
-          totalSales: Math.random() * 1000,
-        },
-        {
-          date: '5/20/2023',
-          numberOfOrders: Math.random() * 1000,
-          avgOrderSales: Math.random() * 1000,
-          numberOfReturn: Math.random() * 1000,
-          totalSales: Math.random() * 1000,
-        },
-        {
-          date: '5/21/2023',
-          numberOfOrders: Math.random() * 1000,
-          avgOrderSales: Math.random() * 1000,
-          numberOfReturn: Math.random() * 1000,
-          totalSales: Math.random() * 1000,
-        },
-        {
-          date: '5/22/2023',
-          numberOfOrders: Math.random() * 1000,
-          avgOrderSales: Math.random() * 1000,
-          numberOfReturn: Math.random() * 1000,
-          totalSales: Math.random() * 1000,
-        },
-      ],
+      header: totalSalesTableHeader,
+      body: [],
     },
   };
 
-  constructor(private totalSalesService: TotalSalesService) {}
+  constructor(
+    private totalSalesService: TotalSalesService,
+    private helperService: HelperService,
+    private apollo: Apollo
+  ) {}
+
+  ngOnInit(): void {
+    this.getTotalSalesTable(this.defaultPageNumber);
+    this.getTotalSales();
+    this.getReturn();
+
+    this.apollo
+      .watchQuery({
+        query: gql`{
+        totalSale(fromDate: "${this.defaultDateRange[0].toLocaleDateString()}",
+        toDate: "${this.defaultDateRange[1].toLocaleDateString('en-US')}") {
+          date
+          value
+        }
+      }`,
+      })
+      .valueChanges.pipe(map(res => console.log(res.data)))
+      .subscribe();
+  }
+
+  getTotalSalesTable(page: number) {
+    this.totalSalesService
+      .getTotalSalesTable(
+        this.defaultDateRange[0].toLocaleDateString('en-EN'),
+        this.defaultDateRange[1].toLocaleDateString('en-EN'),
+        page,
+        this.itemsPerPage
+      )
+      .pipe(
+        tap(res => {
+          this.tableData = {
+            page: res.paging.currentPage,
+            first: res.paging.first,
+            rows: this.itemsPerPage,
+            pageCount: res.paging.totalPages,
+            totalRecord: res.paging.totalCount,
+            data: {
+              header: totalSalesTableHeader,
+              body: res.data,
+            },
+          };
+        })
+      )
+      .subscribe();
+  }
+
+  getTotalSales() {
+    this.totalSalesService
+      .getTotalSales(
+        this.defaultDateRange[0].toLocaleDateString('en-EN'),
+        this.defaultDateRange[1].toLocaleDateString('en-EN')
+      )
+      .pipe(
+        tap(res => {
+          const { compareData, selectedData } = res[0];
+
+          let totalArr: number[] = [];
+          let labelArr: string[] = [];
+
+          let totalSales = 0;
+          let totalSalesCompareData = 0;
+
+          compareData.forEach(i => {
+            totalSalesCompareData += i.value;
+          });
+
+          selectedData.forEach(i => {
+            totalSales += i.value;
+
+            totalArr.push(i.value);
+            labelArr.push(new Date(i.date).toLocaleDateString('en-EN'));
+          });
+
+          this.totalSales = totalSales;
+          this.totalSalesPercent = totalSales / totalSalesCompareData;
+
+          let avgSalesCompareData = totalSalesCompareData / compareData.length;
+
+          this.avgSales = totalSales / selectedData.length;
+          this.avgSalesPercent = this.avgSales / avgSalesCompareData;
+
+          this.revenueData = {
+            labels: labelArr,
+            datasets: [
+              {
+                data: totalArr,
+                borderColor: environment.primaryColor,
+                fill: false,
+              },
+            ],
+          };
+        })
+      )
+      .subscribe();
+  }
+
+  getReturn() {
+    this.totalSalesService
+      .getReturn(
+        this.defaultDateRange[0].toLocaleDateString('en-EN'),
+        this.defaultDateRange[1].toLocaleDateString('en-EN')
+      )
+      .pipe(
+        tap(res => {
+          const { compareData, selectedData } = res[0];
+
+          let totalReturn = 0;
+          let totalReturnCompareData = 0;
+
+          compareData.forEach(i => {
+            totalReturnCompareData += i.value;
+          });
+
+          selectedData.forEach(i => {
+            totalReturn += i.value;
+          });
+
+          this.totalReturnPercent = totalReturn / totalReturnCompareData;
+          this.totalReturn = totalReturn;
+        })
+      );
+  }
 
   dateFilterChanged(dateRange: Date[]): void {
     console.log(dateRange);
@@ -123,7 +223,7 @@ export class TotalSalesComponent {
     console.log(this.filterValue);
   }
 
-  onPageChange(e: Event): void {
-    console.log(e);
+  onPageChange(e: PageChangeEvent): void {
+    this.getTotalSalesTable(e.page + 1);
   }
 }

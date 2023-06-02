@@ -5,9 +5,10 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
-import { DashboardService } from 'src/app/demo/service/dashboard.service';
+import { tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { BaseChart } from '../interfaces/interfaces';
+import { BaseChart, TotalOrderApiResponse } from '../interfaces/interfaces';
+import { DashboardService } from '../services/dashboard.service';
 
 @Component({
   selector: 'dashboard-total-orders',
@@ -17,24 +18,35 @@ import { BaseChart } from '../interfaces/interfaces';
 })
 export class DashboardTotalOrdersComponent {
   @Input() basicOptions!: ChartOptions;
+
   @Input() filterArr: string[];
 
   totalOrderData: ChartData;
+
   totalOrder: string = '0';
 
   constructor(private dashboardService: DashboardService) {}
+
   ngOnChanges(changes: SimpleChanges) {
     this.dashboardService
-      .getTotalOrder(changes['filterArr'].currentValue)
-      .subscribe((result: any) => {
-        this.initTotalOrderChart(result);
-      });
+      .getTotalOrders(changes['filterArr'].currentValue)
+      .pipe(
+        tap((result: TotalOrderApiResponse) => {
+          const { totalOrdersBy: totalOrders } = result;
+
+          this.initTotalOrderChart(totalOrders);
+        })
+      )
+      .subscribe();
   }
 
-  initTotalOrderChart(result: any) {
+  initTotalOrderChart(result: BaseChart[]) {
     var totalArr: number[] = [];
+
     var labelArr: string[] = [];
+
     var order: number = 0;
+
     result.map((item: BaseChart) => {
       totalArr.push(item.value);
       labelArr.push(new Date(item.text).toLocaleDateString());
@@ -42,6 +54,7 @@ export class DashboardTotalOrdersComponent {
     });
 
     this.totalOrder = order.toLocaleString('en-US');
+
     this.totalOrderData = {
       labels: labelArr,
       datasets: [

@@ -4,6 +4,7 @@ import {
   Channel,
   Country,
 } from '../demo/components/channel/interface/channel.component';
+import { MarketplaceService } from '../demo/components/marketplace/services/marketplace.service';
 import { ChannelService } from '../demo/service/channel.service';
 import { LayoutService } from './service/app.layout.service';
 import { MenuElement, MenuElementItem } from './service/models/menu.models';
@@ -82,6 +83,7 @@ export class AppMenuComponent {
       icon: 'pi pi-box',
       submenu: {
         title: 'Orders',
+        items: [],
       },
     },
     {
@@ -149,7 +151,8 @@ export class AppMenuComponent {
 
   constructor(
     public layoutService: LayoutService,
-    private channelService: ChannelService
+    private channelService: ChannelService,
+    private marketPlaceService: MarketplaceService
   ) {
     this.layoutService.currentNavbarState
       .pipe(tap(state => (this.isNavbarOn = state)))
@@ -158,19 +161,22 @@ export class AppMenuComponent {
 
   ngOnInit(): void {
     this.initCountries();
+    this.initMarketplaces();
   }
 
   initCountries(): void {
     this.channelService
       .getCountries()
       .pipe(
-        tap((result: Country[]) => {
+        tap(res => {
+          const { countries } = res;
+
           const resultArr: MenuElementItem[] = [];
 
-          result.forEach((c: Country) => {
+          countries.forEach((c: Country) => {
             resultArr.push({
-              name: c.name,
-              content: c.name,
+              name: c.countryName,
+              content: c.countryName,
               path: `/channels`,
               param: { countryId: c.id },
               icon: 'pi-home',
@@ -180,6 +186,35 @@ export class AppMenuComponent {
           const index = this.menuElements.findIndex(
             c => c.path === '/channels'
           );
+
+          this.menuElements[index].submenu.items = resultArr;
+        }),
+
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  initMarketplaces(): void {
+    this.marketPlaceService
+      .getMarketPlaces()
+      .pipe(
+        tap(res => {
+          const { marketPlaces } = res;
+
+          const resultArr: MenuElementItem[] = [];
+
+          marketPlaces.forEach(m => {
+            resultArr.push({
+              name: m.marketPlaceName,
+              content: m.marketPlaceName,
+              path: `/orders`,
+              param: { marketPlaceId: m.id },
+              icon: 'pi-home',
+            });
+          });
+
+          const index = this.menuElements.findIndex(c => c.path === '/orders');
 
           this.menuElements[index].submenu.items = resultArr;
         }),

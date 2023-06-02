@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { BaseChart } from '../interfaces/interfaces';
 
 export interface DashboardItemPercentage {
   displayText: string;
@@ -8,8 +9,8 @@ export interface DashboardItemPercentage {
 @Component({
   selector: 'dashboard-sale-store',
   templateUrl: './sale-store.component.html',
-  styleUrls: ['./sale-store.component.css']
+  styleUrls: ['./sale-store.component.css'],
 })
 export class SaleStoreComponent {
-  @Input() data: DashboardItemPercentage[];
+  @Input() data: BaseChart[];
 }

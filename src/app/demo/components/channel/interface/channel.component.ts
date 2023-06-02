@@ -11,4 +11,12 @@ export interface Channel {
   image?: string;
 }
 
-export interface Country extends Channel {}
+export interface Country {
+  id: number;
+  countryName: string;
+  shortCode: string;
+}
+
+export interface CountryApiResponse {
+  countries: Country[];
+}

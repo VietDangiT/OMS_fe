@@ -8,7 +8,7 @@
       (activeItemChange)="onActiveItemChange($event)"
     >
       <ng-template pTemplate="item" let-item let-i="index">
-        {{ item.label }}
+        {{ item.title | titlecase }}
         <span
           class="rounded-full badge bg-primary bg-opacity-20 text-opacity-60 font-medium text-primary text-center px-3 py-1 ml-2"
           >{{ item.badge }}</span

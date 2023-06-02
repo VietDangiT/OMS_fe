@@ -25,19 +25,19 @@
       class="lg:ml-4 md:col-span-6 md:mt-4 lg:mt-0 flex justify-between lg:flex-col lg:col-span-1 gap-2"
     >
       <overview-box
-        dateRange="This month"
+        [dateRange]="defaultDateRange"
         type="Failed"
         styleClass="border-l-8 !bg-white border-brightOrange border-opacity-70"
       ></overview-box>
 
       <overview-box
-        dateRange="This month"
+        [dateRange]="defaultDateRange"
         type="Delivery"
         styleClass="border-l-8 !bg-white border-brightOrange border-opacity-70"
       ></overview-box>
 
       <overview-box
-        dateRange="This month"
+        [dateRange]="defaultDateRange"
         type="Return"
         styleClass="border-l-8 !bg-white border-brightOrange border-opacity-70"
       ></overview-box>

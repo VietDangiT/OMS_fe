@@ -15,21 +15,27 @@
 
     <div class="flex flex-col gap-2 mb-4">
       <overview-box
-        dateRange="This month"
-        type="Sales"
-        styleClass="bg-secondary bg-opacity-10"
+        [dateRange]="defaultDateRange"
+        [type]="saleBoxTitle"
+        [styleClass]="overviewStyleClass"
+        [total]="totalSales"
+        [percentage]="totalSalesPercent"
       ></overview-box>
 
       <overview-box
-        dateRange="This month"
-        type="Avg. Order Sales"
-        styleClass="bg-secondary bg-opacity-20"
+        [dateRange]="defaultDateRange"
+        [type]="avgOrderSaleBoxTitle"
+        [styleClass]="overviewStyleClass"
+        [total]="avgSales"
+        [percentage]="avgSalesPercent"
       ></overview-box>
 
       <overview-box
-        dateRange="This month"
-        type="Return"
-        styleClass="bg-secondary bg-opacity-30"
+        [dateRange]="defaultDateRange"
+        [type]="returnBoxTitle"
+        [styleClass]="overviewStyleClass"
+        [total]="totalReturn"
+        [percentage]="totalReturnPercent"
       ></overview-box>
     </div>
   </div>

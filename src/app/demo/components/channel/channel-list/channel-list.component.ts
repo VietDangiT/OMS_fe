@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { tap } from 'rxjs';
 import { ChannelService } from 'src/app/demo/service/channel.service';
-import { environment } from 'src/environments/environment';
 import { OmsTable } from '../../share/model/oms-table';
 import { Channel } from '../interface/channel.component';
 
@@ -15,7 +14,6 @@ import { Channel } from '../interface/channel.component';
 })
 export class ChannelListComponent {
   channelStatus: boolean[] = [];
-  defaultRowPerPage: number = environment.rowPerPage[0];
   table: OmsTable<Channel> = {
     page: 0,
     first: 0,
@@ -56,9 +54,7 @@ export class ChannelListComponent {
       .subscribe();
   }
 
-  ngOnInit() {
-    this.getChannelData(this.defaultRowPerPage);
-  }
+  ngOnInit() {}
 
   getChannelData = (
     rows: number,
