@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { OmsTable } from '../../share/model/oms-table';
 
 @Component({
   selector: 'app-customer-allcustomer',
@@ -7,18 +8,41 @@ import { MenuItem } from 'primeng/api';
   styleUrls: ['./customer-allcustomer.component.scss']
 })
 export class CustomerAllcustomerComponent implements OnInit {
-  items: MenuItem[];
-
-  activeItem: MenuItem;
+  table: OmsTable= {
+    page: 0,
+    first: 0,
+    rows: 0,
+    pageCount: 0,
+    totalRecord: 0,
+    data: {
+      header: [
+        'Customer Name',
+        'Address',
+        'Total Order',
+        'Total Spend',
+        'Phone Number',
+        'Last Order',
+        'Type Customer',
+        'Actions'
+      ],
+      body: [
+        'a',
+        'a',
+        'a'
+      ],
+    },
+  };
+  items: MenuItem[] = [
+    { label: 'All', id: '0', badge: '1123' },
+    { label: 'Active', id: '1', badge: '1243' },
+    { label: 'Inactive', id: '2', badge: '1' },
+  ];
+  activeItem: MenuItem = this.items[0];
+  countryId: string | number;
   constructor() { }
 
   ngOnInit() {
-    this.items = [
-      { label: 'All', id: '0',badge:"1123" },
-      { label: 'Active' , id: '1', badge:"1243"},
-      { label: 'Inactive', id:'2',badge:"1"},
-    ];
-    this.activeItem = this.items[0];
+
 }
 
 onActiveItemChange(event: any){
