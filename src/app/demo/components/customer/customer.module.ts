@@ -24,6 +24,7 @@ import { CustomerRatingComponent } from './customer-rating/customer-rating.compo
 import { CustomerTopproductComponent } from './customer-topproduct/customer-topproduct.component';
 import { ListboxModule } from 'primeng/listbox';
 import { TreeTableModule } from 'primeng/treetable';
+import { CustomerAllcustomerComponent } from './customer-allcustomer/customer-allcustomer.component';
 
 @NgModule({
   imports: [
@@ -53,7 +54,9 @@ import { TreeTableModule } from 'primeng/treetable';
     CustomerBychannelComponent,
     CustomerLocationComponent,
     CustomerRatingComponent,
-    CustomerTopproductComponent
+    CustomerTopproductComponent,
+    CustomerAllcustomerComponent
+
 
 
 

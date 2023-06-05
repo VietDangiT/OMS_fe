@@ -7,6 +7,7 @@ import { CustomerBychannelComponent } from './customer-bychannel/customer-bychan
 import { CustomerRatingComponent } from './customer-rating/customer-rating.component';
 import { CustomerLocationComponent } from './customer-location/customer-location.component';
 import { CustomerTopproductComponent } from './customer-topproduct/customer-topproduct.component';
+import { CustomerAllcustomerComponent } from './customer-allcustomer/customer-allcustomer.component';
 
 const routes: Routes = [
   {
@@ -15,34 +16,9 @@ const routes: Routes = [
     component: CustomerComponent,
   },
   {
-    path: 'customer-loyalty',
-    data: { breadcrumbs: ['Loyalty'] },
-    component: CustomerLoyaltyComponent,
-  },
-  {
-    path: 'customer-feedback',
-    data: { breadcrumbs: ['Feedback'] },
-    component: CustomerFeedbackComponent,
-  },
-  {
-    path: 'customer-channel',
-    data: { breadcrumbs: ['By Channel'] },
-    component: CustomerBychannelComponent,
-  },
-  {
-    path: 'customer-rating',
-    data: { breadcrumbs: ['Customer-Rating'] },
-    component: CustomerRatingComponent,
-  },
-  {
-    path: 'customer-location',
-    data: { breadcrumbs: ['Location'] },
-    component: CustomerLocationComponent,
-  },
-  {
-    path: 'customer-topproduct',
-    data: { breadcrumbs: ['Top-Product'] },
-    component: CustomerTopproductComponent,
+    path: 'all-customer',
+    data: { breadcrumbs: ['Customer', 'All Customer'] },
+    component: CustomerAllcustomerComponent,
   },
 
 
