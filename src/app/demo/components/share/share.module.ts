@@ -7,14 +7,20 @@ import { DateFilterComponent } from './date-filter/date-filter.component';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { GlobalFilterComponent } from './global-filter/global-filter.component';
-
+import { OmsTableComponent } from './oms-table/oms-table.component';
+import { TableModule } from 'primeng/table';
+import { PaginatorModule } from 'primeng/paginator';
+import { PaginationComponent } from './pagination/pagination.component';
+import { SkeletonModule } from 'primeng/skeleton';
 
 
 @NgModule({
   declarations: [
     OMSChartComponent,
     DateFilterComponent,
-    GlobalFilterComponent
+    GlobalFilterComponent,
+    OmsTableComponent,
+    PaginationComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +28,11 @@ import { GlobalFilterComponent } from './global-filter/global-filter.component';
     NgApexchartsModule,
     CalendarModule,
     FormsModule,
+    TableModule,
+    PaginatorModule,
+    SkeletonModule
+
   ],
-  exports: [OMSChartComponent, DateFilterComponent,GlobalFilterComponent]
+  exports: [OMSChartComponent, DateFilterComponent, OmsTableComponent,GlobalFilterComponent]
 })
 export class ShareModule { }
