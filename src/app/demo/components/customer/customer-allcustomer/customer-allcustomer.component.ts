@@ -5,7 +5,7 @@ import { OmsTable } from '../../share/model/oms-table';
 @Component({
   selector: 'app-customer-allcustomer',
   templateUrl: './customer-allcustomer.component.html',
-  styleUrls: ['./customer-allcustomer.component.scss']
+  styleUrls: ['./customer-allcustomer.component.css']
 })
 export class CustomerAllcustomerComponent implements OnInit {
   table: OmsTable= {
