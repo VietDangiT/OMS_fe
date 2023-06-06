@@ -25,12 +25,12 @@
     <oms-table  [table]="table">
       <tr *ngFor="let item of table.data.body" class="group">
         <td class="!text-center">{{item.name}}</td>
-        <td class="!text-center">{{ item.numberOrders | number }}</td>
-        <td class="!text-center">{{ item.value | number }}</td>
+        <td class="!text-center">{{ item.address}}</td>
+        <td class="!text-center">{{ item.totalorder | number }}</td>
         <td class="!text-center">{{item.totalspend}}</td>
-        <td class="!text-center">{{ item.createdAt }}</td>
-        <td class="!text-center">{{ item.updatedAt }}</td>
-        <td class="!text-center">{{ item.typeustomer}}</td>
+        <td class="!text-center">{{ item.phone }}</td>
+        <td class="!text-center">{{ item.lastorder }}</td>
+        <td class="!text-center">{{ item.type}}</td>
         <td class="!text-center">
           <div class="flex item-center gap-5 justify-center">
             <span class="hidden lg:block min-w-[70px]">
@@ -39,7 +39,7 @@
                 *ngIf="item.status === 'ACTIVE'; else shareicon"
               ></i>
               <ng-template #shareicon>
-                <i class="pi pi pi-arrow-up-left" style="color: blue; font-size: 22px;"></i>
+                <i class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"></i>
               </ng-template>
               {{ item.status | titlecase }}
             </span>
