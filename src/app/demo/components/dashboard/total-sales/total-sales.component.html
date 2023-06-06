@@ -15,25 +15,22 @@
 
     <div class="flex flex-col gap-2 mb-4">
       <overview-box
-        [dateRange]="defaultDateRange"
+        [dateRange]="dateRange"
         [type]="saleBoxTitle"
-        [styleClass]="overviewStyleClass"
         [total]="totalSales"
         [percentage]="totalSalesPercent"
       ></overview-box>
 
       <overview-box
-        [dateRange]="defaultDateRange"
+        [dateRange]="dateRange"
         [type]="avgOrderSaleBoxTitle"
-        [styleClass]="overviewStyleClass"
         [total]="avgSales"
         [percentage]="avgSalesPercent"
       ></overview-box>
 
       <overview-box
-        [dateRange]="defaultDateRange"
+        [dateRange]="dateRange"
         [type]="returnBoxTitle"
-        [styleClass]="overviewStyleClass"
         [total]="totalReturn"
         [percentage]="totalReturnPercent"
       ></overview-box>

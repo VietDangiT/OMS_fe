@@ -1,8 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ViewEncapsulation } from '@angular/core';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
+import { DateFilterKey } from 'src/app/demo/interface/global.model';
 
 interface FilterOption {
   text: string;
@@ -19,10 +25,15 @@ interface FilterOption {
 })
 export class DateFilterComponent {
   filter: string = 'week';
+
   dateFilter!: Date[];
+
   defaultDate: Date = new Date();
+
   @Output('dateFilterChange') dateFilterChange = new EventEmitter<Date[]>();
-  @Output('filter') filterChange = new EventEmitter<string>();
+
+  @Output('filter') filterChange = new EventEmitter<DateFilterKey>();
+
   @Input() filterOptions: FilterOption[] = [
     {
       text: 'Weekly',
@@ -37,10 +48,12 @@ export class DateFilterComponent {
       value: 'year',
     },
   ];
+
   getDateRange(dateRange: Date[]) {
     this.dateFilterChange.emit(dateRange);
   }
-  getFilter(dateFilter: string) {
+
+  getFilter(dateFilter: DateFilterKey) {
     this.filterChange.emit(dateFilter);
   }
 }

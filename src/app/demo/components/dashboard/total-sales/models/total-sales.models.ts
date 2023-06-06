@@ -1,14 +1,28 @@
-export interface TotalSalesTableApiResponse {
-  paging: Pagingation;
+import { BaseChart } from '../../interfaces/dashboard.models';
+
+export interface TotalSalesTable {
+  paging: Pagination;
   data: TotalSalesTableDTO[];
 }
 
-export interface TotalSalesApiResponse {
+export interface TotalSalesTableApiResponse {
+  detailTotalSales: TotalSalesTable;
+}
+
+export interface CompareDataApiResponse {
   compareData: TotalSalesChartDTO[];
   selectedData: TotalSalesChartDTO[];
 }
 
-export interface Pagingation {
+export interface TotalSalesApiResponse {
+  totalSales: CompareDataApiResponse[];
+}
+
+export interface ReturnApiResponse {
+  return: CompareDataApiResponse[];
+}
+
+export interface Pagination {
   currentPage: number;
   hasNext: boolean;
   hasPrevious: boolean;
@@ -25,11 +39,12 @@ export interface TotalSalesTableDTO {
   totalSales: number;
 }
 
-export interface TotalSalesChartDTO {
-  date: string;
-  id: number;
-  text: string;
-  value: number;
-  percentage: number;
+export interface TotalSalesChartDTO extends BaseChart {
   numberOfOrders: number;
 }
+
+export type FilterKey = 'week' | 'month' | 'year';
+
+export type FilterValues = {
+  [K in FilterKey]: [Date, Date];
+};

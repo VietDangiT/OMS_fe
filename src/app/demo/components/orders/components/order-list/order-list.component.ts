@@ -2,17 +2,16 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { tap } from 'rxjs';
+import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { OmsTable } from '../../../share/model/oms-table';
-import { Order, OrderParams } from '../../models/orders.models';
 import {
-  OrdersService,
   orderHeaderTable,
   orderLabelItems,
-} from '../../services/orders.service';
-
-type key = keyof OrderParams;
+} from '../../constants/orders.constants';
+import { Order, OrderParams } from '../../models/orders.models';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'oms-order-list',
@@ -33,13 +32,11 @@ export class OrderListComponent {
 
   gapPageNumber = 1;
 
-  pageLimit = 6;
-
   orderParams: OrderParams = {
     channelId: this.marketPlaceId,
     fromDate: new Date(),
     keyword: '',
-    limit: this.pageLimit,
+    limit: tableConfig.pageLimit,
     page: 1,
     status: '',
     toDate: new Date(),

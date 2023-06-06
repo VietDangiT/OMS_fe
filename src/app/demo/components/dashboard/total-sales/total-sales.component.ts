@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
 import { ChartData, ChartOptions } from 'chart.js';
-import { map, tap } from 'rxjs';
+import { tap } from 'rxjs';
+import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
+import { DateFilterKey } from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
 import { OmsTable } from '../../share/model/oms-table';
@@ -17,8 +18,6 @@ import { TotalSalesService } from './services/total-sales.service';
   styleUrls: ['./total-sales.component.scss'],
 })
 export class TotalSalesComponent {
-  filterValue: string;
-
   baseChartOptions: ChartOptions = baseChartOptions;
 
   saleBoxTitle = 'sales';
@@ -27,14 +26,11 @@ export class TotalSalesComponent {
 
   returnBoxTitle = 'return';
 
-  overviewStyleClass = 'bg-brightOrange';
+  dateRange = [new Date(), this.helperService.addDays(new Date(), -7)];
 
-  // defaultDateRange = [new Date(), this.helperService.addDays(new Date(), -7)];
-  defaultDateRange = [new Date('1/22/23'), new Date('4/22/23')];
+  pageNumber = 1;
 
-  defaultPageNumber = 1;
-
-  itemsPerPage = 6;
+  itemsPerPage = tableConfig.pageLimit;
 
   totalSales = 0;
 
@@ -88,48 +84,42 @@ export class TotalSalesComponent {
 
   constructor(
     private totalSalesService: TotalSalesService,
-    private helperService: HelperService,
-    private apollo: Apollo
+    private helperService: HelperService
   ) {}
 
   ngOnInit(): void {
-    this.getTotalSalesTable(this.defaultPageNumber);
+    this.getData();
+  }
+
+  getData(): void {
+    this.getTotalSalesTable(this.pageNumber);
     this.getTotalSales();
     this.getReturn();
-
-    this.apollo
-      .watchQuery({
-        query: gql`{
-        totalSale(fromDate: "${this.defaultDateRange[0].toLocaleDateString()}",
-        toDate: "${this.defaultDateRange[1].toLocaleDateString('en-US')}") {
-          date
-          value
-        }
-      }`,
-      })
-      .valueChanges.pipe(map(res => console.log(res.data)))
-      .subscribe();
   }
 
   getTotalSalesTable(page: number) {
     this.totalSalesService
       .getTotalSalesTable(
-        this.defaultDateRange[0].toLocaleDateString('en-EN'),
-        this.defaultDateRange[1].toLocaleDateString('en-EN'),
+        this.dateRange[0],
+        this.dateRange[1],
         page,
         this.itemsPerPage
       )
       .pipe(
         tap(res => {
+          const { detailTotalSales } = res;
+
+          const { paging, data } = detailTotalSales;
+
           this.tableData = {
-            page: res.paging.currentPage,
-            first: res.paging.first,
+            page: paging.currentPage,
+            first: paging.first,
             rows: this.itemsPerPage,
-            pageCount: res.paging.totalPages,
-            totalRecord: res.paging.totalCount,
+            pageCount: paging.totalPages,
+            totalRecord: paging.totalCount,
             data: {
               header: totalSalesTableHeader,
-              body: res.data,
+              body: data,
             },
           };
         })
@@ -139,49 +129,51 @@ export class TotalSalesComponent {
 
   getTotalSales() {
     this.totalSalesService
-      .getTotalSales(
-        this.defaultDateRange[0].toLocaleDateString('en-EN'),
-        this.defaultDateRange[1].toLocaleDateString('en-EN')
-      )
+      .getTotalSales(this.dateRange[0], this.dateRange[1])
       .pipe(
         tap(res => {
-          const { compareData, selectedData } = res[0];
+          const { totalSales: data } = res;
 
-          let totalArr: number[] = [];
-          let labelArr: string[] = [];
+          const { compareData, selectedData } = data[0];
 
-          let totalSales = 0;
-          let totalSalesCompareData = 0;
+          if (selectedData) {
+            let totalArr: number[] = [];
+            let labelArr: string[] = [];
 
-          compareData.forEach(i => {
-            totalSalesCompareData += i.value;
-          });
+            let totalSales = 0;
+            let totalSalesCompareData = 0;
 
-          selectedData.forEach(i => {
-            totalSales += i.value;
+            compareData.forEach(i => {
+              totalSalesCompareData += i.value;
+            });
 
-            totalArr.push(i.value);
-            labelArr.push(new Date(i.date).toLocaleDateString('en-EN'));
-          });
+            selectedData.forEach(i => {
+              totalSales += i.value;
 
-          this.totalSales = totalSales;
-          this.totalSalesPercent = totalSales / totalSalesCompareData;
+              totalArr.push(i.value);
+              labelArr.push(new Date(i.date).toLocaleDateString('en-EN'));
+            });
 
-          let avgSalesCompareData = totalSalesCompareData / compareData.length;
+            this.totalSales = totalSales;
+            this.totalSalesPercent = totalSales / totalSalesCompareData;
 
-          this.avgSales = totalSales / selectedData.length;
-          this.avgSalesPercent = this.avgSales / avgSalesCompareData;
+            let avgSalesCompareData =
+              totalSalesCompareData / compareData.length;
 
-          this.revenueData = {
-            labels: labelArr,
-            datasets: [
-              {
-                data: totalArr,
-                borderColor: environment.primaryColor,
-                fill: false,
-              },
-            ],
-          };
+            this.avgSales = totalSales / selectedData.length;
+            this.avgSalesPercent = this.avgSales / avgSalesCompareData;
+
+            this.revenueData = {
+              labels: labelArr,
+              datasets: [
+                {
+                  data: totalArr,
+                  borderColor: environment.primaryColor,
+                  fill: false,
+                },
+              ],
+            };
+          }
         })
       )
       .subscribe();
@@ -189,38 +181,46 @@ export class TotalSalesComponent {
 
   getReturn() {
     this.totalSalesService
-      .getReturn(
-        this.defaultDateRange[0].toLocaleDateString('en-EN'),
-        this.defaultDateRange[1].toLocaleDateString('en-EN')
-      )
+      .getReturn(this.dateRange[0], this.dateRange[1])
       .pipe(
         tap(res => {
-          const { compareData, selectedData } = res[0];
+          const { return: data } = res;
 
-          let totalReturn = 0;
-          let totalReturnCompareData = 0;
+          const { compareData, selectedData } = data[0];
 
-          compareData.forEach(i => {
-            totalReturnCompareData += i.value;
-          });
+          if (selectedData) {
+            let totalReturn = 0;
+            let totalReturnCompareData = 0;
 
-          selectedData.forEach(i => {
-            totalReturn += i.value;
-          });
+            compareData.forEach(i => {
+              totalReturnCompareData += i.value;
+            });
 
-          this.totalReturnPercent = totalReturn / totalReturnCompareData;
-          this.totalReturn = totalReturn;
+            selectedData.forEach(i => {
+              totalReturn += i.value;
+            });
+
+            this.totalReturnPercent = totalReturn / totalReturnCompareData;
+            this.totalReturn = totalReturn;
+          }
         })
-      );
+      )
+      .subscribe();
   }
 
-  dateFilterChanged(dateRange: Date[]): void {
-    console.log(dateRange);
+  dateFilterChanged(dates: Date[]): void {
+    if (dates[1] != null) {
+      this.dateRange = dates;
+      this.getData();
+    }
   }
 
-  filterChanged(filter: string): void {
-    this.filterValue = filter;
-    console.log(this.filterValue);
+  filterChanged(filter: DateFilterKey): void {
+    const dateFilterValues = this.helperService.dateFilterValues;
+
+    this.dateRange = dateFilterValues[filter];
+
+    this.getData();
   }
 
   onPageChange(e: PageChangeEvent): void {

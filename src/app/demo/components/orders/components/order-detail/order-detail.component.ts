@@ -10,11 +10,9 @@ import {
 import { tap } from 'rxjs';
 import { Product } from 'src/app/demo/api/product';
 import { OmsTable } from '../../../share/model/oms-table';
+import { orderDetailHeaderTable } from '../../constants/orders.constants';
 import { Order, OrderDetail } from '../../models/orders.models';
-import {
-  OrdersService,
-  orderDetailHeaderTable,
-} from '../../services/orders.service';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'oms-order-detail',

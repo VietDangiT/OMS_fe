@@ -11,3 +11,13 @@ export interface PagingParams {
   limit: number;
   page: number;
 }
+
+export interface TableConfig {
+  pageLimit: number;
+}
+
+export type DateFilterKey = 'week' | 'month' | 'year';
+
+export type DateFilterValues = {
+  [K in DateFilterKey]: [Date, Date];
+};

@@ -1,7 +1,13 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Apollo } from 'apollo-angular';
+import { Observable, map } from 'rxjs';
 import {
+  GET_RETURN,
+  GET_TOTAL_SALES,
+  GET_TOTAL_SALES_TABLE,
+} from '../constants/total-sales.constants';
+import {
+  ReturnApiResponse,
   TotalSalesApiResponse,
   TotalSalesTableApiResponse,
 } from '../models/total-sales.models';
@@ -10,36 +16,51 @@ import {
   providedIn: 'root',
 })
 export class TotalSalesService {
-  private readonly _url = `https://localhost:7121/api/TotalSales`;
-
-  constructor(private readonly http: HttpClient) {}
+  constructor(private apollo: Apollo) {}
 
   getTotalSalesTable(
-    fromDate: string,
-    toDate: string,
+    fromDate: Date,
+    toDate: Date,
     page: number = 1,
-    itemsPerPages: number = 20
+    itemsPerPage: number = 20
   ): Observable<TotalSalesTableApiResponse> {
-    return this.http.get<TotalSalesTableApiResponse>(
-      `${this._url}/table?fromDate=${fromDate}&toDate=${toDate}&Page=${page}&ItemPerPages=${itemsPerPages}`
-    );
+    return this.apollo
+      .watchQuery<TotalSalesTableApiResponse>({
+        query: GET_TOTAL_SALES_TABLE,
+        variables: {
+          fromDate,
+          toDate,
+          itemsPerPage,
+          page,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
   }
 
   getTotalSales(
-    fromDate: string,
-    toDate: string
-  ): Observable<TotalSalesApiResponse[]> {
-    return this.http.get<TotalSalesApiResponse[]>(
-      `${this._url}?fromDate=${fromDate}&toDate=${toDate}`
-    );
+    fromDate: Date,
+    toDate: Date
+  ): Observable<TotalSalesApiResponse> {
+    return this.apollo
+      .watchQuery<TotalSalesApiResponse>({
+        query: GET_TOTAL_SALES,
+        variables: {
+          fromDate,
+          toDate,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
   }
 
-  getReturn(
-    fromDate: string,
-    toDate: string
-  ): Observable<TotalSalesApiResponse[]> {
-    return this.http.get<TotalSalesApiResponse[]>(
-      `${this._url}/return?fromDate=${fromDate}&toDate=${toDate}`
-    );
+  getReturn(fromDate: Date, toDate: Date): Observable<ReturnApiResponse> {
+    return this.apollo
+      .watchQuery<ReturnApiResponse>({
+        query: GET_RETURN,
+        variables: {
+          fromDate,
+          toDate,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
   }
 }
