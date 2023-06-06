@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { OmsTable } from '../../share/model/oms-table';
 
@@ -8,6 +8,10 @@ import { OmsTable } from '../../share/model/oms-table';
   styleUrls: ['./customer-allcustomer.component.css']
 })
 export class CustomerAllcustomerComponent implements OnInit {
+  @HostBinding('class') hostClass = 'app-customer-allcustomer';
+
+  // @Input() order: Order;
+
   table: OmsTable= {
     page: 0,
     first: 0,
@@ -68,4 +72,22 @@ onActiveItemChange(event: any){
     console.log(event);
   }
 
+  // popup show details
+
+  modalVisible = false;
+
+  handleAction(e: Event): void {
+    e.stopPropagation();
+    console.log('click action icon');
+  }
+
+  handleOrderDetail(e: Event): void {
+    this.modalVisible = !this.modalVisible;
+  }
+
+  handleCloseModal() {
+    this.modalVisible = false;
+  }
 }
+
+

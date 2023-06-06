@@ -27,6 +27,8 @@ import { TreeTableModule } from 'primeng/treetable';
 import { CustomerAllcustomerComponent } from './customer-allcustomer/customer-allcustomer.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { DialogModule } from 'primeng/dialog';
+import { DetailCustomerComponent } from './detail-customer/detail-customer.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -49,6 +51,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     TreeTableModule,
     TabMenuModule,
     InputSwitchModule,
+    DialogModule,
   ],
   declarations: [
     CustomerComponent,
@@ -58,7 +61,9 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     CustomerLocationComponent,
     CustomerRatingComponent,
     CustomerTopproductComponent,
-    CustomerAllcustomerComponent
+    CustomerAllcustomerComponent,
+    DetailCustomerComponent
+
 
 
 

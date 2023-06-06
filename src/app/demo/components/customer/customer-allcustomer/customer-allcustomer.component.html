@@ -47,5 +47,12 @@
           </div>
         </td>
     </oms-table>
+
+    <app-detail-customer
+    *ngIf="modalVisible"
+    [visible]="modalVisible"
+    (onClose)="handleCloseModal()">
+
+    </app-detail-customer>
   </div>
 </div>
