@@ -39,14 +39,13 @@
                 *ngIf="item.status === 'ACTIVE'; else shareicon"
               ></i>
               <ng-template #shareicon>
-                <i class="pi pi pi-arrow-up-left" style="color: blue; font-size: 23px;"></i>
+                <i class="pi pi pi-arrow-up-left" style="color: blue; font-size: 22px;"></i>
               </ng-template>
               {{ item.status | titlecase }}
             </span>
-            <!-- <p-inputSwitch class="opacity-100 flex-1"></p-inputSwitch> -->
+
           </div>
         </td>
-
     </oms-table>
   </div>
 </div>

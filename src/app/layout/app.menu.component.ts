@@ -133,7 +133,7 @@ export class AppMenuComponent implements OnInit {
       submenu: {
         title: 'Catalogue',
         item: [
-        
+
         ],
       }
     },
@@ -145,7 +145,7 @@ export class AppMenuComponent implements OnInit {
       submenu: {
         title: 'Inventory',
         item: [
-        
+
         ],
       }
     },
@@ -180,7 +180,32 @@ export class AppMenuComponent implements OnInit {
       submenu: {
         title: 'Customer',
         item: [
-        
+          {
+            name: 'All Customer',
+            content: 'Singapore',
+            path: 'customer/all-customer',
+            icon: 'pi-flag-fill',
+          },
+          {
+            name: 'All Customer',
+            content: 'Malaysia',
+            path: 'customer/all-customer',
+            icon: 'pi-flag-fill',
+          },
+          {
+            name: 'All Customer',
+            content: 'Thailand',
+            path: 'customer/all-customer',
+            icon: 'pi-flag-fill',
+          },
+          {
+            name: 'All Customer',
+            content: 'VietNam',
+            path: 'customer/all-customer',
+            icon: 'pi-flag-fill',
+          },
+
+
         ],
       }
     },
@@ -192,7 +217,7 @@ export class AppMenuComponent implements OnInit {
       submenu: {
         title: 'Contacts',
         item: [
-        
+
         ],
       }
     },
@@ -201,7 +226,7 @@ export class AppMenuComponent implements OnInit {
   model: any[] = [];
 
   constructor(public layoutService: LayoutService) {
-   
+
     this.layoutService.currentNavbarState.subscribe(
       (state) => (this.isNavbarOn = state)
     );

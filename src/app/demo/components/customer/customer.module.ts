@@ -26,6 +26,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { TreeTableModule } from 'primeng/treetable';
 import { CustomerAllcustomerComponent } from './customer-allcustomer/customer-allcustomer.component';
 import { TabMenuModule } from 'primeng/tabmenu';
+import { InputSwitchModule } from 'primeng/inputswitch';
 @NgModule({
   imports: [
     CommonModule,
@@ -47,6 +48,7 @@ import { TabMenuModule } from 'primeng/tabmenu';
     ListboxModule,
     TreeTableModule,
     TabMenuModule,
+    InputSwitchModule,
   ],
   declarations: [
     CustomerComponent,

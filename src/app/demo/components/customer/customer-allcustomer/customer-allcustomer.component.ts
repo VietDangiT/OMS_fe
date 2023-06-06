@@ -28,6 +28,8 @@ export class CustomerAllcustomerComponent implements OnInit {
       body: [
         'a',
         'a',
+        'a',
+        'a',
         'a'
       ],
     },

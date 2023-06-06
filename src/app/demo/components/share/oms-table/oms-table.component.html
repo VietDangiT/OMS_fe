@@ -26,9 +26,9 @@
     <span class="ml-4">Showing {{table.first}} to
       {{table.rows * table.page > table.totalRecord ? table.totalRecord : table.rows * table.page}}
       of {{table.totalRecord}} entries</span>
-    <oms-pagination (pagingInfo)="onPageChange($event)" [currentPagingInfo]="{page: table.page, 
-      first: table.first, 
-      rows: table.rows, 
+    <oms-pagination (pagingInfo)="onPageChange($event)" [currentPagingInfo]="{page: table.page,
+      first: table.first,
+      rows: table.rows,
       pageCount: table.pageCount,
       totalRecord: table.totalRecord}">
     </oms-pagination>
