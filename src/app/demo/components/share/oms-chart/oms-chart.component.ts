@@ -70,12 +70,23 @@ export const heatmapChartOptions: Partial<heatChartOptions> | any = {
     heatmap: {
       shadeIntensity: 0.5,
       radius: 10,
+
       colorScale: {
         ranges: [
           {
             from: 0,
-            to: 10000,
-            color: environment.primaryColor,
+            to: 20000,
+            color: colors.primaryLight3,
+          },
+          {
+            from: 20000,
+            to: 70000,
+            color: colors.primaryLight2,
+          },
+          {
+            from: 70000,
+            to: 100000,
+            color: colors.primary,
           },
         ],
       },
@@ -94,8 +105,16 @@ export const heatmapChartOptions: Partial<heatChartOptions> | any = {
   title: {
     text: '',
   },
-  colors: environment.primaryColor,
+  colors: [colors.primary],
 };
+
+export const pieChartColors: string[] = [
+  colors.primary,
+  colors.primaryLight,
+  colors.primaryLight1,
+  colors.primaryLight2,
+  colors.primaryLight3,
+];
 
 export interface OmsChartOptions
   extends Partial<ApexChartOptions>,

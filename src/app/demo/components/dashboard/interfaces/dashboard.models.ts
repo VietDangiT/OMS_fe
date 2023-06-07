@@ -60,17 +60,6 @@ export interface DashboardTable {
   bodyData: any[];
 }
 
-export interface OrderOnChannelData {
-  headerData: string[];
-  bodyData: {
-    channelImage: string;
-    channelName: string;
-    isActive: true;
-    numberOrder: number;
-    totalSale: number;
-  }[];
-}
-
 export interface Statistic extends BaseChart {
   current: number;
   previous: number;
