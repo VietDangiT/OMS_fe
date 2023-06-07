@@ -42,9 +42,3 @@ export interface TotalSalesTableDTO {
 export interface TotalSalesChartDTO extends BaseChart {
   numberOfOrders: number;
 }
-
-export type FilterKey = 'week' | 'month' | 'year';
-
-export type FilterValues = {
-  [K in FilterKey]: [Date, Date];
-};

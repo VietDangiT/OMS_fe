@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
 import { HelperService } from 'src/app/demo/service/helper.service';
@@ -22,9 +22,9 @@ import { OrdersService } from '../../services/orders.service';
 export class OrderListComponent {
   labelItems: MenuItem[] = orderLabelItems;
 
-  activeItem: MenuItem;
+  activeItem: MenuItem = this.labelItems[0];
 
-  dateRange = [this.helperService.addDays(new Date(), -7), new Date()];
+  dateRange = this.helperService.defaultDateRage;
 
   dateFilterValue: string[];
 
@@ -34,12 +34,12 @@ export class OrderListComponent {
 
   orderParams: OrderParams = {
     channelId: this.marketPlaceId,
-    fromDate: new Date(),
-    keyword: '',
+    fromDate: this.dateRange[0],
+    keyword: tableConfig.keyword,
     limit: tableConfig.pageLimit,
-    page: 1,
+    page: tableConfig.page,
     status: '',
-    toDate: new Date(),
+    toDate: this.dateRange[1],
   };
 
   tableData: OmsTable<Order> = {
@@ -50,19 +50,11 @@ export class OrderListComponent {
     totalRecord: 0,
     data: {
       header: orderHeaderTable,
-      body: [
-        {
-          id: 1,
-          orderedAt: '',
-          channelName: '',
-          totalProduct: 1,
-          price: 1,
-          shippingCarrier: '',
-          status: '',
-        },
-      ],
+      body: [],
     },
   };
+
+  destroy$ = new Subject();
 
   constructor(
     private ordersService: OrdersService,
@@ -71,8 +63,6 @@ export class OrderListComponent {
   ) {}
 
   ngOnInit(): void {
-    this.activeItem = this.labelItems[0];
-
     this.route.queryParamMap
       .pipe(
         tap(params => {
@@ -80,33 +70,38 @@ export class OrderListComponent {
 
           this.orderParams = {
             ...this.orderParams,
-            fromDate: this.dateRange[0],
-            toDate: this.dateRange[1],
             channelId: this.marketPlaceId,
           };
 
           this.getOrderTable();
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
 
   getOrderTable(): void {
-    this.ordersService.getOrders(this.orderParams).subscribe(res => {
-      const { orders } = res;
+    this.ordersService
+      .getOrders(this.orderParams)
+      .pipe(
+        tap(res => {
+          const { orders } = res;
 
-      this.tableData = {
-        data: {
-          header: [...this.tableData.data.header],
-          body: [...orders.data],
-        },
-        first: orders.first,
-        page: orders.page,
-        pageCount: orders.pageCount,
-        rows: orders.rows,
-        totalRecord: orders.totalRecord,
-      };
-    });
+          this.tableData = {
+            data: {
+              header: [...this.tableData.data.header],
+              body: [...orders.data],
+            },
+            first: orders.first,
+            page: orders.page,
+            pageCount: orders.pageCount,
+            rows: orders.rows,
+            totalRecord: orders.totalRecord,
+          };
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   dateFilterChange(dates: Date[]): void {
@@ -120,11 +115,6 @@ export class OrderListComponent {
   }
 
   searchValue(search: string): void {
-    this.orderParams = {
-      ...this.orderParams,
-      keyword: search,
-    };
-
     this.handleOrderParams('keyword', search);
 
     this.getOrderTable();
@@ -152,5 +142,11 @@ export class OrderListComponent {
       ...this.orderParams,
       [key]: value,
     };
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next('');
+
+    this.destroy$.complete();
   }
 }

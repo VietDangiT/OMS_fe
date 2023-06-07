@@ -1,11 +1,21 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
+import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
-import { ChannelService } from 'src/app/demo/service/channel.service';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { OmsTable } from '../../../share/model/oms-table';
-import { Channel } from '../../interface/channel.component';
+import {
+  channelLabelItems,
+  channelTableHeader,
+} from '../../constants/channel.constants';
+import {
+  Channel,
+  ChannelParams,
+  ChannelTableApiResponse,
+} from '../../interface/channel.component';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-channel-list',
@@ -13,9 +23,7 @@ import { Channel } from '../../interface/channel.component';
   styleUrls: ['./channel-list.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ChannelListComponent {
-  channelStatus: boolean[] = [];
-
+export class ChannelListComponent implements OnInit, OnDestroy {
   table: OmsTable<Channel> = {
     page: 0,
     first: 0,
@@ -23,99 +31,124 @@ export class ChannelListComponent {
     pageCount: 0,
     totalRecord: 0,
     data: {
-      header: [
-        { field: 'channel', col: 'Channel' },
-        { field: 'numberOfOrders', col: 'Number Of Orders' },
-        { field: 'totalSales', col: 'Total Sales' },
-        { field: 'status', col: 'Status' },
-        { field: 'createdAt', col: 'Created At' },
-        { field: 'updatedAt', col: 'Updated At' },
-      ],
+      header: channelTableHeader,
       body: [],
     },
   };
 
-  items: MenuItem[] = [
-    { label: '', id: '0', badge: '0', title: 'All' },
-    { label: 'active', id: '1', badge: '0', title: 'Active' },
-    { label: 'inactive', id: '2', badge: '0', title: 'Inactive' },
-  ];
+  dateRange: Date[] = this.helperService.defaultDateRage;
+
+  items: MenuItem[] = channelLabelItems;
 
   activeItem: MenuItem = this.items[0];
 
-  countryId: string | number;
+  countryId = 0;
+
+  gapPageNumber = 1;
+
+  params: ChannelParams = {
+    countryId: this.countryId,
+    fromDate: this.dateRange[0],
+    toDate: this.dateRange[1],
+    keyword: tableConfig.keyword,
+    limit: tableConfig.pageLimit,
+    page: tableConfig.page,
+    status: 0,
+  };
+
+  destroy$ = new Subject();
 
   constructor(
     private channelService: ChannelService,
-    private route: ActivatedRoute
-  ) {
+    private route: ActivatedRoute,
+    private helperService: HelperService
+  ) {}
+
+  ngOnInit(): void {
     this.route.queryParamMap
       .pipe(
         tap(params => {
-          this.countryId = params.get('countryId') || 0;
-          console.log(this.countryId);
-        })
+          this.params = {
+            ...this.params,
+            countryId: Number(params.get('countryId')),
+          };
+
+          this.getChannelData();
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
 
-  ngOnInit() {}
-
-  getChannelData = (
-    rows: number,
-    currentPage: number = 1,
-    search: string = '',
-    countryId: number = 0,
-    status: string = ''
-  ) => {
+  getChannelData(): void {
     this.channelService
-      .getChannelList(rows, currentPage, search, countryId, status)
+      .getChannelsTableData(this.params)
       .pipe(
-        tap((item: any) => {
+        tap((res: ChannelTableApiResponse) => {
+          const { channelsTableData: data } = res;
+
           this.table = {
-            page: item.page,
-            first: item.first,
-            rows: item.rows,
-            pageCount: item.pageCount,
-            totalRecord: item.totalRecord,
+            page: data.page,
+            first: data.first,
+            rows: data.rows,
+            pageCount: data.pageCount,
+            totalRecord: data.totalRecord,
             data: {
               header: [...this.table.data.header],
-              body: [...item.data],
+              body: [...data.data],
             },
           };
-          this.channelStatus.length = 0;
-          this.channelStatus = this.table.data.body.map((element: any) =>
-            element.status === 'ACTIVE' ? true : false
-          );
-          console.log(this.channelStatus);
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
-  };
+  }
 
-  onPageChange(event: PageChangeEvent) {
-    if (event.page === 0) {
-      event.page = 1;
+  onPageChange(e: PageChangeEvent): void {
+    this.handleChannelParams('page', e.page + this.gapPageNumber);
+
+    this.getChannelData();
+  }
+
+  onActiveItemChange(e: MenuItem): void {
+    this.activeItem = e;
+
+    this.handleChannelParams('status', Number(this.activeItem.label));
+
+    this.getChannelData();
+  }
+
+  dateFilterChange(dateRange: Date[]): void {
+    if (dateRange[1] != null) {
+      this.handleChannelParams('fromDate', dateRange[0]);
+
+      this.handleChannelParams('toDate', dateRange[1]);
+
+      this.getChannelData();
     }
-
-    this.getChannelData(event.row, event.page);
   }
 
-  onActiveItemChange(event: any) {
-    this.activeItem = event;
+  searchValue(search: string): void {
+    if (search) {
+      this.handleChannelParams('keyword', search);
+
+      this.getChannelData();
+    }
   }
 
-  dateFilterChange(dateRange: Date[]) {
-    console.log(dateRange);
+  handleChannelParams(
+    key: keyof ChannelParams,
+    value: string | number | Date
+  ): void {
+    this.params = {
+      ...this.params,
+      [key]: value,
+    };
   }
 
-  searchValue(search: string) {
-    this.getChannelData(this.table.rows!);
-  }
+  ngOnDestroy(): void {
+    this.destroy$.next('');
 
-  trackByIndex(index: number, obj: unknown): unknown {
-    console.log(index, obj);
-
-    return index;
+    this.destroy$.complete();
   }
 }
