@@ -68,8 +68,17 @@ export const baseChartOptions = {
 export const heatmapChartOptions: Partial<heatChartOptions> | any = {
   plotOptions: {
     heatmap: {
-      radius: 30,
-      distributed: false,
+      shadeIntensity: 0.5,
+      radius: 10,
+      colorScale: {
+        ranges: [
+          {
+            from: 0,
+            to: 10000,
+            color: environment.primaryColor,
+          },
+        ],
+      },
     },
   },
   chart: {
@@ -81,6 +90,9 @@ export const heatmapChartOptions: Partial<heatChartOptions> | any = {
   },
   dataLabels: {
     enabled: false,
+  },
+  title: {
+    text: '',
   },
   colors: environment.primaryColor,
 };

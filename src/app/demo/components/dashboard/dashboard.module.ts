@@ -29,8 +29,7 @@ import { TableComponent } from './table/table.component';
 import { TopSellingProductComponent } from './top-selling-product/top-selling-product.component';
 import { TotalOrdersComponent } from './total-orders/total-orders.component';
 import { TotalReturnComponent } from './total-return/total-return.component';
-import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/sale-by-channel-heatmap/sale-by-channel-heatmap.component';
-import { SaleOnChannelComponent } from './total-sale-by-channel/sale-on-channel/sale-on-channel.component';
+import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/components/sale-by-channel-heatmap/sale-by-channel-heatmap.component';
 import { TotalSaleByChannelComponent } from './total-sale-by-channel/total-sale-by-channel.component';
 import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sale-by-location.component';
 import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.component';
@@ -59,7 +58,6 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
     DashboardComponent,
     DashboardStatisticComponent,
     TotalSaleByChannelComponent,
-    SaleOnChannelComponent,
     TableComponent,
     SaleByChannelComponent,
     ProductCatalogComponent,

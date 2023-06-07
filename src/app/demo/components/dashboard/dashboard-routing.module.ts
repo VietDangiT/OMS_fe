@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OmsTableComponent } from '../share/oms-table/oms-table.component';
 import { DashboardComponent } from './dashboard.component';
 import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
 import { TotalOrdersComponent } from './total-orders/total-orders.component';
@@ -22,11 +21,6 @@ const route: Routes = [
     path: 'sale-by-location',
     data: { breadcrumbs: ['Dashboard', 'Sale by location'] },
     component: SaleByLocationComponent,
-  },
-  {
-    path: 'table-test',
-    data: { breadcrumbs: ['TableTest', 'Table Test'] },
-    component: OmsTableComponent,
   },
   {
     path: 'total-sales',

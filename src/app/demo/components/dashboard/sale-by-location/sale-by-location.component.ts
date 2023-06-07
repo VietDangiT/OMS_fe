@@ -45,7 +45,7 @@ export class SaleByLocationComponent {
         name: 'Vietnam',
         data: [
           {
-            x: 1,
+            x: 1000,
             y: 1,
           },
         ],
@@ -54,8 +54,8 @@ export class SaleByLocationComponent {
         name: 'Thailand',
         data: [
           {
-            x: 1,
-            y: 1,
+            x: 10,
+            y: 1000,
           },
         ],
       },
@@ -63,8 +63,8 @@ export class SaleByLocationComponent {
         name: 'Malaysia',
         data: [
           {
-            x: 1,
-            y: 1,
+            x: 100,
+            y: 10,
           },
         ],
       },
@@ -72,8 +72,8 @@ export class SaleByLocationComponent {
         name: 'Singapore',
         data: [
           {
-            x: 1,
-            y: 1,
+            x: 10,
+            y: 10000,
           },
         ],
       },
