@@ -29,6 +29,9 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { DialogModule } from 'primeng/dialog';
 import { DetailCustomerComponent } from './detail-customer/detail-customer.component';
+import { CardModule } from 'primeng/card';
+import { TabViewModule } from 'primeng/tabview';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -52,6 +55,8 @@ import { DetailCustomerComponent } from './detail-customer/detail-customer.compo
     TabMenuModule,
     InputSwitchModule,
     DialogModule,
+    CardModule,
+    TabViewModule
   ],
   declarations: [
     CustomerComponent,

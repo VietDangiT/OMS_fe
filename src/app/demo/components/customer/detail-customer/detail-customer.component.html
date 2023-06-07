@@ -1,59 +1,58 @@
+
 <p-dialog
   [(visible)]="visible"
   [modal]="true"
-  [style]="{ width: '50vw' }"
+  [style]="{ width: '65vw' }"
   [draggable]="true"
   [resizable]="true"
   (onHide)="closeModal()"
 >
-  <ng-template pTemplate="header">
-    <span class="text-heading">Order </span>
-  </ng-template>
-
-  <div>
-
-    <ul class="my-3">
-      <li class="text-heading mb-2">Customer Info:</li>
-      <li class="oms-order-detail-header">
-        Buyer: <span class="oms-order-detail-info">abc</span>
-      </li>
-
-      <li class="oms-order-detail-header">
-        Address:
-        <span class="oms-order-detail-info">abc</span>
-      </li>
-
-      <li class="oms-order-detail-header">
-        Payment:
-        <span class="oms-order-detail-info">anc</span>
-      </li>
-
-      <li class="oms-order-detail-header">
-        Recipient Name:
-        <span class="oms-order-detail-info">abc</span>
-      </li>
-
-      <li class="oms-order-detail-header">
-        Recipient Phone Number:
-        <span class="oms-order-detail-info">abc</span>
-      </li>
-    </ul>
-
-    <oms-table [table]="tableData" class="group">
-      <tr *ngFor="let p of tableData.data.body">
-        <td>
-          <div class="flex items-center gap-4 justify-center">
-            <div>{{ p.image }}</div>
-            <div class="flex flex-col gap-1">
-              <div>{{ p.name }}</div>
-              <div>{{ p.description }}</div>
-            </div>
-          </div>
-        </td>
-        <td>{{ p.code }}</td>
-        <td>{{ p.quantity }}</td>
-        <td>{{ p.price }}</td>
-      </tr>
-    </oms-table>
+<div class=" md:grid md:grid-cols-9 sm:flex-col" >
+    <div class="p-4 md:col-span-3 sm:flex-row">
+<div class=" max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+  <div class="flex justify-end px-4 pt-4">
   </div>
+  <div class=" flex flex-col items-center pb-10">
+      <img class="w-35 h-24 mb-3 rounded-full shadow-lg" src="https://i.9mobi.vn/cf/Images/tt/2021/8/20/anh-avatar-dep-36.jpg" alt="Bonnie image"/>
+      <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Tran Quan</h5>
+      <span class="text-sm text-gray-500 dark:text-gray-400">Front-End Designer</span>
+      <div class="flex mt-4 space-x-3 md:mt-6">
+          <a  class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add friend</a>
+          <a class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Message</a>
+      </div>
+  </div>
+</div>
+
+    </div>
+    <div class="lg:col-span-6 md:col-span-2">
+      <div>
+        <p-tabView>
+          <p-tabPanel header="Order">
+            <oms-table [table]="tableData" >
+              <tr *ngFor="let p of tableData.data.body" >
+                <td class="!text-center"> {{p.code}}</td>
+                <td	class="!text-center">{{ p.name }}</td>
+                <td class="!text-center">{{ p.store }}</td>
+                <td class="!text-center">{{ p.description }}</td>
+                <td class="!text-center">{{p.rating}}</td>
+              </tr>
+            </oms-table>
+          </p-tabPanel>
+          <p-tabPanel header="Rating">
+            <oms-table [table]="tableData" >
+              <tr *ngFor="let p of tableData.data.body"  >
+                <td class="!text-center"> {{p.code}}</td>
+                <td	class="!text-center">{{ p.name }}</td>
+                <td class="!text-center">{{ p.store }}</td>
+                <td class="!text-center">{{ p.description }}</td>
+                <td class="!text-center">{{p.status}}</td>
+              </tr>
+            </oms-table>
+          </p-tabPanel>
+        </p-tabView>
+
+      </div>
+    </div>
+</div>
 </p-dialog>
+
