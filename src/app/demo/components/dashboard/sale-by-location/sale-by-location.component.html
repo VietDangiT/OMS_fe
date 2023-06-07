@@ -1,54 +1,58 @@
 <app-topbar></app-topbar>
+
 <div>
   <div class="flex items-center justify-between w-full mb-2">
-    <h1 class="mb-0 text-3xl font-bold">Sale by location</h1>
-    <oms-date-filter
-      (dateFilterChange)="dateFilterChanged($event)"
-      (filter)="filterChanged($event)"
-    ></oms-date-filter>
+    <h1 class="mb-0 text-3xl font-bold" i18n>Sale by location</h1>
+
+    <div class="flex gap-2">
+      <p-dropdown [(ngModel)]="selectedCountry" [options]="countries">
+      </p-dropdown>
+
+      <oms-date-filter
+        (dateFilterChange)="dateFilterChanged($event)"
+        (filter)="filterChanged($event)"
+      >
+      </oms-date-filter>
+    </div>
   </div>
-  <div class="flex flex-wrap justify-between w-full gap-2 mb-4 md:mb-2">
-    <div
-      class="flex flex-col w-full md:w-[calc(49%)] lg:w-chartWidth overflow-auto px-4 py-2 bg-white rounded-lg"
-    >
+
+  <div
+    class="flex flex-wrap lg:flex-nowrap justify-between w-full gap-2 mb-4 md:mb-2"
+  >
+    <div class="flex flex-col w-full overflow-auto dashboard-detail-container">
       <div class="mb-2">
         <div class="flex justify-between">
-          <p class="mb-0 font-bold">Sales</p>
-          <div class="flex items-center px-2 py-1 bg-gray-50 rounded-xl">
-            <i class="mr-1 pi pi-globe"></i>
-            <select
-              #countries
-              (change)="getSaleByLocation(countries.value)"
-              class="cursor-pointer focus:bg-none active:bg-none focus:outline-none bg-gray-50"
-            >
-              <option value="vietnam" default>Vietnam</option>
-              <option value="singapore">Singapore</option>
-              <option value="malaysia">Malaysia</option>
-            </select>
-          </div>
+          <p class="mb-0 font-bold" i18n>Sales</p>
         </div>
       </div>
+
       <div class="flex gap-2 mb-4">
         <div
           class="flex items-center justify-between w-full text-xs rounded-md md:px-2 md:py-1 bg-primary bg-opacity-10"
         >
           <div class="flex items-center">
             <i class="mr-2 pi pi-dollar text-primary"></i>
+
             <span class="my-auto font-bold">23k</span>
           </div>
+
           <div class="p-1 text-white rounded-full bg-primary">Dec</div>
         </div>
+
         <div
           class="flex items-center justify-between w-full text-xs rounded-md md:px-2 md:py-1 bg-success bg-opacity-10"
         >
           <div class="flex items-center">
             <i class="mr-2 pi pi-arrow-up text-success"></i>
+
             <span class="my-auto font-bold">23k</span>
           </div>
+
           <div class="p-1 text-white rounded-full bg-success">vs Nov</div>
         </div>
       </div>
-      <div class="h-full min-h-[30vh]">
+
+      <div class="h-full">
         <oms-chart
           type="line"
           [options]="baseChartOptions"
@@ -56,22 +60,22 @@
         ></oms-chart>
       </div>
     </div>
-    <div
-      class="w-full md:w-[calc(49%)] lg:w-chartWidth px-4 py-2 bg-white rounded-lg"
-    >
+
+    <div class="w-full dashboard-detail-container">
       <div class="mb-2">
-        <p class="font-bold">Country</p>
+        <p class="font-bold" i18n>Country</p>
       </div>
-      <div class="w-[50vh] mx-auto lg:h-3/4 lg:w-7/12 md:w-full min-w-[20vh]">
+
+      <div class="w-[50vh] mx-auto lg:h-3/4 lg:w-8/12">
         <oms-chart type="doughnut" [data]="countryData"></oms-chart>
       </div>
     </div>
-    <div
-      class="w-full px-4 py-2 overflow-auto bg-white rounded-lg lg:w-chartWidth"
-    >
+
+    <div class="w-full overflow-auto dashboard-detail-container">
       <div class="flex flex-col h-full">
-        <p class="font-bold">Leads</p>
-        <div class="h-full min-h-[20vh]">
+        <p class="font-bold" i18n>Leads</p>
+
+        <div class="h-full">
           <oms-chart
             type="bar"
             [data]="leadData"
@@ -81,18 +85,19 @@
       </div>
     </div>
   </div>
-  <div class="px-4 py-2 mb-4 overflow-y-auto bg-white rounded-lg">
-    <div class="w-full mb-2">
-      <p class="font-bold">Sales Analytics</p>
+
+  <div class="dashboard-detail-container mb-4 overflow-y-auto">
+    <div class="w-full">
+      <p class="font-bold" i18n>Sales Analytics</p>
+
       <app-apex-chart [heatChartOptions]="heatChartOptions"></app-apex-chart>
     </div>
   </div>
-  <div class="px-4 py-2 bg-white rounded-lg">
-    <dashboard-table
+
+  <div class="dashboard-detail-container">
+    <oms-table
       (pagingInfo)="pagingInfo($event)"
-      [currentPagingInfo]="currentPagingInfo"
-      [tableData]="tableData"
-      heading="Orders"
-    ></dashboard-table>
+      [table]="tableData"
+    ></oms-table>
   </div>
 </div>

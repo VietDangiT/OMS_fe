@@ -1,18 +1,20 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { ChartData, ChartOptions } from 'chart.js';
-import { DashboardService } from 'src/app/demo/service/dashboard.service';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { environment } from 'src/environments/environment';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
+import { ChartData } from 'chart.js';
+import { Subject, tap } from 'rxjs';
+import { tableConfig } from 'src/app/demo/constants/table.config';
+import { DateFilterKey } from 'src/app/demo/interface/global.model';
+import { Country } from '../../channel/interface/channel.component';
+import { ChannelService } from '../../channel/services/channel.service';
 import { heatChartOptions } from '../../charts/apex-chart.component';
-import { DashboardTable } from '../interfaces/dashboard.models';
-
-interface PagingInfo {
-  links: string[];
-  page: number;
-  page_count: number;
-  per_page: number;
-  total_count: number;
-}
+import { OmsTable } from '../../share/model/oms-table';
+import { PagingInfo } from '../../share/model/paginginfo';
+import {
+  baseChartOptions,
+  heatmapChartOptions,
+} from '../../share/oms-chart/oms-chart.component';
+import { saleByLocationTableHeader } from './constants/sale-by-location.constants';
+import { SaleByLocation } from './models/sale-by-location.models';
+import { SaleByLocationService } from './services/sale-by-location.service';
 
 @Component({
   selector: 'app-sale-by-location',
@@ -21,23 +23,23 @@ interface PagingInfo {
   encapsulation: ViewEncapsulation.None,
 })
 export class SaleByLocationComponent {
-  isSubmenuOn!: boolean;
+  channelService = inject(ChannelService);
 
-  salesData!: ChartData;
+  service = inject(SaleByLocationService);
 
-  countryData!: ChartData;
+  salesData: ChartData;
 
-  leadData!: ChartData;
+  countryData: ChartData;
 
-  baseChartOptions!: ChartOptions;
+  leadData: ChartData;
 
-  heatChartOptions: Partial<heatChartOptions> | any = {
-    plotOptions: {
-      heatmap: {
-        radius: 30,
-        distributed: false,
-      },
-    },
+  baseChartOptions = baseChartOptions;
+
+  selectedCountry: Country;
+
+  countries: Country[];
+
+  heatChartOptions: Partial<heatChartOptions> | unknown = {
     series: [
       {
         name: 'Vietnam',
@@ -76,272 +78,54 @@ export class SaleByLocationComponent {
         ],
       },
     ],
-    chart: {
-      height: 350,
-      type: 'heatmap',
-      toolbar: {
-        show: false,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: ['#27447C'],
+    ...heatmapChartOptions,
   };
 
   pagingNumber: number = 0;
 
-  currentPagingInfo: PagingInfo = {
-    links: [],
-    page: 0,
-    page_count: 1,
-    per_page: 1,
-    total_count: 1,
+  tableData: OmsTable<SaleByLocation> = {
+    first: 0,
+    page: tableConfig.page,
+    pageCount: 0,
+    rows: tableConfig.pageLimit,
+    totalRecord: 0,
+    data: {
+      header: saleByLocationTableHeader,
+      body: [],
+    },
   };
 
-  filter: string = 'week';
+  destroy$ = new Subject();
 
-  tableData: DashboardTable = {
-    headerData: ['Location', 'Date', 'Number of Orders', 'Total Sales'],
-    bodyData: [
-      {
-        location: 'Vietnam',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Thailand',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Malaysia',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Singapore',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Switzerland',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-    ],
-  };
-
-  monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  constructor(
-    private layoutService: LayoutService,
-    private dashboardService: DashboardService
-  ) {}
-
-  ngOnInit() {
-    this.getSaleByLocation();
-    this.getCountriesSale();
-    this.getLeads();
-    this.getSalesAnalytics();
-    this.getTableData(this.pagingNumber);
-
-    this.layoutService.currentSubMenuState.subscribe(
-      state => (this.isSubmenuOn = state)
-    );
-
-    this.baseChartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 1,
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      scales: {
-        x: {
-          grid: {
-            display: false,
-          },
-        },
-        y: {
-          grid: {
-            display: false,
-          },
-        },
-      },
-    };
+  ngOnInit(): void {
+    this.getCountries();
   }
 
-  dateFilterChanged(dateRange: Date[]) {
+  getCountries(): void {
+    this.channelService
+      .getCountries()
+      .pipe(
+        tap(res => {
+          this.countries = res.countries;
+        })
+      )
+      .subscribe();
+  }
+
+  dateFilterChanged(dateRange: Date[]): void {
     console.log(dateRange);
   }
 
-  filterChanged(filter: string) {
-    this.filter = filter;
-    this.getCountriesSale();
-    this.getLeads();
-    this.getSalesAnalytics();
+  filterChanged(filter: DateFilterKey): void {
+    console.log(filter);
   }
 
-  getTableData(paging: number) {
-    this.pagingNumber = paging;
-
-    this.dashboardService
-      .getTableData(this.pagingNumber)
-      .subscribe((item: any) => {
-        var data = item.data;
-        this.currentPagingInfo = { ...data };
-        var result: any[] = [];
-        data.records.forEach((item: any) => {
-          var date =
-            this.monthNames[new Date(Date.parse(item.date)).getMonth()];
-
-          var mapping = {
-            location: item.location,
-            date: date,
-            numberOrder: item.number_of_order,
-            totalSale: item.total_sale,
-          };
-          result.push(mapping);
-        });
-
-        this.tableData.bodyData = result;
-      });
+  pagingInfo(e: PagingInfo): void {
+    console.log(e);
   }
 
-  pagingInfo(pagingInfo: any) {
-    this.getTableData(pagingInfo.page);
-  }
-
-  getSalesAnalytics() {
-    this.dashboardService
-      .getCountriesSale(this.filter)
-      .subscribe((data: any) => {
-        var d = data.data;
-        var series: any = [];
-        d.forEach((item: any) => {
-          const dataArr: any = item.saleInfo.map((item: any) => {
-            return { x: item.month, y: item.sales };
-          });
-          series.push({ name: item.location, data: dataArr });
-        });
-
-        this.heatChartOptions = {
-          plotOptions: {
-            heatmap: {
-              radius: 10,
-              distributed: false,
-            },
-          },
-          series: series,
-          chart: {
-            height: 350,
-            type: 'heatmap',
-            toolbar: {
-              show: false,
-            },
-          },
-          dataLabels: {
-            enabled: false,
-          },
-          colors: [environment.primaryColor],
-        };
-      });
-  }
-
-  getCountriesSale() {
-    this.dashboardService
-      .getCountriesSaleInTotal(this.filter)
-      .subscribe(data => {
-        var totalArr: number[] = [];
-        var labelArr: number[] = [];
-        data['data'].map((item: any) => {
-          totalArr.push(item.sales);
-          labelArr.push(item.location);
-        });
-
-        this.countryData = {
-          labels: labelArr,
-          datasets: [
-            {
-              data: totalArr,
-              backgroundColor: [
-                environment.primaryColor,
-                environment.secondaryColor,
-                environment.thirdColor,
-                environment.fourthColor,
-              ],
-              tension: 0.4,
-            },
-          ],
-        };
-      });
-  }
-
-  getLeads() {
-    this.dashboardService.getLeads(this.filter).subscribe(data => {
-      var totalArr: number[] = [];
-      var labelArr: number[] = [];
-      data['data'].map((item: any) => {
-        totalArr.push(item.sales);
-        labelArr.push(item.location);
-      });
-
-      this.leadData = {
-        labels: labelArr,
-        datasets: [
-          {
-            backgroundColor: environment.primaryColor,
-            data: totalArr,
-          },
-        ],
-      };
-    });
-  }
-
-  getSaleByLocation(location: string = 'vietnam') {
-    this.dashboardService.getSaleByLocation(location).subscribe((data: any) => {
-      var totalArr: number[] = [];
-      var labelArr: number[] = [];
-      data['data'].map((item: any) => {
-        totalArr.push(item.sales);
-        labelArr.push(new Date(Date.parse(item.date)).getMonth());
-      });
-
-      this.salesData = {
-        labels: labelArr,
-        datasets: [
-          {
-            data: totalArr,
-            borderColor: environment.primaryColor,
-            tension: 0.4,
-          },
-        ],
-      };
-    });
-  }
-
-  triggerSubmenu() {
-    this.layoutService.changeSubMenuState(false);
+  onDestroy(): void {
+    this.destroy$.next('');
+    this.destroy$.complete();
   }
 }

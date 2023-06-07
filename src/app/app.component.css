@@ -112,3 +112,15 @@
 .p-inputswitch .p-inputswitch-slider:before {
   @apply bg-gray-400;
 }
+
+.p-dropdown {
+  @apply min-w-[10vw];
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  @apply border-primary;
+}
+
+.p-dropdown input {
+  @apply select-none hidden;
+}

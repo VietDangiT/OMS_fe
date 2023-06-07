@@ -23,6 +23,7 @@ import {
 } from 'ng-apexcharts';
 import { environment } from 'src/environments/environment';
 import resolveConfig from 'tailwindcss/resolveConfig';
+import { heatChartOptions } from '../../charts/apex-chart.component';
 
 type ApexChartOptions = {
   series: ApexAxisChartSeries;
@@ -62,6 +63,26 @@ export const baseChartOptions = {
       },
     },
   },
+};
+
+export const heatmapChartOptions: Partial<heatChartOptions> | any = {
+  plotOptions: {
+    heatmap: {
+      radius: 30,
+      distributed: false,
+    },
+  },
+  chart: {
+    height: 350,
+    type: 'heatmap',
+    toolbar: {
+      show: false,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  colors: environment.primaryColor,
 };
 
 export interface OmsChartOptions
