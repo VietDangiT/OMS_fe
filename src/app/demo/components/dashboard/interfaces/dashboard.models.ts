@@ -55,11 +55,6 @@ export interface ProductVariantApiResponse {
   productVariants: BaseItem[];
 }
 
-export interface DashboardTable {
-  headerData: string[];
-  bodyData: any[];
-}
-
 export interface Statistic extends BaseChart {
   current: number;
   previous: number;

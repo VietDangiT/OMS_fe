@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
 import { DateFilterKey } from 'src/app/demo/interface/global.model';
@@ -26,11 +26,9 @@ export class TotalSalesComponent {
 
   returnBoxTitle = 'return';
 
-  dateRange = [new Date(), this.helperService.addDays(new Date(), -7)];
+  dateRange = this.helperService.defaultDateRage;
 
   pageNumber = 1;
-
-  itemsPerPage = tableConfig.pageLimit;
 
   totalSales = 0;
 
@@ -82,6 +80,8 @@ export class TotalSalesComponent {
     },
   };
 
+  destroy$ = new Subject();
+
   constructor(
     private totalSalesService: TotalSalesService,
     private helperService: HelperService
@@ -93,18 +93,15 @@ export class TotalSalesComponent {
 
   getData(): void {
     this.getTotalSalesTable(this.pageNumber);
+
     this.getTotalSales();
+
     this.getReturn();
   }
 
   getTotalSalesTable(page: number) {
     this.totalSalesService
-      .getTotalSalesTable(
-        this.dateRange[0],
-        this.dateRange[1],
-        page,
-        this.itemsPerPage
-      )
+      .getTotalSalesTable(this.dateRange[0], this.dateRange[1], page)
       .pipe(
         tap(res => {
           const { detailTotalSales } = res;
@@ -114,7 +111,7 @@ export class TotalSalesComponent {
           this.tableData = {
             page: paging.currentPage,
             first: paging.first,
-            rows: this.itemsPerPage,
+            rows: tableConfig.pageLimit,
             pageCount: paging.totalPages,
             totalRecord: paging.totalCount,
             data: {
@@ -122,7 +119,8 @@ export class TotalSalesComponent {
               body: data,
             },
           };
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -174,7 +172,8 @@ export class TotalSalesComponent {
               ],
             };
           }
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -203,7 +202,8 @@ export class TotalSalesComponent {
             this.totalReturnPercent = totalReturn / totalReturnCompareData;
             this.totalReturn = totalReturn;
           }
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -225,5 +225,11 @@ export class TotalSalesComponent {
 
   onPageChange(e: PageChangeEvent): void {
     this.getTotalSalesTable(e.page + 1);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next('');
+
+    this.destroy$.complete();
   }
 }

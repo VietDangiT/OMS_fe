@@ -134,11 +134,11 @@ export class TotalOrdersComponent implements OnInit {
   }
 
   initTotalOrderChart(result: BaseChart[]): void {
-    var totalArr: number[] = [];
+    let totalArr: number[] = [];
 
-    var labelArr: string[] = [];
+    let labelArr: string[] = [];
 
-    result.map((item: BaseChart) => {
+    result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
 
       labelArr.push(new Date(item.text).toLocaleDateString());

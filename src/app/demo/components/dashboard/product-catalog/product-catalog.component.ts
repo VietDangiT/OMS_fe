@@ -87,7 +87,7 @@ export class ProductCatalogComponent {
   }
 
   handleProductVariant(id: number) {
-    var index = this.productVariantList.findIndex(item => {
+    let index = this.productVariantList.findIndex(item => {
       return item.id == id;
     });
     this.product = this.productVariantList[index];
@@ -96,13 +96,13 @@ export class ProductCatalogComponent {
   }
 
   setupChartData(result: BaseChart[]) {
-    var totalArr: number[] = [];
+    let totalArr: number[] = [];
 
-    var labelArr: string[] = [];
+    let labelArr: string[] = [];
 
-    var order: number = 0;
+    let order: number = 0;
 
-    result.map((item: BaseChart) => {
+    result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
 
       labelArr.push(new Date(item.date).toLocaleDateString());

@@ -24,8 +24,6 @@ import { OverviewBoxComponent } from './overview-box/overview-box.component';
 import { ProductCatalogComponent } from './product-catalog/product-catalog.component';
 import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.component';
 import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
-import { SaleStoreComponent } from './sale-store/sale-store.component';
-import { TableComponent } from './table/table.component';
 import { TopSellingProductComponent } from './top-selling-product/top-selling-product.component';
 import { TotalOrdersComponent } from './total-orders/total-orders.component';
 import { TotalReturnComponent } from './total-return/total-return.component';
@@ -34,6 +32,8 @@ import { TotalSaleByChannelComponent } from './total-sale-by-channel/total-sale-
 import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sale-by-location.component';
 import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.component';
 import { TotalSalesComponent } from './total-sales/total-sales.component';
+import { SaleStoreComponent } from './sale-store/sale-store.component';
+import { TotalSaleByChannelItemComponent } from './total-sale-by-channel/components/total-sale-by-channel-item/total-sale-by-channel-item.component';
 
 @NgModule({
   imports: [
@@ -58,7 +58,6 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
     DashboardComponent,
     DashboardStatisticComponent,
     TotalSaleByChannelComponent,
-    TableComponent,
     SaleByChannelComponent,
     ProductCatalogComponent,
     DashboardTotalOrdersComponent,
@@ -68,12 +67,13 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
     DetailStatisticComponent,
     SaleByLocationComponent,
     TopSellingProductComponent,
-    SaleStoreComponent,
     GlobalFilterComponent,
     TotalSaleByLocationComponent,
     TotalSalesComponent,
     OverviewBoxComponent,
     TotalOrdersComponent,
+    SaleStoreComponent,
+    TotalSaleByChannelItemComponent,
   ],
 })
 export class DashboardModule {}

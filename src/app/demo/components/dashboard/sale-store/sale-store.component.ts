@@ -9,7 +9,7 @@ export interface DashboardItemPercentage {
 @Component({
   selector: 'dashboard-sale-store',
   templateUrl: './sale-store.component.html',
-  styleUrls: ['./sale-store.component.css'],
+  styleUrls: ['./sale-store.component.scss'],
 })
 export class SaleStoreComponent {
   @Input() data: BaseChart[];

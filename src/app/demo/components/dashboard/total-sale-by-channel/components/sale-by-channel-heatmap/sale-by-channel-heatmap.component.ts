@@ -1,9 +1,5 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
-import resolveConfig from 'tailwindcss/resolveConfig';
-import {
-  OmsChartOptions,
-  heatmapChartOptions,
-} from '../../../../share/oms-chart/oms-chart.component';
+import { Component, Input } from '@angular/core';
+import { heatChartOptions } from 'src/app/demo/components/charts/apex-chart.component';
 
 export interface SaleByChannelHeatmap {
   name: string;
@@ -21,26 +17,22 @@ const tailwindConfig = require('tailwind.config.js');
   styleUrls: ['./sale-by-channel-heatmap.component.scss'],
 })
 export class SaleByChannelHeatmapComponent {
-  @Input() data: SaleByChannelHeatmap[];
+  @Input() data: Partial<heatChartOptions> | unknown[];
 
-  chartOptions!: Partial<OmsChartOptions> | any;
+  // chartOptions!: Partial<OmsChartOptions> | any;
 
-  fullConfig = resolveConfig(tailwindConfig);
+  // fullConfig = resolveConfig(tailwindConfig);
 
-  ngOnInit() {
-    console.log(this.fullConfig.theme['colors']['primary']);
-  }
+  // ngOnInit(): void {
+  //   this.chartOptions = {
+  //     series: this.data ? this.data : [],
+  //     ...heatmapChartOptions,
+  //   };
+  // }
 
-  constructor() {
-    this.chartOptions = {
-      series: this.data ? this.data : [],
-      ...heatmapChartOptions,
-    };
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']?.currentValue) {
-      this.chartOptions.series = [...this.data];
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['data']?.currentValue) {
+  //     this.chartOptions.series = [...this.data];
+  //   }
+  // }
 }

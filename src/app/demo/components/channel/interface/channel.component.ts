@@ -7,7 +7,7 @@ export interface Channel {
   number: number;
   numberOrders?: number;
   value?: number;
-  status?: string;
+  status?: ChannelStatus;
   createdAt?: string;
   updatedAt?: string;
   image?: string;
@@ -37,3 +37,5 @@ export interface ChannelTableApiResponse {
 export interface ChannelParams extends PagingParams {
   countryId: number;
 }
+
+export type ChannelStatus = 'Active' | 'Inactive';

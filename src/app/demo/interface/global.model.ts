@@ -24,3 +24,8 @@ export type DateFilterKey = 'week' | 'month' | 'year';
 export type DateFilterValues = {
   [K in DateFilterKey]: [Date, Date];
 };
+
+export interface ResultItem {
+  name: string;
+  data: { x: string | number | Date; y: number }[];
+}

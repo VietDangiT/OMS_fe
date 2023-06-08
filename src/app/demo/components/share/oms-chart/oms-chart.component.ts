@@ -116,6 +116,20 @@ export const pieChartColors: string[] = [
   colors.primaryLight3,
 ];
 
+export const colorArr: string[] = [
+  colors.primary,
+  colors.secondary,
+  colors.third,
+  colors.forth,
+  colors.fifth,
+  colors.errors,
+  colors.warning,
+  colors.success,
+  colors.danger,
+  colors.nude,
+  colors.brightOrange,
+];
+
 export interface OmsChartOptions
   extends Partial<ApexChartOptions>,
     ChartOptions {}

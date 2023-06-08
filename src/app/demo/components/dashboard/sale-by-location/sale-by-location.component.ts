@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
-import { DateFilterKey } from 'src/app/demo/interface/global.model';
+import { DateFilterKey, ResultItem } from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
 import { Country } from '../../channel/interface/channel.component';
@@ -22,11 +22,6 @@ import {
   SaleByLocationParams,
 } from './models/sale-by-location.models';
 import { SaleByLocationService } from './services/sale-by-location.service';
-
-interface ResultItem {
-  name: string;
-  data: { x: string | number | Date; y: number }[];
-}
 
 @Component({
   selector: 'app-sale-by-location',

@@ -1,7 +1,7 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, inject } from '@angular/core';
 import { ChartData } from 'chart.js';
 import { tap } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { pieChartColors } from '../../share/oms-chart/oms-chart.component';
 import {
   TotalReturn,
   TotalReturnByApiResponse,
@@ -18,13 +18,13 @@ export class TotalReturnComponent {
 
   @Input() filterArr: string[];
 
+  private readonly dashboardService = inject(DashboardService);
+
   pieData: ChartData;
 
   totalReturn: string = '0';
 
-  constructor(private dashboardService: DashboardService) {}
-
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     this.dashboardService
       .getTotalReturn(changes['filterArr'].currentValue)
       .pipe(
@@ -38,13 +38,13 @@ export class TotalReturnComponent {
   }
 
   initTotalReturnChart(result: TotalReturn[]) {
-    var labelArr: string[] = [];
+    let labelArr: string[] = [];
 
-    var dataArr: number[] = [];
+    let dataArr: number[] = [];
 
-    var total: number = 0;
+    let total: number = 0;
 
-    result.map((item: TotalReturn) => {
+    result.forEach((item: TotalReturn) => {
       labelArr.push(`${item.value.toFixed(1)}% ${item.text}`);
 
       dataArr.push(item.numberOfReturn);
@@ -59,16 +59,8 @@ export class TotalReturnComponent {
       datasets: [
         {
           data: dataArr,
-          backgroundColor: [
-            environment.primaryColor,
-            environment.secondaryColor,
-            environment.thirdColor,
-          ],
-          hoverBackgroundColor: [
-            environment.primaryColor,
-            environment.secondaryColor,
-            environment.thirdColor,
-          ],
+          backgroundColor: pieChartColors,
+          hoverBackgroundColor: pieChartColors,
         },
       ],
     };
