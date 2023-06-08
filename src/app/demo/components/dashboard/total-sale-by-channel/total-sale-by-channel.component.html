@@ -38,42 +38,9 @@
     [isPaginationShown]="true"
   >
     <ng-template #contentRef let-rowData>
-      <tr>
-        <td>
-          <div class="flex gap-2 items-center">
-            <div class="w-10 h-10">
-              <img
-                class="object-cover"
-                [src]="rowData.channelImage"
-                [alt]="rowData.channelImage"
-              />
-            </div>
-
-            <span>{{ rowData.channelName }}</span>
-          </div>
-        </td>
-
-        <td>
-          <span
-            *ngIf="rowData.status === 'Active'; else inActive"
-            class="flex items-center gap-2"
-          >
-            <i class="pi pi-circle-fill text-success"></i>
-
-            <span i18n class="font-medium text-success">Active</span>
-          </span>
-
-          <ng-template #inActive>
-            <i class="pi pi-circle-fill text-danger"></i>
-
-            <span i18n class="font-medium text-danger">Inactive</span>
-          </ng-template>
-        </td>
-
-        <td>{{ rowData.numberOfOrder | number }}</td>
-
-        <td>{{ rowData.totalSales | number }}</td>
-      </tr>
+      <oms-total-sale-by-channel-item
+        [rowData]="rowData"
+      ></oms-total-sale-by-channel-item>
     </ng-template>
   </oms-table>
 </div>

@@ -18,21 +18,4 @@ const tailwindConfig = require('tailwind.config.js');
 })
 export class SaleByChannelHeatmapComponent {
   @Input() data: Partial<heatChartOptions> | unknown[];
-
-  // chartOptions!: Partial<OmsChartOptions> | any;
-
-  // fullConfig = resolveConfig(tailwindConfig);
-
-  // ngOnInit(): void {
-  //   this.chartOptions = {
-  //     series: this.data ? this.data : [],
-  //     ...heatmapChartOptions,
-  //   };
-  // }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['data']?.currentValue) {
-  //     this.chartOptions.series = [...this.data];
-  //   }
-  // }
 }
