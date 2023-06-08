@@ -126,8 +126,9 @@ export const colorArr: string[] = [
   colors.warning,
   colors.success,
   colors.danger,
-  colors.nude,
   colors.brightOrange,
+  colors.geomapBackground,
+  colors.datalessRegion,
 ];
 
 export interface OmsChartOptions

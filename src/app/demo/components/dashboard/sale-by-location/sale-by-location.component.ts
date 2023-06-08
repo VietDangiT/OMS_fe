@@ -1,4 +1,9 @@
-import { Component, ViewEncapsulation, inject } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
@@ -30,6 +35,8 @@ import { SaleByLocationService } from './services/sale-by-location.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class SaleByLocationComponent {
+  @HostBinding('class') hostClass = 'sale-by-location-host';
+
   channelService = inject(ChannelService);
 
   helperService = inject(HelperService);
