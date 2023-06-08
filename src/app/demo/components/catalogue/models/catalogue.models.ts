@@ -7,9 +7,11 @@ export interface Catalogue {
   productVariantImage: string;
   basePrice: number;
   createdAt: string;
-  productChannelStatus: string;
+  productChannelStatus: ProductChannelStatus;
   availableStock: number;
 }
+
+export type ProductChannelStatus = 'Active' | 'Inactive';
 
 export interface CatalogueTableApiResponse {
   products: {
@@ -23,5 +25,6 @@ export interface CatalogueTableApiResponse {
 }
 
 export interface CatalogueParams extends PagingParams {
-  channelId: number;
+  channelId: number | null;
+  status: ProductChannelStatus;
 }

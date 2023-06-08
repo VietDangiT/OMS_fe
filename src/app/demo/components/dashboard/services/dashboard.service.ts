@@ -1,6 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
+import {
+  GET_ORDERS_STATISTIC,
+  GET_PRODUCT_CHANNEL_BY_STATUS,
+  GET_PRODUCT_CHANNEL_STOCK,
+  GET_PRODUCT_VARIANTS,
+  GET_PRODUCT_VARIANT_ITEMS_SOLD,
+  GET_RETURNS_BY,
+  GET_TOTAL_ORDERS,
+  GET_TOTAL_SALES,
+  GET_TOTAL_SALES_BY_CHANNEL,
+  GET_TOTAL_SALES_BY_LOCATION,
+  GET_TOTAL_SALES_BY_PRODUCT,
+} from '../constants/dashboard.constants';
 import {
   ProductVariantApiResponse,
   ProductVariantItemsSoldApiResponse,
@@ -14,129 +27,6 @@ import {
   TotalSalesByLocationApiResponse,
   TotalSalesByProductApiResponse,
 } from '../interfaces/dashboard.models';
-
-const GET_TOTAL_SALES = gql`
-  query GetTotalSale($fromDate: DateTime!, $toDate: DateTime!) {
-    totalSale(fromDate: $fromDate, toDate: $toDate) {
-      date
-      value
-    }
-  }
-`;
-
-const GET_RETURNS_BY = gql`
-  query GetReturnsBy($fromDate: DateTime!, $toDate: DateTime!) {
-    returnsBy(fromDate: $fromDate, toDate: $toDate) {
-      numberOfReturn
-      value
-    }
-  }
-`;
-
-const GET_TOTAL_SALES_BY_PRODUCT = gql`
-  query GetTotalSaleProductsBy($fromDate: DateTime!, $toDate: DateTime!) {
-    totalSaleProductsBy(fromDate: $fromDate, toDate: $toDate) {
-      text
-      value
-    }
-  }
-`;
-
-const GET_TOTAL_SALES_BY_LOCATION = gql`
-  query GetTotalSalesByLocation($fromDate: String!, $toDate: String!) {
-    totalSaleByLocation(fromDate: $fromDate, toDate: $toDate) {
-      displayText
-      value
-    }
-  }
-`;
-
-const GET_TOTAL_ORDERS = gql`
-  query GetTotalOrders($fromDate: DateTime!, $toDate: DateTime!) {
-    totalOrdersBy(fromDate: $fromDate, toDate: $toDate) {
-      text
-      value
-    }
-  }
-`;
-
-const GET_TOTAL_SALES_BY_CHANNEL = gql`
-  query GetTotalSalesByChannel($fromDate: String!, $toDate: String!) {
-    totalSaleByChannel(fromDate: $fromDate, toDate: $toDate) {
-      percentage
-      displayText
-      value
-    }
-  }
-`;
-
-const GET_PRODUCT_VARIANT_ITEMS_SOLD = gql`
-  query GetProductVariantItemSold(
-    $productCatalogId: Int!
-    $fromDate: DateTime!
-    $toDate: DateTime!
-  ) {
-    itemsSoldByProductVariant(
-      productCatalogId: $productCatalogId
-      fromDate: $fromDate
-      toDate: $toDate
-    ) {
-      date
-      value
-    }
-  }
-`;
-
-const GET_ORDERS_STATISTIC = gql`
-  query GetOrdersStatistic(
-    $channelId: Int!
-    $fromDate: DateTime!
-    $toDate: DateTime!
-  ) {
-    statisticOrders(
-      channelId: $channelId
-      fromDate: $fromDate
-      toDate: $toDate
-    ) {
-      current
-      previous
-      text
-      value
-    }
-  }
-`;
-
-const GET_PRODUCT_CHANNEL_STOCK = gql`
-  query GetProductChannelStock($channelId: Int!) {
-    productChannelStock(channelId: $channelId) {
-      current
-      previous
-      text
-      value
-    }
-  }
-`;
-
-const GET_PRODUCT_CHANNEL_BY_STATUS = gql`
-  query GetProductChannelByStatus($channelId: Int!) {
-    productChannelByStatus(channelId: $channelId) {
-      current
-      previous
-      text
-      value
-    }
-  }
-`;
-
-const GET_PRODUCT_VARIANTS = gql`
-  query {
-    productVariants {
-      name
-      description
-      id
-    }
-  }
-`;
 
 @Injectable({
   providedIn: 'root',
@@ -182,7 +72,7 @@ export class DashboardService {
       .valueChanges.pipe(map(res => res.data));
   }
 
-  getTotalOrders(filter: string[]): Observable<TotalOrderApiResponse> {
+  getTotalOrders(filter: Date[]): Observable<TotalOrderApiResponse> {
     return this.apollo
       .watchQuery<TotalOrderApiResponse>({
         query: GET_TOTAL_ORDERS,

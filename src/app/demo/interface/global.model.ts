@@ -16,6 +16,7 @@ export interface TableConfig {
   pageLimit: number;
   page: number;
   keyword: string;
+  gapPageNumber: number;
 }
 
 export type DateFilterKey = 'week' | 'month' | 'year';

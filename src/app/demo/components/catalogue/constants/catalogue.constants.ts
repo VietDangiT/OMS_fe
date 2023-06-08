@@ -3,7 +3,6 @@ import { MenuItem } from 'primeng/api';
 import { TableHeader } from 'src/app/demo/interface/global.model';
 
 export const catalogueLabelItems: MenuItem[] = [
-  { label: '', id: '0', badge: '0', title: 'All' },
   { label: 'active', id: '1', badge: '0', title: 'Active' },
   { label: 'inactive', id: '2', badge: '0', title: 'Inactive' },
 ];
@@ -21,7 +20,7 @@ export const catalogueHeaderTable: TableHeader[] = [
 
 export const GET_PRODUCT_CATALOGUES = gql`
   query GetProductCatalogue(
-    $channelId: Int!
+    $channelId: Int
     $fromDate: DateTime!
     $toDate: DateTime!
     $keyword: String!

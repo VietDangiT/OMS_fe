@@ -1,7 +1,7 @@
 <app-topbar></app-topbar>
 
 <div class="flex-between-center w-full mb-2">
-  <h1 class="text-3xl font-bold">Total Orders</h1>
+  <h1 class="text-3xl font-bold" i18n>Total Orders</h1>
 
   <oms-date-filter
     (dateFilterChange)="dateFilterChanged($event)"
@@ -10,7 +10,7 @@
 </div>
 
 <div class="dashboard-detail-container mb-2">
-  <p class="font-bold text-black">Overview</p>
+  <p class="font-bold text-black" i18n>Overview</p>
 
   <div class="grid grid-cols-6">
     <div class="lg:col-span-5 md:col-span-6 h-full">
@@ -25,21 +25,11 @@
       class="lg:ml-4 md:col-span-6 md:mt-4 lg:mt-0 flex justify-between lg:flex-col lg:col-span-1 gap-2"
     >
       <overview-box
-        [dateRange]="defaultDateRange"
-        type="Failed"
-        styleClass="border-l-8 !bg-white border-brightOrange border-opacity-70"
-      ></overview-box>
-
-      <overview-box
-        [dateRange]="defaultDateRange"
-        type="Delivery"
-        styleClass="border-l-8 !bg-white border-brightOrange border-opacity-70"
-      ></overview-box>
-
-      <overview-box
-        [dateRange]="defaultDateRange"
-        type="Return"
-        styleClass="border-l-8 !bg-white border-brightOrange border-opacity-70"
+        *ngFor="let o of orderSummary"
+        [dateRange]="dateRange"
+        [type]="o.displayText"
+        [total]="o.value"
+        [percentage]="o.percentage"
       ></overview-box>
     </div>
   </div>

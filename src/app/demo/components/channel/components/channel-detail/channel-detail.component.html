@@ -1,1 +1,36 @@
-<p>detail</p>
+<tr>
+  <td>
+    <div class="flex gap-2 items-center">
+      <div class="w-10 h-10 rounded-md">
+        <img class="object-cover" [src]="channel.image" alt="" />
+      </div>
+
+      <span>{{ channel.name }}</span>
+    </div>
+  </td>
+
+  <td class="!text-right">{{ channel.numberOrders | number }}</td>
+
+  <td class="!text-right">{{ channel.value | number }}</td>
+
+  <td>
+    <div class="flex item-center gap-5 justify-center">
+      <span class="hidden lg:block min-w-[70px]">
+        <i
+          class="pi pi-circle-fill text-success"
+          *ngIf="channel.status === 'ACTIVE'; else dangerIcon"
+        ></i>
+
+        <ng-template #dangerIcon>
+          <i class="pi pi-circle-fill text-danger"></i>
+        </ng-template>
+        {{ channel.status | titlecase }}
+      </span>
+      <p-inputSwitch class="opacity-100 flex-1"></p-inputSwitch>
+    </div>
+  </td>
+
+  <td class="!text-center">{{ channel.createdAt }}</td>
+
+  <td class="!text-center">{{ channel.updatedAt }}</td>
+</tr>

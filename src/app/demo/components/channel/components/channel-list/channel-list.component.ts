@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subject, takeUntil, tap } from 'rxjs';
@@ -18,10 +18,9 @@ import {
 import { ChannelService } from '../../services/channel.service';
 
 @Component({
-  selector: 'app-channel-list',
+  selector: 'oms-channel-list',
   templateUrl: './channel-list.component.html',
   styleUrls: ['./channel-list.component.css'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class ChannelListComponent implements OnInit, OnDestroy {
   table: OmsTable<Channel> = {
@@ -43,8 +42,6 @@ export class ChannelListComponent implements OnInit, OnDestroy {
   activeItem: MenuItem = this.items[0];
 
   countryId = 0;
-
-  gapPageNumber = 1;
 
   params: ChannelParams = {
     countryId: this.countryId,
@@ -105,7 +102,7 @@ export class ChannelListComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(e: PageChangeEvent): void {
-    this.handleChannelParams('page', e.page + this.gapPageNumber);
+    this.handleChannelParams('page', e.page + tableConfig.gapPageNumber);
 
     this.getChannelData();
   }

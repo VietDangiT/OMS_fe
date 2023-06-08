@@ -30,7 +30,7 @@
       [contentRef]="contentRef"
       [table]="tableData"
     >
-      <ng-template #contentRef let-rowData let-columns="columns">
+      <ng-template #contentRef let-rowData>
         <oms-catalogue-item [catalogue]="rowData"></oms-catalogue-item>
       </ng-template>
     </oms-table>

@@ -42,7 +42,7 @@ const tailwindConfig = require('tailwind.config.js');
 const fullConfig = resolveConfig(tailwindConfig);
 const colors = fullConfig.theme['colors'];
 
-export const baseChartOptions = {
+export const baseChartOptions: ChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
   aspectRatio: 1,

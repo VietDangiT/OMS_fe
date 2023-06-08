@@ -28,42 +28,7 @@
       [contentRef]="contentRef"
     >
       <ng-template #contentRef let-rowData>
-        <tr>
-          <td>
-            <div class="flex gap-2 items-center">
-              <div class="w-10 h-10 rounded-md">
-                <img class="object-cover" [src]="rowData.image" alt="" />
-              </div>
-
-              <span>{{ rowData.name }}</span>
-            </div>
-          </td>
-
-          <td class="!text-right">{{ rowData.numberOrders | number }}</td>
-
-          <td class="!text-right">{{ rowData.value | number }}</td>
-
-          <td>
-            <div class="flex item-center gap-5 justify-center">
-              <span class="hidden lg:block min-w-[70px]">
-                <i
-                  class="pi pi-circle-fill text-success"
-                  *ngIf="rowData.status === 'ACTIVE'; else dangerIcon"
-                ></i>
-
-                <ng-template #dangerIcon>
-                  <i class="pi pi-circle-fill text-danger"></i>
-                </ng-template>
-                {{ rowData.status | titlecase }}
-              </span>
-              <p-inputSwitch class="opacity-100 flex-1"></p-inputSwitch>
-            </div>
-          </td>
-
-          <td class="!text-center">{{ rowData.createdAt }}</td>
-
-          <td class="!text-center">{{ rowData.updatedAt }}</td>
-        </tr>
+        <oms-channel-detail [channel]="rowData"></oms-channel-detail>
       </ng-template>
     </oms-table>
   </div>

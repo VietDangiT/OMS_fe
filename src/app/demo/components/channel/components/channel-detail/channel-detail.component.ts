@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Channel } from '../../interface/channel.component';
 
 @Component({
-  selector: 'app-channel-detail',
+  selector: 'oms-channel-detail',
   templateUrl: './channel-detail.component.html',
-  styleUrls: ['./channel-detail.component.scss']
+  styleUrls: ['./channel-detail.component.scss'],
 })
 export class ChannelDetailComponent {
- 
+  @Input() channel: Channel;
 }

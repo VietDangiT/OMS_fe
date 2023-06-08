@@ -8,4 +8,12 @@ import { Catalogue } from '../../models/catalogue.models';
 })
 export class CatalogueItemComponent {
   @Input() catalogue: Catalogue;
+
+  handleAction(): void {
+    console.log('action');
+  }
+
+  handleEdit(): void {
+    console.log('edit');
+  }
 }

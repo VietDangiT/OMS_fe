@@ -1,18 +1,24 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
+import { AvatarModule } from 'primeng/avatar';
+import { DialogModule } from 'primeng/dialog';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
+import { ShareModule } from '../share/share.module';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
+import { OrderItemComponent } from './components/order-item/order-item.component';
+import { OrderListComponent } from './components/order-list/order-list.component';
 import { OrdersRoutingModule } from './orders-routing.module';
 import { OrdersComponent } from './orders.component';
-import { OrderListComponent } from './components/order-list/order-list.component';
-import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
-import { TabMenuModule } from 'primeng/tabmenu';
-import { ShareModule } from '../share/share.module';
-import { OrderItemComponent } from './components/order-item/order-item.component';
-import { DialogModule } from 'primeng/dialog';
-import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 
 @NgModule({
-  declarations: [OrdersComponent, OrderListComponent, OrderItemComponent, OrderDetailComponent],
+  declarations: [
+    OrdersComponent,
+    OrderListComponent,
+    OrderItemComponent,
+    OrderDetailComponent,
+  ],
   imports: [
     AppTopBarModule,
     CommonModule,
@@ -20,6 +26,7 @@ import { OrderDetailComponent } from './components/order-detail/order-detail.com
     TabMenuModule,
     ShareModule,
     DialogModule,
+    AvatarModule,
   ],
 })
 export class OrdersModule {}
