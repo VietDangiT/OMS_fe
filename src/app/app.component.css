@@ -114,13 +114,9 @@
 }
 
 .p-dropdown {
-  @apply min-w-[10vw];
-}
-
-.p-dropdown:not(.p-disabled):hover {
-  @apply border-primary;
+  @apply min-w-max;
 }
 
 .p-dropdown input {
-  @apply select-none hidden;
+  @apply block;
 }

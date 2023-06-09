@@ -24,7 +24,7 @@ export class OrderListComponent {
 
   activeItem: MenuItem = this.labelItems[0];
 
-  dateRange = this.helperService.defaultDateRage;
+  dateRange = this.helperService.defaultDateRange;
 
   dateFilterValue: string[];
 

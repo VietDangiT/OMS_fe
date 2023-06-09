@@ -83,3 +83,26 @@ export const GET_ORDER_SALES_BY_COUNTRY = gql`
     }
   }
 `;
+
+export const GET_TOTAL_SALE_COMPARE = gql`
+  query TotalSaleCompareApiResponse(
+    $countryName: String
+    $fromDate: String
+    $toDate: String
+  ) {
+    totalSaleByCountryAtTimes(
+      countryName: $countryName
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
+      previousData {
+        displayText
+        value
+      }
+      currentData {
+        displayText
+        value
+      }
+    }
+  }
+`;

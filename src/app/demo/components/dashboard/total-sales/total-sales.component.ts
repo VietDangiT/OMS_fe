@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ChartData, ChartOptions } from 'chart.js';
+import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
@@ -7,7 +7,10 @@ import { DateFilterKey } from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
 import { OmsTable } from '../../share/model/oms-table';
-import { baseChartOptions } from '../../share/oms-chart/oms-chart.component';
+import {
+  barBaseChartOptions,
+  baseChartOptions,
+} from '../../share/oms-chart/oms-chart.component';
 import { totalSalesTableHeader } from './constants/total-sales.constants';
 import { TotalSalesTableDTO } from './models/total-sales.models';
 import { TotalSalesService } from './services/total-sales.service';
@@ -18,7 +21,9 @@ import { TotalSalesService } from './services/total-sales.service';
   styleUrls: ['./total-sales.component.scss'],
 })
 export class TotalSalesComponent {
-  baseChartOptions: ChartOptions = baseChartOptions;
+  baseChartOptions = baseChartOptions;
+
+  barChartOptions = barBaseChartOptions;
 
   saleBoxTitle = 'sales';
 
@@ -26,7 +31,7 @@ export class TotalSalesComponent {
 
   returnBoxTitle = 'return';
 
-  dateRange = this.helperService.defaultDateRage;
+  dateRange = this.helperService.defaultDateRange;
 
   pageNumber = 1;
 
@@ -59,11 +64,19 @@ export class TotalSalesComponent {
         label: 'Orders on Swiggy',
         data: [66, 49, 81, 71, 26, 65, 60],
         backgroundColor: environment.primaryColor,
+        hoverOffset: 10000,
+        offset: 1000,
+        // barThickness: 50,
+        barPercentage: 2,
+        borderColor: '#FF0000',
+        borderWidth: 3,
+        fill: 30,
       },
       {
         label: 'Orders on Zomato',
         data: [56, 69, 89, 61, 36, 75, 50],
         backgroundColor: environment.secondaryColor,
+        hoverOffset: 100,
       },
     ],
   };

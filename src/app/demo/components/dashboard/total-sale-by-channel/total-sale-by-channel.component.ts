@@ -39,9 +39,7 @@ export class TotalSaleByChannelComponent implements OnInit {
 
   baseChartOption = baseChartOptions;
 
-  // dateRange = this.helperService.defaultDateRage;
-
-  dateRange = [new Date('1/4/23'), new Date('6/4/23')];
+  dateRange = this.helperService.defaultDateRange;
 
   tableData: OmsTable<TotalSaleByChannel> = {
     first: 0,

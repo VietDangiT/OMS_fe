@@ -17,6 +17,7 @@ export interface Country {
   id: number;
   countryName: string;
   shortCode: string;
+  displayName?: string;
 }
 
 export interface CountryApiResponse {

@@ -35,7 +35,7 @@ export class ChannelListComponent implements OnInit, OnDestroy {
     },
   };
 
-  dateRange: Date[] = this.helperService.defaultDateRage;
+  dateRange: Date[] = this.helperService.defaultDateRange;
 
   items: MenuItem[] = channelLabelItems;
 

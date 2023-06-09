@@ -34,7 +34,7 @@ export class TotalOrdersComponent implements OnInit {
 
   baseChartOptions = baseChartOptions;
 
-  dateRange = this.helperService.defaultDateRage;
+  dateRange = this.helperService.defaultDateRange;
 
   tableData: OmsTable<TotalOrder> = {
     page: 0,

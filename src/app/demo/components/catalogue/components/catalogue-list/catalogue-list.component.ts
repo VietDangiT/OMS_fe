@@ -38,7 +38,7 @@ export class CatalogueListComponent implements OnInit {
     },
   };
 
-  dateRange = this.helperService.defaultDateRage;
+  dateRange = this.helperService.defaultDateRange;
 
   params: CatalogueParams = {
     channelId: null,

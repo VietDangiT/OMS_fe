@@ -11,7 +11,7 @@ export abstract class HelperService {
     year: [this.addDays(new Date(), -365), new Date()],
   };
 
-  defaultDateRage: Date[] = [this.addDays(new Date(), -7), new Date()];
+  defaultDateRange: Date[] = [this.addDays(new Date(), -7), new Date()];
 
   addDays(date: Date, days: number) {
     let result = new Date(date);

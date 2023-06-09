@@ -1,29 +1,55 @@
 <ng-container [ngSwitch]="type">
-  <ng-container *ngSwitchCase="'heatmap'" [ngTemplateOutlet]="chart1"></ng-container>
-  <ng-container *ngSwitchCase="'treemap'" [ngTemplateOutlet]="chart1"></ng-container>
-  <ng-container *ngSwitchCase="'geomap'" [ngTemplateOutlet]="geomap"></ng-container>
-  <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultChart"></ng-container>
+  <ng-container
+    *ngSwitchCase="'heatmap'"
+    [ngTemplateOutlet]="chart1"
+  ></ng-container>
+  <ng-container
+    *ngSwitchCase="'treemap'"
+    [ngTemplateOutlet]="chart1"
+  ></ng-container>
+  <ng-container
+    *ngSwitchCase="'geomap'"
+    [ngTemplateOutlet]="geomap"
+  ></ng-container>
+  <ng-container
+    *ngSwitchDefault
+    [ngTemplateOutlet]="defaultChart"
+  ></ng-container>
 </ng-container>
 
 <ng-template #chart1>
-  <apx-chart #apexChart class="flex-1" 
-    [series]="options.series" 
+  <apx-chart
+    #apexChart
+    class="flex-1"
+    [series]="options.series"
     [chart]="options.chart"
-    [dataLabels]="options.dataLabels" 
-    [title]="options.title" 
+    [dataLabels]="options.dataLabels"
+    [title]="options.title"
     [colors]="options.colors"
     [plotOptions]="options.plotOptions"
     [xaxis]="options.xaxis"
     [yaxis]="options.yaxis"
     [responsive]="options.apexResponsive"
-    >
+  >
   </apx-chart>
 </ng-template>
 
 <ng-template #defaultChart>
-  <p-chart #chartJS class="flex-1" [type]="type" [data]="data" [options]="options">
+  <p-chart
+    #chartJS
+    class="flex-1"
+    [type]="type"
+    [data]="data"
+    [options]="options"
+    (onDataSelect)="onDataSelect($event)"
+  >
   </p-chart>
 </ng-template>
 <ng-template #geomap>
-  <div (window:resize)="onResize($event)" #geomap id="regions_div" class="w-full"></div>
+  <div
+    (window:resize)="onResize($event)"
+    #geomap
+    id="regions_div"
+    class="w-full"
+  ></div>
 </ng-template>

@@ -6,8 +6,10 @@ import {
   GET_SALE_ANALYTIC,
   GET_SALE_BY_COUNTRY,
   GET_SALE_LEADS,
+  GET_TOTAL_SALE_COMPARE,
 } from '../constants/sale-by-location.constants';
 import {
+  ComparedTotalSaleApiResponse,
   SaleAnalyticApiResponse,
   SaleByCountryApiResponse,
   SaleByLocationParams,
@@ -25,13 +27,15 @@ export class SaleByLocationService {
     name: string,
     dateRange: Date[]
   ): Observable<SaleLeadsApiResponse> {
+    const fromDate = dateRange[0].toLocaleDateString();
+    const toDate = dateRange[1].toLocaleDateString();
     return this.apollo
       .watchQuery<SaleLeadsApiResponse>({
         query: GET_SALE_LEADS,
         variables: {
           countryName: name,
-          fromDate: dateRange[0],
-          toDate: dateRange[1],
+          fromDate,
+          toDate,
         },
       })
       .valueChanges.pipe(map(res => res.data));
@@ -83,6 +87,22 @@ export class SaleByLocationService {
           toDate,
           limit,
           page,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
+  }
+
+  getComparedTotalSale(
+    name: string,
+    dateRange: Date[]
+  ): Observable<ComparedTotalSaleApiResponse> {
+    return this.apollo
+      .watchQuery<ComparedTotalSaleApiResponse>({
+        query: GET_TOTAL_SALE_COMPARE,
+        variables: {
+          countryName: name,
+          fromDate: dateRange[0],
+          toDate: dateRange[1],
         },
       })
       .valueChanges.pipe(map(res => res.data));

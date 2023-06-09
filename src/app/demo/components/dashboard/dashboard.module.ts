@@ -34,6 +34,8 @@ import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.com
 import { TotalSalesComponent } from './total-sales/total-sales.component';
 import { SaleStoreComponent } from './sale-store/sale-store.component';
 import { TotalSaleByChannelItemComponent } from './total-sale-by-channel/components/total-sale-by-channel-item/total-sale-by-channel-item.component';
+import { SaleByLocationItemComponent } from './sale-by-location/components/sale-by-location-item/sale-by-location-item.component';
+import { SaleTotalBoxComponent } from './sale-by-location/components/sale-total-box/sale-total-box.component';
 
 @NgModule({
   imports: [
@@ -74,6 +76,8 @@ import { TotalSaleByChannelItemComponent } from './total-sale-by-channel/compone
     TotalOrdersComponent,
     SaleStoreComponent,
     TotalSaleByChannelItemComponent,
+    SaleByLocationItemComponent,
+    SaleTotalBoxComponent,
   ],
 })
 export class DashboardModule {}

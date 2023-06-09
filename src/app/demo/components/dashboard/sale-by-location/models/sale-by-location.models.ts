@@ -36,3 +36,10 @@ export interface SaleByLocationTableApiResponse {
     totalRecord: number;
   };
 }
+
+export interface ComparedTotalSaleApiResponse {
+  totalSaleByCountryAtTimes: {
+    previousData: BaseChart[];
+    currentData: BaseChart[];
+  };
+}
