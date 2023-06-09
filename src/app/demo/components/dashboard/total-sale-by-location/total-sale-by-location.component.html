@@ -1,21 +1,33 @@
-<div class="bg-white ">
+<div class="bg-white">
   <div class="mb-4 font-bold pt-4 pl-4 pr-4">
-      <p >Total Sales By Locations</p>
-      <p >{{totalSale | number}}</p>
+    <p i18n>Total Sales By Locations</p>
+
+    <p>{{ totalSale | number }}</p>
   </div>
   <div class="flex flex-col">
-      <div class="flex items-center justify-between gap-2 px-4">
-          <p class=" font-medium md:font-normal text-sm text-gray-500">{{'sale by billing locations' | titlecase}}</p>
-          <a routerLink="/" class="text-sm font-normal text-primary ">Analyse</a>
+    <div class="flex items-center justify-between gap-2 px-4">
+      <p class="font-medium md:font-normal text-sm text-gray-500">
+        {{ 'sale by billing locations' | titlecase }}
+      </p>
+
+      <a routerLink="/" class="text-sm font-normal text-primary" i18n
+        >Analyze</a
+      >
+    </div>
+
+    <div class="py-4 chart-container">
+      <oms-chart type="geomap" [data]="chartData"></oms-chart>
+    </div>
+
+    <div class="flex flex-col gap-4 px-4 pb-4 overflow-auto">
+      <div
+        class="flex justify-between text-primary font-bold"
+        *ngFor="let item of locationSale"
+      >
+        <span>{{ item.displayText | titlecase }}</span>
+
+        <span>{{ item.value | number }}</span>
       </div>
-      <div class="py-4 chart-container">
-        <oms-chart type="geomap" [data]="chartData"></oms-chart>
-      </div>
-      <div class="flex flex-col gap-4 px-4 pb-4 overflow-auto">
-        <div class="flex justify-between text-primary font-bold " *ngFor="let item of locationSale">
-          <span >{{item.displayText | titlecase}}</span>
-          <span>{{item.value | number}}</span>
-        </div>
-      </div>
+    </div>
   </div>
 </div>

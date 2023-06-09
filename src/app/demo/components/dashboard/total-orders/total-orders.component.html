@@ -1,17 +1,43 @@
-<div class="flex-col bg-white p-4 rounded-md">
-  <div>
-    <div class="mb-4 font-bold">
-      <p class="">Total Orders</p>
-      <span>{{totalOrder}}</span>
+<app-topbar></app-topbar>
+
+<div class="flex-between-center w-full mb-2">
+  <h1 class="text-3xl font-bold" i18n>Total Orders</h1>
+
+  <oms-date-filter
+    (dateFilterChange)="dateFilterChanged($event)"
+    (filter)="filterChanged($event)"
+  ></oms-date-filter>
+</div>
+
+<div class="dashboard-detail-container mb-2">
+  <p class="font-bold text-black" i18n>Overview</p>
+
+  <div class="grid grid-cols-6">
+    <div class="lg:col-span-5 md:col-span-6 h-full">
+      <oms-chart
+        [data]="overviewData"
+        [options]="baseChartOptions"
+        type="bar"
+      ></oms-chart>
     </div>
-    <div class="flex flex-row justify-between">
-      <p class="font-normal text-sm text-gray-500 capitalize">{{'Orders over time' | titlecase}}</p>
-      <a href="#" class="text-sm text-primary">Analyse</a> 
-    </div>
-  </div>
-  <div class="">
-    <div class="w-full chart-container">
-      <oms-chart type="bar" [data]="totalOrderData" [options]="basicOptions"></oms-chart>
+
+    <div
+      class="lg:ml-4 md:col-span-6 md:mt-4 lg:mt-0 flex justify-between lg:flex-col lg:col-span-1 gap-2"
+    >
+      <overview-box
+        *ngFor="let o of orderSummary"
+        [dateRange]="dateRange"
+        [type]="o.displayText"
+        [total]="o.value"
+        [percentage]="o.percentage"
+      ></overview-box>
     </div>
   </div>
 </div>
+
+<oms-table
+  (pagingInfo)="onPageChange($event)"
+  [isPaginationShown]="true"
+  [table]="tableData"
+>
+</oms-table>

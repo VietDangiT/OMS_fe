@@ -2,7 +2,6 @@
   .p-datatable {
     & .p-datatable-thead > tr > th,
     & .p-datatable-tbody > tr > td {
-      @apply text-center;
       & .p-hidden-accessible {
         @apply hidden;
       }

@@ -1,3 +1,5 @@
+import { PagingParams } from 'src/app/demo/interface/global.model';
+
 export interface Channel {
   description: string;
   id: number;
@@ -5,10 +7,35 @@ export interface Channel {
   number: number;
   numberOrders?: number;
   value?: number;
-  status?: string;
+  status?: ChannelStatus;
   createdAt?: string;
   updatedAt?: string;
   image?: string;
 }
 
-export interface Country extends Channel {}
+export interface Country {
+  id: number;
+  countryName: string;
+  shortCode: string;
+}
+
+export interface CountryApiResponse {
+  countries: Country[];
+}
+
+export interface ChannelTableApiResponse {
+  channelsTableData: {
+    data: Channel[];
+    first: number;
+    page: number;
+    pageCount: number;
+    rows: number;
+    totalRecord: number;
+  };
+}
+
+export interface ChannelParams extends PagingParams {
+  countryId: number;
+}
+
+export type ChannelStatus = 'Active' | 'Inactive';

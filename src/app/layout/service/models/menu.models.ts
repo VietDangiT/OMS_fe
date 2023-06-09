@@ -2,7 +2,6 @@ export interface MenuElement {
   name: string;
   path: string;
   icon: string;
-  isDropDownMenu: boolean;
   submenu: {
     title: string;
     items?: MenuElementItem[];

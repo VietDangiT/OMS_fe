@@ -1,15 +1,26 @@
-<div class=" bg-white">
-  <div class="mb-4  font-bold">
-    <p class=" ">Total Sales</p>
-    <p class="">{{totalSale}}</p>
+<div class="bg-white">
+  <div class="mb-4 font-bold">
+    <p i18n>Total Sales</p>
+
+    <p>{{ totalSale }}</p>
   </div>
   <div class="flex flex-col">
     <div class="flex items-center justify-between gap-2">
-      <p class=" font-medium md:font-normal text-sm text-gray-500">Sale Over Time</p>
-      <a routerLink="/" class="text-sm font-normal text-primary ">Analyse</a>
+      <p class="font-medium md:font-normal text-sm text-gray-500" i18n>
+        Sale Over Time
+      </p>
+
+      <a routerLink="/" class="text-sm font-normal text-primary" i18n
+        >Analyze</a
+      >
     </div>
+
     <div class="flex-1 chart-container">
-      <oms-chart type="line" [data]="totalSaleData" [options]="option"></oms-chart>
+      <oms-chart
+        type="line"
+        [data]="totalSaleData"
+        [options]="option"
+      ></oms-chart>
     </div>
   </div>
 </div>

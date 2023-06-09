@@ -99,16 +99,6 @@ export class UserListComponent {
       .subscribe();
   }
 
-  dateFilterChange(dates: Date[]): void {
-    if (dates[1] !== null) {
-      this.handleUserParams('fromDate', dates[0]);
-
-      this.handleUserParams('toDate', dates[1]);
-
-      this.getUserTable();
-    }
-  }
-
   searchValue(search: string): void {
     this.handleUserParams('keyword', search);
 
@@ -118,7 +108,7 @@ export class UserListComponent {
   onActiveItemChange(label: MenuItem): void {
     this.activeItem = label;
 
-    this.handleUserParams('status', this.activeItem.label!);
+    this.handleUserParams('status', this.activeItem.id!);
 
     this.getUserTable();
   }

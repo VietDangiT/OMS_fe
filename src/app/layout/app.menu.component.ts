@@ -4,6 +4,7 @@ import {
   Channel,
   Country,
 } from '../demo/components/channel/interface/channel.component';
+import { MarketplaceService } from '../demo/components/marketplace/services/marketplace.service';
 import { ChannelService } from '../demo/service/channel.service';
 import { LayoutService } from './service/app.layout.service';
 import { MenuElement, MenuElementItem } from './service/models/menu.models';
@@ -43,41 +44,29 @@ export class AppMenuComponent {
       name: 'dashboard',
       path: '/dashboard',
       icon: 'pi pi-th-large',
-      isDropDownMenu: true,
       submenu: {
         title: 'Dashboard',
         items: [
           {
             name: 'totalSales',
             content: 'Total Sales',
-            path: 'dashboard/totalsales',
+            path: 'dashboard/total-sales',
             icon: 'pi-dollar',
             param: {},
           },
           {
             name: 'totalOrder',
             content: 'Total Orders',
-            path: 'dashboard/total-order',
+            path: 'dashboard/total-orders',
             icon: 'pi-shopping-cart',
             param: {},
           },
-          {
-            name: 'cardStatic',
-            path: 'dashboard/card-static',
-            content: 'Card Statistics Payment',
-            icon: 'pi-credit-card',
-          },
+
           {
             name: 'saleByLocation',
             path: 'dashboard/sale-by-location',
             content: 'Sales by Location',
             icon: 'pi-globe',
-          },
-          {
-            name: 'saleByPromotion',
-            path: 'dashboard/sale-by-promotion',
-            content: 'Sale by Promotions',
-            icon: 'pi-tag',
           },
           {
             name: 'saleByChannel',
@@ -92,36 +81,42 @@ export class AppMenuComponent {
       name: 'orders',
       path: '/orders',
       icon: 'pi pi-box',
-      isDropDownMenu: true,
       submenu: {
         title: 'Orders',
+        items: [],
       },
     },
     {
       name: 'catalogue',
-      path: '/catalogue',
-      icon: 'pi pi-book',
-      isDropDownMenu: true,
+      path: '/catalogues',
+      icon: 'pi pi-inbox',
       submenu: {
         title: 'Catalogue',
         items: [],
       },
     },
-    {
-      name: 'inventory',
-      path: '/inventory',
-      icon: 'pi pi-inbox',
-      isDropDownMenu: true,
-      submenu: {
-        title: 'Inventory',
-        items: [],
-      },
-    },
+    // {
+    //   name: 'payment',
+    //   path: '/payment',
+    //   icon: 'pi pi-credit-card',
+    //   submenu: {
+    //     title: 'Payment',
+    //     items: [],
+    //   },
+    // },
+    // {
+    //   name: 'inventory',
+    //   path: '/inventory',
+    //   icon: 'pi pi-inbox',
+    //   submenu: {
+    //     title: 'Inventory',
+    //     items: [],
+    //   },
+    // },
     {
       name: 'user',
       path: '/user',
       icon: 'pi pi-user',
-      isDropDownMenu: true,
       submenu: {
         title: 'Profile',
         items: [
@@ -144,7 +139,6 @@ export class AppMenuComponent {
       name: 'customer',
       path: '/customer',
       icon: 'pi pi-users',
-      isDropDownMenu: true,
       submenu: {
         title: 'Customer',
         items: [],
@@ -154,7 +148,6 @@ export class AppMenuComponent {
       name: 'channel',
       path: '/channels',
       icon: 'pi pi-phone',
-      isDropDownMenu: true,
       submenu: {
         title: 'Channels',
       },
@@ -167,7 +160,8 @@ export class AppMenuComponent {
 
   constructor(
     public layoutService: LayoutService,
-    private channelService: ChannelService
+    private channelService: ChannelService,
+    private marketPlaceService: MarketplaceService
   ) {
     this.layoutService.currentNavbarState
       .pipe(tap(state => (this.isNavbarOn = state)))
@@ -176,19 +170,22 @@ export class AppMenuComponent {
 
   ngOnInit(): void {
     this.initCountries();
+    this.initMarketplaces();
   }
 
   initCountries(): void {
     this.channelService
       .getCountries()
       .pipe(
-        tap((result: Country[]) => {
+        tap(res => {
+          const { countries } = res;
+
           const resultArr: MenuElementItem[] = [];
 
-          result.forEach((c: Country) => {
+          countries.forEach((c: Country) => {
             resultArr.push({
-              name: c.name,
-              content: c.name,
+              name: c.countryName,
+              content: c.countryName,
               path: `/channels`,
               param: { countryId: c.id },
               icon: 'pi-home',
@@ -198,6 +195,35 @@ export class AppMenuComponent {
           const index = this.menuElements.findIndex(
             c => c.path === '/channels'
           );
+
+          this.menuElements[index].submenu.items = resultArr;
+        }),
+
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  initMarketplaces(): void {
+    this.marketPlaceService
+      .getMarketPlaces()
+      .pipe(
+        tap(res => {
+          const { marketPlaces } = res;
+
+          const resultArr: MenuElementItem[] = [];
+
+          marketPlaces.forEach(m => {
+            resultArr.push({
+              name: m.marketPlaceName,
+              content: m.marketPlaceName,
+              path: `/orders`,
+              param: { marketPlaceId: m.id },
+              icon: 'pi-home',
+            });
+          });
+
+          const index = this.menuElements.findIndex(c => c.path === '/orders');
 
           this.menuElements[index].submenu.items = resultArr;
         }),

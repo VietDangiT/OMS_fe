@@ -1,7 +1,8 @@
 :host { display: contents; }
 
-.order-item{
+.user-item{
   &-row{
-    @apply text-center align-middle py-4;
+    @apply align-middle px-4 py-2;
   }
 }
+

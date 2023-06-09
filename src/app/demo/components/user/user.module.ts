@@ -7,8 +7,7 @@ import { ShareModule } from '../share/share.module';
 import { DialogModule } from 'primeng/dialog';
 import { UserItemComponent } from './user-item/user-item.component';
 import { UserRoutingModule } from './user-routing.module';
-
-
+import { AvatarModule } from 'primeng/avatar';
 
 @NgModule({
   declarations: [
@@ -23,6 +22,7 @@ import { UserRoutingModule } from './user-routing.module';
     TabMenuModule,
     ShareModule,
     DialogModule,
+    AvatarModule 
   ]
 })
 export class UserModule { }

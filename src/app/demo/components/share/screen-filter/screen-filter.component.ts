@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'oms-screen-filter',
@@ -12,8 +12,12 @@ export class ScreenFilterComponent {
 
   @Output('filter') filterChange = new EventEmitter<string>();
 
+  @Input('isDateFilterShow') isDateFilterShow = true;
+
   dateFilter: string[];
+
   searchValue: string;
+  
 
   getDateRange(dateRange: Date[]) {
     this.dateFilterChange.emit(dateRange);

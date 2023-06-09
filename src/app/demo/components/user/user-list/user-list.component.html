@@ -18,7 +18,7 @@
 
     <div class="mt-3">
       <oms-screen-filter
-        (dateFilterChange)="dateFilterChange($event)"
+        [isDateFilterShow]="false"
         (searchValue)="searchValue($event)"
       >
       </oms-screen-filter>
@@ -30,11 +30,14 @@
       (pagingInfo)="onPageChange($event)"
       [isPaginationShown]="true"
       [table]="tableData"
+      [contentRef]="contentRef"
     >
+    <ng-template #contentRef let-rowData>
+
       <oms-user-item
-        *ngFor="let user of tableData.data.body"
-        [user]="user"
+        [user]="rowData"
       ></oms-user-item>
+    </ng-template>
     </oms-table>
   </div>
 </div>

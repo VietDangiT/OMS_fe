@@ -1,5 +1,3 @@
-import { TableHeader } from "src/app/demo/interface/global.model";
-
 export interface OmsTable<T> {
   page?: number;
   first?: number;
@@ -10,4 +8,9 @@ export interface OmsTable<T> {
     header: TableHeader[];
     body: T[];
   };
+}
+
+interface TableHeader {
+  col: string;
+  field: string;
 }

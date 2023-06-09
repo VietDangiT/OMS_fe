@@ -1,5 +1,6 @@
 import { Component, HostBinding, Input } from '@angular/core';
 import { Order } from '../../models/orders.models';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'oms-order-item',
@@ -12,6 +13,8 @@ export class OrderItemComponent {
   @Input() order: Order;
 
   modalVisible = false;
+
+  constructor(private orderService: OrdersService) {}
 
   handleAction(e: Event): void {
     e.stopPropagation();

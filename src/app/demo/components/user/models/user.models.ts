@@ -34,12 +34,12 @@ export interface UserApiResponse {
 }
 
 export const GET_USERS = gql`
-  query GetOrders(
-    $role: string
-    $keyword: string
-    $status: string
-    $limit: int
-    $page: int
+  query GetUsers(
+    $role: String
+    $keyword: String
+    $status: String
+    $limit: Int!
+    $page: Int!
   ) {
     users(
       role: $role

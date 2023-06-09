@@ -4,11 +4,15 @@ import {
   HostBinding,
   Input,
   Output,
+  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
+import { tap } from 'rxjs';
 import { Product } from 'src/app/demo/api/product';
 import { OmsTable } from '../../../share/model/oms-table';
-import { Order } from '../../models/orders.models';
+import { orderDetailHeaderTable } from '../../constants/orders.constants';
+import { Order, OrderDetail } from '../../models/orders.models';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'oms-order-detail',
@@ -25,34 +29,50 @@ export class OrderDetailComponent {
 
   @Output('onClose') onClose: EventEmitter<boolean> = new EventEmitter();
 
+  orderDetail: OrderDetail = {
+    id: 1,
+    status: 'completed',
+    customerName: '',
+    shippingAddress: '',
+    phoneNumber: '',
+    address: '',
+    products: [],
+  };
+
   tableData: OmsTable<Product> = {
     data: {
-      header: [
-        { field: 'product', col: 'Product' },
-        { field: 'barcode', col: 'Barcode' },
-        { field: 'quantity', col: 'Quantity' },
-        { field: 'price', col: 'Price' },
-      ],
+      header: orderDetailHeaderTable,
       body: [
         {
-          image: '123',
-          name: 'strawberry',
-          description: 'very good',
-          code: '123',
-          quantity: 2,
-          price: 30,
-        },
-        {
-          image: '123',
-          name: 'strawberry',
-          description: 'very good',
-          code: '123',
-          quantity: 2,
-          price: 30,
+          image: '',
+          name: '',
+          description: '',
+          barcode: '',
+          quantity: 1,
+          price: 1,
         },
       ],
     },
   };
+
+  constructor(private orderService: OrdersService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const id: number = changes['order'].currentValue.id;
+
+    this.orderService
+      .getOrderDetail(id)
+      .pipe(
+        tap(res => {
+          const { orderDetail } = res;
+
+          this.orderDetail = orderDetail;
+
+          this.tableData.data.body = this.orderDetail.products;
+        })
+      )
+      .subscribe();
+  }
 
   closeModal() {
     this.onClose.emit();

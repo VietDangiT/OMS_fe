@@ -10,20 +10,20 @@ import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { UIChart } from 'primeng/chart';
 
 import {
-  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
-  ApexXAxis,
-  ApexTitleSubtitle,
-  ApexTooltip,
-  ApexPlotOptions,
-  ApexLegend,
   ApexDataLabels,
-  ApexYAxis,
+  ApexLegend,
+  ApexPlotOptions,
   ApexResponsive,
+  ApexTitleSubtitle,
+  ApexXAxis,
+  ApexYAxis,
+  ChartComponent,
 } from 'ng-apexcharts';
-import resolveConfig from 'tailwindcss/resolveConfig';
 import { environment } from 'src/environments/environment';
+import resolveConfig from 'tailwindcss/resolveConfig';
+import { heatChartOptions } from '../../charts/apex-chart.component';
 
 type ApexChartOptions = {
   series: ApexAxisChartSeries;
@@ -41,6 +41,95 @@ declare const google: any;
 const tailwindConfig = require('tailwind.config.js');
 const fullConfig = resolveConfig(tailwindConfig);
 const colors = fullConfig.theme['colors'];
+
+export const baseChartOptions: ChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+    },
+  },
+};
+
+export const heatmapChartOptions: Partial<heatChartOptions> | any = {
+  plotOptions: {
+    heatmap: {
+      shadeIntensity: 0.5,
+      radius: 10,
+
+      colorScale: {
+        ranges: [
+          {
+            from: 0,
+            to: 20000,
+            color: colors.primaryLight3,
+          },
+          {
+            from: 20000,
+            to: 70000,
+            color: colors.primaryLight2,
+          },
+          {
+            from: 70000,
+            to: 100000,
+            color: colors.primary,
+          },
+        ],
+      },
+    },
+  },
+  chart: {
+    height: 350,
+    type: 'heatmap',
+    toolbar: {
+      show: false,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  title: {
+    text: '',
+  },
+  colors: [colors.primary],
+};
+
+export const pieChartColors: string[] = [
+  colors.primary,
+  colors.primaryLight,
+  colors.primaryLight1,
+  colors.primaryLight2,
+  colors.primaryLight3,
+];
+
+export const colorArr: string[] = [
+  colors.primary,
+  colors.secondary,
+  colors.third,
+  colors.forth,
+  colors.fifth,
+  colors.errors,
+  colors.warning,
+  colors.success,
+  colors.danger,
+  colors.brightOrange,
+  colors.geomapBackground,
+  colors.datalessRegion,
+];
 
 export interface OmsChartOptions
   extends Partial<ApexChartOptions>,

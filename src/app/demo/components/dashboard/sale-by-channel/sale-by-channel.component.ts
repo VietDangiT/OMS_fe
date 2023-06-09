@@ -4,11 +4,15 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import { OmsChartOptions } from '../../share/oms-chart/oms-chart.component';
-import { DashboardService } from 'src/app/demo/service/dashboard.service';
-import resolveConfig from 'tailwindcss/resolveConfig';
+import { tap } from 'rxjs';
 import tailwindConfig from 'tailwind.config.js';
-import { DashboardItemPercentage } from '../sale-store/sale-store.component';
+import resolveConfig from 'tailwindcss/resolveConfig';
+import { OmsChartOptions } from '../../share/oms-chart/oms-chart.component';
+import {
+  BaseChart,
+  TotalSalesByChannelApiResponse,
+} from '../interfaces/dashboard.models';
+import { DashboardService } from '../services/dashboard.service';
 
 const fullConfig = resolveConfig(tailwindConfig);
 export interface TreeMapData {
@@ -26,7 +30,8 @@ export class SaleByChannelComponent {
   @Input() filterArr: string[];
 
   chartData: TreeMapData[] = [];
-  saleStoreData: DashboardItemPercentage[];
+
+  saleStoreData: BaseChart[];
 
   chartOptions: Partial<OmsChartOptions> | any;
 
@@ -74,28 +79,32 @@ export class SaleByChannelComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filterArr']?.currentValue) {
-      if (this.filterArr[0] && this.filterArr[1])
-        this.getTotalSaleByChannel(changes['filterArr']?.currentValue);
-    }
+    if (changes['filterArr']?.currentValue && this.filterArr[1])
+      this.getTotalSaleByChannel(changes['filterArr']?.currentValue);
   }
 
-  getTotalSaleByChannel(filterArr: string[] = ['', '']) {
+  getTotalSaleByChannel(filterArr = ['', '']) {
     this._dashboardService
-      .getSaleByChannel(
-        filterArr[0] ? filterArr[0] : '',
-        filterArr[1] ? filterArr[1] : ''
-      )
-      .subscribe((data: DashboardItemPercentage[]) => {
-        this.saleStoreData = [...data];
-        const tmp = this.chartOptions;
-        this.chartData = data.map((item: DashboardItemPercentage) => ({
-          x: item.displayText,
-          y: item.value,
-        }));
+      .getTotalSaleByChannel(filterArr)
+      .pipe(
+        tap((data: TotalSalesByChannelApiResponse) => {
+          const { totalSaleByChannel: total } = data;
 
-        tmp.series[0].data = this.chartData;
-        this.chartOptions = { ...tmp };
-      });
+          this.saleStoreData = [...total];
+
+          const tmp = this.chartOptions;
+
+          this.chartData = total.map((item: BaseChart) => ({
+            x: item.displayText,
+
+            y: item.value,
+          }));
+
+          tmp.series[0].data = this.chartData;
+
+          this.chartOptions = { ...tmp };
+        })
+      )
+      .subscribe();
   }
 }

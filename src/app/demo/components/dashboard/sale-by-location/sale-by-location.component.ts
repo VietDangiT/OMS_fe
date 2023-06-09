@@ -1,18 +1,32 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { ChartData, ChartOptions } from 'chart.js';
-import { DashboardService } from 'src/app/demo/service/dashboard.service';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import {
+  Component,
+  HostBinding,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
+import { ChartData } from 'chart.js';
+import { Subject, takeUntil, tap } from 'rxjs';
+import { tableConfig } from 'src/app/demo/constants/table.config';
+import { DateFilterKey, ResultItem } from 'src/app/demo/interface/global.model';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
+import { Country } from '../../channel/interface/channel.component';
+import { ChannelService } from '../../channel/services/channel.service';
 import { heatChartOptions } from '../../charts/apex-chart.component';
-import { DashboardTable } from '../interfaces/interfaces';
-
-interface PagingInfo {
-  links: string[];
-  page: number;
-  page_count: number;
-  per_page: number;
-  total_count: number;
-}
+import { OmsTable } from '../../share/model/oms-table';
+import { PagingInfo } from '../../share/model/paginginfo';
+import {
+  baseChartOptions,
+  heatmapChartOptions,
+  pieChartColors,
+} from '../../share/oms-chart/oms-chart.component';
+import { saleByLocationTableHeader } from './constants/sale-by-location.constants';
+import {
+  CountryPercentage,
+  SaleByLocation,
+  SaleByLocationParams,
+} from './models/sale-by-location.models';
+import { SaleByLocationService } from './services/sale-by-location.service';
 
 @Component({
   selector: 'app-sale-by-location',
@@ -21,327 +35,241 @@ interface PagingInfo {
   encapsulation: ViewEncapsulation.None,
 })
 export class SaleByLocationComponent {
-  isSubmenuOn!: boolean;
+  @HostBinding('class') hostClass = 'sale-by-location-host';
 
-  salesData!: ChartData;
+  channelService = inject(ChannelService);
 
-  countryData!: ChartData;
+  helperService = inject(HelperService);
 
-  leadData!: ChartData;
+  service = inject(SaleByLocationService);
 
-  baseChartOptions!: ChartOptions;
+  salesData: ChartData;
 
-  heatChartOptions: Partial<heatChartOptions> | any = {
-    plotOptions: {
-      heatmap: {
-        radius: 30,
-        distributed: false,
-      },
-    },
-    series: [
-      {
-        name: 'Vietnam',
-        data: [
-          {
-            x: 1,
-            y: 1,
-          },
-        ],
-      },
-      {
-        name: 'Thailand',
-        data: [
-          {
-            x: 1,
-            y: 1,
-          },
-        ],
-      },
-      {
-        name: 'Malaysia',
-        data: [
-          {
-            x: 1,
-            y: 1,
-          },
-        ],
-      },
-      {
-        name: 'Singapore',
-        data: [
-          {
-            x: 1,
-            y: 1,
-          },
-        ],
-      },
-    ],
-    chart: {
-      height: 350,
-      type: 'heatmap',
-      toolbar: {
-        show: false,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: ['#27447C'],
+  countryData: ChartData;
+
+  leadData: ChartData;
+
+  baseChartOptions = baseChartOptions;
+
+  selectedCountry: Country = {
+    countryName: '',
+    id: 0,
+    shortCode: '',
+  };
+
+  countries: Country[];
+
+  // dateRange = this.helperService.defaultDateRage;
+  dateRange = [new Date('2/4/23'), new Date('3/4/23')];
+
+  heatChartOptions: Partial<heatChartOptions> | unknown = {
+    series: [],
+    ...heatmapChartOptions,
   };
 
   pagingNumber: number = 0;
 
-  currentPagingInfo: PagingInfo = {
-    links: [],
-    page: 0,
-    page_count: 1,
-    per_page: 1,
-    total_count: 1,
+  countryPercentage: CountryPercentage[] = [];
+
+  tableData: OmsTable<SaleByLocation> = {
+    first: 0,
+    page: tableConfig.page,
+    pageCount: 0,
+    rows: tableConfig.pageLimit,
+    totalRecord: 0,
+    data: {
+      header: saleByLocationTableHeader,
+      body: [],
+    },
   };
 
-  filter: string = 'week';
+  destroy$ = new Subject();
 
-  tableData: DashboardTable = {
-    headerData: ['Location', 'Date', 'Number of Orders', 'Total Sales'],
-    bodyData: [
-      {
-        location: 'Vietnam',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Thailand',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Malaysia',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Singapore',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Switzerland',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-    ],
+  params: SaleByLocationParams = {
+    countryName: '',
+    fromDate: this.dateRange[0],
+    toDate: this.dateRange[1],
+    limit: tableConfig.pageLimit,
+    page: tableConfig.page,
   };
 
-  monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+  ngOnInit(): void {
+    this.getCountries();
 
-  constructor(
-    private layoutService: LayoutService,
-    private dashboardService: DashboardService
-  ) {}
+    this.getSaleLeads();
 
-  ngOnInit() {
-    this.getSaleByLocation();
-    this.getCountriesSale();
-    this.getLeads();
-    this.getSalesAnalytics();
-    this.getTableData(this.pagingNumber);
+    this.getSaleByCountry();
 
-    this.layoutService.currentSubMenuState.subscribe(
-      state => (this.isSubmenuOn = state)
-    );
+    this.getSaleAnalytic();
 
-    this.baseChartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 1,
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      scales: {
-        x: {
-          grid: {
-            display: false,
-          },
-        },
-        y: {
-          grid: {
-            display: false,
-          },
-        },
-      },
-    };
+    this.getOrderSalesByCountry();
   }
 
-  dateFilterChanged(dateRange: Date[]) {
+  getCountries(): void {
+    this.channelService
+      .getCountries()
+      .pipe(
+        tap(res => {
+          this.countries = res.countries;
+        })
+      )
+      .subscribe();
+  }
+
+  getSaleLeads(): void {
+    this.service
+      .getSaleLeads(this.selectedCountry.countryName, this.dateRange)
+      .pipe(
+        tap(res => {
+          const { saleLeads: data } = res;
+
+          const labelArr: string[] = [];
+          const valueArr: number[] = [];
+
+          data.forEach(d => {
+            labelArr.push(d.displayText);
+
+            valueArr.push(d.value);
+          });
+
+          this.leadData = {
+            labels: labelArr,
+            datasets: [
+              {
+                data: valueArr,
+                backgroundColor: environment.primaryColor,
+              },
+            ],
+          };
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  getSaleByCountry(): void {
+    this.service
+      .getSaleByCountry(this.selectedCountry.countryName, this.dateRange)
+      .pipe(
+        tap(res => {
+          const { saleByCountry: data } = res;
+
+          const labelArr: string[] = [];
+          const valueArr: number[] = [];
+
+          data.forEach(d => {
+            labelArr.push(d.displayText);
+
+            valueArr.push(d.value);
+
+            this.countryPercentage.push({
+              name: d.displayText,
+              percentage: d.percentage,
+            });
+          });
+
+          this.countryData = {
+            labels: labelArr,
+            datasets: [
+              {
+                data: valueArr,
+                backgroundColor: pieChartColors,
+              },
+            ],
+          };
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  getSaleAnalytic(): void {
+    this.service
+      .getSaleAnalytic(this.selectedCountry.countryName, this.dateRange)
+      .pipe(
+        tap(res => {
+          const { saleAnalytic: data } = res;
+
+          const result: ResultItem[] = [];
+
+          data.forEach(item => {
+            const { displayText, value, date } = item;
+
+            const currentDate = new Date(date).toLocaleDateString('en-EN');
+
+            // Check if there's displayText existed
+            let resultItem = result.find(item => item.name === displayText);
+
+            if (!resultItem) {
+              // If not create new resultItem
+              resultItem = { name: displayText, data: [] };
+              result.push(resultItem);
+            }
+
+            // Find if resultItem.data have current date
+            let dataItem = resultItem.data.find(item => item.x === currentDate);
+
+            if (!dataItem) {
+              // If not create new dataItem
+              dataItem = { x: currentDate, y: 0 };
+              resultItem.data.push(dataItem);
+            }
+
+            // If already exist push value
+            dataItem.y += value;
+          });
+
+          this.heatChartOptions = {
+            series: result,
+            ...heatmapChartOptions,
+          };
+
+          console.log(this.heatChartOptions);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  getOrderSalesByCountry(): void {
+    this.service
+      .getOrderSalesByCountry(this.params)
+      .pipe(
+        tap(res => {
+          const { orderSaleByCountry: data } = res;
+
+          this.tableData = {
+            first: data.first,
+            page: data.page,
+            pageCount: data.pageCount,
+            rows: data.rows,
+            totalRecord: data.totalRecord,
+            data: {
+              header: [...this.tableData.data.header],
+              body: [...data.data],
+            },
+          };
+
+          console.log(this.tableData);
+        })
+      )
+      .subscribe();
+  }
+
+  dateFilterChanged(dateRange: Date[]): void {
     console.log(dateRange);
   }
 
-  filterChanged(filter: string) {
-    this.filter = filter;
-    this.getCountriesSale();
-    this.getLeads();
-    this.getSalesAnalytics();
+  filterChanged(filter: DateFilterKey): void {
+    console.log(filter);
   }
 
-  getTableData(paging: number) {
-    this.pagingNumber = paging;
-
-    this.dashboardService
-      .getTableData(this.pagingNumber)
-      .subscribe((item: any) => {
-        var data = item.data;
-        this.currentPagingInfo = { ...data };
-        var result: any[] = [];
-        data.records.forEach((item: any) => {
-          var date =
-            this.monthNames[new Date(Date.parse(item.date)).getMonth()];
-
-          var mapping = {
-            location: item.location,
-            date: date,
-            numberOrder: item.number_of_order,
-            totalSale: item.total_sale,
-          };
-          result.push(mapping);
-        });
-
-        this.tableData.bodyData = result;
-      });
+  pagingInfo(e: PagingInfo): void {
+    console.log(e);
   }
 
-  pagingInfo(pagingInfo: any) {
-    this.getTableData(pagingInfo.page);
-  }
-
-  getSalesAnalytics() {
-    this.dashboardService
-      .getCountriesSale(this.filter)
-      .subscribe((data: any) => {
-        var d = data.data;
-        var series: any = [];
-        d.forEach((item: any) => {
-          const dataArr: any = item.saleInfo.map((item: any) => {
-            return { x: item.month, y: item.sales };
-          });
-          series.push({ name: item.location, data: dataArr });
-        });
-
-        this.heatChartOptions = {
-          plotOptions: {
-            heatmap: {
-              radius: 10,
-              distributed: false,
-            },
-          },
-          series: series,
-          chart: {
-            height: 350,
-            type: 'heatmap',
-            toolbar: {
-              show: false,
-            },
-          },
-          dataLabels: {
-            enabled: false,
-          },
-          colors: [environment.primaryColor],
-        };
-      });
-  }
-
-  getCountriesSale() {
-    this.dashboardService
-      .getCountriesSaleInTotal(this.filter)
-      .subscribe(data => {
-        var totalArr: number[] = [];
-        var labelArr: number[] = [];
-        data['data'].map((item: any) => {
-          totalArr.push(item.sales);
-          labelArr.push(item.location);
-        });
-
-        this.countryData = {
-          labels: labelArr,
-          datasets: [
-            {
-              data: totalArr,
-              backgroundColor: [
-                environment.primaryColor,
-                environment.secondaryColor,
-                environment.thirdColor,
-                environment.fourthColor,
-              ],
-              tension: 0.4,
-            },
-          ],
-        };
-      });
-  }
-
-  getLeads() {
-    this.dashboardService.getLeads(this.filter).subscribe(data => {
-      var totalArr: number[] = [];
-      var labelArr: number[] = [];
-      data['data'].map((item: any) => {
-        totalArr.push(item.sales);
-        labelArr.push(item.location);
-      });
-
-      this.leadData = {
-        labels: labelArr,
-        datasets: [
-          {
-            backgroundColor: environment.primaryColor,
-            data: totalArr,
-          },
-        ],
-      };
-    });
-  }
-
-  getSaleByLocation(location: string = 'vietnam') {
-    this.dashboardService.getSaleByLocation(location).subscribe((data: any) => {
-      var totalArr: number[] = [];
-      var labelArr: number[] = [];
-      data['data'].map((item: any) => {
-        totalArr.push(item.sales);
-        labelArr.push(new Date(Date.parse(item.date)).getMonth());
-      });
-
-      this.salesData = {
-        labels: labelArr,
-        datasets: [
-          {
-            data: totalArr,
-            borderColor: environment.primaryColor,
-            tension: 0.4,
-          },
-        ],
-      };
-    });
-  }
-
-  triggerSubmenu() {
-    this.layoutService.changeSubMenuState(false);
+  onDestroy(): void {
+    this.destroy$.next('');
+    this.destroy$.complete();
   }
 }

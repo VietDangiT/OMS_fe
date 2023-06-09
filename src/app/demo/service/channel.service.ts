@@ -1,17 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Apollo, gql } from 'apollo-angular';
+import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
   Channel,
-  Country,
+  CountryApiResponse,
 } from '../components/channel/interface/channel.component';
+
+const GET_COUNTRIES = gql`
+  query {
+    countries {
+      id
+      countryName
+      shortCode
+    }
+  }
+`;
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChannelService {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient, private apollo: Apollo) {}
 
   getChannels(): Observable<Channel> {
     return this._http.get<Channel>(`${environment.apiUrl}/Channel/channels`);
@@ -35,7 +46,11 @@ export class ChannelService {
     );
   }
 
-  getCountries(): Observable<Country[]> {
-    return this._http.get<Country[]>(`${environment.apiUrl}/Channel/countries`);
+  getCountries(): Observable<CountryApiResponse> {
+    return this.apollo
+      .watchQuery<CountryApiResponse>({
+        query: GET_COUNTRIES,
+      })
+      .valueChanges.pipe(map(res => res.data));
   }
 }

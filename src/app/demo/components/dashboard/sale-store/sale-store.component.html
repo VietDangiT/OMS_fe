@@ -1,14 +1,24 @@
 <div class="flex flex-col text-left rounded-b-lg bg-white h-full">
-  <div class="grid grid-cols-3 px-2 py-4 items-center font-medium w-full text-xs text-gray-500 ">
-    <span class="">Sale Stores</span>
-    <span class="justify-self-end">Actual Value</span>
-    <span class="justify-self-end">Share in %</span>
+  <div
+    class="grid grid-cols-3 px-2 py-4 items-center font-medium w-full text-xs text-gray-500"
+  >
+    <span i18n>Sale Stores</span>
+
+    <span class="justify-self-end" i18n>Actual Value</span>
+
+    <span class="justify-self-end" i18n>Share in %</span>
   </div>
+
   <div class="px-2 flex flex-col gap-3 overflow-auto h-full">
-    <div class="grid grid-cols-3 font-bold  w-full text-primary" *ngFor="let item of data">
-      <p class="">{{item.displayText | titlecase}}</p>
-      <p class="justify-self-end">{{item.value | number}}</p>
-      <p class="justify-self-end">{{item.percentage | number: '.1-1'}}</p>
+    <div
+      class="grid grid-cols-3 font-bold w-full text-primary"
+      *ngFor="let item of data"
+    >
+      <p class="">{{ item.displayText | titlecase }}</p>
+
+      <p class="justify-self-end">{{ item.value | number }}</p>
+
+      <p class="justify-self-end">{{ item.percentage | number : '.1-1' }}</p>
     </div>
   </div>
 </div>

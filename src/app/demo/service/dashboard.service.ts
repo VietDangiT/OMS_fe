@@ -2,13 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { BaseChart, BaseInterface, Statistic } from '../components/dashboard/interfaces/interfaces';
+import {
+  BaseChart,
+  BaseItem,
+  Statistic,
+} from '../components/dashboard/interfaces/dashboard.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService {
-  
   saleByLocationURL!: string;
   constructor(private _http: HttpClient) {
     this.saleByLocationURL = environment.baseURL + '/sale-by-location';
@@ -80,79 +83,67 @@ export class DashboardService {
       .pipe();
   }
 
-  getSaleByChannel(
-    fromDate: string = '',
-    toDate: string = ''
-  ) {
-    return this._http
-      .get<any>(
-        `${environment.apiUrl}/Dashboard/channels/sale?fromDate=${fromDate}&toDate=${toDate}`
-      );
+  getSaleByChannel(fromDate: string = '', toDate: string = '') {
+    return this._http.get<any>(
+      `${environment.apiUrl}/Dashboard/channels/sale?fromDate=${fromDate}&toDate=${toDate}`
+    );
   }
 
   getTotalSaleByLocation(fromDate: string = '', toDate: string = '') {
-    return this._http
-      .get<any>(
-        `${environment.apiUrl}/Dashboard/locations/sale?fromDate=${fromDate}&toDate=${toDate}`
-      );
+    return this._http.get<any>(
+      `${environment.apiUrl}/Dashboard/locations/sale?fromDate=${fromDate}&toDate=${toDate}`
+    );
   }
 
   getTotalSale(filter: string[]) {
-    return this._http
-      .get(
-        `${environment.apiUrl}/Dashboard/sales?fromDate=${filter[0]}&toDate=${filter[1]}`
-      );
+    return this._http.get(
+      `${environment.apiUrl}/Dashboard/sales?fromDate=${filter[0]}&toDate=${filter[1]}`
+    );
   }
 
   getTotalReturn(filter: string[]) {
-    return this._http
-      .get(
-        `${environment.apiUrl}/Dashboard/returns/totalreturn?fromDate=${filter[0]}&toDate=${filter[1]}`
-      );
+    return this._http.get(
+      `${environment.apiUrl}/Dashboard/returns/totalreturn?fromDate=${filter[0]}&toDate=${filter[1]}`
+    );
   }
 
   getTotalOrder(filter: string[]) {
-    return this._http
-      .get(
-        `${environment.apiUrl}/Dashboard/orders?fromDate=${filter[0]}&toDate=${filter[1]}`
-      );
+    return this._http.get(
+      `${environment.apiUrl}/Dashboard/orders?fromDate=${filter[0]}&toDate=${filter[1]}`
+    );
   }
 
   getTopSellingProducts(filter: string[]) {
-    return this._http
-      .get(
-        `${environment.apiUrl}/Dashboard/product/totalsale?fromDate=${filter[0]}&toDate=${filter[1]}`
-      );
+    return this._http.get(
+      `${environment.apiUrl}/Dashboard/product/totalsale?fromDate=${filter[0]}&toDate=${filter[1]}`
+    );
   }
 
-  getProductVariant(): Observable<BaseInterface[]> {
-    return this._http
-      .get<BaseInterface[]>(`${environment.apiUrl}/Product/productvariants`);
+  getProductVariant(): Observable<BaseItem[]> {
+    return this._http.get<BaseItem[]>(
+      `${environment.apiUrl}/Product/productvariants`
+    );
   }
 
-  getProductCatalogs(id: number, filter: string[]) : Observable<BaseChart[]>{
-    return this._http
-      .get<BaseChart[]>(
-        `${environment.apiUrl}/Dashboard/productcatalog/itemssold?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
-      );
+  getProductCatalogs(id: number, filter: string[]): Observable<BaseChart[]> {
+    return this._http.get<BaseChart[]>(
+      `${environment.apiUrl}/Dashboard/productcatalog/itemssold?productCatalogId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+    );
   }
-  
-  getOrderStatus(id:number, filter: string[]) :Observable<Statistic[]> {
-    return this._http
-      .get<Statistic[]>(
-        `${environment.apiUrl}/Dashboard/orders/statusorders?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
-      );
+
+  getOrderStatus(id: number, filter: string[]): Observable<Statistic[]> {
+    return this._http.get<Statistic[]>(
+      `${environment.apiUrl}/Dashboard/orders/statusorders?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+    );
   }
-  getProductStatus(id:number, filter: string[]) :Observable<Statistic[]> {
-    return this._http
-      .get<Statistic[]>(
-        `${environment.apiUrl}/Dashboard/productchannel/statusproduct?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
-      );
+  getProductStatus(id: number, filter: string[]): Observable<Statistic[]> {
+    return this._http.get<Statistic[]>(
+      `${environment.apiUrl}/Dashboard/productchannel/statusproduct?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+    );
   }
-  getStockStatus(id:number, filter: string[]) :Observable<Statistic[]> {
-    return this._http
-      .get<Statistic[]>(
-        `${environment.apiUrl}/Dashboard/productchannel/statusquantity?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
-      );
+  getStockStatus(id: number, filter: string[]): Observable<Statistic[]> {
+    return this._http.get<Statistic[]>(
+      `${environment.apiUrl}/Dashboard/productchannel/statusquantity?channelId=${id}&fromDate=${filter[0]}&toDate=${filter[1]}`
+    );
   }
 }

@@ -4,6 +4,7 @@ import {
   HostBinding,
   Input,
   Output,
+  TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
 import { OmsTable } from '../model/oms-table';
@@ -23,6 +24,10 @@ export class OmsTableComponent {
 
   @Input() isPaginationShown = false;
 
+  @Input() isSortIconShown = false;
+
+  @Input() contentRef: TemplateRef<any>;
+
   @Input() table: OmsTable<any> = {
     page: 0,
     first: 0,
@@ -35,9 +40,11 @@ export class OmsTableComponent {
     },
   };
 
-  selectedRows: any[];
-
   onPageChange(event: Event) {
     this.pagingInfo.emit(event);
+  }
+
+  isNumber(val: any): boolean {
+    return typeof val === 'number';
   }
 }

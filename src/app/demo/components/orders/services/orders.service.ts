@@ -1,21 +1,47 @@
 import { Injectable } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { Apollo } from 'apollo-angular';
+import { Observable, map } from 'rxjs';
+import { GET_ORDERS, GET_ORDER_DETAIL } from '../constants/orders.constants';
+import {
+  OrderApiResponse,
+  OrderDetailApiResponse,
+  OrderParams,
+} from '../models/orders.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrdersService {
-  labelItems: MenuItem[] = [
-    { label: 'Completed', id: '0', badge: '0' },
-    { label: 'Delivery', id: '1', badge: '0' },
-    { label: 'Pending', id: '2', badge: '0' },
-    { label: 'Failed', id: '3', badge: '0' },
-    { label: 'Return', id: '4', badge: '0' },
-  ];
+  constructor(private readonly apollo: Apollo) {}
 
-  constructor() {}
+  getOrders(orderParams: OrderParams): Observable<OrderApiResponse> {
+    const { channelId, fromDate, keyword, limit, page, status, toDate } =
+      orderParams;
 
-  getLabelItems(): MenuItem[] {
-    return this.labelItems;
+    return this.apollo
+      .watchQuery<OrderApiResponse>({
+        query: GET_ORDERS,
+        variables: {
+          channelId,
+          fromDate,
+          toDate,
+          keyword,
+          status,
+          limit,
+          page,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
+  }
+
+  getOrderDetail(id: number): Observable<OrderDetailApiResponse> {
+    return this.apollo
+      .watchQuery<OrderDetailApiResponse>({
+        query: GET_ORDER_DETAIL,
+        variables: {
+          orderId: id,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
   }
 }
