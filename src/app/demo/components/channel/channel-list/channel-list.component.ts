@@ -23,14 +23,7 @@ export class ChannelListComponent {
     pageCount: 0,
     totalRecord: 0,
     data: {
-      header: [
-        'Channel',
-        'Number Of Order',
-        'Total Sales',
-        'Status',
-        'Created At',
-        'Update At',
-      ],
+      header: [],
       body: [],
     },
   };

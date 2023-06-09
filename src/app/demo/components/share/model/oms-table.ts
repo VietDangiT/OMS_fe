@@ -1,3 +1,5 @@
+import { TableHeader } from "src/app/demo/interface/global.model";
+
 export interface OmsTable<T> {
   page?: number;
   first?: number;
@@ -5,7 +7,7 @@ export interface OmsTable<T> {
   pageCount?: number;
   totalRecord?: number;
   data: {
-    header: string[];
+    header: TableHeader[];
     body: T[];
   };
 }

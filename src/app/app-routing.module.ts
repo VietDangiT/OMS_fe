@@ -70,6 +70,14 @@ import { RoleGuard } from './demo/components/guard/role.guard';
                   m => m.OrdersModule
                 ),
             },
+            
+            {
+              path: 'user',
+              loadChildren: () =>
+                import('./demo/components/user/user.module').then(
+                  m => m.UserModule
+                ),
+            },
           ],
         },
         {

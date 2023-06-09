@@ -23,14 +23,14 @@ export class OrderListComponent {
     totalRecord: 0,
     data: {
       header: [
-        'Order',
-        'Date',
-        'Channel name',
-        'Product Units',
-        'Price',
-        'Shipping carrier',
-        'Status',
-        'Actions',
+        { field: 'order', col: 'Order' },
+        { field: 'date', col: 'Date' },
+        { field: 'channelName', col: 'Channel name' },
+        { field: 'productUnits', col: 'Product Units' },
+        { field: 'price', col: 'Price' },
+        { field: 'shippingCarrier', col: 'Shipping carrier' },
+        { field: 'status', col: 'Status' },
+        { field: 'actions', col: 'Actions' },
       ],
       body: [
         {
