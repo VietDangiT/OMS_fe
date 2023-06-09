@@ -1,0 +1,48 @@
+<app-topbar></app-topbar>
+<div class="w-full">
+   <app-List-card></app-List-card>
+    <div class="p-2">
+    <p-tabMenu
+    [model]="items"
+    [activeItem]="activeItem"
+    (activeItemChange)="onActiveItemChange($event)"
+  >
+    <ng-template pTemplate="item" let-item let-i="index">
+      {{ item.label }}
+      <span
+        class="rounded-full badge bg-primary bg-opacity-20 text-opacity-60 font-medium text-primary text-center px-3 py-1 ml-2"
+        >{{ item.badge }}</span
+      >
+    </ng-template>
+  </p-tabMenu>
+</div>
+<div class="p-2">
+  <oms-date-filter></oms-date-filter>
+</div>
+<div class="p-2">
+<oms-table  [table]="table">
+  <tr *ngFor="let item of table.data.body" class="group"  (click)="handleOrderDetail($event)">
+    <td class="!text-center w-20"><img src="{{item.image}}" alt=""></td>
+    <td class="!text-center">{{ item.sku}}</td>
+    <td class="!text-center">{{ item.productname }}</td>
+    <td class="!text-center">{{item.availablestock}}</td>
+    <td class="!text-center">{{ item.inprocess }}</td>
+    <td class="!text-center">{{ item.sold }}</td>
+    <td class="!text-center">
+      <div class="flex item-center gap-5 justify-center">
+        <span class="hidden lg:block min-w-[70px]">
+          <i
+            class="pi pi-circle-fill text-success"
+            *ngIf="item.status === 'ACTIVE'; else shareicon"
+          ></i>
+          <ng-template #shareicon>
+            <i class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"></i>
+          </ng-template>
+          {{ item.status | titlecase }}
+        </span>
+
+      </div>
+    </td>
+</oms-table>
+</div>
+</div>

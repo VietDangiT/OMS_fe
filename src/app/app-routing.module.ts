@@ -31,6 +31,14 @@ import { RoleGuard } from './demo/components/guard/role.guard';
 
             },
             {
+              path: 'inventory',
+              loadChildren: () =>
+                import('./demo/components/inventory/inventory.module').then(
+                  (m) => m.InventoryModule
+                ),
+
+            },
+            {
               path: 'uikit',
               loadChildren: () =>
                 import('./demo/components/uikit/uikit.module').then(

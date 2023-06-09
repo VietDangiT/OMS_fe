@@ -1,0 +1,10 @@
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link{
+  @apply bg-transparent;
+}
+.p-tabmenu .p-tabmenu-nav {
+  @apply bg-transparent;
+}
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link, .p-tabmenu .p-tabmenu-nav .p-tabmenuitem:not(.p-highlight):not(.p-disabled):hover .p-menuitem-link {
+  @apply bg-transparent;
+}

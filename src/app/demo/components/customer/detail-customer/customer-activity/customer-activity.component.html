@@ -1,0 +1,27 @@
+<div>
+  <p-tabView>
+    <p-tabPanel header="Order">
+      <oms-table [table]="tableData" >
+        <tr *ngFor="let p of tableData.data.body" >
+          <td class="!text-center"> {{p.code}}</td>
+          <td	class="!text-center">{{ p.name }}</td>
+          <td class="!text-center">{{ p.store }}</td>
+          <td class="!text-center">{{ p.description }}</td>
+          <td class="!text-center">{{p.rating}}</td>
+        </tr>
+      </oms-table>
+    </p-tabPanel>
+    <p-tabPanel header="Rating">
+      <oms-table [table]="tableData" >
+        <tr *ngFor="let p of tableData.data.body"  >
+          <td class="!text-center"> {{p.code}}</td>
+          <td	class="!text-center">{{ p.name }}</td>
+          <td class="!text-center">{{ p.store }}</td>
+          <td class="!text-center">{{ p.description }}</td>
+          <td class="!text-center">{{p.status}}</td>
+        </tr>
+      </oms-table>
+    </p-tabPanel>
+  </p-tabView>
+
+</div>

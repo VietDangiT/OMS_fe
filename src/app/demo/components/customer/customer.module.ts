@@ -31,6 +31,8 @@ import { DialogModule } from 'primeng/dialog';
 import { DetailCustomerComponent } from './detail-customer/detail-customer.component';
 import { CardModule } from 'primeng/card';
 import { TabViewModule } from 'primeng/tabview';
+import { CustomerInfoComponent } from './detail-customer/customer-info/customer-info.component';
+import { CustomerActivityComponent } from './detail-customer/customer-activity/customer-activity.component';
 
 @NgModule({
   imports: [
@@ -67,7 +69,9 @@ import { TabViewModule } from 'primeng/tabview';
     CustomerRatingComponent,
     CustomerTopproductComponent,
     CustomerAllcustomerComponent,
-    DetailCustomerComponent
+    DetailCustomerComponent,
+    CustomerInfoComponent,
+    CustomerActivityComponent
 
 
 
