@@ -1,29 +1,27 @@
-.sale-by-location-host {
-  .p-dropdown {
-    @apply min-w-[10vw];
-  }
+.sale-by-location-host .p-dropdown {
+  @apply min-w-[10vw];
+}
 
-  .p-dropdown:not(.p-disabled):hover {
-    @apply border-primary;
-  }
+.sale-by-location-host .p-dropdown:not(.p-disabled):hover {
+  @apply border-primary;
+}
 
-  .p-dropdown input {
-    @apply select-none hidden;
-  }
+.sale-by-location-host.p-dropdown input {
+  @apply select-none hidden;
+}
 
-  .p-dropdown-label {
-    @apply !block;
-  }
+.sale-by-location-host .p-dropdown-label {
+  @apply !block;
+}
 
-  .p-dropdown-item {
-    @apply !px-3 !py-4;
-  }
+.sale-by-location-host .p-dropdown-item {
+  @apply !px-3 !py-4;
+}
 
-  .p-dropdown-panel .p-dropdown-items {
-    @apply !py-2;
-  }
+.sale-by-location-host .p-dropdown-panel .p-dropdown-items {
+  @apply !py-2;
+}
 
-  .p-dropdown-label.p-inputtext {
-    @apply !px-3 !py-3;
-  }
+.sale-by-location-host .p-dropdown-label.p-inputtext {
+  @apply !px-3 !py-3;
 }
