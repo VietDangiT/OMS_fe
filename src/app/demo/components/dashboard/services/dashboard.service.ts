@@ -72,7 +72,7 @@ export class DashboardService {
       .valueChanges.pipe(map(res => res.data));
   }
 
-  getTotalOrders(filter: Date[]): Observable<TotalOrderApiResponse> {
+  getTotalOrders(filter: string[] | Date[]): Observable<TotalOrderApiResponse> {
     return this.apollo
       .watchQuery<TotalOrderApiResponse>({
         query: GET_TOTAL_ORDERS,

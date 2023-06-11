@@ -18,7 +18,7 @@ import { DashboardService } from '../services/dashboard.service';
   templateUrl: './total-sale-chart.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class TotalsalechartComponent {
+export class TotalSaleChartComponent {
   @Input() option: ChartOptions;
 
   @Input() filterArr: string[];
@@ -27,11 +27,20 @@ export class TotalsalechartComponent {
 
   totalSale: string;
 
+  routerLink = 'total-sales';
+
+  queryParams: { [key: string]: string } = {
+    fDate: '',
+    tDate: '',
+  };
+
   constructor(private dashboardService: DashboardService) {}
 
   ngOnChanges(changes: SimpleChanges) {
+    this.filterArr = changes['filterArr'].currentValue;
+
     this.dashboardService
-      .getTotalSale(changes['filterArr'].currentValue)
+      .getTotalSale(this.filterArr)
       .pipe(
         tap((result: TotalSalesApiResponse) => {
           const { totalSale } = result;
@@ -40,6 +49,11 @@ export class TotalsalechartComponent {
         })
       )
       .subscribe();
+
+    this.queryParams = {
+      fDate: this.filterArr[0],
+      tDate: this.filterArr[1],
+    };
   }
 
   initTotalSaleChart(result: BaseChart[]) {

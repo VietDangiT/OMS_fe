@@ -27,15 +27,13 @@ export class SaleByLocationService {
     name: string,
     dateRange: Date[]
   ): Observable<SaleLeadsApiResponse> {
-    const fromDate = dateRange[0].toLocaleDateString();
-    const toDate = dateRange[1].toLocaleDateString();
     return this.apollo
       .watchQuery<SaleLeadsApiResponse>({
         query: GET_SALE_LEADS,
         variables: {
           countryName: name,
-          fromDate,
-          toDate,
+          fromDate: dateRange[0],
+          toDate: dateRange[1],
         },
       })
       .valueChanges.pipe(map(res => res.data));

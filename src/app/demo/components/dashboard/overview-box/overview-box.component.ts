@@ -12,7 +12,7 @@ export class OverviewBoxComponent {
 
   @Input() percentage: number = 0;
 
-  @Input() styleClass: string;
+  @Input() styleClass: string = '';
 
-  @Input() type: string;
+  @Input() type: string = '';
 }

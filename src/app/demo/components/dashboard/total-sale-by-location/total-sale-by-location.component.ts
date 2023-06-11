@@ -26,6 +26,13 @@ export class TotalSaleByLocationComponent {
 
   locationSale: { displayText: string; value: number }[] = [];
 
+  routerLink = 'sale-by-location';
+
+  queryParams: { [key: string]: string } = {
+    fDate: '',
+    tDate: '',
+  };
+
   constructor(private dashboardService: DashboardService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -34,6 +41,11 @@ export class TotalSaleByLocationComponent {
         this.filterArr = changes['filterArr']?.currentValue;
 
         this.getTotalSaleByLocation(this.filterArr);
+
+        this.queryParams = {
+          fDate: this.filterArr[0],
+          tDate: this.filterArr[1],
+        };
       }
     }
   }

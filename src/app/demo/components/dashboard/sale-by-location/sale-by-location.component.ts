@@ -4,6 +4,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
@@ -32,17 +33,19 @@ import { SaleByLocationService } from './services/sale-by-location.service';
 @Component({
   selector: 'app-sale-by-location',
   templateUrl: './sale-by-location.component.html',
-  styleUrls: ['./sale-by-location.component.scss'],
+  styleUrls: ['./sale-by-location.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class SaleByLocationComponent {
   @HostBinding('class') hostClass = 'sale-by-location-host';
 
-  channelService = inject(ChannelService);
+  private readonly channelService = inject(ChannelService);
 
-  helperService = inject(HelperService);
+  private readonly helperService = inject(HelperService);
 
-  service = inject(SaleByLocationService);
+  private readonly service = inject(SaleByLocationService);
+
+  private readonly router = inject(ActivatedRoute);
 
   salesData: ChartData = {
     labels: [],
@@ -114,7 +117,18 @@ export class SaleByLocationComponent {
   ngOnInit(): void {
     this.getCountries();
 
-    this.getComponentData();
+    this.router.queryParams
+      .pipe(
+        tap(params => {
+          if (params['fDate']) {
+            this.dateFilterChanged([params['fDate'], params['tDate']]);
+          }
+
+          this.getComponentData();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   getComponentData(): void {
@@ -201,7 +215,7 @@ export class SaleByLocationComponent {
           currentData.forEach(d => {
             totalCurrentVal += d.value;
 
-            labelArr.push(d.displayText);
+            labelArr.push(new Date(d.date).toLocaleDateString());
             valueArr.push(d.value);
           });
 
@@ -227,7 +241,8 @@ export class SaleByLocationComponent {
 
   calculateComparedDate(): void {
     const diffInMilliSeconds = Math.abs(
-      this.dateRange[1].getTime() - this.dateRange[0].getTime()
+      new Date(this.dateRange[1]).getTime() -
+        new Date(this.dateRange[0]).getTime()
     );
 
     const diffInDays = Math.ceil(diffInMilliSeconds / (1000 * 60 * 60 * 24));

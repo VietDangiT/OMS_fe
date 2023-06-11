@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
@@ -37,6 +38,8 @@ export class TotalSaleByChannelComponent implements OnInit {
 
   private readonly helperService = inject(HelperService);
 
+  private readonly router = inject(ActivatedRoute);
+
   baseChartOption = baseChartOptions;
 
   dateRange = this.helperService.defaultDateRange;
@@ -71,7 +74,17 @@ export class TotalSaleByChannelComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.getComponentData();
+    this.router.queryParams
+      .pipe(
+        tap(params => {
+          if (params['fDate']) {
+            this.dateFilterChanged([params['fDate'], params['tDate']]);
+          }
+
+          this.getComponentData();
+        })
+      )
+      .subscribe();
   }
 
   getComponentData(): void {

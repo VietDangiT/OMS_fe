@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
@@ -21,6 +22,12 @@ import { TotalSalesService } from './services/total-sales.service';
   styleUrls: ['./total-sales.component.scss'],
 })
 export class TotalSalesComponent {
+  private totalSalesService = inject(TotalSalesService);
+
+  private helperService = inject(HelperService);
+
+  private router = inject(ActivatedRoute);
+
   baseChartOptions = baseChartOptions;
 
   barChartOptions = barBaseChartOptions;
@@ -95,16 +102,21 @@ export class TotalSalesComponent {
 
   destroy$ = new Subject();
 
-  constructor(
-    private totalSalesService: TotalSalesService,
-    private helperService: HelperService
-  ) {}
-
   ngOnInit(): void {
-    this.getData();
+    this.router.queryParams
+      .pipe(
+        tap(params => {
+          if (params['fDate']) {
+            this.dateRange = [params['fDate'], params['tDate']];
+          }
+
+          this.getComponentData();
+        })
+      )
+      .subscribe();
   }
 
-  getData(): void {
+  getComponentData(): void {
     this.getTotalSalesTable(this.pageNumber);
 
     this.getTotalSales();
@@ -114,7 +126,12 @@ export class TotalSalesComponent {
 
   getTotalSalesTable(page: number) {
     this.totalSalesService
-      .getTotalSalesTable(this.dateRange[0], this.dateRange[1], page)
+      .getTotalSalesTable(
+        this.dateRange[0],
+        this.dateRange[1],
+        page,
+        tableConfig.pageLimit
+      )
       .pipe(
         tap(res => {
           const { detailTotalSales } = res;
@@ -224,7 +241,7 @@ export class TotalSalesComponent {
   dateFilterChanged(dates: Date[]): void {
     if (dates[1] != null) {
       this.dateRange = dates;
-      this.getData();
+      this.getComponentData();
     }
   }
 
@@ -233,7 +250,7 @@ export class TotalSalesComponent {
 
     this.dateRange = dateFilterValues[filter];
 
-    this.getData();
+    this.getComponentData();
   }
 
   onPageChange(e: PageChangeEvent): void {

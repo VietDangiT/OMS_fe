@@ -11,7 +11,13 @@
         {{ 'Orders over time' | titlecase }}
       </p>
 
-      <a href="#" class="text-sm text-primary" i18n>Analyze</a>
+      <a
+        [routerLink]="routerLink"
+        [queryParams]="queryParams"
+        class="text-sm text-primary"
+        i18n
+        >Analyze</a
+      >
     </div>
   </div>
 

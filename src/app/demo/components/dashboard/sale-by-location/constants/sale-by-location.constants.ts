@@ -98,10 +98,12 @@ export const GET_TOTAL_SALE_COMPARE = gql`
       previousData {
         displayText
         value
+        date
       }
       currentData {
         displayText
         value
+        date
       }
     }
   }
