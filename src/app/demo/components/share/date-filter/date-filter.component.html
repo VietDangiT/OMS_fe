@@ -1,13 +1,35 @@
 <div class="flex gap-2">
-    <p-calendar placeholder="Choose range of date" (ngModelChange)="getDateRange($event)" [(ngModel)]="dateFilter" selectionMode="range" view="date" dateFormat="dd.mm.yy" [readonlyInput]="true" [showIcon]="true" appendTo="body" inputId="icon" [defaultDate]="defaultDate" class="cursor-pointer"></p-calendar>
+  <p-calendar
+    placeholder="Choose range of date"
+    (ngModelChange)="getDateRange($event)"
+    [(ngModel)]="dateFilter"
+    selectionMode="range"
+    view="date"
+    dateFormat="dd.mm.yy"
+    [readonlyInput]="true"
+    [showIcon]="true"
+    appendTo="body"
+    inputId="icon"
+    [defaultDate]="defaultDate"
+    class="cursor-pointer"
+  ></p-calendar>
 
-    <div class="flex items-center transition-all duration-100 bg-white border border-transparent cursor-pointer rounded-xl hover:border hover:border-primary">
-        <!-- <i class="mr-2 cursor-default pi pi-calendar"></i> -->
-        <select
-        class="bg-transparent  cursor-pointer focus:bg-none active:bg-none focus:outline-none   rounded-xl block w-full p-2.5 "
-        (ngModelChange)="getFilter($event)"
-        [(ngModel)]="filter" >
-          <option class="p-2" *ngFor="let option of filterOptions" [value]="option.value" default="Weekly">{{option.text}}</option>
-        </select>
-      </div>
+  <div
+    class="flex items-center transition-all duration-100 bg-white border border-transparent cursor-pointer rounded-xl hover:border hover:border-primary"
+  >
+    <select
+      class="bg-transparent cursor-pointer focus:bg-none active:bg-none focus:outline-none rounded-xl block w-full p-2.5"
+      (ngModelChange)="getFilter($event)"
+      [(ngModel)]="filter"
+    >
+      <option
+        class="p-2"
+        *ngFor="let option of filterOptions"
+        [value]="option.value"
+        default="Weekly"
+      >
+        {{ option.text }}
+      </option>
+    </select>
+  </div>
 </div>

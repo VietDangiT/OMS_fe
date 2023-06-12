@@ -1,28 +1,31 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
-
 import { UIChart } from 'primeng/chart';
 
 import {
-  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
-  ApexXAxis,
-  ApexTitleSubtitle,
-  ApexTooltip,
-  ApexPlotOptions,
-  ApexLegend,
   ApexDataLabels,
-  ApexYAxis,
+  ApexLegend,
+  ApexPlotOptions,
   ApexResponsive,
+  ApexTitleSubtitle,
+  ApexXAxis,
+  ApexYAxis,
+  ChartComponent,
 } from 'ng-apexcharts';
+import { environment } from 'src/environments/environment';
+import resolveConfig from 'tailwindcss/resolveConfig';
+import { heatChartOptions } from '../../charts/apex-chart.component';
 
 type ApexChartOptions = {
   series: ApexAxisChartSeries;
@@ -35,6 +38,118 @@ type ApexChartOptions = {
   dataLabels: ApexDataLabels;
   apexResponsive: ApexResponsive[];
 };
+
+declare const google: any;
+const tailwindConfig = require('tailwind.config.js');
+const fullConfig = resolveConfig(tailwindConfig);
+const colors = fullConfig.theme['colors'];
+
+export const baseChartOptions: ChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+    },
+  },
+};
+
+export const barBaseChartOptions: ChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+};
+
+export const heatmapChartOptions: Partial<heatChartOptions> | any = {
+  plotOptions: {
+    heatmap: {
+      shadeIntensity: 0.5,
+      radius: 10,
+      colorScale: {
+        ranges: [
+          {
+            from: 0,
+            to: 20000,
+            color: colors.primaryLight3,
+          },
+          {
+            from: 20000,
+            to: 70000,
+            color: colors.primaryLight2,
+          },
+          {
+            from: 70000,
+            to: 100000,
+            color: colors.primary,
+          },
+        ],
+      },
+    },
+  },
+  chart: {
+    height: 350,
+    type: 'heatmap',
+    toolbar: {
+      show: false,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  title: {
+    text: '',
+  },
+  colors: [colors.primary],
+};
+
+export const pieChartColors: string[] = [
+  colors.primary,
+  colors.primaryLight,
+  colors.primaryLight1,
+  colors.primaryLight2,
+  colors.primaryLight3,
+];
+
+export const colorArr: string[] = [
+  colors.primary,
+  colors.secondary,
+  colors.third,
+  colors.forth,
+  colors.fifth,
+  colors.errors,
+  colors.warning,
+  colors.success,
+  colors.danger,
+  colors.brightOrange,
+  colors.geomapBackground,
+  colors.datalessRegion,
+];
 
 export interface OmsChartOptions
   extends Partial<ApexChartOptions>,
@@ -50,20 +165,34 @@ export class OMSChartComponent implements OnChanges {
   @ViewChild('chartJS') chartJS: UIChart;
   @ViewChild('apexChart') apexChart: ChartComponent;
 
-  @Input() type: ChartType | 'heatmap' | 'treemap';
-  @Input() data: ChartData;
+  @Input() type: ChartType | 'heatmap' | 'treemap' | 'geomap';
+  @Input() data: ChartData | any[][];
   @Input() options: OmsChartOptions | any;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']?.currentValue) {
-      // update this.data here
+  @Output() dataSelect = new EventEmitter();
 
+  onDataSelect(e: any): void {
+    this.dataSelect.emit(e);
+  }
+
+  async ngOnChanges(changes: SimpleChanges) {
+    if (changes['data']?.currentValue) {
+      if (this.type === 'geomap') {
+        await google.charts.load('current', {
+          packages: ['geochart'],
+          mapsApiKey: `${environment.mapsApiKey}`,
+        });
+        await google.charts.setOnLoadCallback(this.drawRegionsMap);
+      }
+      // update this.data here
       this.data = changes['data'].currentValue;
       // then chart is getting updated
       setTimeout(() => {
-        this.chartJS?.refresh();
+        this.type === 'geomap'
+          ? this.drawRegionsMap(this.data)
+          : this.chartJS?.refresh();
       }, 100);
-    };
+    }
     if (changes['options']?.currentValue) {
       // update this.data here
 
@@ -73,5 +202,29 @@ export class OMSChartComponent implements OnChanges {
         this.apexChart?.updateSeries(this.options.series);
       }, 100);
     }
+  }
+
+  onResize($event: any) {
+    this.type === 'geomap' && this.drawRegionsMap(this.data);
+  }
+
+  drawRegionsMap(apiData: any = undefined) {
+    let data = google.visualization.arrayToDataTable(
+      apiData ? apiData : [['Country', 'Value']]
+    );
+
+    let options = {
+      legend: 'none',
+      backgroundColor: `${colors.geomapBackground}`,
+      colorAxis: { colors: [`${colors.primary}`, `${colors.primary}`] },
+      // displayMode: 'markers',
+      datalessRegionColor: `${colors.datalessRegion}`,
+    };
+
+    let chart = new google.visualization.GeoChart(
+      document.getElementById('regions_div')
+    );
+
+    chart.draw(data, options);
   }
 }

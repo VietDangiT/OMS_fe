@@ -1,26 +1,36 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OMSChartComponent } from './oms-chart/oms-chart.component';
-import { ChartModule } from 'primeng/chart';
-import { NgApexchartsModule } from 'ng-apexcharts';
-import { DateFilterComponent } from './date-filter/date-filter.component';
-import { CalendarModule } from 'primeng/calendar';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { CalendarModule } from 'primeng/calendar';
+import { ChartModule } from 'primeng/chart';
+import { PaginatorModule } from 'primeng/paginator';
+import { SkeletonModule } from 'primeng/skeleton';
+import { TableModule } from 'primeng/table';
+import { DateFilterComponent } from './date-filter/date-filter.component';
+import { OMSChartComponent } from './oms-chart/oms-chart.component';
+import { OmsTableComponent } from './oms-table/oms-table.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { ScreenFilterComponent } from './screen-filter/screen-filter.component';
 
 @NgModule({
   declarations: [
     OMSChartComponent,
-    DateFilterComponent
+    ScreenFilterComponent,
+    OmsTableComponent,
+    PaginationComponent,
   ],
   imports: [
+    DateFilterComponent,
     CommonModule,
     ChartModule,
     NgApexchartsModule,
+    FormsModule,
+    TableModule,
+    PaginatorModule,
+    SkeletonModule,
     CalendarModule,
-    FormsModule
   ],
-  exports: [OMSChartComponent, DateFilterComponent]
+  exports: [OMSChartComponent, ScreenFilterComponent, OmsTableComponent],
 })
-export class ShareModule { }
+export class ShareModule {}

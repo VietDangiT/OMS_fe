@@ -1,0 +1,35 @@
+<app-topbar></app-topbar>
+
+<div>
+  <p-tabMenu
+    [model]="items"
+    [activeItem]="activeItem"
+    (activeItemChange)="onActiveItemChange($event)"
+  >
+    <ng-template pTemplate="item" let-item let-i="index">
+      <span class="px-3 py-1 ml-2">
+        {{ item.title | titlecase }}
+      </span>
+    </ng-template>
+  </p-tabMenu>
+
+  <div class="mt-3">
+    <oms-screen-filter
+      (dateFilterChange)="dateFilterChange($event)"
+      (searchValue)="searchValue($event)"
+    >
+    </oms-screen-filter>
+  </div>
+
+  <div class="mt-3">
+    <oms-table
+      (pagingInfo)="onPageChange($event)"
+      [table]="table"
+      [contentRef]="contentRef"
+    >
+      <ng-template #contentRef let-rowData>
+        <oms-channel-detail [channel]="rowData"></oms-channel-detail>
+      </ng-template>
+    </oms-table>
+  </div>
+</div>

@@ -30,3 +30,7 @@ p-calendar .p-button-icon-only {
 .active{
     @apply text-primary border-primary
 }
+
+.p-button-icon.pi.pi-calendar.active{
+    @apply text-white;
+}

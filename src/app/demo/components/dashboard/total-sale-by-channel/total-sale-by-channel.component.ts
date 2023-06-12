@@ -1,233 +1,235 @@
-import { Component } from '@angular/core';
-import { DashboardService } from 'src/app/demo/service/dashboard.service';
-import { ChartData, ChartOptions } from 'chart.js';
-import { DashboardTable } from '../interfaces/dashboard-table';
-import { SaleByChannelHeatmap } from './sale-by-channel-heatmap/sale-by-channel-heatmap.component';
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ChartData } from 'chart.js';
+import { tap } from 'rxjs';
+import { tableConfig } from 'src/app/demo/constants/table.config';
+import {
+  DateFilterKey,
+  PagingParams,
+  ResultItem,
+} from 'src/app/demo/interface/global.model';
+import { HelperService } from 'src/app/demo/service/helper.service';
+import { heatChartOptions } from '../../charts/apex-chart.component';
+import { OmsTable } from '../../share/model/oms-table';
+import { PagingInfo } from '../../share/model/paginginfo';
+import {
+  baseChartOptions,
+  colorArr,
+  heatmapChartOptions,
+} from '../../share/oms-chart/oms-chart.component';
+import { BaseChart } from '../interfaces/dashboard.models';
+import { totalSaleByChannelTableHeader } from './constants/total-sale-by-channel.constants';
+import { TotalSaleByChannel } from './models/total-sale-by-channel.models';
+import { TotalSaleByChannelService } from './services/total-sale-by-channel.service';
+
+interface DataSetItem {
+  label: string;
+  data: number[];
+  borderColor: string;
+}
 
 @Component({
-  selector: 'dashboard-total-sale-by-location',
+  selector: 'dashboard-total-sale-by-channel',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
 })
-export class TotalSaleByChannelComponent {
-  tableData: DashboardTable = {
-    headerData: ['Channel', 'Status', 'Number of Orders', 'Total Sales'],
-    bodyData: [
-      {
-        channelName: 'abc',
-        status: 'Active',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        channelName: 'abc',
-        status: 'Active',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        channelName: 'abc',
-        status: 'Active',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        channelName: 'abc',
-        status: 'Active',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        channelName: 'abc',
-        status: 'Active',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-    ],
+export class TotalSaleByChannelComponent implements OnInit {
+  private readonly service = inject(TotalSaleByChannelService);
+
+  private readonly helperService = inject(HelperService);
+
+  private readonly router = inject(ActivatedRoute);
+
+  baseChartOption = baseChartOptions;
+
+  dateRange = this.helperService.defaultDateRange;
+
+  tableData: OmsTable<TotalSaleByChannel> = {
+    first: 0,
+    page: 0,
+    pageCount: 0,
+    rows: 0,
+    totalRecord: 0,
+    data: {
+      header: totalSaleByChannelTableHeader,
+      body: [],
+    },
   };
 
   saleOnChannelData: ChartData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-    datasets: [
-      {
-        label: 'First Dataset',
-        data: [],
-        fill: false,
-        borderColor: '#42A5F5',
-        tension: 0.3,
-      },
-    ],
+    labels: [],
+    datasets: [],
   };
 
-  saleByChannelHeatmapData: SaleByChannelHeatmap[] = [
-    {
-      name: "Lazada SG",
-      data: [
-        {
-          x: 'Jul',
-          y: 800,
-        },
-        {
-          x: 'Aug',
-          y: 1500,
-        },
-        {
-          x: 'Sep',
-          y: 4000,
-        },
-        {
-          x: 'Oct',
-          y: 4000,
-        },
-        {
-          x: 'Nov',
-          y: 1500,
-        },
-        {
-          x: 'Dec',
-          y: 800,
-        },
-      ],
-    },
-    {
-      name: "Tiki VN",
-      data: [
-        {
-          x: 'Jul',
-          y: 800,
-        },
-        {
-          x: 'Aug',
-          y: 1500,
-        },
-        {
-          x: 'Sep',
-          y: 4000,
-        },
-        {
-          x: 'Oct',
-          y: 4000,
-        },
-        {
-          x: 'Nov',
-          y: 1500,
-        },
-        {
-          x: 'Dec',
-          y: 800,
-        },
-      ],
-    },
-    {
-      name: "Shopee VN",
-      data: [
-        {
-          x: 'Jul',
-          y: 1500,
-        },
-        {
-          x: 'Aug',
-          y: 1500,
-        },
-        {
-          x: 'Sep',
-          y: 4000,
-        },
-        {
-          x: 'Oct',
-          y: 4000,
-        },
-        {
-          x: 'Nov',
-          y: 4000,
-        },
-        {
-          x: 'Dec',
-          y: 1500,
-        },
-      ],
-    },
-    {
-      name: "Lazada VN",
-      data: [
-        {
-          x: 'Jul',
-          y: 1500,
-        },
-        {
-          x: 'Aug',
-          y: 4000,
-        },
-        {
-          x: 'Sep',
-          y: 4000,
-        },
-        {
-          x: 'Oct',
-          y: 1500,
-        },
-        {
-          x: 'Nov',
-          y: 1500,
-        },
-        {
-          x: 'Dec',
-          y: 4000,
-        },
-      ],
-    },
-  ]
-
-  saleOnChannelOption: ChartOptions = {
-    maintainAspectRatio: false,
-    aspectRatio: 1,
-    responsive: true,
-    plugins: {
-      legend: {
-        labels: {
-          boxHeight: 5,
-          boxWidth: 10,
-          color: '#495057',
-          usePointStyle: true,
-          pointStyle: 'circle',
-        },
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: '#495057',
-        },
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        ticks: {
-          color: '#495057',
-        },
-        grid: {
-          color: '#ebedef',
-        },
-      },
-    },
+  saleByChannelHeatmapData: Partial<heatChartOptions> | unknown = {
+    series: [],
+    ...heatmapChartOptions,
   };
 
-  constructor(private _dashboardService: DashboardService) {}
+  params: Partial<PagingParams> = {
+    fromDate: this.dateRange[0],
+    toDate: this.dateRange[1],
+    limit: tableConfig.pageLimit,
+    page: tableConfig.page,
+  };
 
-  ngOnInit() {
-    this.handleFilterChange();
+  ngOnInit(): void {
+    this.router.queryParams
+      .pipe(
+        tap(params => {
+          if (params['fDate']) {
+            this.dateFilterChanged([params['fDate'], params['tDate']]);
+          }
+
+          this.getComponentData();
+        })
+      )
+      .subscribe();
   }
 
-  handleFilterChange(filter: string = 'weekly') {
-    this._dashboardService
-      .getSaleOnChannel(`assets/api/countries-sale-by-${filter}.json`)
-      .subscribe((data: any) => {
-        const tmp = this.saleOnChannelData;
+  getComponentData(): void {
+    this.getChannelOrderTable();
 
-        tmp.datasets[0].data = data.data.map((item: any) => item.sales);
+    this.getChannelSalesByDate();
+  }
 
-        this.saleOnChannelData = { ...tmp };
-      });
+  getChannelOrderTable(): void {
+    this.service
+      .getChannelOrderTable(this.params)
+      .pipe(
+        tap(res => {
+          const { channelOrderTableData: data } = res;
+          const { first, page, pageCount, rows, totalRecord } = data;
+
+          this.tableData = {
+            first,
+            page,
+            pageCount,
+            rows,
+            totalRecord,
+            data: {
+              header: [...this.tableData.data.header],
+              body: [...data.data],
+            },
+          };
+        })
+      )
+      .subscribe();
+  }
+
+  getChannelSalesByDate(): void {
+    this.service
+      .getChannelSalesByDate(this.dateRange)
+      .pipe(
+        tap(res => {
+          const { channelSaleByConditionDate: data } = res;
+
+          this.handleHeatMap(data);
+
+          this.handleLineChart(data);
+        })
+      )
+      .subscribe();
+  }
+
+  handleLineChart(res: BaseChart[]): void {
+    const labelArr: string[] = [];
+
+    const result: DataSetItem[] = [];
+
+    const usedColors: string[] = [];
+
+    res.forEach(item => {
+      const { displayText, date, value } = item;
+
+      const currentDate = new Date(date).toLocaleDateString('en-EN');
+
+      let randomColor: string = '';
+
+      if (!usedColors.includes(randomColor)) {
+        randomColor = colorArr[Math.floor(Math.random() * colorArr.length)];
+
+        usedColors.push(randomColor);
+      }
+
+      let dataSetItem = result.find(i => i.label === displayText);
+
+      if (!dataSetItem) {
+        dataSetItem = {
+          label: displayText,
+          data: [value],
+          borderColor: randomColor,
+        };
+        result.push(dataSetItem);
+      }
+
+      dataSetItem.data.push(value);
+
+      labelArr.push(currentDate);
+    });
+
+    this.saleOnChannelData = { labels: labelArr, datasets: result };
+  }
+
+  handleHeatMap(data: BaseChart[]): void {
+    const result: ResultItem[] = [];
+
+    data.forEach(item => {
+      const { displayText, value, date } = item;
+
+      const currentDate = new Date(date).toLocaleDateString('en-EN');
+
+      let resultItem = result.find(item => item.name === displayText);
+
+      if (!resultItem) {
+        resultItem = { name: displayText, data: [] };
+        result.push(resultItem);
+      }
+
+      let dataItem = resultItem.data.find(item => item.x === currentDate);
+
+      if (!dataItem) {
+        dataItem = { x: currentDate, y: 0 };
+        resultItem.data.push(dataItem);
+      }
+
+      dataItem.y += value;
+    });
+    this.saleByChannelHeatmapData = {
+      series: result,
+      ...heatmapChartOptions,
+    };
+  }
+
+  dateFilterChanged(dateRange: Date[]): void {
+    if (dateRange[1] !== null) {
+      this.handleParams('fromDate', dateRange[0]);
+
+      this.handleParams('toDate', dateRange[1]);
+
+      this.getComponentData();
+    }
+  }
+
+  filterChanged(val: DateFilterKey): void {
+    const dateFilterValues = this.helperService.dateFilterValues;
+
+    this.dateFilterChanged(dateFilterValues[val]);
+  }
+
+  pagingInfo(e: PagingInfo): void {
+    this.handleParams('page', e.page + tableConfig.gapPageNumber);
+
+    this.getComponentData();
+  }
+
+  handleParams(
+    key: keyof Partial<PagingParams>,
+    value: string | number | Date
+  ): void {
+    this.params = {
+      ...this.params,
+      [key]: value,
+    };
   }
 }

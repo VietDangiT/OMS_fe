@@ -1,361 +1,414 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { ChartData, ChartOptions } from 'chart.js';
-import { DashboardService } from 'src/app/demo/service/dashboard.service';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import {
+  Component,
+  HostBinding,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ChartData } from 'chart.js';
+import { Subject, takeUntil, tap } from 'rxjs';
+import { tableConfig } from 'src/app/demo/constants/table.config';
+import { DateFilterKey, ResultItem } from 'src/app/demo/interface/global.model';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
+import { Country } from '../../channel/interface/channel.component';
+import { ChannelService } from '../../channel/services/channel.service';
 import { heatChartOptions } from '../../charts/apex-chart.component';
-import { DashboardTable } from '../interfaces/dashboard-table';
-
-interface PagingInfo{
-  links: string[],
-  page: number,
-  page_count: number,
-  per_page: number,
-  total_count:number
-}
+import { OmsTable } from '../../share/model/oms-table';
+import { PagingInfo } from '../../share/model/paginginfo';
+import {
+  barBaseChartOptions,
+  baseChartOptions,
+  heatmapChartOptions,
+  pieChartColors,
+} from '../../share/oms-chart/oms-chart.component';
+import { saleByLocationTableHeader } from './constants/sale-by-location.constants';
+import {
+  CountryPercentage,
+  SaleByLocation,
+  SaleByLocationParams,
+} from './models/sale-by-location.models';
+import { SaleByLocationService } from './services/sale-by-location.service';
 
 @Component({
   selector: 'app-sale-by-location',
   templateUrl: './sale-by-location.component.html',
-  styleUrls: ['./sale-by-location.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./sale-by-location.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SaleByLocationComponent {
-  
-  isSubmenuOn!: boolean ;
+  @HostBinding('class') hostClass = 'sale-by-location-host';
 
-  salesData!: ChartData;
+  private readonly channelService = inject(ChannelService);
 
-  countryData!: ChartData;
+  private readonly helperService = inject(HelperService);
 
-  leadData!: ChartData;
+  private readonly service = inject(SaleByLocationService);
 
-  baseChartOptions!: ChartOptions;
+  private readonly router = inject(ActivatedRoute);
 
-  heatChartOptions: Partial<heatChartOptions> | any = {
-    plotOptions: {
-      heatmap: {
-        radius: 30,
-        distributed: false,
-      }
-    },
-    series: [
-      {
-        name: "Vietnam",
-        data: [{
-          x:1,y:1
-        }]
-      },
-      {
-        name: "Thailand",
-        data:  [{
-          x:1,y:1
-        }]
-      },
-      {
-        name: "Malaysia",
-        data:  [{
-          x:1,y:1
-        }]
-      },
-      {
-        name: "Singapore",
-        data:  [{
-          x:1,y:1
-        }]
-      }
-    ],
-    chart: {
-      height: 350,
-      type: "heatmap",
-      toolbar:{
-        show: false
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    colors: ["#27447C"],
+  salesData: ChartData = {
+    labels: [],
+    datasets: [],
+  };
+
+  countryData: ChartData = {
+    labels: [],
+    datasets: [],
+  };
+
+  leadData: ChartData = {
+    labels: [],
+    datasets: [],
+  };
+
+  baseChartOptions = baseChartOptions;
+
+  barBaseChartOptions = barBaseChartOptions;
+
+  selectedCountry: Country = {
+    countryName: '',
+    id: 0,
+    shortCode: '',
+    displayName: 'ALL COUNTRIES',
+  };
+
+  countries: Country[] = [];
+
+  dateRange = this.helperService.defaultDateRange;
+
+  comparedDateRange: Date[] = [];
+
+  heatChartOptions: Partial<heatChartOptions> | unknown = {
+    series: [],
+    ...heatmapChartOptions,
   };
 
   pagingNumber: number = 0;
 
-  currentPagingInfo: PagingInfo ={
-    links:[],
-    page:0,
-    page_count:1,
-    per_page:1,
-    total_count:1
-  }
+  countryPercentage: CountryPercentage[] = [];
 
-  filter: string = 'week';
-
-  tableData: DashboardTable = {
-    headerData: ['Location', 'Date', 'Number of Orders', 'Total Sales'],
-    bodyData: [
-      {
-        location: 'Vietnam',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Thailand',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Malaysia',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Singapore',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-      {
-        location: 'Switzerland',
-        date: 'November',
-        numberOrder: 10,
-        totalSale: 12,
-      },
-    ],
+  tableData: OmsTable<SaleByLocation> = {
+    first: 0,
+    page: tableConfig.page,
+    pageCount: 0,
+    rows: tableConfig.pageLimit,
+    totalRecord: 0,
+    data: {
+      header: saleByLocationTableHeader,
+      body: [],
+    },
   };
 
-  monthNames = [
-    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-  ];
+  destroy$ = new Subject();
 
-  constructor(
-    private layoutService: LayoutService,
-    private dashboardService: DashboardService
-  ) {}
+  params: SaleByLocationParams = {
+    countryName: this.selectedCountry.countryName,
+    fromDate: this.dateRange[0],
+    toDate: this.dateRange[1],
+    limit: tableConfig.pageLimit,
+    page: tableConfig.page,
+  };
 
-  ngOnInit() {
-    this.getSaleByLocation();
-    this.getCountriesSale();
-    this.getLeads();
-    this.getSalesAnalytics();
-    this.getTableData(this.pagingNumber);    
+  totalCurrentSale = 0;
 
-    this.layoutService.currentSubMenuState.subscribe(
-      (state) => (this.isSubmenuOn = state)
+  comparedPercentage = 0;
+
+  ngOnInit(): void {
+    this.getCountries();
+
+    this.router.queryParams
+      .pipe(
+        tap(params => {
+          if (params['fDate']) {
+            this.dateFilterChanged([params['fDate'], params['tDate']]);
+          }
+
+          this.getComponentData();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  getComponentData(): void {
+    this.getSaleLeads();
+
+    this.getSaleByCountry();
+
+    this.getSaleAnalytic();
+
+    this.getOrderSalesByCountry();
+
+    this.getComparedTotalSale();
+
+    this.calculateComparedDate();
+  }
+
+  getCountries(): void {
+    this.channelService
+      .getCountries()
+      .pipe(
+        tap(res => {
+          this.countries = res.countries.map(c => {
+            return { ...c, displayName: c.countryName };
+          });
+
+          this.countries.unshift(this.selectedCountry);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  getSaleLeads(): void {
+    const dateRange = [this.params.fromDate!, this.params.toDate!];
+
+    this.service
+      .getSaleLeads(this.params.countryName, dateRange)
+      .pipe(
+        tap(res => {
+          const { saleLeads: data } = res;
+
+          const labelArr: string[] = [];
+          const valueArr: number[] = [];
+
+          data.forEach(d => {
+            labelArr.push(d.displayText);
+
+            valueArr.push(d.value);
+          });
+
+          this.leadData = {
+            labels: labelArr,
+            datasets: [
+              {
+                data: valueArr,
+                backgroundColor: environment.primaryColor,
+              },
+            ],
+          };
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  getComparedTotalSale(): void {
+    const dateRange = [this.params.fromDate!, this.params.toDate!];
+
+    this.service
+      .getComparedTotalSale(this.params.countryName, dateRange)
+      .pipe(
+        tap(res => {
+          const { totalSaleByCountryAtTimes: data } = res;
+          const { previousData, currentData } = data;
+          let totalPreviousVal = 0;
+          let totalCurrentVal = 0;
+          const labelArr: string[] = [];
+          const valueArr: number[] = [];
+
+          previousData.forEach(d => {
+            totalPreviousVal += d.value;
+          });
+
+          currentData.forEach(d => {
+            totalCurrentVal += d.value;
+
+            labelArr.push(new Date(d.date).toLocaleDateString());
+            valueArr.push(d.value);
+          });
+
+          this.totalCurrentSale = totalCurrentVal;
+
+          this.comparedPercentage =
+            totalPreviousVal > 0 ? totalCurrentVal / totalPreviousVal : -100;
+
+          this.salesData = {
+            labels: labelArr,
+            datasets: [
+              {
+                data: valueArr,
+                borderColor: environment.primaryColor,
+              },
+            ],
+          };
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  calculateComparedDate(): void {
+    const diffInMilliSeconds = Math.abs(
+      new Date(this.dateRange[1]).getTime() -
+        new Date(this.dateRange[0]).getTime()
     );
 
-    this.baseChartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 1,
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      scales: {
-        x: {
-          grid: {
-            display: false,
-          },
-        },
-        y: {
-          grid: {
-            display: false,
-          },
-        },
-      },
-    };
+    const diffInDays = Math.ceil(diffInMilliSeconds / (1000 * 60 * 60 * 24));
 
+    const previousDate = this.helperService.addDays(
+      this.dateRange[0],
+      -diffInDays
+    );
+
+    this.comparedDateRange = [previousDate, this.dateRange[0]];
   }
 
-  dateFilterChanged(dateRange: Date[]){
-    console.log(dateRange);
-  }
+  getSaleByCountry(): void {
+    const dateRange = [this.params.fromDate!, this.params.toDate!];
 
-  filterChanged(filter:string){
-    this.filter = filter;
-    this.getCountriesSale();
-    this.getLeads();
-    this.getSalesAnalytics();
-  }
+    this.service
+      .getSaleByCountry(this.params.countryName, dateRange)
+      .pipe(
+        tap(res => {
+          const { saleByCountry: data } = res;
 
-  getTableData(paging: number){
-    this.pagingNumber = paging;
-    
-    this.dashboardService.getTableData(this.pagingNumber).subscribe((item: any)=>{
-      
-      var data = item.data;
-      this.currentPagingInfo = {...data};
-      var result: any[] = [];
-      data.records.forEach((item: any)=>{
-        var date = this.monthNames[new Date(Date.parse(item.date)).getMonth()];
-        
-        var mapping =  {location: item.location, date:date, numberOrder:item.number_of_order, totalSale:item.total_sale};
-        result.push(mapping);
-      });
+          this.countryPercentage = [];
 
-      this.tableData.bodyData = result;
-    })
-  }
+          const labelArr: string[] = [];
+          const valueArr: number[] = [];
 
-  pagingInfo(pagingInfo: any){
-    this.getTableData(pagingInfo.page);
-  }
+          data.forEach(d => {
+            labelArr.push(d.displayText);
 
-  getSalesAnalytics(){
-    this.dashboardService.getCountriesSale(this.filter).subscribe((data:any)=>{
-      var d = data.data;
-      var series: any = [];
-      d.forEach((item: any)=> {
-        const dataArr: any = item.saleInfo.map((item: any)=>{
-          return {x:item.month, y:item.sales}
-        })
-        series.push({name: item.location, data: dataArr})
-      })
+            valueArr.push(d.value);
 
-     this.heatChartOptions = {
-      plotOptions: {
-        heatmap: {
-          radius: 10,
-          distributed: false,
-        },
-      },
-      series: series,
-      chart: {
-        height: 350,
-        type: 'heatmap',
-        toolbar: {
-          show: false,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      colors: [environment.primaryColor],
-    };
-    })
-  }
+            this.countryPercentage.push({
+              name: d.displayText,
+              percentage: d.percentage,
+            });
+          });
 
-  getCountriesSale() {
-    this.dashboardService.getCountriesSaleInTotal(this.filter).subscribe((data) => {
-      var totalArr: number[] = [];
-      var labelArr: number[] = [];
-      data['data'].map((item: any) => {
-        totalArr.push(item.sales);
-        labelArr.push(item.location);
-      });
-
-      this.countryData = {
-        labels: labelArr,
-        datasets: [
-          {
-            data: totalArr,
-            backgroundColor: [
-              environment.primaryColor,
-              environment.secondaryColor,
-              environment.thirdColor,
-              environment.fourthColor,
+          this.countryData = {
+            labels: labelArr,
+            datasets: [
+              {
+                data: valueArr,
+                backgroundColor: pieChartColors,
+              },
             ],
-            tension: 0.4,
-          },
-        ],
-      };
-    });
+          };
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
-  getLeads() {
-    this.dashboardService.getLeads(this.filter).subscribe((data) => {
-      var totalArr: number[] = [];
-      var labelArr: number[] = [];
-      data['data'].map((item: any) => {
-        totalArr.push(item.sales);
-        labelArr.push(item.location);
-      });
+  getSaleAnalytic(): void {
+    const dateRange = [this.params.fromDate!, this.params.toDate!];
 
-      this.leadData = {
-        labels: labelArr,
-        datasets: [
-          {
-            backgroundColor: environment.primaryColor,
-            data: totalArr,
-          },
-        ],
-      };
-    });
+    this.service
+      .getSaleAnalytic(this.params.countryName, dateRange)
+      .pipe(
+        tap(res => {
+          const { saleAnalytic: data } = res;
+
+          const result: ResultItem[] = [];
+
+          data.forEach(item => {
+            const { displayText, value, date } = item;
+
+            const currentDate = new Date(date).toLocaleDateString('en-EN');
+
+            // Check if there's displayText existed
+            let resultItem = result.find(item => item.name === displayText);
+
+            if (!resultItem) {
+              // If not create new resultItem
+              resultItem = { name: displayText, data: [] };
+              result.push(resultItem);
+            }
+
+            // Find if resultItem.data have current date
+            let dataItem = resultItem.data.find(item => item.x === currentDate);
+
+            if (!dataItem) {
+              // If not create new dataItem
+              dataItem = { x: currentDate, y: 0 };
+              resultItem.data.push(dataItem);
+            }
+
+            // If already exist push value
+            dataItem.y += value;
+          });
+
+          this.heatChartOptions = {
+            series: result,
+            ...heatmapChartOptions,
+          };
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
-  getSaleByLocation(location: string = 'vietnam') {
-    this.dashboardService.getSaleByLocation(location).subscribe((data: any) => {
-      var totalArr: number[] = [];
-      var labelArr: number[] = [];
-      data['data'].map((item: any) => {
-        totalArr.push(item.sales);
-        labelArr.push(new Date(Date.parse(item.date)).getMonth());
-      });
+  getOrderSalesByCountry(): void {
+    this.service
+      .getOrderSalesByCountry(this.params)
+      .pipe(
+        tap(res => {
+          const { orderSaleByCountry: data } = res;
 
-      this.salesData = {
-        labels: this.convertMonthToString(labelArr),
-        datasets: [
-          {
-            data: totalArr,
-            borderColor: environment.primaryColor,
-            tension: 0.4,
-          },
-        ],
-      };
-    });
+          this.tableData = {
+            first: data.first,
+            page: data.page,
+            pageCount: data.pageCount,
+            rows: data.rows,
+            totalRecord: data.totalRecord,
+            data: {
+              header: [...this.tableData.data.header],
+              body: [...data.data],
+            },
+          };
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
-  convertMonthToString(numbers: number[]): string[] {
-    var result: string[] = [];
-    numbers.forEach((num) => {
-      switch (num) {
-        case 0:
-          result.push('January');
-          break;
-        case 1:
-          result.push('Febuary');
-          break;
-        case 2:
-          result.push('March');
-          break;
-        case 3:
-          result.push('April');
-          break;
-        case 4:
-          result.push('May');
-          break;
-        case 5:
-          result.push('June');
-          break;
-        case 6:
-          result.push('July');
-          break;
-        case 7:
-          result.push('August');
-          break;
-        case 8:
-          result.push('September');
-          break;
-        case 9:
-          result.push('October');
-          break;
-        case 10:
-          result.push('November');
-          break;
-        case 11:
-          result.push('December');
-          break;
-      }
-    });
-    return result;
+  dateFilterChanged(dateRange: Date[]): void {
+    if (dateRange[1] != null) {
+      this.handleParams('fromDate', dateRange[0]);
+
+      this.handleParams('toDate', dateRange[1]);
+
+      this.dateRange = [dateRange[0], dateRange[1]];
+
+      this.getComponentData();
+    }
   }
 
-  triggerSubmenu() {
-    this.layoutService.changeSubMenuState(false);
+  filterChanged(filter: DateFilterKey): void {
+    const dateFilterValues = this.helperService.dateFilterValues;
+
+    this.dateFilterChanged(dateFilterValues[filter]);
   }
 
+  pagingInfo(e: PagingInfo): void {
+    this.handleParams('page', e.page + tableConfig.gapPageNumber);
+
+    this.getComponentData();
+  }
+
+  onChangeCountry(): void {
+    this.handleParams('countryName', this.selectedCountry.countryName);
+
+    this.getComponentData();
+  }
+
+  handleParams(
+    key: keyof Partial<SaleByLocationParams>,
+    value: string | number | Date
+  ): void {
+    this.params = {
+      ...this.params,
+      [key]: value,
+    };
+  }
+
+  onDestroy(): void {
+    this.destroy$.next('');
+    this.destroy$.complete();
+  }
 }

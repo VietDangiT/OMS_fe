@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TotalsalechartComponent } from './total-sale-chart.component';
+import { TotalSaleChartComponent } from './total-sale-chart.component';
 
 describe('TotalsalechartComponent', () => {
-  let component: TotalsalechartComponent;
-  let fixture: ComponentFixture<TotalsalechartComponent>;
+  let component: TotalSaleChartComponent;
+  let fixture: ComponentFixture<TotalSaleChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TotalsalechartComponent ]
-    })
-    .compileComponents();
+      declarations: [TotalSaleChartComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(TotalsalechartComponent);
+    fixture = TestBed.createComponent(TotalSaleChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

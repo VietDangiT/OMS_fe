@@ -1,24 +1,39 @@
 {
-    "data":[
-        {
-            "year": "10/27/2023 12:00:00 AM",
-            "sales": 78521,
-            "location": "Singapore"
-        }
-        ,{
-            "year": "11/27/2023 12:00:00 AM",
-            "sales": 12324,
-            "location": "Malaysia"
-        }
-        ,{
-            "year": "12/27/2023 12:00:00 AM",
-            "sales": 105805,
-            "location": "Viet Nam"
-        },
-        {
-            "year": "12/27/2023 12:00:00 AM",
-            "sales": 52110,
-            "location": "Malaysia"
-        }
-    ]
+  "data": [
+    {
+      "year": "10/27/2023 12:00:00 AM",
+      "sales": 78521,
+      "location": "Singapore"
+    },
+    {
+      "year": "11/27/2023 12:00:00 AM",
+      "sales": 12324,
+      "location": "Malaysia"
+    },
+    {
+      "year": "12/27/2023 12:00:00 AM",
+      "sales": 105805,
+      "location": "Viet Nam"
+    },
+    {
+      "year": "12/27/2023 12:00:00 AM",
+      "sales": 52110,
+      "location": "Malaysia"
+    },
+    {
+      "year": "11/27/2023 12:00:00 AM",
+      "sales": 12324,
+      "location": "Malaysia"
+    },
+    {
+      "year": "12/27/2023 12:00:00 AM",
+      "sales": 105805,
+      "location": "Viet Nam"
+    },
+    {
+      "year": "12/27/2023 12:00:00 AM",
+      "sales": 52110,
+      "location": "Malaysia"
+    }
+  ]
 }

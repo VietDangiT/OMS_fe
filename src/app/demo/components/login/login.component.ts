@@ -1,72 +1,73 @@
-import { Component, ViewEncapsulation } from "@angular/core";
-import { AuthService } from "../../service/auth.service";
-import { Router } from "@angular/router";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MessageService } from "primeng/api";
-
-export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  username: string;
-  password:string;
-  role: Role;
-  token?: string;
-}
-
-export enum Role{
- ADMIN = 'Admin',
- MANAGER ='Manager',
- USER = 'User'
-}
-
-export interface SignIn{
-    username: any;
-    password: any;
-}
+import { Component, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { catchError, tap } from 'rxjs';
+import { AuthService } from '../../service/auth.service';
+import { User } from './models/login.models';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  providers:[MessageService],
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent {
-  showPassword: boolean = false;
-  users:User[] =[];
-  isLoading: boolean = false;
-  constructor(private authService : AuthService, private router: Router , private messageService: MessageService){}
-  
+  showPassword = false;
+
+  users: User[] = [];
+
+  isLoading = false;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService
+  ) {}
+
   signInForm = new FormGroup({
-    username: new FormControl('',Validators.required),
-    password: new FormControl('',Validators.required)
+    UserName: new FormControl('', Validators.required),
+    UserPassword: new FormControl('', Validators.required),
   });
-  
-  ngOnInit(){ 
-    
+
+  onSubmit() {
+    this.signInForm.markAllAsTouched();
+    if (!this.signInForm.valid) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Enter valid form value',
+        closable: true,
+      });
+    } else {
+      this.isLoading = true;
+
+      this.authService
+        .login(this.signInForm.value)
+        .pipe(
+          catchError(async err =>
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: err.error,
+              closable: true,
+            })
+          ),
+          tap((token: string) => {
+            this.isLoading = false;
+
+            if (!!token) {
+              localStorage.setItem('token', token);
+
+              this.router.navigate(['/dashboard']);
+            }
+          })
+        )
+        .subscribe();
+    }
   }
 
-  onSubmit(){
-    this.signInForm.markAllAsTouched();
-    if(!this.signInForm.valid){
-      this.errorToast();
-    }else{
-      var user = this.signInForm.value;
-      this.authService.login(user.username, user.password);
-      this.isLoading= true;
-      setTimeout(() => {
-        this.router.navigate(['']);
-        this.isLoading=false;
-      }, 2000);
-  }}
-  
-  togglePassword(){
+  togglePassword() {
     this.showPassword = !this.showPassword;
   }
- 
-  errorToast(){
-    this.messageService.add({severity:'error', summary:'Error', detail:'Enter valid form value', closable:true});
-  }
 }
-

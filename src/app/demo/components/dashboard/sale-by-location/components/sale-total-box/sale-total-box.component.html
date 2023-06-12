@@ -1,0 +1,21 @@
+<div
+  class="flex items-center justify-between w-full text-xs rounded-md md:p-2  bg-{{
+    color
+  }}  bg-opacity-10 "
+>
+  <div class="flex items-center">
+    <i class="mr-2 pi {{ icon }} text-{{ color }} "></i>
+
+    <span class="my-auto font-bold"
+      >{{ value | number : '1.1-1' }}
+      <span *ngIf="type === 'currency'; else percentage">k</span>
+
+      <ng-template #percentage>%</ng-template>
+    </span>
+  </div>
+
+  <div class="p-1 text-white rounded-full bg-{{ color }}">
+    {{ dateRange[0] | date : 'shortDate' }} -
+    {{ dateRange[1] | date : 'shortDate' }}
+  </div>
+</div>

@@ -1,0 +1,96 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="true"
+  [resizable]="true"
+  (onHide)="closeModal()"
+>
+  <ng-template pTemplate="header">
+    <span class="font-bold text-3xl text-primary"
+      ><span i18n>Order </span> #{{ orderDetail.id }}</span
+    >
+  </ng-template>
+
+  <div>
+    <div
+      [class.text-success]="orderDetail.status === 'completed'"
+      [class.text-danger]="orderDetail.status === 'failed'"
+      [class.text-orange-400]="orderDetail.status === 'pending'"
+      [class.text-warning]="orderDetail.status === 'delivery'"
+      [class.text-blue-500]="orderDetail.status === 'return'"
+    >
+      <i class="pi-circle-fill pi"></i>
+
+      <span class="font-bold">
+        {{ orderDetail.status | titlecase }}
+      </span>
+    </div>
+
+    <ul class="my-3">
+      <li class="text-heading mb-2"><span i18n>Customer Info</span>:</li>
+
+      <li class="oms-order-detail-header">
+        <span i18n>Buyer</span>
+
+        :
+
+        <span class="oms-order-detail-info">{{
+          orderDetail.customerName
+        }}</span>
+      </li>
+
+      <li class="oms-order-detail-header">
+        <span i18n> Address </span>
+        :
+        <span class="oms-order-detail-info">{{
+          orderDetail.shippingAddress
+        }}</span>
+      </li>
+
+      <li class="oms-order-detail-header">
+        <span i18n>Recipient Name</span>
+        :
+
+        <span class="oms-order-detail-info">{{
+          orderDetail.customerName
+        }}</span>
+      </li>
+
+      <li class="oms-order-detail-header">
+        <span i18n>Recipient Phone Number</span>
+        :
+
+        <span class="oms-order-detail-info">{{ orderDetail.phoneNumber }}</span>
+      </li>
+    </ul>
+
+    <oms-table
+      [table]="tableData"
+      [contentRef]="contentRef"
+      [isPaginationShown]="false"
+    >
+      <ng-template #contentRef let-rowData>
+        <tr>
+          <td>
+            <div class="flex items-center gap-4">
+              <div>{{ rowData.image }}</div>
+
+              <div>
+                <div class="font-bold text-lg">{{ rowData.name }}</div>
+
+                <div>{{ rowData.description }}</div>
+              </div>
+            </div>
+          </td>
+
+          <td>{{ rowData.barcode }}</td>
+
+          <td>{{ rowData.quantity }}</td>
+
+          <td>{{ rowData.price }}</td>
+        </tr>
+      </ng-template>
+    </oms-table>
+  </div>
+</p-dialog>
