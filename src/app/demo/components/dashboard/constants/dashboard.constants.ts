@@ -14,6 +14,7 @@ export const GET_RETURNS_BY = gql`
     returnsBy(fromDate: $fromDate, toDate: $toDate) {
       numberOfReturn
       value
+      text
     }
   }
 `;

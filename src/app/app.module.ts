@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
+import { ProgressBarComponent } from './demo/components/share/progress-bar/progress-bar.component';
+import { ProgressBarInterceptor } from './demo/http/progress-bar.interceptor';
 import { CountryService } from './demo/service/country.service';
 import { CustomerService } from './demo/service/customer.service';
 import { EventService } from './demo/service/event.service';
@@ -20,6 +22,7 @@ import { AppLayoutModule } from './layout/app.layout.module';
 @NgModule({
   declarations: [AppComponent, NotfoundComponent],
   imports: [
+    ProgressBarComponent,
     AppRoutingModule,
     AppLayoutModule,
     GraphQLModule,
@@ -37,6 +40,11 @@ import { AppLayoutModule } from './layout/app.layout.module';
     ProductService,
     MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ProgressBarInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
