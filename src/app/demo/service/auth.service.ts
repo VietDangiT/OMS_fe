@@ -1,32 +1,37 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-
-
+import { Observable, Subject, tap } from 'rxjs';
+import { User } from '../components/login/models/login.models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  constructor(private _http:HttpClient) { }
+  currentUserSubject$ = new Subject<Partial<User>>();
 
-  login(user: any) : Observable<any>{    
-    return this._http.post(`https://localhost:7121/api/auth/login`, user, {
-      responseType: "text"
-    })
+  constructor(private _http: HttpClient) {}
+
+  login(user: any): Observable<Partial<User>> {
+    return this._http
+      .post<Partial<User>>(`https://localhost:7121/api/auth/login`, user)
+      .pipe(
+        tap(user => {
+          this.currentUserSubject$.next(user);
+        })
+      );
   }
 
   logout(): void {
-   localStorage.removeItem("token");
+    localStorage.removeItem('token');
   }
 
-  isAuthenticated(): boolean{
-      const token = localStorage.getItem("token");
-      return token ? true : false;
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    return !!token;
   }
 
-  getAuthenticationToken(): string{
-    const token = localStorage.getItem("token");
+  get getAuthenticationToken(): string {
+    const token = localStorage.getItem('token');
     return token ? token : '';
   }
 }

@@ -6,6 +6,12 @@ export interface User {
   password: string;
   role: Role;
   token?: string;
+  avatar: string;
+  dob: string;
+  email: string;
+  fullAddress: string;
+  gender: string;
+  phoneNumber: string;
 }
 
 export enum Role {
