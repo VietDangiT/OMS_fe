@@ -59,8 +59,6 @@ export class TotalReturnComponent {
     let total: number = 0;
 
     result.forEach((item: TotalReturn) => {
-      console.log(item);
-
       labelArr.push(`${item.value.toFixed(1)}% ${item.text}`);
 
       dataArr.push(item.numberOfReturn);

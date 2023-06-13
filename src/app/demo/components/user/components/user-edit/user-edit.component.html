@@ -1,57 +1,11 @@
 <app-topbar></app-topbar>
 
-<h1 class="text-3xl font-bold">User Profile</h1>
+<div>
+  <h1 class="text-3xl font-bold">User Profile</h1>
 
-<form [formGroup]="editForm" (ngSubmit)="edit()">
-  <p-avatar [image]="user.avatar!" size="xlarge" shape="circle"></p-avatar>
-
-  <div class="flex flex-col gap-2">
-    <label for="fullName">Full Name</label>
-
-    <input pInputText id="fullName" formControlName="fullName" />
-  </div>
-
-  <div class="flex flex-col gap-2">
-    <label for="email">Email</label>
-
-    <input pInputText id="email" formControlName="email" />
-  </div>
-
-  <div class="flex flex-col gap-2">
-    <label for="gender">Gender</label>
-
-    <p-radioButton
-      name="gender"
-      value="male"
-      id="male"
-      formControlName="gender"
-    ></p-radioButton>
-    <label for="male" class="ml-2">Male</label>
-
-    <p-radioButton
-      name="gender"
-      value="female"
-      id="female"
-      formControlName="gender"
-    ></p-radioButton>
-    <label for="female" class="ml-2">Female</label>
-  </div>
-
-  <div class="flex flex-col gap-2">
-    <label for="dob">Day Of Birth</label>
-
-    <input pInputText id="fullName" formControlName="fullName" />
-  </div>
-
-  <div class="flex flex-col gap-2">
-    <label for="phoneNumber">Phone Number</label>
-
-    <input pInputText id="phoneNumber" formControlName="phoneNumber" />
-  </div>
-
-  <div class="flex flex-col gap-2">
-    <label for="fullAddress">Full Address</label>
-
-    <input pInputText id="fullAddress" formControlName="fullAddress" />
-  </div>
-</form>
+  <oms-user-form
+    [isViewMode]="false"
+    [user]="user"
+    (handleEditForm)="handleEditForm($event)"
+  ></oms-user-form>
+</div>

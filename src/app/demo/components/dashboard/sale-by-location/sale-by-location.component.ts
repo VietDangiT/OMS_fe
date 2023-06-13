@@ -21,6 +21,7 @@ import {
   baseChartOptions,
   heatmapChartOptions,
   pieChartColors,
+  pieChartOptions,
 } from '../../share/oms-chart/oms-chart.component';
 import { saleByLocationTableHeader } from './constants/sale-by-location.constants';
 import {
@@ -65,6 +66,8 @@ export class SaleByLocationComponent {
   baseChartOptions = baseChartOptions;
 
   barBaseChartOptions = barBaseChartOptions;
+
+  pieChartOptions = pieChartOptions;
 
   selectedCountry: Country = {
     countryName: '',

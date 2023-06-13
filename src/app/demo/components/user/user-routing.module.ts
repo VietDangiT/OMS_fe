@@ -3,22 +3,29 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { UserComponent } from './user.component';
 
 const routes: Routes = [
   {
-    path: ':id',
-    data: { breadcrumbs: ['User Profile'] },
-    component: UserDetailComponent,
-  },
-  {
-    path: ':id/edit',
-    data: { breadcrumbs: ['User Profile'] },
-    component: UserEditComponent,
-  },
-  {
-    path: ':id/change-password',
-    data: { breadcrumbs: ['Change Password'] },
-    component: UserChangePasswordComponent,
+    path: '',
+    component: UserComponent,
+    children: [
+      {
+        path: ':id',
+        data: { breadcrumbs: ['User Profile'] },
+        component: UserDetailComponent,
+      },
+      {
+        path: ':id/edit',
+        data: { breadcrumbs: ['User Profile'] },
+        component: UserEditComponent,
+      },
+      {
+        path: ':id/change-password',
+        data: { breadcrumbs: ['Change Password'] },
+        component: UserChangePasswordComponent,
+      },
+    ],
   },
 ];
 

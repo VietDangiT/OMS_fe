@@ -33,7 +33,7 @@
 
     <div class="flex gap-2 mb-4">
       <oms-sale-total-box
-        color="primary "
+        color="bg-primary "
         [dateRange]="dateRange"
         icon="pi-dollar"
         [value]="totalCurrentSale"
@@ -41,7 +41,7 @@
       ></oms-sale-total-box>
 
       <oms-sale-total-box
-        [color]="comparedPercentage < 0 ? 'danger' : 'success'"
+        [color]="comparedPercentage < 0 ? 'bg-danger' : 'bg-success'"
         [dateRange]="comparedDateRange"
         [icon]="comparedPercentage < 0 ? 'pi-arrow-down' : 'pi-arrow-up'"
         [value]="comparedPercentage"
@@ -63,21 +63,23 @@
       <p class="font-bold" i18n>Country</p>
     </div>
 
-    <div class="w-[50vh] mx-auto lg:w-10/12 xl:w-8/12">
-      <oms-chart type="doughnut" [data]="countryData"></oms-chart>
+    <div class="w-[50vh] lg:h-1/2 mx-auto lg:w-10/12 xl:w-8/12">
+      <oms-chart
+        type="doughnut"
+        [data]="countryData"
+        [options]="pieChartOptions"
+      ></oms-chart>
     </div>
 
     <ng-container *ngIf="countryPercentage">
-      <ul class="pb-4 px-4">
+      <ul class="px-4">
         <li
           class="flex justify-between font-bold"
           *ngFor="let c of countryPercentage"
         >
           <span class="text-lg">{{ c.name | titlecase }}</span>
 
-          <div
-            class="flex justify-between items-center w-2/12 lg:w-1/4 xl:w-1/6"
-          >
+          <div class="flex items-center">
             <i
               class="pi"
               [ngClass]="
@@ -87,7 +89,7 @@
               "
             ></i>
 
-            <span> {{ c.percentage | number : '1.0-0' }} %</span>
+            <span class="ml-2"> {{ c.percentage | number : '1.0-0' }} %</span>
           </div>
         </li>
       </ul>

@@ -39,6 +39,8 @@ import { MenuElement, MenuElementItem } from './service/models/menu.models';
 export class AppMenuComponent {
   channels: Channel[];
 
+  userId = localStorage.getItem('userId') ?? 0;
+
   menuElements: MenuElement[] = [
     {
       name: 'dashboard',
@@ -123,13 +125,13 @@ export class AppMenuComponent {
           {
             name: 'personalinfo',
             content: 'Personal Info',
-            path: '/users/personal-info',
+            path: `user/${this.userId}`,
             icon: 'pi-user',
           },
           {
             name: 'changepassword',
             content: 'Change Password',
-            path: '/users/change-password',
+            path: `user/${this.userId}/change-password`,
             icon: 'pi-lock',
           },
         ],
@@ -162,15 +164,23 @@ export class AppMenuComponent {
     public layoutService: LayoutService,
     private channelService: ChannelService,
     private marketPlaceService: MarketplaceService
-  ) {
-    this.layoutService.currentNavbarState
-      .pipe(tap(state => (this.isNavbarOn = state)))
-      .subscribe();
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.getNavbarState();
+
     this.initCountries();
+
     this.initMarketplaces();
+  }
+
+  getNavbarState(): void {
+    this.layoutService.currentNavbarState
+      .pipe(
+        tap(state => (this.isNavbarOn = state)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   initCountries(): void {
