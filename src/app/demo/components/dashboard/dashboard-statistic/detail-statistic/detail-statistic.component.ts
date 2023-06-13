@@ -1,22 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-export interface DetailStatistic {
-  title: string;
-  nameManage: string;
-  manageUrl: string;
-  data: {
-    displayText: string;
-    value: string | number;
-    hasCircle?: boolean;
-    circleColor?: 'red' | 'green' | 'yellow';
-  }[];
-  hasFooter?: boolean;
-  footer?: {
-    displayText: string;
-    value: string | number;
-    url: string;
-  };
-}
+import { Statistic } from '../../interfaces/dashboard.models';
 
 @Component({
   selector: 'dashboard-detail-statistic',
@@ -24,10 +7,6 @@ export interface DetailStatistic {
   styleUrls: ['./detail-statistic.component.scss'],
 })
 export class DetailStatisticComponent {
-  @Input() detailStatistic: DetailStatistic = {
-    title: '',
-    nameManage: '',
-    manageUrl: '',
-    data: [],
-  };
+  @Input() detailStatistic: Statistic[];
+  @Input() heading: string;
 }

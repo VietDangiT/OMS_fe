@@ -1,6 +1,13 @@
-import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { Subject, takeUntil, tap } from 'rxjs';
+import {
+  Channel,
+  Country,
+} from '../demo/components/channel/interface/channel.component';
+import { MarketplaceService } from '../demo/components/marketplace/services/marketplace.service';
+import { ChannelService } from '../demo/service/channel.service';
 import { LayoutService } from './service/app.layout.service';
+import { MenuElement, MenuElementItem } from './service/models/menu.models';
 
 @Component({
   selector: 'app-menu',
@@ -13,50 +20,48 @@ import { LayoutService } from './service/app.layout.service';
       .active div {
         @apply visible block opacity-100 pointer-events-auto;
       }
-      .active.submenu{
+      .active.submenu {
         @apply block;
       }
       /* For Webkit-based browsers (Chrome, Safari and Opera) */
       .scrollbar-hide::-webkit-scrollbar {
-      display: none;
+        display: none;
       }
 
       /* For IE, Edge and Firefox */
       .scrollbar-hide {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
       }
     `,
   ],
 })
-export class AppMenuComponent implements OnInit {
-  menuElements = [
+export class AppMenuComponent {
+  channels: Channel[];
+
+  menuElements: MenuElement[] = [
     {
       name: 'dashboard',
       path: '/dashboard',
       icon: 'pi pi-th-large',
-      isDropDownMenu:true,
       submenu: {
-        title:"Dashboard",
-        item: [
+        title: 'Dashboard',
+        items: [
           {
             name: 'totalSales',
             content: 'Total Sales',
-            path: 'dashboard/totalsales',
+            path: 'dashboard/total-sales',
             icon: 'pi-dollar',
+            param: {},
           },
           {
             name: 'totalOrder',
             content: 'Total Orders',
-            path: 'dashboard/total-order',
+            path: 'dashboard/total-orders',
             icon: 'pi-shopping-cart',
+            param: {},
           },
-          {
-            name: 'cardStatic',
-            path: 'dashboard/card-static',
-            content: 'Card Statistics Payment',
-            icon: 'pi-credit-card',
-          },
+
           {
             name: 'saleByLocation',
             path: 'dashboard/sale-by-location',
@@ -64,422 +69,171 @@ export class AppMenuComponent implements OnInit {
             icon: 'pi-globe',
           },
           {
-            name: 'saleByPromotion',
-            path: 'dashboard/sale-by-promotion',
-            content: 'Sale by Promotions',
-            icon: 'pi-tag',
-          },
-          {
             name: 'saleByChannel',
             path: 'dashboard/total-sale-by-channel',
             content: 'Total sales by Channel',
             icon: 'pi-home',
           },
-        ]
-      }
+        ],
+      },
     },
     {
-      name: 'order',
-      path: '/order',
+      name: 'orders',
+      path: '/orders',
       icon: 'pi pi-box',
-      isDropDownMenu:true,
       submenu: {
-        title:"Orders",
-        // item: [
-        //   {
-        //     name: 'totalSales',
-        //     content: 'Total Sales',
-        //     path: 'order/totalsales',
-        //     icon: 'pi-dollar',
-        //   },
-        //   {
-        //     name: 'totalOrder',
-        //     content: 'Total Orders',
-        //     path: 'order/total-order',
-        //     icon: 'pi-shopping-cart',
-        //   },
-        //   {
-        //     name: 'cardStatic',
-        //     path: 'order/card-static',
-        //     content: 'Card Statistics Payment',
-        //     icon: 'pi-credit-card',
-        //   },
-        //   {
-        //     name: 'saleByLocation',
-        //     path: 'order/sale-by-location',
-        //     content: 'Sales by Location',
-        //     icon: 'pi-globe',
-        //   },
-        //   {
-        //     name: 'saleByPromotion',
-        //     path: 'order/sale-by-promotion',
-        //     content: 'Sale by Promotions',
-        //     icon: 'pi-tag',
-        //   },
-        //   {
-        //     name: 'saleByChannel',
-        //     path: 'order/total-sale-by-channel',
-        //     content: 'Total sales by Channel',
-        //     icon: 'pi-home',
-        //   },
-        // ]
-      }
+        title: 'Orders',
+        items: [],
+      },
     },
     {
       name: 'catalogue',
-      path: '/catalogue',
-      icon: 'pi pi-book',
-      isDropDownMenu:true,
+      path: '/catalogues',
+      icon: 'pi pi-inbox',
       submenu: {
         title: 'Catalogue',
-        item: [
-
-        ],
-      }
+        items: [],
+      },
     },
-    {
-      name: 'inventory',
-      path: '/inventory',
-      icon: 'pi pi-inbox',
-      isDropDownMenu:true,
-      submenu: {
-        title: 'Inventory',
-        item: [
-
-        ],
-      }
-    },
+    // {
+    //   name: 'payment',
+    //   path: '/payment',
+    //   icon: 'pi pi-credit-card',
+    //   submenu: {
+    //     title: 'Payment',
+    //     items: [],
+    //   },
+    // },
+    // {
+    //   name: 'inventory',
+    //   path: '/inventory',
+    //   icon: 'pi pi-inbox',
+    //   submenu: {
+    //     title: 'Inventory',
+    //     items: [],
+    //   },
+    // },
     {
       name: 'user',
       path: '/user',
       icon: 'pi pi-user',
-      isDropDownMenu:true,
       submenu: {
         title: 'Profile',
-        item: [
-        {
-          name: 'personalinfo',
-          content: 'Personal Info',
-          path: '/users/personal-info',
-          icon: 'pi-user',
-        },
-        {
-          name: 'changepassword',
-          content: 'Change Password',
-          path: '/users/change-password',
-          icon: 'pi-lock',
-        },
+        items: [
+          {
+            name: 'personalinfo',
+            content: 'Personal Info',
+            path: '/users/personal-info',
+            icon: 'pi-user',
+          },
+          {
+            name: 'changepassword',
+            content: 'Change Password',
+            path: '/users/change-password',
+            icon: 'pi-lock',
+          },
         ],
-      }
+      },
     },
     {
       name: 'customer',
       path: '/customer',
       icon: 'pi pi-users',
-      isDropDownMenu:true,
       submenu: {
         title: 'Customer',
-        item: [
-          {
-            name: 'All Customer',
-            content: 'Singapore',
-            path: 'customer/all-customer',
-            icon: 'pi-flag-fill',
-          },
-          {
-            name: 'All Customer',
-            content: 'Malaysia',
-            path: 'customer/all-customer',
-            icon: 'pi-flag-fill',
-          },
-          {
-            name: 'All Customer',
-            content: 'Thailand',
-            path: 'customer/all-customer',
-            icon: 'pi-flag-fill',
-          },
-          {
-            name: 'All Customer',
-            content: 'VietNam',
-            path: 'customer/all-customer',
-            icon: 'pi-flag-fill',
-          },
-
-
-        ],
-      }
+        items: [],
+      },
     },
     {
-      name: 'contact',
-      path: '/contact',
+      name: 'channel',
+      path: '/channels',
       icon: 'pi pi-phone',
-      isDropDownMenu:true,
       submenu: {
-        title: 'Contacts',
-        item: [
-
-        ],
-      }
+        title: 'Channels',
+      },
     },
   ];
+
   isNavbarOn: boolean | undefined;
-  model: any[] = [];
 
-  constructor(public layoutService: LayoutService) {
+  private readonly destroy$ = new Subject();
 
-    this.layoutService.currentNavbarState.subscribe(
-      (state) => (this.isNavbarOn = state)
-    );
+  constructor(
+    public layoutService: LayoutService,
+    private channelService: ChannelService,
+    private marketPlaceService: MarketplaceService
+  ) {
+    this.layoutService.currentNavbarState
+      .pipe(tap(state => (this.isNavbarOn = state)))
+      .subscribe();
   }
 
-  ngOnInit() {
-    this.model = [
-      {
-        label: 'Home',
-        items: [
-          { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
-        ],
-      },
-      {
-        label: 'UI Components',
-        items: [
-          {
-            label: 'Form Layout',
-            icon: 'pi pi-fw pi-id-card',
-            routerLink: ['/uikit/formlayout'],
-          },
-          {
-            label: 'Input',
-            icon: 'pi pi-fw pi-check-square',
-            routerLink: ['/uikit/input'],
-          },
-          {
-            label: 'Float Label',
-            icon: 'pi pi-fw pi-bookmark',
-            routerLink: ['/uikit/floatlabel'],
-          },
-          {
-            label: 'Invalid State',
-            icon: 'pi pi-fw pi-exclamation-circle',
-            routerLink: ['/uikit/invalidstate'],
-          },
-          {
-            label: 'Button',
-            icon: 'pi pi-fw pi-box',
-            routerLink: ['/uikit/button'],
-          },
-          {
-            label: 'Table',
-            icon: 'pi pi-fw pi-table',
-            routerLink: ['/uikit/table'],
-          },
-          {
-            label: 'List',
-            icon: 'pi pi-fw pi-list',
-            routerLink: ['/uikit/list'],
-          },
-          {
-            label: 'Tree',
-            icon: 'pi pi-fw pi-share-alt',
-            routerLink: ['/uikit/tree'],
-          },
-          {
-            label: 'Panel',
-            icon: 'pi pi-fw pi-tablet',
-            routerLink: ['/uikit/panel'],
-          },
-          {
-            label: 'Overlay',
-            icon: 'pi pi-fw pi-clone',
-            routerLink: ['/uikit/overlay'],
-          },
-          {
-            label: 'Media',
-            icon: 'pi pi-fw pi-image',
-            routerLink: ['/uikit/media'],
-          },
-          {
-            label: 'Menu',
-            icon: 'pi pi-fw pi-bars',
-            routerLink: ['/uikit/menu'],
-            routerLinkActiveOptions: {
-              paths: 'subset',
-              queryParams: 'ignored',
-              matrixParams: 'ignored',
-              fragment: 'ignored',
-            },
-          },
-          {
-            label: 'Message',
-            icon: 'pi pi-fw pi-comment',
-            routerLink: ['/uikit/message'],
-          },
-          {
-            label: 'File',
-            icon: 'pi pi-fw pi-file',
-            routerLink: ['/uikit/file'],
-          },
-          {
-            label: 'Chart',
-            icon: 'pi pi-fw pi-chart-bar',
-            routerLink: ['/uikit/charts'],
-          },
-          {
-            label: 'Misc',
-            icon: 'pi pi-fw pi-circle',
-            routerLink: ['/uikit/misc'],
-          },
-        ],
-      },
-      {
-        label: 'Prime Blocks',
-        items: [
-          {
-            label: 'Free Blocks',
-            icon: 'pi pi-fw pi-eye',
-            routerLink: ['/blocks'],
-            badge: 'NEW',
-          },
-          {
-            label: 'All Blocks',
-            icon: 'pi pi-fw pi-globe',
-            url: ['https://www.primefaces.org/primeblocks-ng'],
-            target: '_blank',
-          },
-        ],
-      },
-      {
-        label: 'Utilities',
-        items: [
-          {
-            label: 'PrimeIcons',
-            icon: 'pi pi-fw pi-prime',
-            routerLink: ['/utilities/icons'],
-          },
-          {
-            label: 'PrimeFlex',
-            icon: 'pi pi-fw pi-desktop',
-            url: ['https://www.primefaces.org/primeflex/'],
-            target: '_blank',
-          },
-        ],
-      },
-      {
-        label: 'Pages',
-        icon: 'pi pi-fw pi-briefcase',
-        items: [
-          {
-            label: 'Landing',
-            icon: 'pi pi-fw pi-globe',
-            routerLink: ['/landing'],
-          },
-          {
-            label: 'Auth',
-            icon: 'pi pi-fw pi-user',
-            items: [
-              {
-                label: 'Login',
-                icon: 'pi pi-fw pi-sign-in',
-                routerLink: ['/auth/login'],
-              },
-              {
-                label: 'Error',
-                icon: 'pi pi-fw pi-times-circle',
-                routerLink: ['/auth/error'],
-              },
-              {
-                label: 'Access Denied',
-                icon: 'pi pi-fw pi-lock',
-                routerLink: ['/auth/access'],
-              },
-            ],
-          },
-          {
-            label: 'Crud',
-            icon: 'pi pi-fw pi-pencil',
-            routerLink: ['/pages/crud'],
-          },
-          {
-            label: 'Timeline',
-            icon: 'pi pi-fw pi-calendar',
-            routerLink: ['/pages/timeline'],
-          },
-          {
-            label: 'Not Found',
-            icon: 'pi pi-fw pi-exclamation-circle',
-            routerLink: ['/notfound'],
-          },
-          {
-            label: 'Empty',
-            icon: 'pi pi-fw pi-circle-off',
-            routerLink: ['/pages/empty'],
-          },
-        ],
-      },
-      {
-        label: 'Hierarchy',
-        items: [
-          {
-            label: 'Submenu 1',
-            icon: 'pi pi-fw pi-bookmark',
-            items: [
-              {
-                label: 'Submenu 1.1',
-                icon: 'pi pi-fw pi-bookmark',
-                items: [
-                  { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
-                  { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-                  { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
-                ],
-              },
-              {
-                label: 'Submenu 1.2',
-                icon: 'pi pi-fw pi-bookmark',
-                items: [
-                  { label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' },
-                ],
-              },
-            ],
-          },
-          {
-            label: 'Submenu 2',
-            icon: 'pi pi-fw pi-bookmark',
-            items: [
-              {
-                label: 'Submenu 2.1',
-                icon: 'pi pi-fw pi-bookmark',
-                items: [
-                  { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
-                  { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' },
-                ],
-              },
-              {
-                label: 'Submenu 2.2',
-                icon: 'pi pi-fw pi-bookmark',
-                items: [
-                  { label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        label: 'Get Started',
-        items: [
-          {
-            label: 'Documentation',
-            icon: 'pi pi-fw pi-question',
-            routerLink: ['/documentation'],
-          },
-          {
-            label: 'View Source',
-            icon: 'pi pi-fw pi-search',
-            url: ['https://github.com/primefaces/sakai-ng'],
-            target: '_blank',
-          },
-        ],
-      },
-    ];
+  ngOnInit(): void {
+    this.initCountries();
+    this.initMarketplaces();
+  }
+
+  initCountries(): void {
+    this.channelService
+      .getCountries()
+      .pipe(
+        tap(res => {
+          const { countries } = res;
+
+          const resultArr: MenuElementItem[] = [];
+
+          countries.forEach((c: Country) => {
+            resultArr.push({
+              name: c.countryName,
+              content: c.countryName,
+              path: `/channels`,
+              param: { countryId: c.id },
+              icon: 'pi-home',
+            });
+          });
+
+          const index = this.menuElements.findIndex(
+            c => c.path === '/channels'
+          );
+
+          this.menuElements[index].submenu.items = resultArr;
+        }),
+
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  initMarketplaces(): void {
+    this.marketPlaceService
+      .getMarketPlaces()
+      .pipe(
+        tap(res => {
+          const { marketPlaces } = res;
+
+          const resultArr: MenuElementItem[] = [];
+
+          marketPlaces.forEach(m => {
+            resultArr.push({
+              name: m.marketPlaceName,
+              content: m.marketPlaceName,
+              path: `/orders`,
+              param: { marketPlaceId: m.id },
+              icon: 'pi-home',
+            });
+          });
+
+          const index = this.menuElements.findIndex(c => c.path === '/orders');
+
+          this.menuElements[index].submenu.items = resultArr;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 }

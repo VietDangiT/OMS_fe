@@ -1,38 +1,42 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OMSChartComponent } from './oms-chart/oms-chart.component';
-import { ChartModule } from 'primeng/chart';
-import { NgApexchartsModule } from 'ng-apexcharts';
-import { DateFilterComponent } from './date-filter/date-filter.component';
-import { CalendarModule } from 'primeng/calendar';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GlobalFilterComponent } from './global-filter/global-filter.component';
-import { OmsTableComponent } from './oms-table/oms-table.component';
-import { TableModule } from 'primeng/table';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ChartModule } from 'primeng/chart';
 import { PaginatorModule } from 'primeng/paginator';
-import { PaginationComponent } from './pagination/pagination.component';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TableModule } from 'primeng/table';
+import { DateFilterComponent } from './date-filter/date-filter.component';
+import { OMSChartComponent } from './oms-chart/oms-chart.component';
+import { OmsTableComponent } from './oms-table/oms-table.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { ScreenFilterComponent } from './screen-filter/screen-filter.component';
+import { CalendarModule } from 'primeng/calendar';
 
 
 @NgModule({
   declarations: [
     OMSChartComponent,
-    DateFilterComponent,
-    GlobalFilterComponent,
     OmsTableComponent,
-    PaginationComponent
+    PaginationComponent,
+    GlobalFilterComponent,
+    ScreenFilterComponent,
+
   ],
   imports: [
+    DateFilterComponent,
     CommonModule,
     ChartModule,
     NgApexchartsModule,
-    CalendarModule,
     FormsModule,
     TableModule,
     PaginatorModule,
-    SkeletonModule
+    SkeletonModule,
+    CalendarModule
 
   ],
-  exports: [OMSChartComponent, DateFilterComponent, OmsTableComponent,GlobalFilterComponent]
+  exports: [OMSChartComponent, DateFilterComponent, OmsTableComponent, GlobalFilterComponent, ScreenFilterComponent]
+
 })
-export class ShareModule { }
+export class ShareModule {}

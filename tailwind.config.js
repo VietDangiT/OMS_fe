@@ -12,6 +12,10 @@ module.exports = {
     extend: {
       colors: {
         "primary": "#27447C",
+        "primaryLight":"#334d80",
+        "primaryLight1":"#436099",
+        "primaryLight2":"#597abd",
+        "primaryLight3":"#668ad4",
         "primary-1": "#b4c5e7",
         "primary-2": "#f3f6fb",
         "secondary": "#FCA310",
@@ -23,8 +27,12 @@ module.exports = {
         "success": "#1DD75B",
         "grayData": "#6C757D",
         "danger":"#DE3B3B",
+        "light-yellow": "#fff9ee",
+        "light-gray":"#ced4da",
         "geomapBackground": "#F8F9FA",
-        "datalessRegion": "#DEE1E6"
+        "datalessRegion": "#DEE1E6",
+        "nude":"#FFF9EE",
+        "brightOrange":"#FCA310"
       },
       width: {
         sidebarWidth: "50px",
@@ -38,6 +46,10 @@ module.exports = {
         88: "22.2rem",
         81: "20.3rem",
       },
+      gridTemplateColumns: {
+        // Simple 8 row grid
+        'fit-300': 'repeat(auto-fit, minmax(300px, 1fr))',
+      }
     },
   },
   plugins: [],

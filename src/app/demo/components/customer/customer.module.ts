@@ -12,7 +12,6 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { ButtonModule } from 'primeng/button';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
-import { SubmenuModule } from 'src/app/layout/app.submenu.module';
 import { PaginatorModule } from 'primeng/paginator';
 import { ShareModule } from '../share/share.module';
 import { ChartsModule } from '../charts/charts.module';
@@ -47,7 +46,7 @@ import { CustomerActivityComponent } from './detail-customer/customer-activity/c
     ButtonModule,
     NgApexchartsModule,
     AppTopBarModule,
-    SubmenuModule,
+    MenuModule,
     PaginatorModule,
     ShareModule,
     ChartsModule,

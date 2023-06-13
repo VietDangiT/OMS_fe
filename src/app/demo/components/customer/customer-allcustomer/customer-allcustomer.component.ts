@@ -12,7 +12,7 @@ export class CustomerAllcustomerComponent implements OnInit {
 
   // @Input() order: Order;
 
-  table: OmsTable= {
+  table: OmsTable<any>= {
     page: 0,
     first: 0,
     rows: 0,
@@ -20,14 +20,14 @@ export class CustomerAllcustomerComponent implements OnInit {
     totalRecord: 0,
     data: {
       header: [
-        'Customer Name',
-        'Address',
-        'Total Order',
-        'Total Spend',
-        'Phone Number',
-        'Last Order',
-        'Type Customer',
-        'Actions'
+        // 'Customer Name',
+        // 'Address',
+        // 'Total Order',
+        // 'Total Spend',
+        // 'Phone Number',
+        // 'Last Order',
+        // 'Type Customer',
+        // 'Actions'
       ],
       body: [
         {name:"Trần Quân",

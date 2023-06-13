@@ -1,11 +1,16 @@
-export interface OmsTable {
-  page: number; 
-  first: number; 
-  rows: number; 
-  pageCount: number;
-  totalRecord: number;
+export interface OmsTable<T> {
+  page?: number;
+  first?: number;
+  rows?: number;
+  pageCount?: number;
+  totalRecord?: number;
   data: {
-    header: string[];
-    body: any[];
+    header: TableHeader[];
+    body: T[];
   };
+}
+
+interface TableHeader {
+  col: string;
+  field: string;
 }

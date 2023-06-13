@@ -16,14 +16,16 @@ export class DetailCustomerComponent  {
 
   @Output('onClose') onClose: EventEmitter<boolean> = new EventEmitter();
 
-  tableData: OmsTable = {
+  tableData: OmsTable<any> = {
     page: 0,
     first: 0,
     rows: 0,
     pageCount: 0,
     totalRecord: 0,
     data: {
-      header: ['Product Code', 'Product name', 'Store', 'Description','Rating'],
+      header: [
+        // 'Product Code', 'Product name', 'Store', 'Description','Rating'
+      ],
       body: [
         {
           code: '#00001',

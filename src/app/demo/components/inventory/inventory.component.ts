@@ -19,7 +19,7 @@ export class InventoryComponent implements OnInit {
   ];
   activeItem: MenuItem = this.items[0];
   countryId: string | number;
-  table: OmsTable= {
+  table: OmsTable<any>= {
     page: 0,
     first: 0,
     rows: 0,
@@ -27,13 +27,13 @@ export class InventoryComponent implements OnInit {
     totalRecord: 0,
     data: {
       header: [
-        'Image',
-        'SKU',
-        'Product Name',
-        'Available Stock',
-        'In-process',
-        'Sold',
-        'Actions'
+        // 'Image',
+        // 'SKU',
+        // 'Product Name',
+        // 'Available Stock',
+        // 'In-process',
+        // 'Sold',
+        // 'Actions'
       ],
       body: [
           { image:"https://th.bing.com/th/id/R.9dfccb47fa289bd328e092a7607bf078?rik=A3zqZto7RVf42A&pid=ImgRaw&r=0",

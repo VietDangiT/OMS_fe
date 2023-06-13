@@ -1,55 +1,137 @@
 <div class="lg:flex md:block h-screen w-screen bg-white">
-    <div class="shadow-2xl lg:py-8 md:py-4 lg:w-7/12 md:w-full md:pt-0 lg:mt-0 h-full flex lg:px-40 md:px-6 flex-col justify-center ">
-        <div class="w-1/5 mx-auto cursor-pointer">
-            <img routerLink="" src="assets/logo1.png" class="w-full h-full object-cover " alt="">
-        </div>
-        <div class="">
-            <h2 class="text-4xl font-bold py-4 border-b border-primary border-opacity-20">Sign in</h2>
-            <form [formGroup]="signInForm"  class="py-2" (ngSubmit)="onSubmit()">
-                <div class="flex flex-col gap-1 mb-6  relative">
-                    <label for="username" class=" cursor-pointer font-semibold ">Username</label>
-                    <input required formControlName="username" placeholder="Username" type="text" class=" input-class text-sm" id="username" required>
-                    <ng-container *ngIf="signInForm.get('username')?.dirty || signInForm.get('username')?.touched">
-                        <div *ngIf="signInForm.get('username')?.hasError('required')" class="validate">
-                            Username is required.
-                          </div>
-                    </ng-container>
-                </div>
-                <div class="flex flex-col gap-1 mb-6  relative">
-                    <label for="password" class=" cursor-pointer font-semibold ">Password</label>
-                    <input required formControlName="password" placeholder="Password" type="{{showPassword ? 'text' : 'password'}}"  class="input-class  text-sm !pr-12" id="password" required>
-                    <i :[class]="!showPassword ? 'pi-eye': 'pi-eye-slash'" class="pi p-2 absolute right-0 -translate-x-1/2 top-1/2 cursor-pointer" (click)="togglePassword()"></i>
-                    <ng-container *ngIf="signInForm.get('password')?.dirty || signInForm.get('password')?.touched">
-                        <div *ngIf="signInForm.get('password')?.hasError('required')" class="validate">
-                            Password is required.
-                          </div>
-                    </ng-container>
-                </div>
-                <div class="flex w-full flex-1 mb-4 items-end md:flex-wrap  justify-between transition-all duration-200">
-                    <div class="flex items-center cursor-pointer ">
-                        <input type="checkbox" class="mr-2 cursor-pointer" id="checkbox_id"/>
-                        <label for="checkbox_id" class="cursor-pointer ">Keep me log in</label>
-                    </div>
-                    <a routerLink="" class="underline text-primary  hover:bg-opacity-95">Forget password?</a>
-                </div>
-                <button  type="submit" class=" py-3 w-full text-lg lg:w-1/2  bg-primary text-white rounded-lg hover:bg-opacity-95 transition-all duration-200 font-medium flex items-center justify-center"  [ngClass]="{'bg-opacity-80' : isLoading}">
-                    <div *ngIf="isLoading"  class="w-5 h-5 rounded-full bg-transparent border-2 border-white border-t-transparent animate-spin">
-                    </div>
-                    <span *ngIf="!isLoading" >Sign in</span>
-                </button>
-                <p-toast position="top-left" [showTransformOptions]="'translateX(50%)'" [preventOpenDuplicates]="true">
-                </p-toast>
-            </form>
-        </div>
+  <div
+    class="shadow-2xl lg:py-8 md:py-4 lg:w-7/12 md:w-full md:pt-0 lg:mt-0 h-full flex lg:px-40 md:px-6 flex-col justify-center"
+  >
+    <div class="w-1/5 mx-auto cursor-pointer">
+      <img
+        routerLink=""
+        src="assets/logo1.png"
+        class="w-full h-full object-cover"
+        alt=""
+      />
     </div>
-    <div class="md:fixed md:left-0 md:bottom-0 md:right-0 md:w-full md:h-16 lg:w-5/12 lg:h-full lg:static lg:flex lg:flex-col items-center  bg-primary">
-        <div class="lg:w-full md:hidden lg:block">
-            <img src="assets/computer.png" class="w-full h-full object-cover min-h-[60vh]" alt="">
-        </div>
-        <div class="text-white text-center p-4 md:p-2">
-            <h1 class="lg:text-5xl md:text-xl font-bold break-words md:mb-2 text-white ">Order Management <br class="md:hidden lg:block"> System</h1>
-                <p class="text-xs">Consistent quality and experience.</p>
-        </div>
-    </div>
-</div>
 
+    <div>
+      <h2 class="text-5xl font-bold py-2">Sign in</h2>
+
+      <form [formGroup]="signInForm" class="py-2" (ngSubmit)="onSubmit()">
+        <div class="flex flex-col gap-1 mb-6 relative">
+          <label for="username" class="cursor-pointer font-semibold"
+            >Username</label
+          >
+
+          <input
+            required
+            formControlName="UserName"
+            placeholder="Username"
+            type="text"
+            class="input-class text-sm"
+            id="username"
+            required
+          />
+
+          <ng-container
+            *ngIf="
+              signInForm.get('UserName')?.dirty ||
+              signInForm.get('UserName')?.touched
+            "
+          >
+            <div
+              *ngIf="signInForm.get('UserName')?.hasError('required')"
+              class="validate"
+            >
+              Username is required.
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="flex flex-col gap-1 mb-6 relative">
+          <label for="password" class="cursor-pointer font-semibold"
+            >Password</label
+          >
+
+          <input
+            required
+            formControlName="UserPassword"
+            placeholder="Password"
+            type="{{ showPassword ? 'text' : 'password' }}"
+            class="input-class text-sm !pr-12"
+            id="password"
+            required
+          />
+
+          <i
+            :[class]="!showPassword ? 'pi-eye': 'pi-eye-slash'"
+            class="pi p-2 absolute right-0 -translate-x-1/2 top-1/2 cursor-pointer"
+            (click)="togglePassword()"
+          ></i>
+
+          <ng-container
+            *ngIf="
+              signInForm.get('UserPassword')?.dirty ||
+              signInForm.get('UserPassword')?.touched
+            "
+          >
+            <div
+              *ngIf="signInForm.get('UserPassword')?.hasError('required')"
+              class="validate"
+            >
+              Password is required.
+            </div>
+          </ng-container>
+        </div>
+
+        <div
+          class="flex w-full flex-1 mb-4 items-end md:flex-wrap justify-between transition-all duration-200"
+        >
+          <div class="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              class="mr-2 cursor-pointer"
+              id="checkbox_id"
+            />
+
+            <label for="checkbox_id" class="cursor-pointer"
+              >Keep me log in</label
+            >
+          </div>
+          <a routerLink="" class="underline text-primary hover:bg-opacity-95"
+            >Forget password?</a
+          >
+        </div>
+
+        <button
+          type="submit"
+          class="py-3 w-full text-lg lg:w-1/2 bg-primary text-white rounded-lg hover:bg-opacity-95 transition-all duration-200 font-medium flex items-center justify-center"
+          [ngClass]="{ 'bg-opacity-80': isLoading }"
+        >
+          <div
+            *ngIf="isLoading"
+            class="w-7 h-7 rounded-full bg-transparent border-2 border-white border-t-transparent animate-spin"
+          ></div>
+
+          <span *ngIf="!isLoading">Sign in</span>
+        </button>
+      </form>
+    </div>
+  </div>
+  <div
+    class="md:fixed md:left-0 md:bottom-0 md:right-0 md:w-full md:h-16 lg:w-5/12 lg:h-full lg:static lg:flex lg:flex-col items-center bg-primary"
+  >
+    <div class="lg:w-full md:hidden lg:block">
+      <img
+        src="assets/computer.png"
+        class="w-full h-full object-cover min-h-[60vh]"
+        alt=""
+      />
+    </div>
+    <div class="text-white text-center p-4 md:p-2">
+      <h1
+        class="lg:text-4xl md:text-xl font-bold break-words md:mb-1 text-white"
+      >
+        Order Management System
+      </h1>
+      <p class="text-sm">Consistent quality and experience.</p>
+    </div>
+  </div>
+</div>

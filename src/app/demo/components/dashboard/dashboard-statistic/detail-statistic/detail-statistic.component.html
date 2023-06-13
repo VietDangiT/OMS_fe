@@ -1,24 +1,20 @@
-<div class="border border-solid border-slate-400 border-opacity-40 rounded-sm mb-2">
-  <div
-    class="flex gap-1 flex-col lg:flex-row justify-between lg:items-center w-full border-b border-solid border-slate-400 border-opacity-40 p-1.5 px-4">
-    <span class="text-gray-400 text-xs">{{ detailStatistic.title | uppercase}}</span>
-    <a routerLink="{{ detailStatistic.manageUrl }}" class="text-blue-900 text-xs">
-      <i class="pi pi-plus-circle text-blue-900 text-xs"></i> Manage {{ detailStatistic.nameManage | titlecase}}
-    </a>
-  </div>
-  <div class="px-4 py-2">
-    <div class="flex flex-col mb-2" *ngFor="let item of detailStatistic.data">
-      <span class="lg:flex items-center gap-1 text-xs">{{ item.displayText }} <i
-          class="pi pi-circle-fill text-[3px] md:text-[5px]"
-          [ngClass]="item.circleColor === 'red' ? 'text-red-500' : 'text-green-500'"
-          *ngIf="item.hasCircle === true"></i></span>
-      <span class="font-bold text-lg md:text-xl">{{ item.value }}</span>
+<div class="mb-1">
+  <span class=" text-sm font-bold">{{ heading | titlecase}}</span>
+  <div class="grid gap-2 flex-wrap  py-2 ">
+    <div class="bg-light-yellow rounded-lg py-2 px-3 relative group" *ngFor="let item of detailStatistic">
+        <span class="flex items-center font-medium  mb-1 text-sm ">{{ item.text }} 
+          <i class="pi pi-circle-fill text-[3px] ml-2 md:text-[5px] "
+          [ngClass]="item.previous > item.current ?  'text-danger' : 'text-success'"></i>
+        </span> 
+        <div class=" font-bold text-lg md:text-xl max-w-[150px] text-ellipsis overflow-hidden whitespace-nowrap ">{{ item.current }}
+        </div>
+        <span class="group-hover:opacity-100 transition-opacity bg-gray-400 px-1 text-sm text-white rounded-md absolute left-1/2 
+         -translate-x-1/2 -translate-y-full opacity-0 m-4 mx-auto">{{item.current}}</span>
+        <div  class="text-xs font-medium gap-1 mt-1 flex items-center">
+            <i class="pi " 
+            [ngClass]="item.value >= 0 ? 'text-success pi-angle-up':'text-danger pi-angle-down'"></i>
+            <span  class="" >{{item.value | number : '1.2-2'}} %</span>
+          </div>
     </div>
-  </div>
-  <div *ngIf="detailStatistic.hasFooter"
-    class="pb-2 bg-slate-50 flex flex-col border-t border-solid border-slate-400 border-opacity-40 px-4">
-    <span class="text-xs mt-2">{{ detailStatistic.footer?.displayText }}</span>
-    <span class="font-bold text-lg md:text-xl">{{ detailStatistic.footer?.value }}</span>
-    <a routerLink="{{ detailStatistic.footer?.url }}" class="text-blue-900 text-xs">View Info</a>
   </div>
 </div>

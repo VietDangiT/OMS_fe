@@ -3,12 +3,18 @@ import {
   Input,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
-import { OmsChartOptions } from '../../share/oms-chart/oms-chart.component';
-import { DashboardService } from 'src/app/demo/service/dashboard.service';
-import resolveConfig from 'tailwindcss/resolveConfig';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 import tailwindConfig from 'tailwind.config.js';
-import { SaleStore } from '../sale-store/sale-store.component';
+import resolveConfig from 'tailwindcss/resolveConfig';
+import { OmsChartOptions } from '../../share/oms-chart/oms-chart.component';
+import {
+  BaseChart,
+  TotalSalesByChannelApiResponse,
+} from '../interfaces/dashboard.models';
+import { DashboardService } from '../services/dashboard.service';
 
 const fullConfig = resolveConfig(tailwindConfig);
 export interface TreeMapData {
@@ -23,25 +29,35 @@ export interface TreeMapData {
   encapsulation: ViewEncapsulation.None,
 })
 export class SaleByChannelComponent {
-  @Input() filter: string = '';
-  @Input() rangeDate: (string | undefined)[] = [undefined, undefined];
+  @Input() filterArr: string[] = [];
+
+  private readonly dashboardService = inject(DashboardService);
+
+  private readonly router = inject(Router);
 
   chartData: TreeMapData[] = [];
-  saleStoreData: SaleStore[];
+
+  saleStoreData: BaseChart[];
 
   chartOptions: Partial<OmsChartOptions> | any;
 
-  constructor(private _dashboardService: DashboardService) {
+  routerLink = 'total-sale-by-channel';
+
+  queryParams: { [key: string]: string } = {
+    fDate: '',
+    tDate: '',
+  };
+
+  ngOnInit(): void {
     this.chartOptions = {
       chart: {
-        height: 300,
-        width: '100%',
+        width: '105%',
         type: 'treemap',
         toolbar: {
           show: false,
         },
         redrawOnParentResize: true,
-        offsetX: 15,
+        offsetX: 2,
       },
       series: [
         {
@@ -53,66 +69,61 @@ export class SaleByChannelComponent {
         enabled: false,
       },
       apexResponsive: [
-        {
-          breakpoint: 1024,
-          options: {
-            chart: {
-              offsetX: 15,
-            },
-          },
-        },
-        {
-          breakpoint: 1102,
-          options: {
-            chart: {
-              offsetX: 0,
-            },
-          },
-        },
+        // {
+        //   breakpoint: 1024,
+        //   options: {
+        //     chart: {
+        //       offsetX: 2,
+        //       width: '103%',
+        //     },
+        //   },
+        // },
+        // {
+        //   breakpoint: 1102,
+        //   options: {
+        //     chart: {
+        //       offsetX: 0,
+        //       width: '110%',
+        //     },
+        //   },
+        // },
       ],
     };
   }
 
-  ngOnInit(): void {
-    this.getTotalSaleByChannel();
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']?.currentValue) {
-      this.chartOptions.series[0].data = [...changes['data'].currentValue];
-    }
-    if (
-      changes['filter']?.currentValue &&
-      changes['filter']?.currentValue !== ''
-    ) {
-      this.getTotalSaleByChannel(changes['filter'].currentValue);
-    }
-    if (changes['rangeDate']?.currentValue) {
-      if (this.rangeDate[0] && this.rangeDate[1])
-        this.getTotalSaleByChannel(changes['rangeDate']?.currentValue);
+    if (changes['filterArr']?.currentValue && this.filterArr[1]) {
+      this.getTotalSaleByChannel(changes['filterArr']?.currentValue);
+
+      this.queryParams = {
+        fDate: this.filterArr[0],
+        tDate: this.filterArr[1],
+      };
     }
   }
 
-  getTotalSaleByChannel(
-    filter: string = '',
-    rangeDate: (string | null)[] = [null, null]
-  ) {
-    this._dashboardService
-      .getSaleByChannel(
-        filter,
-        rangeDate[0] ? rangeDate[0] : '',
-        rangeDate[1] ? rangeDate[1] : ''
-      )
-      .subscribe((data: SaleStore[]) => {
-        this.saleStoreData = [...data];
-        const tmp = this.chartOptions;
-        this.chartData = data.map((item: SaleStore) => ({
-          x: item.channelName,
-          y: item.actualValue,
-        }));
+  getTotalSaleByChannel(filterArr = ['', '']) {
+    this.dashboardService
+      .getTotalSaleByChannel(filterArr)
+      .pipe(
+        tap((data: TotalSalesByChannelApiResponse) => {
+          const { totalSaleByChannel: total } = data;
 
-        tmp.series[0].data = this.chartData;
-        this.chartOptions = { ...tmp };
-      });
+          this.saleStoreData = [...total];
+
+          const tmp = this.chartOptions;
+
+          this.chartData = total.map((item: BaseChart) => ({
+            x: item.displayText,
+
+            y: item.value,
+          }));
+
+          tmp.series[0].data = this.chartData;
+
+          this.chartOptions = { ...tmp };
+        })
+      )
+      .subscribe();
   }
 }

@@ -14,10 +14,23 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/badges.scss";
 @import "assets/demo/styles/code.scss";
 
-oms-chart {
+p-chart div {
   @apply h-full;
 }
 
-p-chart div {
-  @apply h-[94%];
+.chart-container {
+  @apply w-full mx-auto;
+}
+
+@layer components {
+  /* For Webkit-based browsers (Chrome, Safari and Opera) */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* For IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }

@@ -107,8 +107,8 @@ export class LayoutService {
     if (state != null) {
       this.isSubmenuOn.next(state);
     } else {
-      var result: boolean = false;
-      this.isSubmenuOn.subscribe((state) => (result = state));
+      let result = false;
+      this.isSubmenuOn.subscribe(state => (result = state));
       this.isSubmenuOn.next(!result);
     }
   }
@@ -117,80 +117,9 @@ export class LayoutService {
     if (state != null) {
       this.isNavbarOn.next(state);
     } else {
-      var result: boolean = false;
-      this.isNavbarOn.subscribe((state) => (result = state));
+      let result = false;
+      this.isNavbarOn.subscribe(state => (result = state));
       this.isNavbarOn.next(!result);
-    }
-  }
-
-  getSubmenuList(type: string) {
-    var filter = type?.toLowerCase();
-    switch (filter) {
-      case 'dashboard':
-        var result = {
-          title: 'Dashboard',
-          items: [
-            {
-              name: 'totalSales',
-              content: 'Total Sales',
-              path: '/dashboard/totalsales',
-              icon: 'pi-dollar',
-            },
-            {
-              name: 'totalOrder',
-              content: 'Total Orders',
-              path: '/dashboard/total-order',
-              icon: 'pi-shopping-cart',
-            },
-            {
-              name: 'cardStatic',
-              path: '/dashboard/card-static',
-              content: 'Card Statistics Payment',
-              icon: 'pi-credit-card',
-            },
-            {
-              name: 'saleByLocation',
-              path: '/dashboard/sale-by-location',
-              content: 'Sales by Location',
-              icon: 'pi-globe',
-            },
-            {
-              name: 'saleByPromotion',
-              path: '/dashboard/sale-by-promotion',
-              content: 'Sale by Promotions',
-              icon: 'pi-tag',
-            },
-            {
-              name: 'saleByChannel',
-              path: '/dashboard/total-sale-by-channel',
-              content: 'Total sales by Channel',
-              icon: 'pi-home',
-            },
-          ],
-        };
-        return result;
-
-      case 'user':
-        var result = {
-          title: 'Profile',
-          items: [
-            {
-              name: 'personalinfo',
-              content: 'Personal Info',
-              path: '/users/personal-info',
-              icon: 'pi-user',
-            },
-            {
-              name: 'changepassword',
-              content: 'Change Password',
-              path: '/users/change-password',
-              icon: 'pi-lock',
-            },
-          ],
-        };
-        return result;
-      default:
-        return null;
     }
   }
 }

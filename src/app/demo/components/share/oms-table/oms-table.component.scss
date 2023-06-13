@@ -1,3 +1,14 @@
-.p-datatable .p-datatable-thead > tr > th {
-  @apply text-center;
+.oms-table-host {
+  .p-datatable {
+    & .p-datatable-thead > tr > th,
+    & .p-datatable-tbody > tr > td {
+      & .p-hidden-accessible {
+        @apply hidden;
+      }
+    }
+  }
+
+  table .oms-order-item:nth-child(even) > tr {
+    @apply bg-gray-100;
+  }
 }

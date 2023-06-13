@@ -2,9 +2,10 @@ interface InventoryStatus {
   label: string;
   value: string;
 }
+
 export interface Product {
   id?: string;
-  code?: string;
+  barcode?: string;
   name?: string;
   description?: string;
   price?: number;
@@ -14,6 +15,7 @@ export interface Product {
   image?: string;
   rating?: number;
 }
+
 export interface ProductCatalog {
   OrderedAt: any;
   TotalSales: any;

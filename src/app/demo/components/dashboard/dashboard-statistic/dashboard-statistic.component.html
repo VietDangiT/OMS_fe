@@ -1,12 +1,45 @@
-<div class=" mx-auto h-[100vh]">
+<div class="mx-auto h-full px-2">
   <!-- header -->
-  <div class="flex flex-row justify-between items-center my-2">
-    <span class="text-orange-400 text-xs">- Lazada VN</span>
-    <button class="w-8 h-8 border  border-gray-300 rounded-md">
-      <i class="pi pi-filter text-primary "></i>
-    </button>
+  <div class="flex flex-row justify-between items-center mt-2">
+    <span class="text-yellow-400 font-bold justify-between">{{
+      selectedMarketplace.marketPlaceName | titlecase
+    }}</span>
+
+    <div class="flex justify-center">
+      <p-dropdown
+        [options]="marketplaceList"
+        [(ngModel)]="selectedMarketplace"
+        optionLabel="name"
+        dropdownIcon="pi pi-filter text-primary"
+        [filter]="true"
+        filterBy="name"
+      >
+        <ng-template let-marketplace pTemplate="item">
+          <div
+            class="dropdown-item px-2 py-3"
+            (click)="handleSelectMarketplace(marketplace.id)"
+          >
+            {{ marketplace.marketPlaceName | titlecase }}
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
   </div>
+
   <!-- end of header -->
 
-  <dashboard-detail-statistic *ngFor="let item of data" [detailStatistic]="item"></dashboard-detail-statistic>
+  <dashboard-detail-statistic
+    heading="Order"
+    [detailStatistic]="orderStatistic"
+  ></dashboard-detail-statistic>
+
+  <dashboard-detail-statistic
+    heading="Product"
+    [detailStatistic]="productStatistic"
+  ></dashboard-detail-statistic>
+
+  <dashboard-detail-statistic
+    heading="Stock status"
+    [detailStatistic]="stockStatistic"
+  ></dashboard-detail-statistic>
 </div>
