@@ -7,8 +7,10 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
+import { InputFieldComponent } from '../share/input-field/input-field.component';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
@@ -25,6 +27,7 @@ import { UserComponent } from './user.component';
     UserComponent,
   ],
   imports: [
+    InputFieldComponent,
     CommonModule,
     UserRoutingModule,
     AppTopBarModule,
@@ -37,6 +40,7 @@ import { UserComponent } from './user.component';
     ButtonModule,
     FileUploadModule,
     RouterModule,
+    PasswordModule,
   ],
 })
 export class UserModule {}
