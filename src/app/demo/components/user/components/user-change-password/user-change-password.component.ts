@@ -72,10 +72,12 @@ export class UserChangePasswordComponent {
       .changePassword(currentPassword, id, newPassword)
       .pipe(
         catchError(async err => {
+          const errMes = err.networkError.error.errors[0].extensions.message;
+
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: err.message,
+            detail: errMes,
             closable: true,
           });
         }),
@@ -84,7 +86,7 @@ export class UserChangePasswordComponent {
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
-              detail: 'Success change password',
+              detail: $localize`Success change password`,
               closable: true,
             });
           }

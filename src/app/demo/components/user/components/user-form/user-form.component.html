@@ -12,7 +12,7 @@
       *ngIf="!isViewMode"
       mode="basic"
       chooseIcon="pi pi-pencil"
-      (onUpload)="onUpload($event)"
+      (onSelect)="onUpload($event.currentFiles[0])"
     ></p-fileUpload>
   </div>
 

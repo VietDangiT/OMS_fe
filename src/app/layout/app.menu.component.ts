@@ -125,13 +125,13 @@ export class AppMenuComponent {
           {
             name: 'personalinfo',
             content: 'Personal Info',
-            path: `user/${this.userId}`,
+            path: `user/detail`,
             icon: 'pi-user',
           },
           {
             name: 'changepassword',
             content: 'Change Password',
-            path: `user/${this.userId}/change-password`,
+            path: `user/change-password`,
             icon: 'pi-lock',
           },
         ],

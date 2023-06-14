@@ -5,7 +5,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../../login/models/login.models';
 
 @Component({
@@ -40,25 +40,75 @@ export class UserFormComponent {
 
   initEditForm(): void {
     this.editForm = new FormGroup({
+      id: new FormControl(this.user.id),
       avatar: new FormControl({ value: '', disabled: this.isViewMode }),
-      fullName: new FormControl({ value: '', disabled: this.isViewMode }),
-      email: new FormControl({ value: '', disabled: this.isViewMode }),
-      gender: new FormControl({ value: '', disabled: this.isViewMode }),
-      dob: new FormControl({ value: '', disabled: this.isViewMode }),
-      phoneNumber: new FormControl({ value: '', disabled: this.isViewMode }),
-      fullAddress: new FormControl({ value: '', disabled: this.isViewMode }),
+      fullName: new FormControl(
+        { value: '', disabled: this.isViewMode },
+        Validators.required
+      ),
+      email: new FormControl(
+        { value: '', disabled: this.isViewMode },
+        Validators.required
+      ),
+      gender: new FormControl(
+        { value: '', disabled: this.isViewMode },
+        Validators.required
+      ),
+      dob: new FormControl(
+        { value: '', disabled: this.isViewMode },
+        Validators.required
+      ),
+      phoneNumber: new FormControl(
+        { value: '', disabled: this.isViewMode },
+        Validators.required
+      ),
+      fullAddress: new FormControl(
+        { value: '', disabled: this.isViewMode },
+        Validators.required
+      ),
     });
   }
 
   initRouterLinks(): void {
-    this.editRouterLink = `/user/${this.user.id}/edit`;
+    this.editRouterLink = `/user/edit`;
 
-    this.cancelRouterLink = `/user/${this.user.id}`;
+    this.cancelRouterLink = `/user/detail`;
   }
 
   edit(): void {
     this.handleEditForm.emit(this.editForm);
   }
 
-  onUpload(e: Event): void {}
+  onUpload(f: File): void {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const fileContent = reader.result as string; // Get the file content as base64 string
+
+      const avaBytesArr = this.base64ToBytes(fileContent); // Convert base64 string to bytes
+
+      const byteArr = Array.from(avaBytesArr);
+
+      this.editForm.patchValue({
+        avatar: byteArr,
+      });
+    };
+
+    reader.readAsDataURL(f); // Read the file as base64 data
+  }
+
+  base64ToBytes(base64String: string): Uint8Array {
+    const base64WithoutPrefix = base64String.replace(
+      /^data:image\/\w+;base64,/,
+      ''
+    );
+    const decodedData = atob(base64WithoutPrefix);
+    const outputArray = new Uint8Array(decodedData.length);
+
+    for (let i = 0; i < decodedData.length; ++i) {
+      outputArray[i] = decodedData.charCodeAt(i);
+    }
+
+    return outputArray;
+  }
 }

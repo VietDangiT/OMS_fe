@@ -1,2 +1,9 @@
 .oms-user-edit {
+  .p-fileupload-choose-selected {
+    @apply p-0;
+
+    .p-button-label {
+      @apply hidden;
+    }
+  }
 }

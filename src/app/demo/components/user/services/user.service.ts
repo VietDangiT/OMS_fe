@@ -2,9 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
 import { User } from '../../login/models/login.models';
-import { CHANGE_PASSWORD, GET_USER_DETAIL } from '../constants/user.constants';
+import {
+  CHANGE_PASSWORD,
+  EDIT_USER,
+  GET_USER_DETAIL,
+} from '../constants/user.constants';
 import {
   ChangePasswordApiResponse,
+  EditUserApiResponse,
   UserDetailApiResponse,
 } from '../models/user.models';
 
@@ -43,6 +48,35 @@ export class UserService {
         currentPassword,
         id,
         newPassword,
+      },
+    });
+  }
+
+  editUser(
+    userInfo: Partial<User>
+  ): Observable<MutationResult<EditUserApiResponse>> {
+    const {
+      avatar,
+      dob,
+      email,
+      fullAddress,
+      fullName,
+      gender,
+      phoneNumber,
+      id,
+    } = userInfo;
+
+    return this.apollo.mutate<EditUserApiResponse>({
+      mutation: EDIT_USER,
+      variables: {
+        avatar,
+        dob,
+        email,
+        fullAddress,
+        fullName,
+        gender,
+        phoneNumber,
+        id,
       },
     });
   }

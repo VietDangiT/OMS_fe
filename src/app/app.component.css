@@ -140,3 +140,7 @@
 .p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
   @apply border-primary;
 }
+
+.p-toast .p-toast-message .p-toast-message-content {
+  @apply border-none;
+}

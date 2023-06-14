@@ -10,3 +10,9 @@ export interface ChangePasswordApiResponse {
   };
   loading: boolean;
 }
+
+export interface EditUserApiResponse {
+  data: {
+    editUserProfile: Partial<User>;
+  };
+}

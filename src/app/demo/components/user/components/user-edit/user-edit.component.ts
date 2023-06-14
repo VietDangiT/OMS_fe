@@ -6,7 +6,8 @@ import {
   inject,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { tap } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { catchError, tap } from 'rxjs';
 import { User } from '../../../login/models/login.models';
 import { UserService } from '../../services/user.service';
 
@@ -21,8 +22,9 @@ export class UserEditComponent implements OnInit {
 
   userService = inject(UserService);
 
+  messageService = inject(MessageService);
+
   user: Partial<User> = {
-    id: 1,
     avatar: '',
     dob: '',
     gender: '',
@@ -53,7 +55,42 @@ export class UserEditComponent implements OnInit {
       .subscribe();
   }
 
-  handleEditForm(form: FormGroup): void {
-    console.log(form.value);
+  edit(form: FormGroup): void {
+    if (form.valid) {
+      this.userService
+        .editUser(form.value)
+        .pipe(
+          catchError(async err => {
+            const errMes = err.networkError.error.errors[0].extensions.message;
+
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: errMes,
+              closable: true,
+            });
+          }),
+          tap(res => {
+            if (res) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: $localize`User edited`,
+                closable: true,
+              });
+            }
+          })
+        )
+        .subscribe();
+    }
+
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: $localize`Edit form must be valid or filled`,
+      closable: true,
+    });
   }
+
+  handleEdit(): void {}
 }

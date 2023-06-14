@@ -11,17 +11,17 @@ const routes: Routes = [
     component: UserComponent,
     children: [
       {
-        path: ':id',
+        path: 'detail',
         data: { breadcrumbs: ['User Profile'] },
         component: UserDetailComponent,
       },
       {
-        path: ':id/edit',
+        path: 'edit',
         data: { breadcrumbs: ['User Profile'] },
         component: UserEditComponent,
       },
       {
-        path: ':id/change-password',
+        path: 'change-password',
         data: { breadcrumbs: ['Change Password'] },
         component: UserChangePasswordComponent,
       },
