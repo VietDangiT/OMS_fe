@@ -144,3 +144,11 @@
 .p-toast .p-toast-message .p-toast-message-content {
   @apply border-none;
 }
+
+.p-tabmenuitem {
+  @apply opacity-60;
+}
+
+.p-tabmenuitem.p-highlight {
+  @apply opacity-100;
+}

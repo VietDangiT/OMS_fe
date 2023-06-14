@@ -5,6 +5,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
 import { ShareModule } from '../share/share.module';
+import { TabMenuComponent } from '../share/tab-menu/tab-menu.component';
 import { CatalogueRoutingModule } from './catalogue-routing.module';
 import { CatalogueComponent } from './catalogue.component';
 import { CatalogueItemComponent } from './components/catalogue-item/catalogue-item.component';
@@ -24,6 +25,7 @@ import { CatalogueListComponent } from './components/catalogue-list/catalogue-li
     TabMenuModule,
     ShareModule,
     AvatarModule,
+    TabMenuComponent,
   ],
 })
 export class CatalogueModule {}

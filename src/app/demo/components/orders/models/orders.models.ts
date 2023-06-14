@@ -1,5 +1,6 @@
 import { Product } from 'src/app/demo/api/product';
 import { PagingParams } from 'src/app/demo/interface/global.model';
+import { BaseChart } from '../../dashboard/interfaces/dashboard.models';
 
 export interface Order {
   id?: number;
@@ -22,7 +23,7 @@ export interface OrderDetail extends Order {
 }
 
 export interface OrderParams extends PagingParams {
-  channelId: number;
+  channelId: number | null;
 }
 
 export interface OrderApiResponse {
@@ -38,4 +39,8 @@ export interface OrderApiResponse {
 
 export interface OrderDetailApiResponse {
   orderDetail: OrderDetail;
+}
+
+export interface OrderStatusApiResponse {
+  orderStatus: BaseChart[];
 }

@@ -6,6 +6,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
 import { ShareModule } from '../share/share.module';
+import { TabMenuComponent } from '../share/tab-menu/tab-menu.component';
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { OrderItemComponent } from './components/order-item/order-item.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
@@ -27,6 +28,7 @@ import { OrdersComponent } from './orders.component';
     ShareModule,
     DialogModule,
     AvatarModule,
+    TabMenuComponent,
   ],
 })
 export class OrdersModule {}

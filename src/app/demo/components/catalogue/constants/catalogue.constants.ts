@@ -1,11 +1,5 @@
 import { gql } from 'apollo-angular';
-import { MenuItem } from 'primeng/api';
 import { TableHeader } from 'src/app/demo/interface/global.model';
-
-export const catalogueLabelItems: MenuItem[] = [
-  { label: 'active', id: '1', badge: '0', title: 'Active' },
-  { label: 'inactive', id: '2', badge: '0', title: 'Inactive' },
-];
 
 export const catalogueHeaderTable: TableHeader[] = [
   { field: 'img', col: 'Image' },
@@ -52,6 +46,15 @@ export const GET_PRODUCT_CATALOGUES = gql`
         productChannelStatus
         availableStock
       }
+    }
+  }
+`;
+
+export const GET_PRODUCT_STATUS = gql`
+  query GetProductStatus($channelId: Int) {
+    productStatus(channelId: $channelId) {
+      displayText
+      value
     }
   }
 `;
