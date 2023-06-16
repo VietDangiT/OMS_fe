@@ -1,14 +1,13 @@
 import {
   Component,
   HostBinding,
-  OnInit,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { catchError, tap } from 'rxjs';
-import { User } from '../../../login/models/login.models';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -17,79 +16,50 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./user-edit.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class UserEditComponent implements OnInit {
+export class UserEditComponent {
   @HostBinding('class') hostClass = 'oms-user-edit';
 
   userService = inject(UserService);
 
   messageService = inject(MessageService);
 
-  user: Partial<User> = {
-    avatar: '',
-    dob: '',
-    gender: '',
-    fullAddress: '',
-    email: '',
-    fullName: '',
-    phoneNumber: '',
-  };
+  route = inject(Router);
 
-  ngOnInit(): void {
-    const id = localStorage.getItem('userId');
+  edit(form: FormGroup): void {
+    if (!form.valid) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: $localize`Edit form must be valid or filled`,
+        closable: true,
+      });
+    }
 
-    this.getUser(Number(id));
-  }
-
-  getUser(id: number): void {
     this.userService
-      .getUserDetail(Number(id))
+      .editUser(form.value)
       .pipe(
-        tap(res => {
-          let { userDetail: user } = res;
+        catchError(async err => {
+          const errMes = err.networkError.error.errors[0].extensions.message;
 
-          user = this.userService.refactorUser(user);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: errMes,
+            closable: true,
+          });
+        }),
+        tap(() => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: $localize`User edited`,
+            closable: true,
+          });
 
-          this.user = user;
+          this.route.navigate(['user/detail']);
         })
       )
       .subscribe();
-  }
-
-  edit(form: FormGroup): void {
-    if (form.valid) {
-      this.userService
-        .editUser(form.value)
-        .pipe(
-          catchError(async err => {
-            const errMes = err.networkError.error.errors[0].extensions.message;
-
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: errMes,
-              closable: true,
-            });
-          }),
-          tap(res => {
-            if (res) {
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Success',
-                detail: $localize`User edited`,
-                closable: true,
-              });
-            }
-          })
-        )
-        .subscribe();
-    }
-
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: $localize`Edit form must be valid or filled`,
-      closable: true,
-    });
   }
 
   handleEdit(): void {}

@@ -115,7 +115,7 @@ export const GET_PRODUCT_CHANNEL_BY_STATUS = gql`
 `;
 
 export const GET_PRODUCT_VARIANTS = gql`
-  query {
+  query GetProductVariants {
     productVariants {
       name
       description

@@ -1,24 +1,28 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   Output,
-  SimpleChanges,
+  inject,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { tap } from 'rxjs';
 import { User } from '../../../login/models/login.models';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'oms-user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFormComponent {
   @Input() isViewMode: boolean;
 
-  @Input() user: Partial<User>;
-
   @Output() handleEditForm = new EventEmitter();
+
+  userService = inject(UserService);
 
   editForm: FormGroup;
 
@@ -26,16 +30,26 @@ export class UserFormComponent {
 
   cancelRouterLink = '';
 
+  isImageError = false;
+
+  user: Partial<User> = {
+    avatar: '',
+    dob: '',
+    gender: '',
+    fullAddress: '',
+    email: '',
+    fullName: '',
+    phoneNumber: '',
+  };
+
   ngOnInit(): void {
+    const id = localStorage.getItem('userId');
+
     this.initEditForm();
 
     this.initRouterLinks();
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['user']?.currentValue) {
-      this.editForm?.patchValue(changes['user'].currentValue);
-    }
+    this.getUser(Number(id));
   }
 
   initEditForm(): void {
@@ -67,6 +81,23 @@ export class UserFormComponent {
         Validators.required
       ),
     });
+  }
+
+  getUser(id: number): void {
+    this.userService
+      .getUserDetail(Number(id))
+      .pipe(
+        tap(res => {
+          let { userDetail: user } = res;
+
+          user = this.userService.refactorUser(user);
+
+          this.user = user;
+
+          this.editForm.patchValue(this.user);
+        })
+      )
+      .subscribe();
   }
 
   initRouterLinks(): void {
@@ -110,5 +141,9 @@ export class UserFormComponent {
     }
 
     return outputArray;
+  }
+
+  onImageError(e: Event): void {
+    if (e) this.isImageError = true;
   }
 }

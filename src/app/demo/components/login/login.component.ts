@@ -1,8 +1,9 @@
 import { Component, HostBinding, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { MessageService } from 'primeng/api';
-import { catchError, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { AuthService } from '../../service/auth.service';
 import { User } from './models/login.models';
 
@@ -21,6 +22,8 @@ export class LoginComponent {
 
   isLoading = false;
 
+  helper = new JwtHelperService();
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -28,8 +31,8 @@ export class LoginComponent {
   ) {}
 
   signInForm = new FormGroup({
-    UserName: new FormControl('', Validators.required),
-    UserPassword: new FormControl('', Validators.required),
+    userName: new FormControl('', Validators.required),
+    userPassword: new FormControl('', Validators.required),
   });
 
   onSubmit() {
@@ -45,30 +48,54 @@ export class LoginComponent {
     } else {
       this.isLoading = true;
 
+      const values: Partial<{
+        userName: string | null;
+        userPassword: string | null;
+      }> = this.signInForm.value;
+
       this.authService
-        .login(this.signInForm.value)
+        .login(values)
         .pipe(
-          tap((user: Partial<User>) => {
-            this.isLoading = false;
+          tap(res => {
+            const token = res.data?.login;
 
-            if (user) {
-              localStorage.setItem('token', user.token!);
+            localStorage.setItem('token', token!);
 
-              localStorage.setItem('userId', user.id?.toString()!);
+            const decodedToken = this.helper.decodeToken(token!);
+            localStorage.setItem('userId', decodedToken.Id);
 
-              this.router.navigate(['/dashboard']);
-            }
-          }),
-          catchError(async err =>
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: err.error,
-              closable: true,
-            })
-          )
+            console.log({ ...decodedToken });
+            console.log(decodedToken.role);
+
+            this.router.navigate(['dashboard']);
+          })
         )
         .subscribe();
+
+      // this.authService
+      //   .login(values)
+      //   .pipe(
+      //     tap((user: Partial<User>) => {
+      //       this.isLoading = false;
+
+      //       if (user) {
+      //         localStorage.setItem('token', user.token!);
+
+      //         localStorage.setItem('userId', user.id?.toString()!);
+
+      //         this.router.navigate(['/dashboard']);
+      //       }
+      //     }),
+      //     catchError(async err =>
+      //       this.messageService.add({
+      //         severity: 'error',
+      //         summary: 'Error',
+      //         detail: err.error,
+      //         closable: true,
+      //       })
+      //     )
+      //   )
+      //   .subscribe();
     }
   }
 

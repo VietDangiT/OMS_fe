@@ -23,3 +23,7 @@ export interface SignIn {
   UserName: any;
   UserPassword: any;
 }
+
+export interface LoginApiResponse {
+  login: string;
+}

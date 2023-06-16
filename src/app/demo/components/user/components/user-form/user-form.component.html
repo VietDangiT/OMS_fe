@@ -1,11 +1,22 @@
 <form [formGroup]="editForm" (ngSubmit)="edit()" class="max-w-[50%]">
   <div class="relative inline-block">
     <p-avatar
-      [image]="user.avatar! || 'assets/avt.jpg'"
+      [image]="user.avatar || 'assets/avt.jpg'"
       alt="user-avt.alt"
       size="xlarge"
       shape="circle"
       styleClass="!w-24 !h-24 mb-4"
+      (onImageError)="onImageError($event)"
+      *ngIf="!isImageError"
+    ></p-avatar>
+
+    <p-avatar
+      [image]="'assets/avt.jpg'"
+      alt="user-avt.alt"
+      size="xlarge"
+      shape="circle"
+      styleClass="!w-24 !h-24 mb-4"
+      *ngIf="isImageError"
     ></p-avatar>
 
     <p-fileUpload
@@ -85,6 +96,7 @@
 
     <input pInputText id="fullAddress" formControlName="fullAddress" />
   </div>
+
   <ng-container *ngIf="!isViewMode; else viewEdit">
     <div class="flex gap-4 font-bold justify-end mt-4">
       <a [routerLink]="cancelRouterLink">

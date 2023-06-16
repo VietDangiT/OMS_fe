@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { User } from '../../login/models/login.models';
 import {
   CHANGE_PASSWORD,
@@ -18,6 +18,22 @@ import {
 })
 export class UserService {
   apollo = inject(Apollo);
+
+  user: Partial<User> = {
+    avatar: '',
+    dob: '',
+    gender: '',
+    fullAddress: '',
+    email: '',
+    fullName: '',
+    phoneNumber: '',
+  };
+
+  currentUser$ = new BehaviorSubject(this.user);
+
+  constructor() {
+    this.getUser();
+  }
 
   refactorUser(user: Partial<User>): Partial<User> {
     return {
@@ -79,5 +95,21 @@ export class UserService {
         id,
       },
     });
+  }
+
+  private getUser(): void {
+    const id = localStorage.getItem('userId');
+
+    this.getUserDetail(Number(id))
+      .pipe(
+        tap(res => {
+          let { userDetail: user } = res;
+
+          user = this.refactorUser(user);
+
+          this.currentUser$.next(user);
+        })
+      )
+      .subscribe();
   }
 }

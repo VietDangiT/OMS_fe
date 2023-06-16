@@ -1,24 +1,25 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, Subject, tap } from 'rxjs';
-import { User } from '../components/login/models/login.models';
+import { Injectable, inject } from '@angular/core';
+import { Apollo, MutationResult } from 'apollo-angular';
+import { Observable } from 'rxjs';
+import { LOGIN } from '../components/login/constants/login.constants';
+import { LoginApiResponse } from '../components/login/models/login.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  currentUserSubject$ = new Subject<Partial<User>>();
+  apollo = inject(Apollo);
 
-  constructor(private _http: HttpClient) {}
-
-  login(user: any): Observable<Partial<User>> {
-    return this._http
-      .post<Partial<User>>(`https://localhost:7121/api/auth/login`, user)
-      .pipe(
-        tap(user => {
-          this.currentUserSubject$.next(user);
-        })
-      );
+  login(
+    user: Partial<{ userName: string | null; userPassword: string | null }>
+  ): Observable<MutationResult<LoginApiResponse>> {
+    return this.apollo.mutate<LoginApiResponse>({
+      mutation: LOGIN,
+      variables: {
+        username: user.userName,
+        password: user.userPassword,
+      },
+    });
   }
 
   logout(): void {
