@@ -1,4 +1,5 @@
 import { PagingParams } from 'src/app/demo/interface/global.model';
+import { BaseChart } from '../../dashboard/interfaces/dashboard.models';
 
 export interface Channel {
   description: string;
@@ -36,7 +37,11 @@ export interface ChannelTableApiResponse {
 }
 
 export interface ChannelParams extends PagingParams {
-  countryId: number;
+  countryId: number | null;
 }
 
 export type ChannelStatus = 'Active' | 'Inactive';
+
+export interface ChannelStatusApiResponse {
+  channelStatus: BaseChart[];
+}

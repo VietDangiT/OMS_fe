@@ -3,10 +3,12 @@ import { Apollo } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
 import {
   GET_CHANNELS_TABLE,
+  GET_CHANNEL_STATUS,
   GET_COUNTRIES,
 } from '../constants/channel.constants';
 import {
   ChannelParams,
+  ChannelStatusApiResponse,
   ChannelTableApiResponse,
   CountryApiResponse,
 } from '../interface/channel.component';
@@ -33,6 +35,17 @@ export class ChannelService {
         query: GET_CHANNELS_TABLE,
         variables: {
           ...params,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
+  }
+
+  getChannelStatus(id: number): Observable<ChannelStatusApiResponse> {
+    return this.apollo
+      .watchQuery<ChannelStatusApiResponse>({
+        query: GET_CHANNEL_STATUS,
+        variables: {
+          countryId: id,
         },
       })
       .valueChanges.pipe(map(res => res.data));

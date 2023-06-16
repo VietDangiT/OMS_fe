@@ -71,6 +71,29 @@ export const baseChartOptions: ChartOptions = {
   },
 };
 
+export const pieChartOptions: ChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      display: false,
+    },
+    y: {
+      display: false,
+    },
+  },
+};
+
 export const barBaseChartOptions: ChartOptions = {
   responsive: true,
   maintainAspectRatio: false,

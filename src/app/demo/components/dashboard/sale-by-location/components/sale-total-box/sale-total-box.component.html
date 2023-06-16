@@ -1,10 +1,10 @@
 <div
-  class="flex items-center justify-between w-full text-xs rounded-md md:p-2  bg-{{
+  class="flex items-center justify-between w-full text-xs rounded-md md:p-2  {{
     color
   }}  bg-opacity-10 "
 >
   <div class="flex items-center">
-    <i class="mr-2 pi {{ icon }} text-{{ color }} "></i>
+    <i class="mr-2 pi {{ icon }} text-primary "></i>
 
     <span class="my-auto font-bold"
       >{{ value | number : '1.1-1' }}
@@ -14,7 +14,7 @@
     </span>
   </div>
 
-  <div class="p-1 text-white rounded-full bg-{{ color }}">
+  <div class="p-1 text-white rounded-full {{ color }}">
     {{ dateRange[0] | date : 'shortDate' }} -
     {{ dateRange[1] | date : 'shortDate' }}
   </div>

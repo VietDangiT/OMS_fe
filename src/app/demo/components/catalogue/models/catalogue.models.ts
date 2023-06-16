@@ -1,4 +1,5 @@
 import { PagingParams } from 'src/app/demo/interface/global.model';
+import { BaseChart } from '../../dashboard/interfaces/dashboard.models';
 
 export interface Catalogue {
   id: number;
@@ -27,4 +28,8 @@ export interface CatalogueTableApiResponse {
 export interface CatalogueParams extends PagingParams {
   channelId: number | null;
   status: ProductChannelStatus;
+}
+
+export interface ProductStatusApiResponse {
+  productStatus: BaseChart[];
 }

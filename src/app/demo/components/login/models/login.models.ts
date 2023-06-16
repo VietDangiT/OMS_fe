@@ -1,11 +1,16 @@
 export interface User {
   id: number;
-  firstName: string;
-  lastName: string;
+  fullName: string;
   username: string;
   password: string;
   role: Role;
   token?: string;
+  avatar: string;
+  dob: string;
+  email: string;
+  fullAddress: string;
+  gender: string;
+  phoneNumber: string;
 }
 
 export enum Role {
@@ -17,4 +22,8 @@ export enum Role {
 export interface SignIn {
   UserName: any;
   UserPassword: any;
+}
+
+export interface LoginApiResponse {
+  login: string;
 }

@@ -22,7 +22,7 @@
 
           <input
             required
-            formControlName="UserName"
+            formControlName="userName"
             placeholder="Username"
             type="text"
             class="input-class text-sm"
@@ -32,12 +32,12 @@
 
           <ng-container
             *ngIf="
-              signInForm.get('UserName')?.dirty ||
-              signInForm.get('UserName')?.touched
+              signInForm.get('userName')?.dirty ||
+              signInForm.get('userName')?.touched
             "
           >
             <div
-              *ngIf="signInForm.get('UserName')?.hasError('required')"
+              *ngIf="signInForm.get('userName')?.hasError('required')"
               class="validate"
             >
               Username is required.
@@ -52,7 +52,7 @@
 
           <input
             required
-            formControlName="UserPassword"
+            formControlName="userPassword"
             placeholder="Password"
             type="{{ showPassword ? 'text' : 'password' }}"
             class="input-class text-sm !pr-12"
@@ -68,12 +68,12 @@
 
           <ng-container
             *ngIf="
-              signInForm.get('UserPassword')?.dirty ||
-              signInForm.get('UserPassword')?.touched
+              signInForm.get('userPassword')?.dirty ||
+              signInForm.get('userPassword')?.touched
             "
           >
             <div
-              *ngIf="signInForm.get('UserPassword')?.hasError('required')"
+              *ngIf="signInForm.get('userPassword')?.hasError('required')"
               class="validate"
             >
               Password is required.

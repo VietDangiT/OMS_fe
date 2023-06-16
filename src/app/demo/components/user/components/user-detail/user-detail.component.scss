@@ -1,0 +1,5 @@
+.oms-user-detail {
+  .p-component:disabled {
+    @apply opacity-100 border-b-2 border-opacity-70 rounded-none bg-transparent border-t-0 border-r-0 border-l-0  outline-none;
+  }
+}

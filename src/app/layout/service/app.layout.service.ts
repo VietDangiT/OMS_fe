@@ -96,22 +96,8 @@ export class LayoutService {
     this.configUpdate.next(this.config);
   }
 
-  constructor() {}
-  private isSubmenuOn = new BehaviorSubject<boolean>(false);
-  currentSubMenuState = this.isSubmenuOn.asObservable();
-
   private isNavbarOn = new BehaviorSubject<boolean>(false);
   currentNavbarState = this.isNavbarOn.asObservable();
-
-  changeSubMenuState(state?: boolean) {
-    if (state != null) {
-      this.isSubmenuOn.next(state);
-    } else {
-      let result = false;
-      this.isSubmenuOn.subscribe(state => (result = state));
-      this.isSubmenuOn.next(!result);
-    }
-  }
 
   changeNavbarState(state?: boolean) {
     if (state != null) {

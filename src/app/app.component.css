@@ -120,3 +120,35 @@
 .p-dropdown input {
   @apply block;
 }
+
+.p-hidden-accessible {
+  @apply hidden;
+}
+
+.p-radiobutton {
+  @apply cursor-pointer;
+}
+
+.p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
+  @apply border-primary bg-primary;
+}
+
+.p-radiobutton .p-radiobutton-box.p-highlight {
+  @apply border-primary bg-primary;
+}
+
+.p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
+  @apply border-primary;
+}
+
+.p-toast .p-toast-message .p-toast-message-content {
+  @apply border-none;
+}
+
+.p-tabmenuitem {
+  @apply opacity-60;
+}
+
+.p-tabmenuitem.p-highlight {
+  @apply opacity-100;
+}
