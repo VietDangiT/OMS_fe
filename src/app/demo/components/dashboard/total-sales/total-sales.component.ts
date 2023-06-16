@@ -71,19 +71,11 @@ export class TotalSalesComponent {
         label: 'Orders on Swiggy',
         data: [66, 49, 81, 71, 26, 65, 60],
         backgroundColor: environment.primaryColor,
-        hoverOffset: 10000,
-        offset: 1000,
-        // barThickness: 50,
-        barPercentage: 2,
-        borderColor: '#FF0000',
-        borderWidth: 3,
-        fill: 30,
       },
       {
         label: 'Orders on Zomato',
         data: [56, 69, 89, 61, 36, 75, 50],
         backgroundColor: environment.secondaryColor,
-        hoverOffset: 100,
       },
     ],
   };
@@ -138,6 +130,10 @@ export class TotalSalesComponent {
 
           const { paging, data } = detailTotalSales;
 
+          const updatedData = data.map(d => {
+            return { ...d, date: new Date(d.date).toLocaleDateString() };
+          });
+
           this.tableData = {
             page: paging.currentPage,
             first: paging.first,
@@ -146,7 +142,7 @@ export class TotalSalesComponent {
             totalRecord: paging.totalCount,
             data: {
               header: totalSalesTableHeader,
-              body: data,
+              body: updatedData,
             },
           };
         }),

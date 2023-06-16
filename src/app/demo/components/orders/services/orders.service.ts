@@ -28,8 +28,8 @@ export class OrdersService {
         query: GET_ORDERS,
         variables: {
           channelId,
-          fromDate,
-          toDate,
+          fDate: fromDate,
+          tDate: toDate,
           keyword,
           status,
           limit,

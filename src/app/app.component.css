@@ -152,3 +152,22 @@
 .p-tabmenuitem.p-highlight {
   @apply opacity-100;
 }
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) var(--primary);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  @apply w-2;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-transparent rounded;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-primary border-2 border-white;
+}

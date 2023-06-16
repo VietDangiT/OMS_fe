@@ -207,6 +207,8 @@ export class TotalSaleByChannelComponent implements OnInit {
 
       this.handleParams('toDate', dateRange[1]);
 
+      this.dateRange = [dateRange[0], dateRange[1]];
+
       this.getComponentData();
     }
   }

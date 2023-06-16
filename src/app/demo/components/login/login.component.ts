@@ -5,7 +5,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { MessageService } from 'primeng/api';
 import { tap } from 'rxjs';
 import { AuthService } from '../../service/auth.service';
-import { User } from './models/login.models';
 
 @Component({
   selector: 'oms-login',
@@ -17,8 +16,6 @@ export class LoginComponent {
   @HostBinding('class') hostClass = 'oms-login-host';
 
   showPassword = false;
-
-  users: User[] = [];
 
   isLoading = false;
 
@@ -71,31 +68,6 @@ export class LoginComponent {
           })
         )
         .subscribe();
-
-      // this.authService
-      //   .login(values)
-      //   .pipe(
-      //     tap((user: Partial<User>) => {
-      //       this.isLoading = false;
-
-      //       if (user) {
-      //         localStorage.setItem('token', user.token!);
-
-      //         localStorage.setItem('userId', user.id?.toString()!);
-
-      //         this.router.navigate(['/dashboard']);
-      //       }
-      //     }),
-      //     catchError(async err =>
-      //       this.messageService.add({
-      //         severity: 'error',
-      //         summary: 'Error',
-      //         detail: err.error,
-      //         closable: true,
-      //       })
-      //     )
-      //   )
-      //   .subscribe();
     }
   }
 

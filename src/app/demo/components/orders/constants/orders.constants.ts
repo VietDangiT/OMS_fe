@@ -32,8 +32,8 @@ export const orderDetailHeaderTable: TableHeader[] = [
 export const GET_ORDERS = gql`
   query GetOrders(
     $channelId: Int
-    $fromDate: DateTime
-    $toDate: DateTime
+    $fromDate: String
+    $toDate: String
     $keyword: String
     $status: String
     $limit: Int
@@ -41,8 +41,8 @@ export const GET_ORDERS = gql`
   ) {
     orders(
       channelId: $channelId
-      fromDate: $fromDate
-      toDate: $toDate
+      fDate: $fromDate
+      tDate: $toDate
       keyword: $keyword
       status: $status
       limit: $limit

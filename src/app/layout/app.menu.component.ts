@@ -39,8 +39,6 @@ import { MenuElement, MenuElementItem } from './service/models/menu.models';
 export class AppMenuComponent {
   channels: Channel[];
 
-  userId = localStorage.getItem('userId') ?? 0;
-
   menuElements: MenuElement[] = [
     {
       name: 'dashboard',
@@ -236,7 +234,7 @@ export class AppMenuComponent {
             catalogueArr.push({
               name: m.marketPlaceName,
               content: m.marketPlaceName,
-              path: `/catalogue`,
+              path: `/catalogues`,
               param: { marketplaceId: m.id },
               icon: 'pi-home',
             });
@@ -246,7 +244,7 @@ export class AppMenuComponent {
             c => c.path === '/orders'
           );
           const catalogueIndex = this.menuElements.findIndex(
-            c => c.path === '/catalogue'
+            c => c.path === '/catalogues'
           );
 
           this.menuElements[orderIndex].submenu.items = orderArr;
