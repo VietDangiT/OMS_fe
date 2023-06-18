@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -10,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
+import { AvatarComponent } from '../share/avatar/avatar.component';
 import { InputFieldComponent } from '../share/input-field/input-field.component';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
@@ -33,7 +33,7 @@ import { UserComponent } from './user.component';
     AppTopBarModule,
     FormsModule,
     ReactiveFormsModule,
-    AvatarModule,
+    AvatarComponent,
     InputTextModule,
     RadioButtonModule,
     CalendarModule,

@@ -88,6 +88,7 @@ export class OrderListComponent {
         tap(res => {
           const { orderStatus: data } = res;
           const labelItems: MenuItem[] = [];
+          let totalVal = 0;
 
           data.forEach(d => {
             labelItems.push({
@@ -95,9 +96,15 @@ export class OrderListComponent {
               badge: d.value.toString(),
               label: d.displayText.toLowerCase(),
             });
+
+            totalVal += d.value;
           });
 
           this.labelItems = labelItems;
+
+          orderLabelItems[0].badge = totalVal.toString();
+
+          this.labelItems.unshift(orderLabelItems[0]);
 
           this.activeItem = this.labelItems[0];
         })
@@ -150,7 +157,7 @@ export class OrderListComponent {
 
     this.handleOrderParams('status', this.activeItem.label!);
 
-    console.log(this.orderParams);
+    this.handleOrderParams('page', tableConfig.gapPageNumber);
 
     this.getOrderTable();
   }

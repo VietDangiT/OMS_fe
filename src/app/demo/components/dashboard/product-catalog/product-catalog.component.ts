@@ -57,8 +57,6 @@ export class ProductCatalogComponent {
         tap((result: ProductVariantApiResponse) => {
           const { productVariants: data } = result;
 
-          console.log(data);
-
           this.productVariantList = [this.selectedProduct, ...data];
         })
       )

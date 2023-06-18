@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { User } from '../../../login/models/login.models';
 import { UserService } from '../../services/user.service';
 
@@ -24,11 +25,13 @@ export class UserFormComponent {
 
   userService = inject(UserService);
 
+  helperService = inject(HelperService);
+
   editForm: FormGroup;
 
-  editRouterLink = '';
+  editRouterLink = '/user/edit';
 
-  cancelRouterLink = '';
+  cancelRouterLink = '/user/detail';
 
   isImageError = false;
 
@@ -42,14 +45,12 @@ export class UserFormComponent {
     phoneNumber: '',
   };
 
-  ngOnInit(): void {
-    const id = localStorage.getItem('userId');
+  tempImg = '';
 
+  ngOnInit(): void {
     this.initEditForm();
 
-    this.initRouterLinks();
-
-    this.getUser(Number(id));
+    this.initUser();
   }
 
   initEditForm(): void {
@@ -83,27 +84,20 @@ export class UserFormComponent {
     });
   }
 
-  getUser(id: number): void {
-    this.userService
-      .getUserDetail(Number(id))
+  initUser(): void {
+    this.userService.currentUser$
       .pipe(
-        tap(res => {
-          let { userDetail: user } = res;
+        tap(user => {
+          this.editForm.patchValue(user);
 
-          user = this.userService.refactorUser(user);
-
-          this.user = user;
-
-          this.editForm.patchValue(this.user);
+          this.user = {
+            ...user,
+            avatar: this.helperService.refactorImg(user.avatar!),
+          };
+          console.log(this.user);
         })
       )
       .subscribe();
-  }
-
-  initRouterLinks(): void {
-    this.editRouterLink = `/user/edit`;
-
-    this.cancelRouterLink = `/user/detail`;
   }
 
   edit(): void {
@@ -116,7 +110,9 @@ export class UserFormComponent {
     reader.onload = () => {
       const fileContent = reader.result as string; // Get the file content as base64 string
 
-      const avaBytesArr = this.base64ToBytes(fileContent); // Convert base64 string to bytes
+      this.tempImg = fileContent;
+
+      const avaBytesArr = this.helperService.base64ToBytes(fileContent); // Convert base64 string to bytes
 
       const byteArr = Array.from(avaBytesArr);
 
@@ -128,22 +124,22 @@ export class UserFormComponent {
     reader.readAsDataURL(f); // Read the file as base64 data
   }
 
-  base64ToBytes(base64String: string): Uint8Array {
-    const base64WithoutPrefix = base64String.replace(
-      /^data:image\/\w+;base64,/,
-      ''
-    );
-    const decodedData = atob(base64WithoutPrefix);
-    const outputArray = new Uint8Array(decodedData.length);
-
-    for (let i = 0; i < decodedData.length; ++i) {
-      outputArray[i] = decodedData.charCodeAt(i);
-    }
-
-    return outputArray;
-  }
-
   onImageError(e: Event): void {
     if (e) this.isImageError = true;
+  }
+
+  isBase64ImageOver1MB(base64Image: string): boolean {
+    const padding =
+      base64Image.charAt(base64Image.length - 2) === '='
+        ? 2
+        : base64Image.charAt(base64Image.length - 1) === '='
+        ? 1
+        : 0;
+    const base64StringLength = base64Image.length;
+    const fileSizeInBytes = base64StringLength * 0.75 - padding;
+    const fileSizeInKB = fileSizeInBytes / 1024;
+    const fileSizeInMB = fileSizeInKB / 1024;
+
+    return fileSizeInMB > 1;
   }
 }

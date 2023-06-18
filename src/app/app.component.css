@@ -171,3 +171,7 @@
 *::-webkit-scrollbar-thumb {
   @apply bg-primary border-2 border-white;
 }
+
+.p-avatar img {
+  @apply object-contain;
+}

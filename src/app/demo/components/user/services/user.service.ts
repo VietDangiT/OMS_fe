@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Apollo, MutationResult } from 'apollo-angular';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { User } from '../../login/models/login.models';
 import {
   CHANGE_PASSWORD,
@@ -18,6 +19,8 @@ import {
 })
 export class UserService {
   apollo = inject(Apollo);
+
+  helperService = inject(HelperService);
 
   user: Partial<User> = {
     avatar: '',
@@ -39,6 +42,7 @@ export class UserService {
     return {
       ...user,
       dob: new Date(user.dob!).toLocaleDateString(),
+      avatar: this.helperService.arrayBufferToBase64(user.avatar!),
     };
   }
 

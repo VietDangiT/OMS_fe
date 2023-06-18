@@ -15,8 +15,8 @@ export const catalogueHeaderTable: TableHeader[] = [
 export const GET_PRODUCT_CATALOGUES = gql`
   query GetProductCatalogue(
     $channelId: Int
-    $fromDate: DateTime!
-    $toDate: DateTime!
+    $fromDate: String!
+    $toDate: String!
     $keyword: String!
     $limit: Int
     $status: String
@@ -24,8 +24,8 @@ export const GET_PRODUCT_CATALOGUES = gql`
   ) {
     products(
       channelId: $channelId
-      fromDate: $fromDate
-      toDate: $toDate
+      fDate: $fromDate
+      tDate: $toDate
       keyword: $keyword
       limit: $limit
       status: $status
@@ -43,7 +43,7 @@ export const GET_PRODUCT_CATALOGUES = gql`
         productVariantImage
         basePrice
         createdAt
-        productChannelStatus
+        status
         availableStock
       }
     }

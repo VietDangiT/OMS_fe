@@ -141,6 +141,8 @@ export class ChannelListComponent implements OnInit, OnDestroy {
 
     this.handleChannelParams('status', Number(this.activeItem.label));
 
+    this.handleChannelParams('page', tableConfig.gapPageNumber);
+
     this.getChannelData();
   }
 

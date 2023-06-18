@@ -67,6 +67,7 @@ export class OrderDetailComponent {
           const { orderDetail } = res;
 
           this.orderDetail = orderDetail;
+          console.log(orderDetail);
 
           this.tableData.data.body = this.orderDetail.products;
         })

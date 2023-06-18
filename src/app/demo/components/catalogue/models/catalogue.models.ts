@@ -8,7 +8,7 @@ export interface Catalogue {
   productVariantImage: string;
   basePrice: number;
   createdAt: string;
-  productChannelStatus: ProductChannelStatus;
+  status?: ProductChannelStatus;
   availableStock: number;
 }
 

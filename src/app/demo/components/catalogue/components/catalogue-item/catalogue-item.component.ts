@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { Catalogue } from '../../models/catalogue.models';
 
 @Component({
@@ -8,6 +9,17 @@ import { Catalogue } from '../../models/catalogue.models';
 })
 export class CatalogueItemComponent {
   @Input() catalogue: Catalogue;
+
+  helperService = inject(HelperService);
+
+  ngOnInit(): void {
+    this.catalogue = {
+      ...this.catalogue,
+      productVariantImage: this.helperService.refactorImg(
+        this.catalogue.productVariantImage
+      ),
+    };
+  }
 
   handleAction(): void {
     console.log('action');

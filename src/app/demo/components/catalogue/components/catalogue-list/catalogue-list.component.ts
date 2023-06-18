@@ -64,17 +64,13 @@ export class CatalogueListComponent implements OnInit {
             this.handleCatalogueParams('channelId', this.channelId);
           }
 
-          this.getComponentData();
+          this.getCatalogues();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
 
     this.getProductStatus();
-  }
-
-  getComponentData(): void {
-    this.getCatalogues();
   }
 
   getCatalogues(): void {
@@ -130,7 +126,9 @@ export class CatalogueListComponent implements OnInit {
   onActiveItemChange(e: MenuItem): void {
     this.handleCatalogueParams('status', e.label!);
 
-    this.getComponentData();
+    this.handleCatalogueParams('page', tableConfig.gapPageNumber);
+
+    this.getCatalogues();
   }
 
   dateFilterChange(dates: Date[]): void {
@@ -139,20 +137,20 @@ export class CatalogueListComponent implements OnInit {
 
       this.handleCatalogueParams('toDate', dates[1]);
 
-      this.getComponentData();
+      this.getCatalogues();
     }
   }
 
   searchValue(val: string): void {
     this.handleCatalogueParams('keyword', val);
 
-    this.getComponentData();
+    this.getCatalogues();
   }
 
   onPageChange(e: PageChangeEvent): void {
     this.handleCatalogueParams('page', e.page + tableConfig.gapPageNumber);
 
-    this.getComponentData();
+    this.getCatalogues();
   }
 
   handleCatalogueParams(

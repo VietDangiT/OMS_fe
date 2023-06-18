@@ -1,23 +1,13 @@
 <form [formGroup]="editForm" (ngSubmit)="edit()" class="max-w-[50%]">
   <div class="relative inline-block">
-    <p-avatar
-      [image]="user.avatar || 'assets/avt.jpg'"
-      alt="user-avt.alt"
-      size="xlarge"
-      shape="circle"
-      styleClass="!w-24 !h-24 mb-4"
-      (onImageError)="onImageError($event)"
-      *ngIf="!isImageError"
-    ></p-avatar>
+    <ng-template #userAvt>
+      <oms-avatar [imgSrc]="user.avatar!"></oms-avatar>
+    </ng-template>
 
-    <p-avatar
-      [image]="'assets/avt.jpg'"
-      alt="user-avt.alt"
-      size="xlarge"
-      shape="circle"
-      styleClass="!w-24 !h-24 mb-4"
-      *ngIf="isImageError"
-    ></p-avatar>
+    <oms-avatar
+      [imgSrc]="tempImg"
+      *ngIf="tempImg.length > 0; else userAvt"
+    ></oms-avatar>
 
     <p-fileUpload
       *ngIf="!isViewMode"

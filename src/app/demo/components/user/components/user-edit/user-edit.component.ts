@@ -39,14 +39,16 @@ export class UserEditComponent {
       .editUser(form.value)
       .pipe(
         catchError(async err => {
-          const errMes = err.networkError.error.errors[0].extensions.message;
+          const errMes = err.networkError.error.errors[0].extensions?.message;
 
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: errMes,
-            closable: true,
-          });
+          if (errMes) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: errMes,
+              closable: true,
+            });
+          }
         }),
         tap(() => {
           this.messageService.add({

@@ -14,16 +14,16 @@
 
   <div>
     <div
-      [class.text-success]="orderDetail.status === 'completed'"
-      [class.text-danger]="orderDetail.status === 'failed'"
-      [class.text-orange-400]="orderDetail.status === 'pending'"
-      [class.text-warning]="orderDetail.status === 'delivery'"
-      [class.text-blue-500]="orderDetail.status === 'return'"
+      [class.text-success]="order.status === 'completed'"
+      [class.text-danger]="order.status === 'failed'"
+      [class.text-orange-400]="order.status === 'pending'"
+      [class.text-warning]="order.status === 'delivery'"
+      [class.text-blue-500]="order.status === 'return'"
     >
       <i class="pi-circle-fill pi"></i>
 
       <span class="font-bold">
-        {{ orderDetail.status | titlecase }}
+        {{ order.status | titlecase }}
       </span>
     </div>
 
@@ -88,7 +88,7 @@
 
           <td>{{ rowData.quantity }}</td>
 
-          <td>{{ rowData.price }}</td>
+          <td>{{ rowData.price | number }}</td>
         </tr>
       </ng-template>
     </oms-table>

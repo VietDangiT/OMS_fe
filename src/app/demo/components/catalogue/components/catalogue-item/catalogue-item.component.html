@@ -17,13 +17,13 @@
 
   <td
     class="flex gap-2 items-center"
-    [class.text-success]="catalogue.productChannelStatus === 'Active'"
-    [class.text-danger]="catalogue.productChannelStatus === 'Inactive'"
+    [class.text-success]="catalogue.status === 'Active'"
+    [class.text-danger]="catalogue.status === 'Inactive'"
   >
     <i class="pi-circle-fill pi"></i>
 
     <span class="font-medium">
-      {{ catalogue.productChannelStatus | titlecase }}
+      {{ catalogue.status | titlecase }}
     </span>
   </td>
 
