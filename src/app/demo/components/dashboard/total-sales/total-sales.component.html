@@ -1,7 +1,7 @@
 <app-topbar></app-topbar>
 
 <div class="flex-between-center w-full mb-2">
-  <h1 class="text-3xl font-bold">Total Sales</h1>
+  <h1 class="title">Sales Analytics</h1>
 
   <oms-date-filter
     (dateFilterChange)="dateFilterChanged($event)"
@@ -38,7 +38,7 @@
   </div>
 
   <div class="flex flex-col col-span-3 w-full dashboard-detail-container">
-    <div class="font-bold text-black">Revenue</div>
+    <div class="font-bold text-black" i18n>Revenue</div>
 
     <div class="h-full w-full">
       <oms-chart
@@ -52,7 +52,7 @@
   <div
     class="flex flex-col lg:col-span-2 md:col-span-3 w-full dashboard-detail-container"
   >
-    <div class="font-bold text-black">Overview</div>
+    <div class="font-bold text-black" i18n>Overview</div>
 
     <div class="h-full w-full">
       <oms-chart

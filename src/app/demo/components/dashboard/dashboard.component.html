@@ -10,7 +10,7 @@
     <div class="md:col-span-9">
       <div class="grid-cols-6 gap-2 md:grid">
         <!-- total sale component -->
-        <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
+        <div class="p-4 main-dashboard-container">
           <dashboard-total-sale-chart
             [filterArr]="filterArr"
             [option]="chartOptions"
@@ -18,7 +18,7 @@
         </div>
 
         <!-- total return component -->
-        <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
+        <div class="p-4 main-dashboard-container">
           <dashboard-total-return
             [filterArr]="filterArr"
             [pieOptions]="pieOptions"
@@ -27,7 +27,7 @@
         </div>
 
         <!-- product catalog component -->
-        <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
+        <div class="p-4 main-dashboard-container">
           <dashboard-product-catalog
             [filterArr]="filterArr"
             [basicOptions]="chartOptions"
@@ -35,7 +35,7 @@
         </div>
 
         <!-- total sale by location component -->
-        <div class="bg-white rounded-md lg:col-span-2 md:col-span-3">
+        <div class="main-dashboard-container">
           <dashboard-total-sale-by-location
             [filterArr]="filterArr"
           ></dashboard-total-sale-by-location>
@@ -60,7 +60,7 @@
         </div>
 
         <!-- total sale by channel component -->
-        <div class="p-4 bg-white rounded-md lg:col-span-2 md:col-span-3">
+        <div class="p-4 main-dashboard-container">
           <dashboard-sale-by-channel
             [filterArr]="filterArr"
           ></dashboard-sale-by-channel>

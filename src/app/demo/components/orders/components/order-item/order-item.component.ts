@@ -30,11 +30,6 @@ export class OrderItemComponent {
     };
   }
 
-  handleAction(e: Event): void {
-    e.stopPropagation();
-    console.log('click action icon');
-  }
-
   handleOrderDetail(e: Event): void {
     this.modalVisible = !this.modalVisible;
   }

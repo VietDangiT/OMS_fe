@@ -55,4 +55,8 @@ export abstract class HelperService {
   refactorImg(base64: string): string {
     return `data:image/png;base64, ${base64}`;
   }
+
+  convertToDisplayDate(d: string): string {
+    return new Date(d).toLocaleDateString('en-En');
+  }
 }

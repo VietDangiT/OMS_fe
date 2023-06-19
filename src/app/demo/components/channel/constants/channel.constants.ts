@@ -13,8 +13,8 @@ export const GET_COUNTRIES = gql`
 export const GET_CHANNELS_TABLE = gql`
   query GetChannelsTableDate(
     $countryId: Int
-    $fromDate: DateTime
-    $toDate: DateTime
+    $fromDate: String
+    $toDate: String
     $keyword: String
     $status: Byte
     $limit: Int
@@ -22,8 +22,8 @@ export const GET_CHANNELS_TABLE = gql`
   ) {
     channelsTableData(
       countryId: $countryId
-      fromDate: $fromDate
-      toDate: $toDate
+      fDate: $fromDate
+      tDate: $toDate
       limit: $limit
       page: $page
       keyword: $keyword
@@ -45,6 +45,40 @@ export const GET_CHANNELS_TABLE = gql`
   }
 `;
 
+export const GET_CHANNELS_TABLE_DATA = gql`
+  query GetTotalSaleChannels(
+    $countryId: Int
+    $currentPage: Int
+    $limit: Int
+    $fromDate: String
+    $toDate: String
+  ) {
+    totalSaleChannels(
+      countryId: $countryId
+      currentPage: $currentPage
+      limit: $limit
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
+      page
+      first
+      rows
+      pageCount
+      totalRecord
+      data {
+        numberOrders
+        value
+        status
+        number
+        name
+        updatedAt
+        createdAt
+        id
+      }
+    }
+  }
+`;
+
 export const GET_CHANNEL_STATUS = gql`
   query GetChannelStatus($channelId: Int) {
     channelStatus(countryId: $channelId) {
@@ -55,9 +89,9 @@ export const GET_CHANNEL_STATUS = gql`
 `;
 
 export const channelTableHeader = [
-  { field: 'channel', col: 'Channel' },
+  { field: 'channelName', col: 'Channel' },
   { field: 'numberOfOrders', col: 'Number Of Orders' },
-  { field: 'totalSales', col: 'Total Sales' },
+  { field: 'totalSale', col: 'Total Sales' },
   { field: 'status', col: 'Status' },
   { field: 'createdAt', col: 'Created At' },
   { field: 'updatedAt', col: 'Updated At' },

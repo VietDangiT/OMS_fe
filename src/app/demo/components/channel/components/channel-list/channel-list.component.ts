@@ -113,6 +113,14 @@ export class ChannelListComponent implements OnInit, OnDestroy {
         tap((res: ChannelTableApiResponse) => {
           const { channelsTableData: data } = res;
 
+          const updatedData = data.data.map(d => {
+            return {
+              ...d,
+              createdAt: this.helperService.convertToDisplayDate(d.createdAt!),
+              updatedAt: this.helperService.convertToDisplayDate(d.updatedAt!),
+            };
+          });
+
           this.table = {
             page: data.page,
             first: data.first,
@@ -121,7 +129,7 @@ export class ChannelListComponent implements OnInit, OnDestroy {
             totalRecord: data.totalRecord,
             data: {
               header: [...this.table.data.header],
-              body: [...data.data],
+              body: [...updatedData],
             },
           };
         }),

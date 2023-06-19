@@ -62,7 +62,6 @@ export class AppTopBarComponent {
         tap(res => {
           this.user = {
             ...res,
-            avatar: this.helperService.refactorImg(res.avatar!),
           };
         })
       )

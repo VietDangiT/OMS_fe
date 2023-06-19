@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subject, takeUntil, tap } from 'rxjs';
@@ -14,6 +14,7 @@ import { CatalogueService } from '../../services/catalogue.service';
   selector: 'oms-catalogue-list',
   templateUrl: './catalogue-list.component.html',
   styleUrls: ['./catalogue-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CatalogueListComponent implements OnInit {
   helperService = inject(HelperService);
@@ -42,6 +43,8 @@ export class CatalogueListComponent implements OnInit {
 
   destroy$ = new Subject();
 
+  channelId = 0;
+
   params: CatalogueParams = {
     channelId: null,
     fromDate: this.dateRange[0],
@@ -51,8 +54,6 @@ export class CatalogueListComponent implements OnInit {
     page: tableConfig.page,
     status: 'Active',
   };
-
-  channelId = 0;
 
   ngOnInit(): void {
     this.route.queryParamMap
@@ -65,12 +66,12 @@ export class CatalogueListComponent implements OnInit {
           }
 
           this.getCatalogues();
+
+          this.getProductStatus();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
-
-    this.getProductStatus();
   }
 
   getCatalogues(): void {

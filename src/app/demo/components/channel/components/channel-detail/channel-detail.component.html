@@ -1,36 +1,33 @@
 <tr>
   <td>
-    <div class="flex gap-2 items-center">
-      <div class="w-10 h-10 rounded-md">
-        <img class="object-cover" [src]="channel.image" alt="" />
-      </div>
+    <div class="flex items-center gap-2">
+      <oms-avatar
+        [imgSrc]="channel.image!"
+        label="channel-img.alt"
+        size="normal"
+      ></oms-avatar>
 
-      <span>{{ channel.name }}</span>
+      <span>{{ channel.channelName }}</span>
     </div>
   </td>
 
-  <td class="!text-right">{{ channel.numberOrders | number }}</td>
+  <td>{{ channel.numberOfOrder | number }}</td>
 
-  <td class="!text-right">{{ channel.value | number }}</td>
+  <td>{{ channel.totalSale | number }}</td>
 
   <td>
-    <div class="flex item-center gap-5 justify-center">
-      <span class="hidden lg:block min-w-[70px]">
-        <i
-          class="pi pi-circle-fill text-success"
-          *ngIf="channel.status === 'Active'; else dangerIcon"
-        ></i>
+    <i
+      class="pi pi-circle-fill text-success mr-2"
+      *ngIf="channel.status === 'Active'; else dangerIcon"
+    ></i>
 
-        <ng-template #dangerIcon>
-          <i class="pi pi-circle-fill text-danger"></i>
-        </ng-template>
-        {{ channel.status | titlecase }}
-      </span>
-      <p-inputSwitch class="opacity-100 flex-1"></p-inputSwitch>
-    </div>
+    <ng-template #dangerIcon>
+      <i class="pi pi-circle-fill text-danger"></i>
+    </ng-template>
+    {{ channel.status | titlecase }}
   </td>
 
-  <td class="!text-center">{{ channel.createdAt }}</td>
+  <td>{{ channel.createdAt }}</td>
 
-  <td class="!text-center">{{ channel.updatedAt }}</td>
+  <td>{{ channel.updatedAt }}</td>
 </tr>

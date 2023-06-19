@@ -4,22 +4,21 @@ import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { environment } from 'src/environments/environment';
 import { HelperService } from '../../service/helper.service';
+import { baseChartOptions } from '../share/oms-chart/oms-chart.component';
 
 @Component({
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  currentDate = new Date(Date.now());
-  previousDate = this.helperSerivce.addDays(this.currentDate, -7);
   pieOptions: any;
-  chartOptions: ChartOptions;
+
+  chartOptions: ChartOptions = baseChartOptions;
+
   subscription!: Subscription;
 
-  //default filter value - 7 days from currentDate
-  filterArr: string[] = [
-    this.previousDate.toLocaleDateString('en-US'),
-    this.currentDate.toLocaleDateString('en-US'),
-  ];
+  filterArr = this.helperSerivce.defaultDateRange.map(d =>
+    d.toLocaleDateString('en-EN')
+  );
 
   constructor(
     public layoutService: LayoutService,
@@ -31,17 +30,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   initChartOption() {
-    this.chartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 1,
-
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-    };
     this.pieOptions = {
       responsive: true,
       maintainAspectRatio: false,

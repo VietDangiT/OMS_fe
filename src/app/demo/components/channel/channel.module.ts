@@ -5,6 +5,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
+import { AvatarComponent } from '../share/avatar/avatar.component';
 import { ShareModule } from '../share/share.module';
 import { TabMenuComponent } from '../share/tab-menu/tab-menu.component';
 import { ChannelRoutingModule } from './channel-routing.module';
@@ -23,6 +24,7 @@ import { ChannelListComponent } from './components/channel-list/channel-list.com
     ShareModule,
     InputSwitchModule,
     TabMenuComponent,
+    AvatarComponent,
   ],
   declarations: [
     ChannelComponent,

@@ -49,14 +49,14 @@ export class AppMenuComponent {
         items: [
           {
             name: 'totalSales',
-            content: 'Total Sales',
+            content: 'Sales Analytics',
             path: 'dashboard/total-sales',
             icon: 'pi-dollar',
             param: {},
           },
           {
             name: 'totalOrder',
-            content: 'Total Orders',
+            content: 'Orders Analytics',
             path: 'dashboard/total-orders',
             icon: 'pi-shopping-cart',
             param: {},
@@ -65,13 +65,13 @@ export class AppMenuComponent {
           {
             name: 'saleByLocation',
             path: 'dashboard/sale-by-location',
-            content: 'Sales by Location',
+            content: 'Sales by Location Analytics',
             icon: 'pi-globe',
           },
           {
             name: 'saleByChannel',
             path: 'dashboard/total-sale-by-channel',
-            content: 'Total sales by Channel',
+            content: 'Sales by Channel Analytics',
             icon: 'pi-home',
           },
         ],

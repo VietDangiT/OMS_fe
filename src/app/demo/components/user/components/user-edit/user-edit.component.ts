@@ -57,8 +57,6 @@ export class UserEditComponent {
             detail: $localize`User edited`,
             closable: true,
           });
-
-          this.route.navigate(['user/detail']);
         })
       )
       .subscribe();

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { Observable, Subject, map, tap } from 'rxjs';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { User } from '../../login/models/login.models';
 import {
@@ -22,17 +22,7 @@ export class UserService {
 
   helperService = inject(HelperService);
 
-  user: Partial<User> = {
-    avatar: '',
-    dob: '',
-    gender: '',
-    fullAddress: '',
-    email: '',
-    fullName: '',
-    phoneNumber: '',
-  };
-
-  currentUser$ = new BehaviorSubject(this.user);
+  currentUser$ = new Subject<Partial<User>>();
 
   constructor() {
     this.getUser();
@@ -42,7 +32,9 @@ export class UserService {
     return {
       ...user,
       dob: new Date(user.dob!).toLocaleDateString(),
-      avatar: this.helperService.arrayBufferToBase64(user.avatar!),
+      avatar: this.helperService.refactorImg(
+        this.helperService.arrayBufferToBase64(user.avatar!)
+      ),
     };
   }
 
@@ -104,16 +96,14 @@ export class UserService {
   private getUser(): void {
     const id = localStorage.getItem('userId');
 
-    this.getUserDetail(Number(id))
-      .pipe(
-        tap(res => {
-          let { userDetail: user } = res;
+    this.getUserDetail(Number(id)).pipe(
+      tap(res => {
+        let { userDetail: user } = res;
 
-          user = this.refactorUser(user);
+        user = this.refactorUser(user);
 
-          this.currentUser$.next(user);
-        })
-      )
-      .subscribe();
+        this.currentUser$.next(user);
+      })
+    );
   }
 }

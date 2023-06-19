@@ -1,13 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  inject,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { User } from '../../../login/models/login.models';
 import { UserService } from '../../services/user.service';
@@ -16,7 +10,6 @@ import { UserService } from '../../services/user.service';
   selector: 'oms-user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFormComponent {
   @Input() isViewMode: boolean;
@@ -27,25 +20,32 @@ export class UserFormComponent {
 
   helperService = inject(HelperService);
 
+  route = inject(ActivatedRoute);
+
   editForm: FormGroup;
 
   editRouterLink = '/user/edit';
 
   cancelRouterLink = '/user/detail';
 
-  isImageError = false;
+  isUploadedImg = false;
+
+  user$: Observable<Partial<User>> = this.userService.currentUser$;
 
   user: Partial<User> = {
     avatar: '',
-    dob: '',
-    gender: '',
-    fullAddress: '',
     email: '',
+    fullAddress: '',
     fullName: '',
+    gender: '',
+    dob: '',
     phoneNumber: '',
+    password: '',
   };
 
   tempImg = '';
+
+  destroy$ = new Subject();
 
   ngOnInit(): void {
     this.initEditForm();
@@ -59,48 +59,53 @@ export class UserFormComponent {
       avatar: new FormControl({ value: '', disabled: this.isViewMode }),
       fullName: new FormControl(
         { value: '', disabled: this.isViewMode },
-        Validators.required
+        { validators: [Validators.required] }
       ),
       email: new FormControl(
         { value: '', disabled: this.isViewMode },
-        Validators.required
+        { validators: [Validators.required] }
       ),
       gender: new FormControl(
         { value: '', disabled: this.isViewMode },
-        Validators.required
+        { validators: [Validators.required] }
       ),
       dob: new FormControl(
         { value: '', disabled: this.isViewMode },
-        Validators.required
+        { validators: [Validators.required] }
       ),
       phoneNumber: new FormControl(
         { value: '', disabled: this.isViewMode },
-        Validators.required
+        { validators: [Validators.required] }
       ),
       fullAddress: new FormControl(
         { value: '', disabled: this.isViewMode },
-        Validators.required
+        { validators: [Validators.required] }
       ),
     });
   }
 
   initUser(): void {
-    this.userService.currentUser$
+    this.user$
       .pipe(
         tap(user => {
-          this.editForm.patchValue(user);
+          this.user = { ...user };
 
-          this.user = {
-            ...user,
-            avatar: this.helperService.refactorImg(user.avatar!),
-          };
           console.log(this.user);
-        })
+
+          setTimeout(() => {
+            this.editForm.patchValue({ ...this.user });
+          }, 0);
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
 
   edit(): void {
+    if (!this.isUploadedImg) {
+      this.parseToByteArray(this.user.avatar!);
+    }
+
     this.handleEditForm.emit(this.editForm);
   }
 
@@ -112,20 +117,22 @@ export class UserFormComponent {
 
       this.tempImg = fileContent;
 
-      const avaBytesArr = this.helperService.base64ToBytes(fileContent); // Convert base64 string to bytes
+      this.parseToByteArray(fileContent);
 
-      const byteArr = Array.from(avaBytesArr);
-
-      this.editForm.patchValue({
-        avatar: byteArr,
-      });
+      this.isUploadedImg = true;
     };
 
     reader.readAsDataURL(f); // Read the file as base64 data
   }
 
-  onImageError(e: Event): void {
-    if (e) this.isImageError = true;
+  private parseToByteArray(base64: string) {
+    const avaBytesArr = this.helperService.base64ToBytes(base64); // Convert base64 string to bytes
+
+    const byteArr = Array.from(avaBytesArr);
+
+    this.editForm.patchValue({
+      avatar: byteArr,
+    });
   }
 
   isBase64ImageOver1MB(base64Image: string): boolean {
@@ -135,11 +142,17 @@ export class UserFormComponent {
         : base64Image.charAt(base64Image.length - 1) === '='
         ? 1
         : 0;
+
     const base64StringLength = base64Image.length;
     const fileSizeInBytes = base64StringLength * 0.75 - padding;
     const fileSizeInKB = fileSizeInBytes / 1024;
     const fileSizeInMB = fileSizeInKB / 1024;
 
     return fileSizeInMB > 1;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next('');
+    this.destroy$.complete;
   }
 }

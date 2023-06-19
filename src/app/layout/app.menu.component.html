@@ -4,11 +4,7 @@
   }} bg-primary duration-100 transition-all "
 >
   <div class="flex flex-col items-center h-full">
-    <a routerLink="/" class="{{ isNavbarOn ? 'w-full pl-2' : '' }} pt-1 mb-2"
-      ><img src="./assets/logo1.png" alt="Logo" class="hidden px-1 md:block"
-    /></a>
-
-    <ul class="flex items-center justify-center w-full gap-2 flex-col">
+    <ul class="flex items-center justify-center w-full gap-2 flex-col py-2">
       <li
         *ngFor="let element of menuElements"
         class="relative flex w-full duration-100 ease-linear group border-b-0 border-l-0 opacity-50 cursor-pointer group hover:opacity-100"

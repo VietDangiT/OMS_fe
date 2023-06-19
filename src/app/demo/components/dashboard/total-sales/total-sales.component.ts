@@ -131,7 +131,10 @@ export class TotalSalesComponent {
           const { paging, data } = detailTotalSales;
 
           const updatedData = data.map(d => {
-            return { ...d, date: new Date(d.date).toLocaleDateString() };
+            return {
+              ...d,
+              date: this.helperService.convertToDisplayDate(d.date),
+            };
           });
 
           this.tableData = {

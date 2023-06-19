@@ -4,10 +4,10 @@ import { BaseChart } from '../../dashboard/interfaces/dashboard.models';
 export interface Channel {
   description: string;
   id: number;
-  name: string;
+  channelName: string;
   number: number;
-  numberOrders?: number;
-  value?: number;
+  numberOfOrder?: number;
+  totalSale?: number;
   status?: ChannelStatus;
   createdAt?: string;
   updatedAt?: string;

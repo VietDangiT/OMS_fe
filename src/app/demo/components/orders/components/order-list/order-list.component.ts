@@ -28,8 +28,6 @@ export class OrderListComponent {
 
   dateFilterValue: string[];
 
-  gapPageNumber = 1;
-
   marketPlaceId = 0;
 
   orderParams: OrderParams = {
@@ -73,12 +71,12 @@ export class OrderListComponent {
           }
 
           this.getOrderTable();
+
+          this.getOrderStatus();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
-
-    this.getOrderStatus();
   }
 
   getOrderStatus(): void {
@@ -163,7 +161,7 @@ export class OrderListComponent {
   }
 
   onPageChange(e: PageChangeEvent): void {
-    this.handleOrderParams('page', e.page + this.gapPageNumber);
+    this.handleOrderParams('page', e.page + tableConfig.gapPageNumber);
 
     this.getOrderTable();
   }

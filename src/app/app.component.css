@@ -173,5 +173,17 @@
 }
 
 .p-avatar img {
-  @apply object-contain;
+  @apply object-cover;
+}
+
+.title {
+  @apply text-xl font-bold;
+}
+
+.main-dashboard-container {
+  @apply bg-white rounded-md lg:col-span-2 md:col-span-3;
+}
+
+oms-table tr {
+  @apply cursor-pointer hover:!bg-gray-200 transition-all duration-100;
 }

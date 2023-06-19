@@ -1,7 +1,4 @@
-<tr
-  class="mt-3 cursor-pointer hover:!bg-gray-200 transition-all duration-100"
-  (click)="handleOrderDetail($event)"
->
+<tr class="mt-3" (click)="handleOrderDetail($event)">
   <td>{{ order.id }}</td>
 
   <td>{{ order.orderedAt | date }}</td>
@@ -40,9 +37,9 @@
     </span>
   </td>
 
-  <td (click)="handleAction($event)">
+  <td>
     <i
-      class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"
+      class="pi pi-arrow-up-left pointer-events-none text-white bg-primary p-1 rounded-full"
     ></i>
   </td>
 </tr>

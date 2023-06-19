@@ -18,6 +18,14 @@ import { AvatarModule } from 'primeng/avatar';
 export class AvatarComponent {
   @Input() imgSrc: string;
 
+  @Input() label = 'user-avt.alt';
+
+  @Input() size = 'normal' || 'large' || 'xlarge';
+
+  @Input() style = '';
+
+  @Input() styleClass = '';
+
   @Output() onImageError = new EventEmitter();
 
   imageError(e: Event): void {
