@@ -7,6 +7,7 @@ export interface Channel {
   channelName: string;
   number: number;
   numberOfOrder?: number;
+  shortCode?: string;
   totalSale?: number;
   status?: ChannelStatus;
   createdAt?: string;

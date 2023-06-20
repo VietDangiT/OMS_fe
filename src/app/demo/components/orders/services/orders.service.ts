@@ -20,20 +20,11 @@ export class OrdersService {
   constructor(private readonly apollo: Apollo) {}
 
   getOrders(orderParams: OrderParams): Observable<OrderApiResponse> {
-    const { channelId, fromDate, keyword, limit, page, status, toDate } =
-      orderParams;
-
     return this.apollo
       .watchQuery<OrderApiResponse>({
         query: GET_ORDERS,
         variables: {
-          channelId,
-          fDate: fromDate,
-          tDate: toDate,
-          keyword,
-          status,
-          limit,
-          page,
+          ...orderParams,
         },
       })
       .valueChanges.pipe(map(res => res.data));
@@ -50,12 +41,16 @@ export class OrdersService {
       .valueChanges.pipe(map(res => res.data));
   }
 
-  getOrderStatus(id: number): Observable<OrderStatusApiResponse> {
+  getOrderStatus(params: OrderParams): Observable<OrderStatusApiResponse> {
+    const { channelId, fromDate, toDate } = params;
+
     return this.apollo
       .watchQuery<OrderStatusApiResponse>({
         query: GET_ORDER_STATUS,
         variables: {
-          channelId: id,
+          channelId,
+          fromDate,
+          toDate,
         },
       })
       .valueChanges.pipe(map(res => res.data));

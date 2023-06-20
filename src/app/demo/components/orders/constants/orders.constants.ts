@@ -85,8 +85,8 @@ export const GET_ORDER_DETAIL = gql`
 `;
 
 export const GET_ORDER_STATUS = gql`
-  query GetOrderStatus($channelId: Int) {
-    orderStatus(channelId: $channelId) {
+  query GetOrderStatus($channelId: Int, $fromDate: String, $toDate: String) {
+    orderStatus(channelId: $channelId, fromDate: $fromDate, toDate: $toDate) {
       displayText
       value
     }

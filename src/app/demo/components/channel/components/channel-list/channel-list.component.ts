@@ -165,11 +165,9 @@ export class ChannelListComponent implements OnInit, OnDestroy {
   }
 
   searchValue(search: string): void {
-    if (search) {
-      this.handleChannelParams('keyword', search);
+    this.handleChannelParams('keyword', search);
 
-      this.getChannelData();
-    }
+    this.getChannelData();
   }
 
   handleChannelParams(

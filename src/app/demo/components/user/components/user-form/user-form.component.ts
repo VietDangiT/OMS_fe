@@ -106,9 +106,7 @@ export class UserFormComponent {
 
           this.user = user;
 
-          setTimeout(() => {
-            this.editForm.patchValue({ ...this.user });
-          }, 0);
+          this.editForm.patchValue({ ...this.user });
         })
       )
       .subscribe();
