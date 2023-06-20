@@ -5,7 +5,6 @@ import { tap } from 'rxjs';
 import { User } from '../demo/components/login/models/login.models';
 import { UserService } from '../demo/components/user/services/user.service';
 import { AuthService } from '../demo/service/auth.service';
-import { HelperService } from '../demo/service/helper.service';
 import { LayoutService } from './service/app.layout.service';
 
 @Component({
@@ -42,8 +41,7 @@ export class AppTopBarComponent {
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
-    private helperService: HelperService
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -57,12 +55,15 @@ export class AppTopBarComponent {
   }
 
   initUser(): void {
-    this.userService.currentUser$
+    this.userService
+      .getUser()
       .pipe(
         tap(res => {
-          this.user = {
-            ...res,
-          };
+          let { userDetail: user } = res;
+
+          user = this.userService.refactorUser(user);
+
+          this.user = user;
         })
       )
       .subscribe();

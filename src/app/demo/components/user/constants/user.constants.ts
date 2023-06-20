@@ -32,7 +32,7 @@ export const CHANGE_PASSWORD = gql`
 export const EDIT_USER = gql`
   mutation EditUserProfile(
     $avatar: [Byte!]!
-    $dob: DateTime!
+    $dob: String!
     $email: String!
     $fullAddress: String!
     $fullName: String!

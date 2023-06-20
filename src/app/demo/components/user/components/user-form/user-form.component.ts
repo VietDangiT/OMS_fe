@@ -1,15 +1,24 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+import { Subject, tap } from 'rxjs';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { User } from '../../../login/models/login.models';
+import { NotificationService } from '../../../share/message/notification.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'oms-user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserFormComponent {
   @Input() isViewMode: boolean;
@@ -22,15 +31,17 @@ export class UserFormComponent {
 
   route = inject(ActivatedRoute);
 
+  notificationService = inject(NotificationService);
+
   editForm: FormGroup;
 
   editRouterLink = '/user/edit';
 
   cancelRouterLink = '/user/detail';
 
-  isUploadedImg = false;
+  isImageError = false;
 
-  user$: Observable<Partial<User>> = this.userService.currentUser$;
+  isUploadImg = false;
 
   user: Partial<User> = {
     avatar: '',
@@ -85,24 +96,26 @@ export class UserFormComponent {
   }
 
   initUser(): void {
-    this.user$
+    this.userService
+      .getUser()
       .pipe(
-        tap(user => {
-          this.user = { ...user };
+        tap(res => {
+          let { userDetail: user } = res;
 
-          console.log(this.user);
+          user = this.userService.refactorUser(user);
+
+          this.user = user;
 
           setTimeout(() => {
             this.editForm.patchValue({ ...this.user });
           }, 0);
-        }),
-        takeUntil(this.destroy$)
+        })
       )
       .subscribe();
   }
 
   edit(): void {
-    if (!this.isUploadedImg) {
+    if (!this.isUploadImg) {
       this.parseToByteArray(this.user.avatar!);
     }
 
@@ -117,9 +130,11 @@ export class UserFormComponent {
 
       this.tempImg = fileContent;
 
-      this.parseToByteArray(fileContent);
+      this.notificationService.successNotification(
+        $localize`Uploaded new photo`
+      );
 
-      this.isUploadedImg = true;
+      this.parseToByteArray(fileContent);
     };
 
     reader.readAsDataURL(f); // Read the file as base64 data
@@ -133,6 +148,10 @@ export class UserFormComponent {
     this.editForm.patchValue({
       avatar: byteArr,
     });
+  }
+
+  onImageError(e: Event): void {
+    if (e) this.isImageError = true;
   }
 
   isBase64ImageOver1MB(base64Image: string): boolean {
@@ -153,6 +172,7 @@ export class UserFormComponent {
 
   ngOnDestroy(): void {
     this.destroy$.next('');
-    this.destroy$.complete;
+
+    this.destroy$.complete();
   }
 }

@@ -173,7 +173,7 @@
 }
 
 .p-avatar img {
-  @apply object-cover;
+  @apply object-contain;
 }
 
 .title {

@@ -16,8 +16,8 @@ export const GET_CHANNEL_ORDER_TABLE = gql`
     $page: Int
   ) {
     channelOrderTableData(
-      fDate: $fDate
-      tDate: $tDate
+      fromDate: $fDate
+      toDate: $tDate
       limit: $limit
       page: $page
     ) {
@@ -39,7 +39,7 @@ export const GET_CHANNEL_ORDER_TABLE = gql`
 
 export const GET_CHANNEL_SALE_BY_DATE = gql`
   query GetChannelSaleByDate($fDate: String, $tDate: String) {
-    channelSaleByConditionDate(fDate: $fDate, tDate: $tDate) {
+    channelSaleByConditionDate(fromDate: $fDate, toDate: $tDate) {
       displayText
       value
       date

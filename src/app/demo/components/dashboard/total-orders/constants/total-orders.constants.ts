@@ -3,7 +3,7 @@ import { TableHeader } from 'src/app/demo/interface/global.model';
 
 export const GET_ORDER_SUMMARY = gql`
   query GetTotalOrderSummary($fDate: String, $tDate: String) {
-    totalOrderSummary(fDate: $fDate, tDate: $tDate) {
+    totalOrderSummary(fromDate: $fDate, toDate: $tDate) {
       percentage
       displayText
       value
@@ -13,14 +13,14 @@ export const GET_ORDER_SUMMARY = gql`
 
 export const GET_TOTAL_ORDER_TABLE = gql`
   query GetTotalOrderTable(
-    $fDate: String
-    $tDate: String
+    $fromDate: String
+    $toDate: String
     $limit: Int
     $page: Int
   ) {
     totalOrderByStatus(
-      fDate: $fDate
-      tDate: $tDate
+      fromDate: $fromDate
+      toDate: $toDate
       limit: $limit
       page: $page
     ) {

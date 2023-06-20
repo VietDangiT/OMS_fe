@@ -1,4 +1,12 @@
-import { Component, HostBinding, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
+import { tap } from 'rxjs';
+import { User } from '../../../login/models/login.models';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'oms-user-detail',
@@ -9,12 +17,35 @@ import { Component, HostBinding, ViewEncapsulation } from '@angular/core';
 export class UserDetailComponent {
   @HostBinding('class') hostClass = 'oms-user-detail';
 
+  userService = inject(UserService);
+
+  user: Partial<User> = {
+    avatar: '',
+    email: '',
+    fullAddress: '',
+    fullName: '',
+    gender: '',
+    dob: '',
+    phoneNumber: '',
+    password: '',
+  };
+
   ngOnInit(): void {
-    if (!localStorage.getItem('reloadUser')) {
-      localStorage.setItem('reloadUser', 'no reload');
-      window.location.reload();
-    } else {
-      localStorage.removeItem('reloadUser');
-    }
+    this.initUser();
+  }
+
+  initUser(): void {
+    this.userService
+      .getUser()
+      .pipe(
+        tap(res => {
+          let { userDetail: user } = res;
+
+          user = this.userService.refactorUser(user);
+
+          this.user = user;
+        })
+      )
+      .subscribe();
   }
 }

@@ -81,13 +81,15 @@ export class DashboardStatisticComponent {
     this.marketplaceId$
       .pipe(
         switchMap((id: number) => {
-          const order$ = this.dashboardService.getOrderStatus(id, filter).pipe(
-            tap((result: StatisticOrderStatusApiResponse) => {
-              const { statisticOrders: data } = result;
+          const order$ = this.dashboardService
+            .getOrderStatistic(id, filter)
+            .pipe(
+              tap((result: StatisticOrderStatusApiResponse) => {
+                const { statisticOrders: data } = result;
 
-              this.orderStatistic = data;
-            })
-          );
+                this.orderStatistic = data;
+              })
+            );
 
           const product$ = this.dashboardService
             .getProductChannelByStatus(id)

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Apollo, MutationResult } from 'apollo-angular';
-import { Observable, Subject, map, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { User } from '../../login/models/login.models';
 import {
@@ -21,12 +21,6 @@ export class UserService {
   apollo = inject(Apollo);
 
   helperService = inject(HelperService);
-
-  currentUser$ = new Subject<Partial<User>>();
-
-  constructor() {
-    this.getUser();
-  }
 
   refactorUser(user: Partial<User>): Partial<User> {
     return {
@@ -93,16 +87,14 @@ export class UserService {
     });
   }
 
-  private getUser(): void {
+  getUser(): Observable<UserDetailApiResponse> {
     const id = localStorage.getItem('userId');
 
-    this.getUserDetail(Number(id)).pipe(
+    return this.getUserDetail(Number(id)).pipe(
       tap(res => {
         let { userDetail: user } = res;
 
         user = this.refactorUser(user);
-
-        this.currentUser$.next(user);
       })
     );
   }

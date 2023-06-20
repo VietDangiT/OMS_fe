@@ -18,6 +18,8 @@ import { AvatarModule } from 'primeng/avatar';
 export class AvatarComponent {
   @Input() imgSrc: string;
 
+  @Input() shape = 'circle' || 'square';
+
   @Input() label = 'user-avt.alt';
 
   @Input() size = 'normal' || 'large' || 'xlarge';

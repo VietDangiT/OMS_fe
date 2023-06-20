@@ -76,7 +76,6 @@ export class TotalSaleByLocationComponent {
           });
 
           this.chartData = [...temp];
-          console.log(temp);
         })
       )
       .subscribe();

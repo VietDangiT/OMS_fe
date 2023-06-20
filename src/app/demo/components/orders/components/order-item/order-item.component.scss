@@ -5,3 +5,9 @@
     @apply p-4;
   }
 }
+
+.oms-order-item {
+  .p-avatar img {
+    @apply object-contain;
+  }
+}

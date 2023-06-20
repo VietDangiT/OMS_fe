@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostBinding, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
@@ -27,6 +27,8 @@ import { TotalOrdersService } from './services/total-orders.service';
   styleUrls: ['./total-orders.component.scss'],
 })
 export class TotalOrdersComponent implements OnInit {
+  @HostBinding('class') hostClass = 'oms-total-orders';
+
   private readonly service = inject(TotalOrdersService);
 
   private readonly dashboardService = inject(DashboardService);

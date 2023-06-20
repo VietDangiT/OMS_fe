@@ -136,7 +136,7 @@ export class DashboardService {
       .valueChanges.pipe(map(res => res.data));
   }
 
-  getOrderStatus(
+  getOrderStatistic(
     id: number,
     filter: string[]
   ): Observable<StatisticOrderStatusApiResponse> {

@@ -38,42 +38,11 @@ export const GET_CHANNELS_TABLE = gql`
         channelName
         numberOfOrder
         totalSale
-        status
-        createdAt
-      }
-    }
-  }
-`;
-
-export const GET_CHANNELS_TABLE_DATA = gql`
-  query GetTotalSaleChannels(
-    $countryId: Int
-    $currentPage: Int
-    $limit: Int
-    $fromDate: String
-    $toDate: String
-  ) {
-    totalSaleChannels(
-      countryId: $countryId
-      currentPage: $currentPage
-      limit: $limit
-      fromDate: $fromDate
-      toDate: $toDate
-    ) {
-      page
-      first
-      rows
-      pageCount
-      totalRecord
-      data {
-        numberOrders
-        value
-        status
-        number
-        name
+        shortCode
+        image
         updatedAt
+        status
         createdAt
-        id
       }
     }
   }

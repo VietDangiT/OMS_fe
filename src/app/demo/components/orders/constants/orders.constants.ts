@@ -41,8 +41,8 @@ export const GET_ORDERS = gql`
   ) {
     orders(
       channelId: $channelId
-      fDate: $fromDate
-      tDate: $toDate
+      fromDate: $fromDate
+      toDate: $toDate
       keyword: $keyword
       status: $status
       limit: $limit
