@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subject, takeUntil, tap } from 'rxjs';
@@ -23,6 +23,12 @@ import { ChannelService } from '../../services/channel.service';
   styleUrls: ['./channel-list.component.css'],
 })
 export class ChannelListComponent implements OnInit, OnDestroy {
+  channelService = inject(ChannelService);
+
+  route = inject(ActivatedRoute);
+
+  helperService = inject(HelperService);
+
   table: OmsTable<Channel> = {
     page: 0,
     first: 0,
@@ -35,7 +41,7 @@ export class ChannelListComponent implements OnInit, OnDestroy {
     },
   };
 
-  dateRange: Date[] = this.helperService.defaultDateRage;
+  dateRange: Date[] = this.helperService.defaultDateRange;
 
   items: MenuItem[] = channelLabelItems;
 
@@ -44,7 +50,7 @@ export class ChannelListComponent implements OnInit, OnDestroy {
   countryId = 0;
 
   params: ChannelParams = {
-    countryId: this.countryId,
+    countryId: null,
     fromDate: this.dateRange[0],
     toDate: this.dateRange[1],
     keyword: tableConfig.keyword,
@@ -55,22 +61,45 @@ export class ChannelListComponent implements OnInit, OnDestroy {
 
   destroy$ = new Subject();
 
-  constructor(
-    private channelService: ChannelService,
-    private route: ActivatedRoute,
-    private helperService: HelperService
-  ) {}
-
   ngOnInit(): void {
     this.route.queryParamMap
       .pipe(
         tap(params => {
-          this.params = {
-            ...this.params,
-            countryId: Number(params.get('countryId')),
-          };
+          if (params.get('countryId')) {
+            this.params = {
+              ...this.params,
+              countryId: Number(params.get('countryId')),
+            };
+          }
 
           this.getChannelData();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+
+    this.getChannelStatus();
+  }
+
+  getChannelStatus(): void {
+    this.channelService
+      .getChannelStatus(this.params.countryId!)
+      .pipe(
+        tap(res => {
+          const { channelStatus: data } = res;
+          const labelItems: MenuItem[] = [];
+
+          data.forEach(d => {
+            labelItems.push({
+              title: d.displayText,
+              badge: d.value.toString(),
+              label: d.displayText.toLowerCase(),
+            });
+          });
+
+          this.items = labelItems;
+
+          this.activeItem = this.items[0];
         }),
         takeUntil(this.destroy$)
       )

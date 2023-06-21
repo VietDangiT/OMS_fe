@@ -24,16 +24,16 @@ export class OrderListComponent {
 
   activeItem: MenuItem = this.labelItems[0];
 
-  dateRange = this.helperService.defaultDateRage;
+  dateRange = this.helperService.defaultDateRange;
 
   dateFilterValue: string[];
 
-  marketPlaceId = 0;
-
   gapPageNumber = 1;
 
+  marketPlaceId = 0;
+
   orderParams: OrderParams = {
-    channelId: this.marketPlaceId,
+    channelId: null,
     fromDate: this.dateRange[0],
     keyword: tableConfig.keyword,
     limit: tableConfig.pageLimit,
@@ -66,16 +66,41 @@ export class OrderListComponent {
     this.route.queryParamMap
       .pipe(
         tap(params => {
-          this.marketPlaceId = Number(params.get('marketPlaceId'));
+          this.marketPlaceId = Number(params.get('marketplaceId'));
 
-          this.orderParams = {
-            ...this.orderParams,
-            channelId: this.marketPlaceId,
-          };
+          if (this.marketPlaceId) {
+            this.handleOrderParams('channelId', this.marketPlaceId);
+          }
 
           this.getOrderTable();
         }),
         takeUntil(this.destroy$)
+      )
+      .subscribe();
+
+    this.getOrderStatus();
+  }
+
+  getOrderStatus(): void {
+    this.ordersService
+      .getOrderStatus(this.orderParams.channelId!)
+      .pipe(
+        tap(res => {
+          const { orderStatus: data } = res;
+          const labelItems: MenuItem[] = [];
+
+          data.forEach(d => {
+            labelItems.push({
+              title: d.displayText,
+              badge: d.value.toString(),
+              label: d.displayText.toLowerCase(),
+            });
+          });
+
+          this.labelItems = labelItems;
+
+          this.activeItem = this.labelItems[0];
+        })
       )
       .subscribe();
   }
@@ -124,6 +149,8 @@ export class OrderListComponent {
     this.activeItem = label;
 
     this.handleOrderParams('status', this.activeItem.label!);
+
+    console.log(this.orderParams);
 
     this.getOrderTable();
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import {
   DateFilterKey,
@@ -32,9 +33,11 @@ export class TotalOrdersComponent implements OnInit {
 
   private readonly helperService = inject(HelperService);
 
+  private readonly router = inject(ActivatedRoute);
+
   baseChartOptions = baseChartOptions;
 
-  dateRange = this.helperService.defaultDateRage;
+  dateRange = this.helperService.defaultDateRange;
 
   tableData: OmsTable<TotalOrder> = {
     page: 0,
@@ -53,7 +56,32 @@ export class TotalOrdersComponent implements OnInit {
     datasets: [],
   };
 
-  orderSummary: BaseChart[] = [];
+  orderSummary: BaseChart[] = [
+    {
+      displayText: '',
+      value: 0,
+      percentage: 0,
+      date: '',
+      id: 0,
+      text: '',
+    },
+    {
+      displayText: '',
+      value: 0,
+      percentage: 0,
+      date: '',
+      id: 0,
+      text: '',
+    },
+    {
+      displayText: '',
+      value: 0,
+      percentage: 0,
+      date: '',
+      id: 0,
+      text: '',
+    },
+  ];
 
   params: Partial<PagingParams> = {
     fromDate: this.dateRange[0],
@@ -62,13 +90,24 @@ export class TotalOrdersComponent implements OnInit {
     page: tableConfig.page,
   };
 
+  destroy$ = new Subject();
+
   ngOnInit(): void {
-    this.getComponentData();
+    this.router.queryParams
+      .pipe(
+        tap(params => {
+          if (params['fDate']) {
+            this.dateFilterChanged([params['fDate'], params['tDate']]);
+          }
+
+          this.getComponentData();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   getComponentData(): void {
-    console.log(this.params);
-
     this.getOrderSummary();
 
     this.getOrderTable();
@@ -82,7 +121,8 @@ export class TotalOrdersComponent implements OnInit {
       .pipe(
         tap(res => {
           this.orderSummary = res.totalOrderSummary;
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -115,7 +155,8 @@ export class TotalOrdersComponent implements OnInit {
               body: [...updatedData],
             },
           };
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -128,7 +169,8 @@ export class TotalOrdersComponent implements OnInit {
           const { totalOrdersBy: totalOrders } = result;
 
           this.initTotalOrderChart(totalOrders);
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -189,5 +231,11 @@ export class TotalOrdersComponent implements OnInit {
       ...this.params,
       [key]: value,
     };
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next('');
+
+    this.destroy$.complete();
   }
 }

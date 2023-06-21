@@ -1,7 +1,9 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
@@ -46,6 +48,10 @@ export const baseChartOptions: ChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
   aspectRatio: 1,
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
   plugins: {
     legend: {
       display: false,
@@ -65,12 +71,49 @@ export const baseChartOptions: ChartOptions = {
   },
 };
 
+export const pieChartOptions: ChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      display: false,
+    },
+    y: {
+      display: false,
+    },
+  },
+};
+
+export const barBaseChartOptions: ChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+};
+
 export const heatmapChartOptions: Partial<heatChartOptions> | any = {
   plotOptions: {
     heatmap: {
       shadeIntensity: 0.5,
       radius: 10,
-
       colorScale: {
         ranges: [
           {
@@ -148,6 +191,12 @@ export class OMSChartComponent implements OnChanges {
   @Input() type: ChartType | 'heatmap' | 'treemap' | 'geomap';
   @Input() data: ChartData | any[][];
   @Input() options: OmsChartOptions | any;
+
+  @Output() dataSelect = new EventEmitter();
+
+  onDataSelect(e: any): void {
+    this.dataSelect.emit(e);
+  }
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes['data']?.currentValue) {

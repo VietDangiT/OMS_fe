@@ -3,7 +3,9 @@ import {
   Input,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import tailwindConfig from 'tailwind.config.js';
 import resolveConfig from 'tailwindcss/resolveConfig';
@@ -27,7 +29,11 @@ export interface TreeMapData {
   encapsulation: ViewEncapsulation.None,
 })
 export class SaleByChannelComponent {
-  @Input() filterArr: string[];
+  @Input() filterArr: string[] = [];
+
+  private readonly dashboardService = inject(DashboardService);
+
+  private readonly router = inject(Router);
 
   chartData: TreeMapData[] = [];
 
@@ -35,7 +41,14 @@ export class SaleByChannelComponent {
 
   chartOptions: Partial<OmsChartOptions> | any;
 
-  constructor(private _dashboardService: DashboardService) {
+  routerLink = 'total-sale-by-channel';
+
+  queryParams: { [key: string]: string } = {
+    fDate: '',
+    tDate: '',
+  };
+
+  ngOnInit(): void {
     this.chartOptions = {
       chart: {
         width: '105%',
@@ -79,12 +92,18 @@ export class SaleByChannelComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filterArr']?.currentValue && this.filterArr[1])
+    if (changes['filterArr']?.currentValue && this.filterArr[1]) {
       this.getTotalSaleByChannel(changes['filterArr']?.currentValue);
+
+      this.queryParams = {
+        fDate: this.filterArr[0],
+        tDate: this.filterArr[1],
+      };
+    }
   }
 
   getTotalSaleByChannel(filterArr = ['', '']) {
-    this._dashboardService
+    this.dashboardService
       .getTotalSaleByChannel(filterArr)
       .pipe(
         tap((data: TotalSalesByChannelApiResponse) => {

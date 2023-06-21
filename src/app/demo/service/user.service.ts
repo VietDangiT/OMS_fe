@@ -20,14 +20,14 @@ export class UserService {
   constructor(private readonly apollo: Apollo) {}
 
   getUsers(usersParams: UserParams): Observable<UserApiResponse> {
-    const { userRole, fromDate, keyword, limit, page, status, toDate } =
+    const { role: role, fromDate, keyword, limit, page, status, toDate } =
       usersParams;
 
     return this.apollo
       .watchQuery<UserApiResponse>({
         query: GET_USERS,
         variables: {
-          userRole,
+          role,
           fromDate,
           toDate,
           keyword,

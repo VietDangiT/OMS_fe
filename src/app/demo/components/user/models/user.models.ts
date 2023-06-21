@@ -1,8 +1,9 @@
 import { gql } from "apollo-angular";
 import { PagingParams } from "src/app/demo/interface/global.model";
 import { BaseChart } from "../../dashboard/interfaces/dashboard.models";
+import { User } from '../../login/models/login.models';
 
-export interface User {
+export interface UserItem {
   id?: number;
   fullName?: string,
   phoneNumber?: string,
@@ -20,7 +21,7 @@ export interface User {
 }
 
 export interface UserParams extends PagingParams {
-  userRole: string;
+  role: string;
 }
 
 export interface UserApiResponse {
@@ -82,3 +83,20 @@ export const GET_USER_STATUS = gql`
     }
   }
 `;
+
+export interface UserDetailApiResponse {
+  userDetail: Partial<User>;
+}
+
+export interface ChangePasswordApiResponse {
+  data: {
+    changeUserPassword: boolean;
+  };
+  loading: boolean;
+}
+
+export interface EditUserApiResponse {
+  data: {
+    editUserProfile: Partial<User>;
+  };
+}

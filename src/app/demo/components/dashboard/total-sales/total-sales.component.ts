@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { ChartData, ChartOptions } from 'chart.js';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
@@ -7,7 +8,10 @@ import { DateFilterKey } from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
 import { OmsTable } from '../../share/model/oms-table';
-import { baseChartOptions } from '../../share/oms-chart/oms-chart.component';
+import {
+  barBaseChartOptions,
+  baseChartOptions,
+} from '../../share/oms-chart/oms-chart.component';
 import { totalSalesTableHeader } from './constants/total-sales.constants';
 import { TotalSalesTableDTO } from './models/total-sales.models';
 import { TotalSalesService } from './services/total-sales.service';
@@ -18,7 +22,15 @@ import { TotalSalesService } from './services/total-sales.service';
   styleUrls: ['./total-sales.component.scss'],
 })
 export class TotalSalesComponent {
-  baseChartOptions: ChartOptions = baseChartOptions;
+  private totalSalesService = inject(TotalSalesService);
+
+  private helperService = inject(HelperService);
+
+  private router = inject(ActivatedRoute);
+
+  baseChartOptions = baseChartOptions;
+
+  barChartOptions = barBaseChartOptions;
 
   saleBoxTitle = 'sales';
 
@@ -26,7 +38,7 @@ export class TotalSalesComponent {
 
   returnBoxTitle = 'return';
 
-  dateRange = this.helperService.defaultDateRage;
+  dateRange = this.helperService.defaultDateRange;
 
   pageNumber = 1;
 
@@ -59,11 +71,19 @@ export class TotalSalesComponent {
         label: 'Orders on Swiggy',
         data: [66, 49, 81, 71, 26, 65, 60],
         backgroundColor: environment.primaryColor,
+        hoverOffset: 10000,
+        offset: 1000,
+        // barThickness: 50,
+        barPercentage: 2,
+        borderColor: '#FF0000',
+        borderWidth: 3,
+        fill: 30,
       },
       {
         label: 'Orders on Zomato',
         data: [56, 69, 89, 61, 36, 75, 50],
         backgroundColor: environment.secondaryColor,
+        hoverOffset: 100,
       },
     ],
   };
@@ -82,16 +102,21 @@ export class TotalSalesComponent {
 
   destroy$ = new Subject();
 
-  constructor(
-    private totalSalesService: TotalSalesService,
-    private helperService: HelperService
-  ) {}
-
   ngOnInit(): void {
-    this.getData();
+    this.router.queryParams
+      .pipe(
+        tap(params => {
+          if (params['fDate']) {
+            this.dateRange = [params['fDate'], params['tDate']];
+          }
+
+          this.getComponentData();
+        })
+      )
+      .subscribe();
   }
 
-  getData(): void {
+  getComponentData(): void {
     this.getTotalSalesTable(this.pageNumber);
 
     this.getTotalSales();
@@ -101,7 +126,12 @@ export class TotalSalesComponent {
 
   getTotalSalesTable(page: number) {
     this.totalSalesService
-      .getTotalSalesTable(this.dateRange[0], this.dateRange[1], page)
+      .getTotalSalesTable(
+        this.dateRange[0],
+        this.dateRange[1],
+        page,
+        tableConfig.pageLimit
+      )
       .pipe(
         tap(res => {
           const { detailTotalSales } = res;
@@ -211,7 +241,7 @@ export class TotalSalesComponent {
   dateFilterChanged(dates: Date[]): void {
     if (dates[1] != null) {
       this.dateRange = dates;
-      this.getData();
+      this.getComponentData();
     }
   }
 
@@ -220,7 +250,7 @@ export class TotalSalesComponent {
 
     this.dateRange = dateFilterValues[filter];
 
-    this.getData();
+    this.getComponentData();
   }
 
   onPageChange(e: PageChangeEvent): void {

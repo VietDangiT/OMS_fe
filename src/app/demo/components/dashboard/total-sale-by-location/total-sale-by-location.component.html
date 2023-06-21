@@ -10,7 +10,11 @@
         {{ 'sale by billing locations' | titlecase }}
       </p>
 
-      <a routerLink="/" class="text-sm font-normal text-primary" i18n
+      <a
+        [routerLink]="routerLink"
+        [queryParams]="queryParams"
+        class="text-sm font-normal text-primary"
+        i18n
         >Analyze</a
       >
     </div>

@@ -1,0 +1,10 @@
+<app-topbar></app-topbar>
+
+<div>
+  <h1 class="text-3xl font-bold">User Profile</h1>
+
+  <oms-user-form
+    [isViewMode]="false"
+    (handleEditForm)="edit($event)"
+  ></oms-user-form>
+</div>

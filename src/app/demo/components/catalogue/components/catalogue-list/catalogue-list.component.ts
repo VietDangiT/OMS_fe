@@ -1,14 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { OmsTable } from '../../../share/model/oms-table';
-import {
-  catalogueHeaderTable,
-  catalogueLabelItems,
-} from '../../constants/catalogue.constants';
+import { catalogueHeaderTable } from '../../constants/catalogue.constants';
 import { Catalogue, CatalogueParams } from '../../models/catalogue.models';
 import { CatalogueService } from '../../services/catalogue.service';
 
@@ -22,9 +20,11 @@ export class CatalogueListComponent implements OnInit {
 
   catalogueService = inject(CatalogueService);
 
-  labelItems = catalogueLabelItems;
+  route = inject(ActivatedRoute);
 
-  activeItem = this.labelItems[0];
+  labelItems: MenuItem[] = [];
+
+  activeItem: MenuItem;
 
   tableData: OmsTable<Catalogue> = {
     first: 0,
@@ -38,7 +38,9 @@ export class CatalogueListComponent implements OnInit {
     },
   };
 
-  dateRange = this.helperService.defaultDateRage;
+  dateRange = this.helperService.defaultDateRange;
+
+  destroy$ = new Subject();
 
   params: CatalogueParams = {
     channelId: null,
@@ -50,7 +52,28 @@ export class CatalogueListComponent implements OnInit {
     status: 'Active',
   };
 
+  channelId = 0;
+
   ngOnInit(): void {
+    this.route.queryParamMap
+      .pipe(
+        tap(params => {
+          this.channelId = Number(params.get('marketplaceId'));
+
+          if (this.channelId) {
+            this.handleCatalogueParams('channelId', this.channelId);
+          }
+
+          this.getComponentData();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+
+    this.getProductStatus();
+  }
+
+  getComponentData(): void {
     this.getCatalogues();
   }
 
@@ -74,6 +97,31 @@ export class CatalogueListComponent implements OnInit {
               body: [...data.data],
             },
           };
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  getProductStatus(): void {
+    this.catalogueService
+      .getProductStatus(this.params.channelId!)
+      .pipe(
+        tap(res => {
+          const { productStatus: data } = res;
+          const labelItems: MenuItem[] = [];
+
+          data.forEach(d => {
+            labelItems.push({
+              title: d.displayText,
+              badge: d.value.toString(),
+              label: d.displayText.toLowerCase(),
+            });
+          });
+
+          this.labelItems = labelItems;
+
+          this.activeItem = this.labelItems[0];
         })
       )
       .subscribe();
@@ -82,7 +130,7 @@ export class CatalogueListComponent implements OnInit {
   onActiveItemChange(e: MenuItem): void {
     this.handleCatalogueParams('status', e.label!);
 
-    this.getCatalogues();
+    this.getComponentData();
   }
 
   dateFilterChange(dates: Date[]): void {
@@ -91,20 +139,20 @@ export class CatalogueListComponent implements OnInit {
 
       this.handleCatalogueParams('toDate', dates[1]);
 
-      this.getCatalogues();
+      this.getComponentData();
     }
   }
 
   searchValue(val: string): void {
     this.handleCatalogueParams('keyword', val);
 
-    this.getCatalogues();
+    this.getComponentData();
   }
 
   onPageChange(e: PageChangeEvent): void {
     this.handleCatalogueParams('page', e.page + tableConfig.gapPageNumber);
 
-    this.getCatalogues();
+    this.getComponentData();
   }
 
   handleCatalogueParams(

@@ -1,14 +1,14 @@
 import { UserService } from 'src/app/demo/service/user.service';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { OmsTable } from '../../share/model/oms-table';
-import { userHeaderTable, userLabelItems } from '../constants/user.constants';
-import { User, UserParams } from '../models/user.models';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
 import { HelperService } from 'src/app/demo/service/helper.service';
+import { UserItem, UserParams } from '../../models/user.models';
+import { userHeaderTable, userLabelItems } from '../../constants/user.constants';
+import { OmsTable } from '../../../share/model/oms-table';
 
 @Component({
   selector: 'oms-user-list',
@@ -21,7 +21,7 @@ export class UserListComponent {
 
   activeItem: MenuItem = this.labelItems[0];
 
-  dateRange = this._helperService.defaultDateRage;
+  dateRange = this._helperService.defaultDateRange;
 
   dateFilterValue: string[];
 
@@ -30,14 +30,14 @@ export class UserListComponent {
   gapPageNumber = 1;
 
   userParams: UserParams = {
-    userRole: this.role,
+    role: this.role,
     keyword: tableConfig.keyword,
     limit: tableConfig.pageLimit,
     page: tableConfig.page,
     status: '',
   };
 
-  tableData: OmsTable<User> = {
+  tableData: OmsTable<UserItem> = {
     page: 0,
     first: 0,
     rows: 0,
@@ -63,17 +63,14 @@ export class UserListComponent {
         tap(params => {
           this.role = params.get('role') ?? '';
 
-          this.userParams = {
-            ...this.userParams,
-            userRole: this.role,
-          };
+          this.handleUserParams('role', this.role);
 
           this.getUserTable();
+          this.getUserStatus();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
-    this.getUserStatus();
   }
 
   getUserTable(): void {
@@ -108,14 +105,12 @@ export class UserListComponent {
 
   onActiveItemChange(label: MenuItem): void {
     this.activeItem = label;
-    this.tableData.page = 1;
     this.handleUserParams('status', this.activeItem.id!);
 
     this.getUserTable();
   }
 
   onPageChange(e: PageChangeEvent): void {
-    debugger;
     this.handleUserParams('page', e.page + this.gapPageNumber);
 
     this.getUserTable();
@@ -136,7 +131,7 @@ export class UserListComponent {
 
   getUserStatus(): void {
     this._usersService
-      .getUserStatus(this.userParams?.userRole)
+      .getUserStatus(this.userParams?.role)
       .pipe(
         tap(res => {
           const { userStatus: data } = res;

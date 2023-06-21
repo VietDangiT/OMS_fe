@@ -11,7 +11,12 @@
         {{ 'return status over time' | titlecase }}
       </p>
 
-      <a routerLink="/" class="text-sm font-normal text-primary">Analyze</a>
+      <a
+        [routerLink]="routerLink"
+        [queryParams]="queryParams"
+        class="text-sm font-normal text-primary"
+        >Analyze</a
+      >
     </div>
 
     <div class="h-full flex-1">

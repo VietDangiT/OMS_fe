@@ -23,17 +23,19 @@ import { DashboardComponent } from './dashboard.component';
 import { OverviewBoxComponent } from './overview-box/overview-box.component';
 import { ProductCatalogComponent } from './product-catalog/product-catalog.component';
 import { SaleByChannelComponent } from './sale-by-channel/sale-by-channel.component';
+import { SaleByLocationItemComponent } from './sale-by-location/components/sale-by-location-item/sale-by-location-item.component';
+import { SaleTotalBoxComponent } from './sale-by-location/components/sale-total-box/sale-total-box.component';
 import { SaleByLocationComponent } from './sale-by-location/sale-by-location.component';
+import { SaleStoreComponent } from './sale-store/sale-store.component';
 import { TopSellingProductComponent } from './top-selling-product/top-selling-product.component';
 import { TotalOrdersComponent } from './total-orders/total-orders.component';
 import { TotalReturnComponent } from './total-return/total-return.component';
 import { SaleByChannelHeatmapComponent } from './total-sale-by-channel/components/sale-by-channel-heatmap/sale-by-channel-heatmap.component';
+import { TotalSaleByChannelItemComponent } from './total-sale-by-channel/components/total-sale-by-channel-item/total-sale-by-channel-item.component';
 import { TotalSaleByChannelComponent } from './total-sale-by-channel/total-sale-by-channel.component';
 import { TotalSaleByLocationComponent } from './total-sale-by-location/total-sale-by-location.component';
-import { TotalsalechartComponent } from './total-sale-chart/total-sale-chart.component';
+import { TotalSaleChartComponent } from './total-sale-chart/total-sale-chart.component';
 import { TotalSalesComponent } from './total-sales/total-sales.component';
-import { SaleStoreComponent } from './sale-store/sale-store.component';
-import { TotalSaleByChannelItemComponent } from './total-sale-by-channel/components/total-sale-by-channel-item/total-sale-by-channel-item.component';
 
 @NgModule({
   imports: [
@@ -63,7 +65,7 @@ import { TotalSaleByChannelItemComponent } from './total-sale-by-channel/compone
     DashboardTotalOrdersComponent,
     TotalReturnComponent,
     SaleByChannelHeatmapComponent,
-    TotalsalechartComponent,
+    TotalSaleChartComponent,
     DetailStatisticComponent,
     SaleByLocationComponent,
     TopSellingProductComponent,
@@ -74,6 +76,8 @@ import { TotalSaleByChannelItemComponent } from './total-sale-by-channel/compone
     TotalOrdersComponent,
     SaleStoreComponent,
     TotalSaleByChannelItemComponent,
+    SaleByLocationItemComponent,
+    SaleTotalBoxComponent,
   ],
 })
 export class DashboardModule {}

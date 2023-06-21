@@ -40,6 +40,8 @@ import { UserService } from '../demo/service/user.service';
 export class AppMenuComponent {
   channels: Channel[];
 
+  userId = localStorage.getItem('userId') ?? 0;
+
   menuElements: MenuElement[] = [
     {
       name: 'dashboard',
@@ -116,7 +118,7 @@ export class AppMenuComponent {
     // },
     {
       name: 'user',
-      path: '/user',
+      path: '/user/detail',
       icon: 'pi pi-user',
       submenu: {
         title: 'Profile',
@@ -124,24 +126,24 @@ export class AppMenuComponent {
           {
             name: 'personalinfo',
             content: 'Personal Info',
-            path: '/users/personal-info',
+            path: `user/detail`,
             icon: 'pi-user',
           },
           {
             name: 'changepassword',
             content: 'Change Password',
-            path: '/users/change-password',
+            path: `user/change-password`,
             icon: 'pi-lock',
           },
         ],
       },
     },
     {
-      name: 'customer',
-      path: '/customer',
+      name: 'users',
+      path: '/user/list',
       icon: 'pi pi-users',
       submenu: {
-        title: 'Customer',
+        title: 'Users',
         items: [],
       },
     },
@@ -164,16 +166,24 @@ export class AppMenuComponent {
     private channelService: ChannelService,
     private marketPlaceService: MarketplaceService,
     private _userService: UserService
-  ) {
-    this.layoutService.currentNavbarState
-      .pipe(tap(state => (this.isNavbarOn = state)))
-      .subscribe();
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.getNavbarState();
+
     this.initCountries();
+
     this.initMarketplaces();
     this.initUserRole();
+  }
+
+  getNavbarState(): void {
+    this.layoutService.currentNavbarState
+      .pipe(
+        tap(state => (this.isNavbarOn = state)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   initCountries(): void {
@@ -214,21 +224,36 @@ export class AppMenuComponent {
         tap(res => {
           const { marketPlaces } = res;
 
-          const resultArr: MenuElementItem[] = [];
+          const orderArr: MenuElementItem[] = [];
+          const catalogueArr: MenuElementItem[] = [];
 
           marketPlaces.forEach(m => {
-            resultArr.push({
+            orderArr.push({
               name: m.marketPlaceName,
               content: m.marketPlaceName,
               path: `/orders`,
-              param: { marketPlaceId: m.id },
+              param: { marketplaceId: m.id },
+              icon: 'pi-home',
+            });
+
+            catalogueArr.push({
+              name: m.marketPlaceName,
+              content: m.marketPlaceName,
+              path: `/catalogue`,
+              param: { marketplaceId: m.id },
               icon: 'pi-home',
             });
           });
 
-          const index = this.menuElements.findIndex(c => c.path === '/orders');
+          const orderIndex = this.menuElements.findIndex(
+            c => c.path === '/orders'
+          );
+          const catalogueIndex = this.menuElements.findIndex(
+            c => c.path === '/catalogue'
+          );
 
-          this.menuElements[index].submenu.items = resultArr;
+          this.menuElements[orderIndex].submenu.items = orderArr;
+          this.menuElements[catalogueIndex].submenu.items = catalogueArr;
         }),
         takeUntil(this.destroy$)
       )
@@ -249,15 +274,15 @@ export class AppMenuComponent {
             userArr.push({
               name: m.displayText,
               content: m.displayText,
-              path: `/user`,
-              param: { marketplaceId: m.id },
+              path: `/user/list`,
+              param: { role: m.displayText },
               icon: 'pi-user',
               value: m.value
             });
           });
 
           const userIndex = this.menuElements.findIndex(
-            c => c.path === '/user'
+            c => c.path === '/user/list'
           );
 
           this.menuElements[userIndex].submenu.items = userArr;

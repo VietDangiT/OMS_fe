@@ -1,0 +1,123 @@
+<form [formGroup]="editForm" (ngSubmit)="edit()" class="max-w-[50%]">
+  <div class="relative inline-block">
+    <p-avatar
+      [image]="user.avatar || 'assets/avt.jpg'"
+      alt="user-avt.alt"
+      size="xlarge"
+      shape="circle"
+      styleClass="!w-24 !h-24 mb-4"
+      (onImageError)="onImageError($event)"
+      *ngIf="!isImageError"
+    ></p-avatar>
+
+    <p-avatar
+      [image]="'assets/avt.jpg'"
+      alt="user-avt.alt"
+      size="xlarge"
+      shape="circle"
+      styleClass="!w-24 !h-24 mb-4"
+      *ngIf="isImageError"
+    ></p-avatar>
+
+    <p-fileUpload
+      *ngIf="!isViewMode"
+      mode="basic"
+      chooseIcon="pi pi-pencil"
+      (onSelect)="onUpload($event.currentFiles[0])"
+    ></p-fileUpload>
+  </div>
+
+  <div class="flex gap-2 mb-4">
+    <div class="flex gap-2 flex-col w-full">
+      <label for="fullName" i18n>Full Name</label>
+
+      <input pInputText id="fullName" formControlName="fullName" />
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2 mb-4">
+    <label for="email" i18n>Email</label>
+
+    <input pInputText id="email" formControlName="email" />
+  </div>
+
+  <div class="flex flex-col gap-2 mb-4">
+    <label for="gender" i18n>Gender</label>
+
+    <ng-container *ngIf="!isViewMode; else viewGender">
+      <div class="flex items-center">
+        <p-radioButton
+          name="gender"
+          value="MALE"
+          id="male"
+          formControlName="gender"
+        ></p-radioButton>
+
+        <label for="male" class="ml-1" i18n>Male</label>
+      </div>
+
+      <div class="flex items-center">
+        <p-radioButton
+          name="gender"
+          value="FEMALE"
+          id="female"
+          formControlName="gender"
+        ></p-radioButton>
+
+        <label for="female" class="ml-1" i18n>Female</label>
+      </div>
+    </ng-container>
+
+    <ng-template #viewGender>
+      <input pInputText id="gender" formControlName="gender" />
+    </ng-template>
+  </div>
+
+  <div class="flex flex-col gap-2 mb-4">
+    <label for="dob">Day Of Birth</label>
+
+    <ng-container *ngIf="!isViewMode; else viewDob">
+      <p-calendar formControlName="dob" [showIcon]="true"></p-calendar>
+    </ng-container>
+
+    <ng-template #viewDob>
+      <input pInputText id="dob" formControlName="dob" />
+    </ng-template>
+  </div>
+
+  <div class="flex flex-col gap-2 mb-4">
+    <label for="phoneNumber" i18n>Phone Number</label>
+
+    <input pInputText id="phoneNumber" formControlName="phoneNumber" />
+  </div>
+
+  <div class="flex flex-col gap-2 mb-4">
+    <label for="fullAddress" i18n> Full Address</label>
+
+    <input pInputText id="fullAddress" formControlName="fullAddress" />
+  </div>
+
+  <ng-container *ngIf="!isViewMode; else viewEdit">
+    <div class="flex gap-4 font-bold justify-end mt-4">
+      <a [routerLink]="cancelRouterLink">
+        <button type="button" pButton class="!bg-gray-200 text-gray-600">
+          Cancel
+        </button>
+      </a>
+
+      <button pButton type="submit" i18n>
+        Save <i class="pi pi-save ml-2"></i>
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-template #viewEdit>
+    <div class="flex gap-4 font-bold justify-end mt-4">
+      <a [routerLink]="editRouterLink">
+        <button pButton type="button" i18n>
+          Edit <i class="pi pi-pencil ml-2"></i>
+        </button>
+      </a>
+    </div>
+  </ng-template>
+</form>

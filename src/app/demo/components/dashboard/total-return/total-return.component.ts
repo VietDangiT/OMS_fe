@@ -24,9 +24,18 @@ export class TotalReturnComponent {
 
   totalReturn: string = '0';
 
+  routerLink = 'total-orders';
+
+  queryParams: { [key: string]: string } = {
+    fDate: '',
+    tDate: '',
+  };
+
   ngOnChanges(changes: SimpleChanges): void {
+    this.filterArr = changes['filterArr'].currentValue;
+
     this.dashboardService
-      .getTotalReturn(changes['filterArr'].currentValue)
+      .getTotalReturn(this.filterArr)
       .pipe(
         tap((result: TotalReturnByApiResponse) => {
           const { returnsBy } = result;
@@ -35,6 +44,11 @@ export class TotalReturnComponent {
         })
       )
       .subscribe();
+
+    this.queryParams = {
+      fDate: this.filterArr[0],
+      tDate: this.filterArr[1],
+    };
   }
 
   initTotalReturnChart(result: TotalReturn[]) {

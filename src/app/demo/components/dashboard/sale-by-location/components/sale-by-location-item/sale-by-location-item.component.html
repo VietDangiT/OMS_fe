@@ -1,0 +1,16 @@
+<tr
+  class="mb-2 px-4 cursor-pointer hover:!bg-gray-200 transition-all duration-100"
+>
+  <td>
+    {{ item.displayText }}
+  </td>
+
+  <td>
+    {{ dateRange[0] | date : 'shortDate' }} -
+    {{ dateRange[1] | date : 'shortDate' }}
+  </td>
+
+  <td>{{ item.value | number }}</td>
+
+  <td>{{ item.extraValue | number }}</td>
+</tr>

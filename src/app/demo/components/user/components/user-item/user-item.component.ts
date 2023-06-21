@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { User } from '../models/user.models';
+import { UserItem } from '../../models/user.models';
 
 @Component({
   selector: 'oms-user-item',
@@ -7,7 +7,7 @@ import { User } from '../models/user.models';
   styleUrls: ['./user-item.component.scss']
 })
 export class UserItemComponent {
-  @Input() user: User;
+  @Input() user: UserItem;
 
   modalVisible = false;
 

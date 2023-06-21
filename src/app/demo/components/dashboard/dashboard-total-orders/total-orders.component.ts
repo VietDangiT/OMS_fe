@@ -28,11 +28,19 @@ export class DashboardTotalOrdersComponent {
 
   totalOrder: string = '0';
 
+  routerLink = 'total-orders';
+
+  queryParams: { [key: string]: string } = {
+    fDate: '',
+    tDate: '',
+  };
+
   constructor(private dashboardService: DashboardService) {}
 
   ngOnChanges(changes: SimpleChanges) {
+    this.filterArr = changes['filterArr'].currentValue;
     this.dashboardService
-      .getTotalOrders(changes['filterArr'].currentValue)
+      .getTotalOrders(this.filterArr)
       .pipe(
         tap((result: TotalOrderApiResponse) => {
           const { totalOrdersBy: totalOrders } = result;
@@ -41,16 +49,21 @@ export class DashboardTotalOrdersComponent {
         })
       )
       .subscribe();
+
+    this.queryParams = {
+      fDate: this.filterArr[0],
+      tDate: this.filterArr[1],
+    };
   }
 
   initTotalOrderChart(result: BaseChart[]) {
-    var totalArr: number[] = [];
+    let totalArr: number[] = [];
 
-    var labelArr: string[] = [];
+    let labelArr: string[] = [];
 
-    var order: number = 0;
+    let order: number = 0;
 
-    result.map((item: BaseChart) => {
+    result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
       labelArr.push(new Date(item.text).toLocaleDateString());
       order += item.value;
@@ -62,7 +75,7 @@ export class DashboardTotalOrdersComponent {
       labels: labelArr,
       datasets: [
         {
-          label: 'Total Orders',
+          label: $localize`Total Orders`,
           data: totalArr,
           borderColor: environment.primaryColor,
           backgroundColor: environment.primaryColor,
