@@ -51,8 +51,8 @@ export class ChannelListComponent implements OnInit, OnDestroy {
 
   params: ChannelParams = {
     countryId: null,
-    fromDate: this.dateRange[0],
-    toDate: this.dateRange[1],
+    fromDate: null,
+    toDate: null,
     keyword: tableConfig.keyword,
     limit: tableConfig.pageLimit,
     page: tableConfig.page,
