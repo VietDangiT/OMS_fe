@@ -12,7 +12,6 @@ import { DashboardService } from '../services/dashboard.service';
 })
 export class TopSellingProductComponent {
   products: BaseChart[];
-
   @Input() filterArr: string[];
 
   constructor(private dashboardService: DashboardService) {}

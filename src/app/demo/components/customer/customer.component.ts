@@ -1,83 +1,65 @@
-import { Component, OnInit } from '@angular/core';
-import { ChartData } from 'chart.js';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChartData, ChartOptions } from 'chart.js';
 import { environment } from 'src/environments/environment';
 import { CustomerService } from '../../service/customer.service';
+import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { HelperService } from '../../service/helper.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './customer.component.html',
 })
 
-export class CustomerComponent implements OnInit {
-  pieData: ChartData;
+export class CustomerComponent implements OnInit , OnDestroy{
+  currentDate = new Date(Date.now());
+  previousDate = this.helperSerivce.addDays(this.currentDate, -7);
   pieOptions: any;
-  chartOptions: any;
-  //feedback
-  lineData: ChartData;
-  Feedback: any[] = [];
-  Fedback: any[] = [];
+  chartOptions: ChartOptions;
+  subscription!: Subscription;
 
-  filter: string[] ;
-  filterArr : string[] =[
-    new Date().toLocaleDateString().toString(),
-    new Date().toLocaleDateString().toString()
-   ];
+  //default filter value - 7 days from currentDate
+  filterArr: string[] = [
+    this.previousDate.toLocaleDateString('en-US'),
+    this.currentDate.toLocaleDateString('en-US'),
+  ];
 
-   constructor (
-      private customerservice: CustomerService
-
-   ) {}
-
+  constructor(
+    public layoutService: LayoutService,
+    private helperSerivce: HelperService
+  ) {}
 
   ngOnInit() {
-    this.initPieChart()
-    this.initChartOption()
-    this.initChart()
-    this.initProductCatalogData()
+    this.initChartOption();
   }
 
-  initPieChart(){
-    this.pieData = {
-      labels: ['25% Approved', '35% Pending', '40% Unapproved'],
-      datasets: [
-        {
-          data: [25, 35, 40],
-          backgroundColor: ['#FCA310', '#27447C', '#E3964A'],
-          hoverBackgroundColor: ['#213969', '#415b8c', '#2c55a0'],
-        },
-      ],
-    };
-  }
-
-
-  initChartOption(){
+  initChartOption() {
     this.chartOptions = {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       aspectRatio: 1,
+
       plugins: {
         legend: {
-          display:false,
+          display: false,
         },
       },
-
     };
     this.pieOptions = {
       responsive: true,
-      maintainAspectRatio: true,
-      aspectRatio: 1,
-      cutout: 120,
+      maintainAspectRatio: false,
+
+      cutout: 75,
       plugins: {
         legend: {
-          position: 'right',
+          position: 'bottom',
           labels: {
-            boxHeight: 10,
-            boxWidth: 10,
-            padding: 30,
+            boxHeight: 20,
+            boxWidth: 20,
+            padding: 20,
             usePointStyle: true,
             color: environment.primaryColor,
             font: {
-              size: 15,
-
+              size: 12,
             },
           },
         },
@@ -85,30 +67,18 @@ export class CustomerComponent implements OnInit {
     };
   }
 
-  initChart() {
-    this.lineData = {
-      labels: this.Feedback,
-      datasets: [
-        {
-          data: this.Fedback,
-          fill: false,
-          backgroundColor: environment.primaryColor,
-          borderColor: environment.primaryColor,
-          tension: 0.4,
-        },
-      ],
-    };
-
+  dateFilterChanged(dateRange: Date[]): void {
+    if (dateRange[1] != null) {
+      this.filterArr = dateRange.map((date: Date) => {
+        return date.toLocaleDateString('en-EN');
+      });
+    }
   }
-  initProductCatalogData() {
-    this.customerservice.GetFeedback().subscribe((data: any) => {
-      const tmp = this.lineData;
 
-      tmp.labels = data.data.map((item: any) => item.OrderedAt);
-      tmp.datasets[0].data = data.data.map((item: any) => item.TotalSales);
-
-      this.lineData = { ...tmp };
-    });
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 

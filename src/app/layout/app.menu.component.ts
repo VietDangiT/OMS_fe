@@ -95,6 +95,14 @@ export class AppMenuComponent {
         items: [],
       },
     },
+
+    //   name: 'inventory',
+    //   path: '/inventory',
+    //   icon: 'pi pi-inbox',
+    //   submenu: {
+    //     title: 'Inventory',
+    //     items: [],
+    //   },
     // {
     //   name: 'payment',
     //   path: '/payment',
@@ -104,15 +112,17 @@ export class AppMenuComponent {
     //     items: [],
     //   },
     // },
-    // {
-    //   name: 'inventory',
-    //   path: '/inventory',
-    //   icon: 'pi pi-inbox',
-    //   submenu: {
-    //     title: 'Inventory',
-    //     items: [],
-    //   },
+    //
     // },
+    {
+      name: 'inventory',
+      path: '/inventory',
+      icon: 'pi pi-inbox',
+      submenu: {
+        title: 'Inventory',
+        items: [],
+      },
+    },
     {
       name: 'user',
       path: '/user',

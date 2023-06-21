@@ -22,7 +22,6 @@ import { MenuModule } from 'primeng/menu';
   declarations: [InventoryComponent,
                  ListCardComponent,
                  InventoryCardComponent,
-
                 ]
 })
 export class InventoryModule { }

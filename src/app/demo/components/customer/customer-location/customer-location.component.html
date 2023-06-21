@@ -7,32 +7,12 @@
         </div>
       </div>
       <div>
-        <oms-chart type="geomap"></oms-chart>
+        <oms-chart type="geomap" [data]="chartData"></oms-chart>
       </div>
       <div class="pt-10 flex flex-col gap-2 line-height-3">
-        <div class="flex justify-between font-semibold pt-2 text-lg">
-          <span>Ha Noi</span>
-          <span>2,345,678.1</span>
-        </div>
-        <div class="flex justify-between font-semibold pt-2 text-lg">
-          <span>Da Nang</span>
-          <span>2,345,678.1</span>
-        </div>
-        <div class="flex justify-between font-semibold pt-2 text-lg">
-          <span>Thanh Hoa</span>
-          <span>2,345,678.1</span>
-        </div>
-        <div class="flex justify-between font-semibold pt-2 text-lg">
-          <span>Dong Thap</span>
-          <span>2,345,678.1</span>
-        </div>
-        <div class="flex justify-between font-semibold pt-2 text-lg">
-          <span>Quang Binh </span>
-          <span>2,345,678.1</span>
-        </div>
-        <div class="flex justify-between font-semibold pt-2 text-lg">
-          <span>TP.Ho Chi Minh</span>
-          <span>2,345,678.1</span>
+        <div *ngFor="let item of locationCustomer"  class="flex justify-between font-semibold pt-2 text-lg">
+          <span>{{item.displayText}}</span>
+          <span>{{item.value | number}}</span>
         </div>
       </div>
     </div>

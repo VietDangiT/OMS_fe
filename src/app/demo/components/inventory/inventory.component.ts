@@ -1,6 +1,14 @@
-import { Component, HostBinding, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { OmsTable } from '../share/model/oms-table';
+import { Inventory, InventoryParams, InventoryTableApiResponse } from './interfaces/inventory.component';
+import { CHANNEL_ID, inventoryLabelItems, inventoryTableHeader } from './constrants/inventory.constrants';
+import { tableConfig } from '../../constants/table.config';
+import { Subject, takeUntil, tap } from 'rxjs';
+import { InventoryService } from './services/inventory.service';
+import { ActivatedRoute } from '@angular/router';
+import { HelperService } from '../../service/helper.service';
+import { PageChangeEvent } from '../../interface/event';
 
 @Component({
   selector: 'app-inventory',
@@ -9,110 +17,146 @@ import { OmsTable } from '../share/model/oms-table';
   encapsulation : ViewEncapsulation.None,
 })
 export class InventoryComponent implements OnInit {
-  // @HostBinding('class') hostClass = 'app-inventory-card';
+  @Input() inventory: Inventory;
   modalVisible: boolean;
-  items: MenuItem[] = [
-    { label: 'All', id: '0', badge: '1123' },
-    { label: 'Stock available', id: '1', badge: '1243' },
-    { label: 'Low on stock', id: '2', badge: '1' },
-    { label: 'Out of stock', id: '2', badge: '1' },
-  ];
-  activeItem: MenuItem = this.items[0];
-  countryId: string | number;
-  table: OmsTable<any>= {
+  table: OmsTable<Inventory> = {
     page: 0,
     first: 0,
     rows: 0,
     pageCount: 0,
     totalRecord: 0,
     data: {
-      header: [
-        // 'Image',
-        // 'SKU',
-        // 'Product Name',
-        // 'Available Stock',
-        // 'In-process',
-        // 'Sold',
-        // 'Actions'
-      ],
-      body: [
-          { image:"https://th.bing.com/th/id/R.9dfccb47fa289bd328e092a7607bf078?rik=A3zqZto7RVf42A&pid=ImgRaw&r=0",
-            sku: "HCM",
-            productname : "Hạt Dẻ",
-            availablestock:"12",
-            inprocess:"2",
-            sold:"2",
-          },
-          {
-            image:"https://th.bing.com/th/id/R.9dfccb47fa289bd328e092a7607bf078?rik=A3zqZto7RVf42A&pid=ImgRaw&r=0",
-            sku: "HCM",
-            productname : "Hạt Dẻ",
-            availablestock:"12",
-            inprocess:"2",
-            sold:"2",
-          },
-          {
-          image:"https://th.bing.com/th/id/R.9dfccb47fa289bd328e092a7607bf078?rik=A3zqZto7RVf42A&pid=ImgRaw&r=0",
-          sku: "HCM",
-          productname : "Hạt Dẻ",
-          availablestock:"12",
-          inprocess:"2",
-          sold:"2",
-        },
-        {
-          image:"https://th.bing.com/th/id/R.9dfccb47fa289bd328e092a7607bf078?rik=A3zqZto7RVf42A&pid=ImgRaw&r=0",
-          sku: "HCM",
-          productname : "Hạt Dẻ",
-          availablestock:"12",
-          inprocess:"2",
-          sold:"2",
-      },
-        {
-          image:"https://th.bing.com/th/id/R.9dfccb47fa289bd328e092a7607bf078?rik=A3zqZto7RVf42A&pid=ImgRaw&r=0",
-          sku: "HCM",
-          productname : "Hạt Dẻ",
-          availablestock:"12",
-          inprocess:"2",
-          sold:"2",
-        },
-        {
-          image:"https://th.bing.com/th/id/R.9dfccb47fa289bd328e092a7607bf078?rik=A3zqZto7RVf42A&pid=ImgRaw&r=0",
-          sku: "HCM",
-          productname : "Hạt Dẻ",
-          availablestock:"12",
-          inprocess:"2",
-          sold:"2",
-        },
-        {
-          image:"https://th.bing.com/th/id/R.9dfccb47fa289bd328e092a7607bf078?rik=A3zqZto7RVf42A&pid=ImgRaw&r=0",
-          sku: "HCM",
-          productname : "Hạt Dẻ",
-          availablestock:"12",
-          inprocess:"2",
-          sold:"2",
-        },
-        {
-          image:"https://th.bing.com/th/id/R.9dfccb47fa289bd328e092a7607bf078?rik=A3zqZto7RVf42A&pid=ImgRaw&r=0",
-          sku: "HCM",
-          productname : "Hạt Dẻ",
-          availablestock:"12",
-          inprocess:"2",
-          sold:"2",
-        },
-
-      ],
+      header: inventoryTableHeader,
+      body: [],
     },
   };
 
-  constructor() { }
+  dateRange: Date[] = this.helperService.defaultDateRange;
 
-  ngOnInit() {
+  items: MenuItem[] = inventoryLabelItems;
+
+  activeItem: MenuItem = this.items[0];
+
+  channelId = CHANNEL_ID;
+
+  params: InventoryParams = {
+    channelId: this.channelId,
+    fromDate: this.dateRange[0],
+    toDate: this.dateRange[1],
+    keyword: tableConfig.keyword,
+    limit: tableConfig.pageLimit,
+    page: tableConfig.page,
+    status: 0,
+  };
+
+  destroy$ = new Subject();
+
+  constructor(
+    private inventoryService: InventoryService,
+    private route: ActivatedRoute,
+    private helperService: HelperService
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParamMap
+      .pipe(
+        tap(params => {
+          this.params = {
+            ...this.params,
+            channelId: Number(params.get('channelId')),
+          };
+
+          this.getInventoryData();
+
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
-  onActiveItemChange(event: any){
-    this.activeItem = event;
-    console.log(event);
+
+  getInventoryData(): void {
+    this.inventoryService
+      .getInventoryTableData(this.params)
+      .pipe(
+        tap((res: InventoryTableApiResponse) => {
+          const { products: data } = res;
+          console.log(res);
+
+          this.table = {
+            page: data.page || 1,
+            first: data.first,
+            rows: data.rows,
+            pageCount: data.pageCount,
+            totalRecord: data.totalRecord,
+            data: {
+              header: [...this.table.data.header],
+              body: [...data.data],
+            },
+
+          };
+
+        }),
+
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
-  handleOrderDetail(e: Event): void {
-    this.modalVisible = !this.modalVisible;
+
+  onPageChange(e: PageChangeEvent): void {
+    this.handleChannelParams('page', e.page + tableConfig.gapPageNumber);
+
+    this.getInventoryData();
   }
+
+  onActiveItemChange(e: MenuItem): void {
+    this.activeItem = e;
+
+    this.handleChannelParams('status', Number(this.activeItem.label));
+
+    this.getInventoryData();
+  }
+
+  dateFilterChange(dateRange: Date[]): void {
+    if (dateRange[1] != null) {
+      this.handleChannelParams('fromDate', dateRange[0]);
+
+      this.handleChannelParams('toDate', dateRange[1]);
+
+      this.getInventoryData();
+    }
+  }
+
+  searchValue(search: string): void {
+    if (search) {
+      this.handleChannelParams('keyword', search);
+
+      this.getInventoryData();
+    }
+  }
+
+  handleChannelParams(
+    key: keyof InventoryParams,
+    value: string | number | Date
+  ): void {
+    this.params = {
+      ...this.params,
+      [key]: value,
+    };
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next('');
+
+    this.destroy$.complete();
+  }
+
+
+  // last
+  // onActiveItemChange(event: any){
+  //   this.activeItem = event;
+  //   console.log(event);
+  // }
+  // handleOrderDetail(e: Event): void {
+  //   this.modalVisible = !this.modalVisible;
+  // }
 }

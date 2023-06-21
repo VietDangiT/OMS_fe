@@ -135,6 +135,13 @@ export const pieChartColors: string[] = [
   colors.primaryLight2,
   colors.primaryLight3,
 ];
+export const pieChartColorsCustomer: string[] = [
+  colors.primary,
+  colors.secondary,
+  colors.fifth,
+  colors.warning,
+  colors.danger,
+];
 
 export const colorArr: string[] = [
   colors.primary,

@@ -44,7 +44,6 @@ export class TotalReturnComponent {
         })
       )
       .subscribe();
-
     this.queryParams = {
       fDate: this.filterArr[0],
       tDate: this.filterArr[1],

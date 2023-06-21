@@ -123,3 +123,4 @@ export const GET_PRODUCT_VARIANTS = gql`
     }
   }
 `;
+

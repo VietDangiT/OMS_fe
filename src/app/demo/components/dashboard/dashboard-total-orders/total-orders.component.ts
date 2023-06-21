@@ -12,6 +12,7 @@ import {
   TotalOrderApiResponse,
 } from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
+import { Console } from 'console';
 
 @Component({
   selector: 'dashboard-total-orders',
@@ -44,8 +45,8 @@ export class DashboardTotalOrdersComponent {
       .pipe(
         tap((result: TotalOrderApiResponse) => {
           const { totalOrdersBy: totalOrders } = result;
-
           this.initTotalOrderChart(totalOrders);
+
         })
       )
       .subscribe();
