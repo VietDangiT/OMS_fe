@@ -1,5 +1,6 @@
 import { gql } from "apollo-angular";
 import { PagingParams } from "src/app/demo/interface/global.model";
+import { BaseChart } from "../../dashboard/interfaces/dashboard.models";
 
 export interface User {
   id?: number;
@@ -32,6 +33,13 @@ export interface UserApiResponse {
     totalRecord: number;
   };
 }
+export interface UserStatusApiResponse {
+  userStatus: BaseChart[];
+}
+
+export interface UserRoleApiResponse {
+  userRole: BaseChart[];
+}
 
 export const GET_USERS = gql`
   query GetUsers(
@@ -62,6 +70,15 @@ export const GET_USERS = gql`
         userRole
         userStatus
       }
+    }
+  }
+`;
+
+export const GET_USER_STATUS = gql`
+  query GetUserStatus($role: String!) {
+    userStatus(role: $role) {
+      displayText
+      value
     }
   }
 `;

@@ -9,7 +9,7 @@
   <td class="user-item-row text-left">{{ user.fullAddress }}</td>
   <td class="user-item-row text-left">{{ user.userRole }}</td>
 
-  <td class="user-item-row text-left" [class.text-success]="user.userStatus === 'ACTIVE'"
+  <td class="user-item-row" [class.text-success]="user.userStatus === 'ACTIVE'"
     [class.text-danger]="user.userStatus === 'INACTIVE'">
     <div class="flex gap-2 justify-center items-center">
       <i class="pi-circle-fill pi"></i>

@@ -14,7 +14,7 @@ import { HelperService } from 'src/app/demo/service/helper.service';
   selector: 'oms-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserListComponent {
   labelItems: MenuItem[] = userLabelItems;
@@ -25,7 +25,7 @@ export class UserListComponent {
 
   dateFilterValue: string[];
 
-  role = "";
+  role = '';
 
   gapPageNumber = 1;
 
@@ -61,7 +61,7 @@ export class UserListComponent {
     this._route.queryParamMap
       .pipe(
         tap(params => {
-          this.role = params.get('role') ?? "";
+          this.role = params.get('role') ?? '';
 
           this.userParams = {
             ...this.userParams,
@@ -73,6 +73,7 @@ export class UserListComponent {
         takeUntil(this.destroy$)
       )
       .subscribe();
+    this.getUserStatus();
   }
 
   getUserTable(): void {
@@ -107,22 +108,20 @@ export class UserListComponent {
 
   onActiveItemChange(label: MenuItem): void {
     this.activeItem = label;
-
+    this.tableData.page = 1;
     this.handleUserParams('status', this.activeItem.id!);
 
     this.getUserTable();
   }
 
   onPageChange(e: PageChangeEvent): void {
+    debugger;
     this.handleUserParams('page', e.page + this.gapPageNumber);
 
     this.getUserTable();
   }
 
-  handleUserParams(
-    key: keyof UserParams,
-    value: string | number | Date
-  ): void {
+  handleUserParams(key: keyof UserParams, value: string | number | Date): void {
     this.userParams = {
       ...this.userParams,
       [key]: value,
@@ -133,5 +132,36 @@ export class UserListComponent {
     this.destroy$.next('');
 
     this.destroy$.complete();
+  }
+
+  getUserStatus(): void {
+    this._usersService
+      .getUserStatus(this.userParams?.userRole)
+      .pipe(
+        tap(res => {
+          const { userStatus: data } = res;
+          userLabelItems[0].badge = '0';
+          const labelItems: MenuItem[] = [userLabelItems[0]];
+
+          data.forEach(d => {
+            labelItems.push({
+              title: d.displayText,
+              badge: d.value.toString(),
+              label: d.displayText,
+              id: d.displayText
+            });
+          });
+
+          const sum = labelItems
+          .map(obj => Number(obj.badge))
+          .reduce((accumulator, current) => accumulator + current, 0);
+
+          labelItems[0].badge = sum + '';
+          this.labelItems = labelItems;
+
+          this.activeItem = this.labelItems[0];
+        })
+      )
+      .subscribe();
   }
 }
