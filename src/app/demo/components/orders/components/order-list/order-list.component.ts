@@ -80,6 +80,8 @@ export class OrderListComponent {
   }
 
   getComponentData(): void {
+    this.handleOrderParams('status', '');
+
     this.getOrderTable();
 
     this.getOrderStatus();
@@ -156,7 +158,7 @@ export class OrderListComponent {
   searchValue(search: string): void {
     this.handleOrderParams('keyword', search);
 
-    this.getComponentData();
+    this.getOrderTable();
   }
 
   onActiveItemChange(label: MenuItem): void {
@@ -166,13 +168,13 @@ export class OrderListComponent {
 
     this.handleOrderParams('page', tableConfig.gapPageNumber);
 
-    this.getComponentData();
+    this.getOrderTable();
   }
 
   onPageChange(e: PageChangeEvent): void {
     this.handleOrderParams('page', e.page + tableConfig.gapPageNumber);
 
-    this.getComponentData();
+    this.getOrderTable();
   }
 
   handleOrderParams(

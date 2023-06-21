@@ -7,7 +7,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subject, tap } from 'rxjs';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { User } from '../../../login/models/login.models';
@@ -29,7 +29,7 @@ export class UserFormComponent {
 
   helperService = inject(HelperService);
 
-  route = inject(ActivatedRoute);
+  route = inject(Router);
 
   notificationService = inject(NotificationService);
 
@@ -110,6 +110,8 @@ export class UserFormComponent {
 
   edit(): void {
     this.handleEditForm.emit(this.editForm);
+
+    this.route.navigate([this.cancelRouterLink]);
   }
 
   onUpload(f: File): void {
