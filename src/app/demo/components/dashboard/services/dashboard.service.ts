@@ -99,12 +99,14 @@ export class DashboardService {
   }
 
   getTotalSaleByChannel(
-    filter: string[]
+    filter: Date[] | string[],
+    channelId: number | null = null
   ): Observable<TotalSalesByChannelApiResponse> {
     return this.apollo
       .watchQuery<TotalSalesByChannelApiResponse>({
         query: GET_TOTAL_SALES_BY_CHANNEL,
         variables: {
+          channelId,
           fromDate: filter[0],
           toDate: filter[1],
         },

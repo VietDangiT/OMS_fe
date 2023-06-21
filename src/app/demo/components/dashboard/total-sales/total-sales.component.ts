@@ -4,14 +4,21 @@ import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
-import { DateFilterKey } from 'src/app/demo/interface/global.model';
+import {
+  DateFilterKey,
+  DropdownChangeEvent,
+} from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
+import { Marketplace } from '../../marketplace/models/marketplace.models';
+import { MarketplaceService } from '../../marketplace/services/marketplace.service';
 import { OmsTable } from '../../share/model/oms-table';
 import {
   barBaseChartOptions,
   baseChartOptions,
 } from '../../share/oms-chart/oms-chart.component';
+import { BaseChart } from '../interfaces/dashboard.models';
+import { DashboardService } from '../services/dashboard.service';
 import { totalSalesTableHeader } from './constants/total-sales.constants';
 import { TotalSalesTableDTO } from './models/total-sales.models';
 import { TotalSalesService } from './services/total-sales.service';
@@ -28,9 +35,17 @@ export class TotalSalesComponent {
 
   private router = inject(ActivatedRoute);
 
+  private marketplaceService = inject(MarketplaceService);
+
+  private dashboardService = inject(DashboardService);
+
   baseChartOptions = baseChartOptions;
 
   barChartOptions = barBaseChartOptions;
+
+  selectedMarketplace: Marketplace;
+
+  marketplaces: Marketplace[];
 
   saleBoxTitle = 'sales';
 
@@ -55,6 +70,8 @@ export class TotalSalesComponent {
   totalReturnPercent = 0;
 
   revenueData: ChartData;
+
+  channelId = 1;
 
   overviewData: ChartData = {
     labels: [
@@ -95,6 +112,8 @@ export class TotalSalesComponent {
   destroy$ = new Subject();
 
   ngOnInit(): void {
+    this.getChannels();
+
     this.router.queryParams
       .pipe(
         tap(params => {
@@ -103,7 +122,8 @@ export class TotalSalesComponent {
           }
 
           this.getComponentData();
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -114,6 +134,58 @@ export class TotalSalesComponent {
     this.getTotalSales();
 
     this.getReturn();
+
+    this.getSalesByChannel();
+  }
+
+  getSalesByChannel(): void {
+    this.dashboardService
+      .getTotalSaleByChannel(this.dateRange, this.channelId)
+      .pipe(
+        tap(res => {
+          const { totalSaleByChannel: data } = res;
+
+          let totalArr: number[] = [];
+
+          let labelArr: string[] = [];
+
+          data.forEach((item: BaseChart) => {
+            totalArr.push(item.value);
+
+            labelArr.push(item.displayText);
+          });
+
+          this.overviewData = {
+            labels: labelArr,
+            datasets: [
+              {
+                label: $localize`Sales by channel`,
+                data: totalArr,
+                borderColor: environment.primaryColor,
+                backgroundColor: environment.primaryColor,
+              },
+            ],
+          };
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  getChannels(): void {
+    this.marketplaceService
+      .getMarketPlaces()
+      .pipe(
+        tap(res => {
+          const { marketPlaces: data } = res;
+
+          this.marketplaces = data;
+
+          this.selectedMarketplace = data[0];
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   getTotalSalesTable(page: number) {
@@ -240,6 +312,7 @@ export class TotalSalesComponent {
   dateFilterChanged(dates: Date[]): void {
     if (dates[1] != null) {
       this.dateRange = dates;
+
       this.getComponentData();
     }
   }
@@ -254,6 +327,12 @@ export class TotalSalesComponent {
 
   onPageChange(e: PageChangeEvent): void {
     this.getTotalSalesTable(e.page + 1);
+  }
+
+  onSelectedChannel(e: DropdownChangeEvent): void {
+    this.channelId = e.value.id;
+
+    this.getSalesByChannel();
   }
 
   ngOnDestroy(): void {

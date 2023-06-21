@@ -6,20 +6,45 @@
   <oms-date-filter
     (dateFilterChange)="dateFilterChanged($event)"
     (filter)="filterChanged($event)"
+    [(dateFilter)]="dateRange"
   ></oms-date-filter>
 </div>
 
 <div class="flex gap-2 h-full">
   <div class="w-full flex flex-col">
-    <div class="dashboard-detail-container flex-1 mb-2">
-      <p class="font-bold text-black" i18n>Overview</p>
+    <div class="flex gap-2">
+      <div class="dashboard-detail-container w-full mb-2">
+        <p class="font-bold text-black mb-6" i18n>Orders</p>
 
-      <div class="w-full h-full max-h-[40vh]">
-        <oms-chart
-          [data]="overviewData"
-          [options]="baseChartOptions"
-          type="bar"
-        ></oms-chart>
+        <div class="w-full h-full max-h-[40vh]">
+          <oms-chart
+            [data]="overviewData"
+            [options]="baseChartOptions"
+            type="bar"
+          ></oms-chart>
+        </div>
+      </div>
+
+      <div class="dashboard-detail-container w-full mb-2">
+        <div class="flex justify-between w-full">
+          <p class="font-bold text-black" i18n>Orders by marketplace</p>
+
+          <p-dropdown
+            [(ngModel)]="selectedMarketplace"
+            [options]="marketplaces"
+            optionLabel="marketPlaceName"
+            (onChange)="onSelectedChannel($event)"
+            placeholder="All channels"
+          ></p-dropdown>
+        </div>
+
+        <div class="w-full h-full max-h-[40vh]">
+          <oms-chart
+            [data]="orderByChannel"
+            [options]="baseChartOptions"
+            type="bar"
+          ></oms-chart>
+        </div>
       </div>
     </div>
 

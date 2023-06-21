@@ -3,7 +3,7 @@ export interface User {
   fullName: string;
   username: string;
   password: string;
-  role: Role;
+  userRole: Role;
   token?: string;
   avatar: string;
   dob: string;
@@ -11,13 +11,11 @@ export interface User {
   fullAddress: string;
   gender: string;
   phoneNumber: string;
+  facebook?: string;
+  instagram?: string;
 }
 
-export enum Role {
-  ADMIN = 'Admin',
-  MANAGER = 'Manager',
-  USER = 'User',
-}
+export type Role = 'ADMIN' | 'MANAGER' | 'USER';
 
 export interface LoginApiResponse {
   login: string;

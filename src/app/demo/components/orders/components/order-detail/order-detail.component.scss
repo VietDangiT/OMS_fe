@@ -3,11 +3,13 @@
     @apply text-center;
   }
 
-  &-header {
-    @apply font-bold;
-  }
+  .order-detail {
+    &-header {
+      @apply font-bold;
+    }
 
-  &-info {
-    @apply font-normal;
+    &-info {
+      @apply font-normal;
+    }
   }
 }

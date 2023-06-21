@@ -127,6 +127,12 @@ export class AppMenuComponent {
             icon: 'pi-user',
           },
           {
+            name: 'editprofile',
+            content: 'Edit Profile',
+            path: `user/edit`,
+            icon: 'pi-pencil',
+          },
+          {
             name: 'changepassword',
             content: 'Change Password',
             path: `user/change-password`,

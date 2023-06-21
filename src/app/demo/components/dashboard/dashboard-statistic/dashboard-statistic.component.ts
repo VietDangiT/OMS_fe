@@ -123,7 +123,7 @@ export class DashboardStatisticComponent {
       return marketplace.id === id;
     });
     this.marketplace = this.marketplaceList[index];
-    this.marketplaceId.next(this.marketplace.id);
+    this.marketplaceId.next(this.marketplace.id!);
     this.selectedMarketplace = { ...this.marketplace };
   }
 }

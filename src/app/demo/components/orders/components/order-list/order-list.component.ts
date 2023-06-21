@@ -68,20 +68,26 @@ export class OrderListComponent {
 
           if (this.marketPlaceId) {
             this.handleOrderParams('channelId', this.marketPlaceId);
+          } else {
+            this.handleOrderParams('channelId', null);
           }
 
-          this.getOrderTable();
-
-          this.getOrderStatus();
+          this.getComponentData();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
   }
 
+  getComponentData(): void {
+    this.getOrderTable();
+
+    this.getOrderStatus();
+  }
+
   getOrderStatus(): void {
     this.ordersService
-      .getOrderStatus(this.orderParams.channelId!)
+      .getOrderStatus(this.orderParams)
       .pipe(
         tap(res => {
           const { orderStatus: data } = res;
@@ -143,14 +149,14 @@ export class OrderListComponent {
 
       this.dateRange = dates;
 
-      this.getOrderTable();
+      this.getComponentData();
     }
   }
 
   searchValue(search: string): void {
     this.handleOrderParams('keyword', search);
 
-    this.getOrderTable();
+    this.getComponentData();
   }
 
   onActiveItemChange(label: MenuItem): void {
@@ -160,18 +166,18 @@ export class OrderListComponent {
 
     this.handleOrderParams('page', tableConfig.gapPageNumber);
 
-    this.getOrderTable();
+    this.getComponentData();
   }
 
   onPageChange(e: PageChangeEvent): void {
     this.handleOrderParams('page', e.page + tableConfig.gapPageNumber);
 
-    this.getOrderTable();
+    this.getComponentData();
   }
 
   handleOrderParams(
     key: keyof OrderParams,
-    value: string | number | Date
+    value: string | number | Date | null
   ): void {
     this.orderParams = {
       ...this.orderParams,

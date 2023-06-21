@@ -1,3 +1,4 @@
+import { PagingParams } from 'src/app/demo/interface/global.model';
 import { BaseChart } from '../../interfaces/dashboard.models';
 
 export interface TotalOrderSummaryApiResponse {
@@ -21,4 +22,12 @@ export interface TotalOrder {
   numberOfFailed: number;
   numberOfReturn: number;
   numberOfOrders: number;
+}
+
+export interface OrderByChannelApiResponse {
+  totalOrderByChannel: BaseChart[];
+}
+
+export interface OrderParams extends PagingParams {
+  channelId?: number | null;
 }

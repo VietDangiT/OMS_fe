@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
-import { PagingParams } from 'src/app/demo/interface/global.model';
 import {
+  GET_ORDER_BY_CHANNEL,
   GET_ORDER_SUMMARY,
   GET_TOTAL_ORDER_TABLE,
 } from '../constants/total-orders.constants';
 import {
+  OrderByChannelApiResponse,
+  OrderParams,
   TotalOrderByStatusApiResponse,
   TotalOrderSummaryApiResponse,
 } from '../models/total-orders.models';
@@ -30,18 +32,35 @@ export class TotalOrdersService {
   }
 
   getOrderTable(
-    params: Partial<PagingParams>
+    params: Partial<OrderParams>
   ): Observable<TotalOrderByStatusApiResponse> {
-    const { fromDate: fDate, toDate: tDate, limit, page } = params;
+    const { fromDate, toDate, limit, page } = params;
 
     return this.apollo
       .watchQuery<TotalOrderByStatusApiResponse>({
         query: GET_TOTAL_ORDER_TABLE,
         variables: {
-          fDate,
-          tDate,
+          fromDate,
+          toDate,
           limit,
           page,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
+  }
+
+  getOrderByChannel(
+    params: Partial<OrderParams>
+  ): Observable<OrderByChannelApiResponse> {
+    const { channelId, fromDate, toDate } = params;
+
+    return this.apollo
+      .watchQuery<OrderByChannelApiResponse>({
+        query: GET_ORDER_BY_CHANNEL,
+        variables: {
+          channelId,
+          fromDate,
+          toDate,
         },
       })
       .valueChanges.pipe(map(res => res.data));

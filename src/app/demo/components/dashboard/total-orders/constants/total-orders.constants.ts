@@ -47,3 +47,21 @@ export const totalOrdersTableHeader: TableHeader[] = [
   { field: 'numberOfReturn', col: 'Return' },
   { field: 'numberOfOrders', col: 'Number of Orders' },
 ];
+
+export const GET_ORDER_BY_CHANNEL = gql`
+  query GetTotalOrderByChannel(
+    $channelId: Int
+    $fromDate: String
+    $toDate: String
+  ) {
+    totalOrderByChannel(
+      channelId: $channelId
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
+      displayText
+      date
+      value
+    }
+  }
+`;

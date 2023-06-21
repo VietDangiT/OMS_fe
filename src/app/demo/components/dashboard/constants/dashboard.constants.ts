@@ -38,7 +38,7 @@ export const GET_TOTAL_SALES_BY_LOCATION = gql`
 `;
 
 export const GET_TOTAL_ORDERS = gql`
-  query GetTotalOrders($fromDate: DateTime!, $toDate: DateTime!) {
+  query GetTotalOrders($fromDate: String!, $toDate: String!) {
     totalOrdersBy(fromDate: $fromDate, toDate: $toDate) {
       text
       value
@@ -47,8 +47,16 @@ export const GET_TOTAL_ORDERS = gql`
 `;
 
 export const GET_TOTAL_SALES_BY_CHANNEL = gql`
-  query GetTotalSalesByChannel($fromDate: String!, $toDate: String!) {
-    totalSaleByChannel(fromDate: $fromDate, toDate: $toDate) {
+  query GetTotalSalesByChannel(
+    $channelId: Int
+    $fromDate: String!
+    $toDate: String!
+  ) {
+    totalSaleByChannel(
+      channelId: $channelId
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
       percentage
       displayText
       value

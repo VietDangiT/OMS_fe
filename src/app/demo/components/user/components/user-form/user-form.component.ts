@@ -39,10 +39,6 @@ export class UserFormComponent {
 
   cancelRouterLink = '/user/detail';
 
-  isImageError = false;
-
-  isUploadImg = false;
-
   user: Partial<User> = {
     avatar: '',
     email: '',
@@ -102,21 +98,17 @@ export class UserFormComponent {
         tap(res => {
           let { userDetail: user } = res;
 
-          user = this.userService.refactorUser(user);
+          user = { ...user, dob: new Date(user.dob!).toLocaleDateString() };
 
-          this.user = user;
+          this.editForm.patchValue({ ...user });
 
-          this.editForm.patchValue({ ...this.user });
+          this.user = this.userService.refactorUser(user);
         })
       )
       .subscribe();
   }
 
   edit(): void {
-    if (!this.isUploadImg) {
-      this.parseToByteArray(this.user.avatar!);
-    }
-
     this.handleEditForm.emit(this.editForm);
   }
 
@@ -146,10 +138,6 @@ export class UserFormComponent {
     this.editForm.patchValue({
       avatar: byteArr,
     });
-  }
-
-  onImageError(e: Event): void {
-    if (e) this.isImageError = true;
   }
 
   isBase64ImageOver1MB(base64Image: string): boolean {

@@ -63,6 +63,8 @@ export class CatalogueListComponent implements OnInit {
 
           if (this.channelId) {
             this.handleCatalogueParams('channelId', this.channelId);
+          } else {
+            this.handleCatalogueParams('channelId', null);
           }
 
           this.getCatalogues();
@@ -156,7 +158,7 @@ export class CatalogueListComponent implements OnInit {
 
   handleCatalogueParams(
     key: keyof CatalogueParams,
-    value: string | number | Date
+    value: string | number | Date | null
   ): void {
     this.params = {
       ...this.params,

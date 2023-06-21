@@ -3,13 +3,13 @@
     <oms-avatar
       [imgSrc]="user.avatar!"
       *ngIf="!tempImg"
-      styleClass="!w-24 !h-24"
+      styleClass="!w-32 !h-32"
     ></oms-avatar>
 
     <oms-avatar
       [imgSrc]="tempImg"
       *ngIf="!!tempImg"
-      styleClass="!w-24 !h-24"
+      styleClass="!w-32 !h-32"
     ></oms-avatar>
 
     <p-fileUpload

@@ -4,6 +4,6 @@ export interface MarketplaceApiResponse {
 
 export interface Marketplace {
   marketPlaceName: string;
-  id: number;
+  id: number | null;
   marketPlaceImage?: string;
 }

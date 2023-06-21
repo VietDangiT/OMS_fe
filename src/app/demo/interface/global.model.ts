@@ -29,3 +29,8 @@ export interface ResultItem {
   name: string;
   data: { x: string | number | Date; y: number }[];
 }
+
+export interface DropdownChangeEvent {
+  originalEvent: Event;
+  value: any;
+}
