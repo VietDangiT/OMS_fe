@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CardInventory, CardInventoryApiResponse, InventoryParams } from '../../interfaces/inventory.component';
 import { CHANNEL_ID } from '../../constrants/inventory.constrants';
 import { InventoryService } from '../../services/inventory.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-inventory-card',
@@ -10,19 +11,19 @@ import { InventoryService } from '../../services/inventory.service';
 })
 export class InventoryCardComponent implements OnInit {
 
-  cardInventory:CardInventory[];
-  channelId = CHANNEL_ID;
-  constructor(private inventoryService : InventoryService) { }
-  params : InventoryParams;
+  @Input() displayText : string = "";
+  @Input() value : number = 0;
+
+
+
+  constructor() { }
   ngOnInit() {
-    this.getInventoryCard();
+
   }
+
+
 getInventoryCard():void {
-  this.inventoryService.getCardInventory(this.params).subscribe((res : CardInventoryApiResponse)=> {
-    const  {productStatistic : cardInventory } = res;
-    this.cardInventory = cardInventory;
-    console.log(this.cardInventory);
-  })
+
 
 }
 }

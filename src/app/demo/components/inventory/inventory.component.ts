@@ -72,6 +72,8 @@ export class InventoryComponent implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe();
+
+
   }
 
   getInventoryData(): void {
@@ -83,7 +85,7 @@ export class InventoryComponent implements OnInit {
           console.log(res);
 
           this.table = {
-            page: data.page || 1,
+            page: data.page,
             first: data.first,
             rows: data.rows,
             pageCount: data.pageCount,
@@ -91,15 +93,18 @@ export class InventoryComponent implements OnInit {
             data: {
               header: [...this.table.data.header],
               body: [...data.data],
+
             },
 
           };
+          console.log(data);
 
         }),
 
         takeUntil(this.destroy$)
       )
       .subscribe();
+
   }
 
   onPageChange(e: PageChangeEvent): void {

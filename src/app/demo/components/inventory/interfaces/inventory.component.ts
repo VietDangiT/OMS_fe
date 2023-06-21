@@ -12,14 +12,15 @@ export interface Inventory {
 
 }
 export interface CardInventoryApiResponse {
-  productStatistic : CardInventory[];
+  productStatistic : CardInventory;
 }
 export interface CardInventory {
-  live: string ;
+  live: number  ;
   outOfStock : number;
   lowOfStock : number;
   delistedAndSuspended : number ;
   onDemand : number;
+  __typename : any;
 }
 
 

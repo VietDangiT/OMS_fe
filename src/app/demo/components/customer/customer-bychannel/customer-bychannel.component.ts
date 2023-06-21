@@ -21,7 +21,7 @@ export class CustomerBychannelComponent implements OnChanges {
   pieData: ChartData;
   totalReturn: string = '0';
   routerLink = 'total-orders';
-  ratingByCustomer: { displayText: string; value: number }[] = [];
+  channelByCustomer: { displayText: string; value: number }[] = [];
   queryParams: { [key: string]: string } = {
     fDate: '',
     tDate: '',
@@ -60,7 +60,7 @@ export class CustomerBychannelComponent implements OnChanges {
       totalArr.push(item.value);
       labelArr.push (`${item.displayText}`  )
 
-      this.ratingByCustomer.push({
+      this.channelByCustomer.push({
         displayText: item.displayText,
         value: item.value,
       });

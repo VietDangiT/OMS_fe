@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { CardInventoryApiResponse, InventoryParams, InventoryTableApiResponse } from '../interfaces/inventory.component';
+import { CardInventoryApiResponse, Inventory, InventoryParams, InventoryTableApiResponse } from '../interfaces/inventory.component';
 import { Observable, map } from 'rxjs';
 import { CHANNEL_ID, GET_CARD_INVENTORY, GET_INVENTORY_TABLE, } from '../constrants/inventory.constrants';
 
@@ -24,11 +24,10 @@ getInventoryTableData(
     })
     .valueChanges.pipe(map(res => res.data));
 }
-getCardInventory(  params: InventoryParams):Observable<CardInventoryApiResponse>{
+getCardInventory():Observable<CardInventoryApiResponse>{
   return this.apollo.watchQuery<CardInventoryApiResponse>({
     query: GET_CARD_INVENTORY,
     variables : {
-      ...params,
       channelId : CHANNEL_ID,
     },
   })

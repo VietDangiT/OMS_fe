@@ -22,29 +22,30 @@
 </oms-screen-filter>
 </div>
 <div class="p-2">
-  <oms-table
+  <oms-table [isPaginationShown] = "true"
   (pagingInfo)="onPageChange($event)"
   [table]="table"
   [contentRef]="contentRef">
   <ng-template #contentRef let-rowData>
-    <tr *ngFor="let item of table.data.body ">
+    <tr>
       <td>
           <div class="w-10 h-10 rounded-md">
-            <img class="object-cover" src="https://compositesaigon.com/upload/sanpham/nhan-lam-mo-hinh-composite-theo-yeu-cau26-(1)-59921.jpg"  alt="" />
+            <img class="object-cover" [src]="rowData.productVariantImage"  alt="" />
           </div>
       </td>
-      <td class="!text-left">  {{ item.sku }} </td>
+      <td class="!text-left">  {{ rowData.sku }} </td>
 
-      <td class="!text-left">{{ item.productName   }}</td>
+      <td class="!text-left">{{ rowData.productName   }}</td>
 
-      <td class="!text-left">{{ item.availableStock }}</td>
+      <td class="!text-left">{{ rowData.availableStock }}</td>
 
-      <td class="!text-left">{{ item.inProcess }}</td>
+      <td class="!text-left">{{ rowData.inProcess }}</td>
 
-      <td class="!text-left">{{ item.sold }}</td>
-      <td class="!text-left "><i class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full">{{item.action}}</i></td>
+      <td class="!text-left">{{ rowData.sold }}</td>
+      <td class="!text-left "><i class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full">{{rowData.action}}</i></td>
     </tr>
   </ng-template>
-</oms-table>
+</oms-table >
+
 </div>
 </div>

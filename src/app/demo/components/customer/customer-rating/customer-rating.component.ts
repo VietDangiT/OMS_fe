@@ -25,6 +25,8 @@ export class CustomerRatingComponent implements OnChanges {
     fDate: '',
     tDate: '',
   };
+  ratingByCustomer: { displayText: string; value: number }[] = [];
+
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr']?.currentValue && this.filterArr[1]) {
@@ -53,6 +55,10 @@ export class CustomerRatingComponent implements OnChanges {
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
       labelArr.push (`${item.displayText} ${this.stars}`)
+      this.ratingByCustomer.push({
+        displayText: `${item.displayText} ${this.stars}`,
+        value: item.value,
+      });
     });
     this.pieData = {
       labels: labelArr,
