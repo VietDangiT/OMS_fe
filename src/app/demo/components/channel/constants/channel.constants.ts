@@ -45,6 +45,15 @@ export const GET_CHANNELS_TABLE = gql`
   }
 `;
 
+export const GET_CHANNEL_STATUS = gql`
+  query GetChannelStatus($channelId: Int) {
+    channelStatus(countryId: $channelId) {
+      displayText
+      value
+    }
+  }
+`;
+
 export const channelTableHeader = [
   { field: 'channel', col: 'Channel' },
   { field: 'numberOfOrders', col: 'Number Of Orders' },
@@ -55,6 +64,6 @@ export const channelTableHeader = [
 ];
 
 export const channelLabelItems = [
-  { label: '0', id: '1', badge: '0', title: 'Active' },
-  { label: '1', id: '2', badge: '0', title: 'Inactive' },
+  { label: '0', id: '1', title: 'Active' },
+  { label: '1', id: '2', title: 'Inactive' },
 ];

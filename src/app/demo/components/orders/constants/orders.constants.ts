@@ -83,3 +83,12 @@ export const GET_ORDER_DETAIL = gql`
     }
   }
 `;
+
+export const GET_ORDER_STATUS = gql`
+  query GetOrderStatus($channelId: Int) {
+    orderStatus(channelId: $channelId) {
+      displayText
+      value
+    }
+  }
+`;

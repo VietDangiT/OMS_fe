@@ -15,6 +15,13 @@ import { AppLayoutComponent } from './layout/app.layout.component';
           canActivate: [AuthGuard],
           children: [
             {
+              path: 'user',
+              loadChildren: () =>
+                import('./demo/components/user/user.module').then(
+                  m => m.UserModule
+                ),
+            },
+            {
               path: 'dashboard',
               loadChildren: () =>
                 import('./demo/components/dashboard/dashboard.module').then(

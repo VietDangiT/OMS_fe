@@ -11,8 +11,8 @@ export const totalSalesTableHeader: TableHeader[] = [
 
 export const GET_TOTAL_SALES_TABLE = gql`
   query GetDetailTotalSales(
-    $fromDate: DateTime!
-    $toDate: DateTime!
+    $fromDate: String!
+    $toDate: String!
     $itemsPerPage: Int!
     $page: Int!
   ) {
@@ -40,7 +40,7 @@ export const GET_TOTAL_SALES_TABLE = gql`
   }
 `;
 export const GET_TOTAL_SALES = gql`
-  query GetTotalSales($fromDate: DateTime!, $toDate: DateTime!) {
+  query GetTotalSales($fromDate: String!, $toDate: String!) {
     totalSales(fromDate: $fromDate, toDate: $toDate) {
       compareData {
         date
@@ -61,7 +61,7 @@ export const GET_TOTAL_SALES = gql`
 `;
 
 export const GET_RETURN = gql`
-  query GetReturn($fromDate: DateTime!, $toDate: DateTime!) {
+  query GetReturn($fromDate: String!, $toDate: String!) {
     return(fromDate: $fromDate, toDate: $toDate) {
       compareData {
         date
