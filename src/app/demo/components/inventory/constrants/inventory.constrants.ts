@@ -54,10 +54,10 @@ export const inventoryTableHeader = [
 
 ];
 export const inventoryLabelItems = [
-  { label: '0', id: '1', badge: '0', title: 'All' },
-  { label: '1', id: '2', badge: '0', title: 'Stock available' },
-  { label: '1', id: '2', badge: '0', title: 'Low on stock' },
-  { label: '1', id: '2', badge: '0', title: 'Out of stock' },
+  { label: '0', id: '1', badge: '10', title: 'All' },
+  { label: '1', id: '2', badge: '20', title: 'Stock available' },
+  { label: '1', id: '2', badge: '30', title: 'Low on stock' },
+  { label: '1', id: '2', badge: '40', title: 'Out of stock' },
 
 
 ];
