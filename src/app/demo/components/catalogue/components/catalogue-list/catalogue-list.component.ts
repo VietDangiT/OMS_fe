@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subject, takeUntil, tap } from 'rxjs';
@@ -15,6 +22,7 @@ import { CatalogueService } from '../../services/catalogue.service';
   templateUrl: './catalogue-list.component.html',
   styleUrls: ['./catalogue-list.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CatalogueListComponent implements OnInit {
   helperService = inject(HelperService);
@@ -22,6 +30,8 @@ export class CatalogueListComponent implements OnInit {
   catalogueService = inject(CatalogueService);
 
   route = inject(ActivatedRoute);
+
+  cdRef = inject(ChangeDetectorRef);
 
   labelItems: MenuItem[] = [];
 
@@ -67,13 +77,17 @@ export class CatalogueListComponent implements OnInit {
             this.handleCatalogueParams('channelId', null);
           }
 
-          this.getCatalogues();
-
-          this.getProductStatus();
+          this.getComponentData();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+
+  getComponentData(): void {
+    this.getCatalogues();
+
+    this.getProductStatus();
   }
 
   getCatalogues(): void {
@@ -83,19 +97,19 @@ export class CatalogueListComponent implements OnInit {
         tap(res => {
           const { products: data } = res;
 
-          const { first, page, pageCount, rows, totalRecord } = data;
-
           this.tableData = {
-            first,
-            page,
-            pageCount,
-            rows,
-            totalRecord,
             data: {
               header: [...this.tableData.data.header],
               body: [...data.data],
             },
+            first: data.first,
+            page: data.page,
+            pageCount: data.pageCount,
+            rows: data.rows,
+            totalRecord: data.totalRecord,
           };
+
+          this.cdRef.detectChanges();
         }),
         takeUntil(this.destroy$)
       )
@@ -140,6 +154,8 @@ export class CatalogueListComponent implements OnInit {
 
       this.handleCatalogueParams('toDate', dates[1]);
 
+      this.dateRange = dates;
+
       this.getCatalogues();
     }
   }
@@ -164,5 +180,10 @@ export class CatalogueListComponent implements OnInit {
       ...this.params,
       [key]: value,
     };
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next('');
+    this.destroy$.complete();
   }
 }

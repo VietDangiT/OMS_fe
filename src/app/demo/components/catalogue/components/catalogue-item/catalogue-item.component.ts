@@ -20,6 +20,9 @@ export class CatalogueItemComponent {
       productVariantImage: this.helperService.refactorImg(
         this.catalogue.productVariantImage
       ),
+      channelImage: this.helperService.refactorImg(
+        this.helperService.arrayBufferToBase64(this.catalogue.channelImage)
+      ),
     };
   }
 

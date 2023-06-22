@@ -5,6 +5,7 @@ export const catalogueHeaderTable: TableHeader[] = [
   { field: 'img', col: 'Image' },
   { field: 'sku', col: 'SKU' },
   { field: 'productName', col: 'Product Name' },
+  { field: 'channel', col: 'Channel' },
   { field: 'createdAt', col: 'Created At' },
   { field: 'availableStock', col: 'Available Stock' },
   { field: 'sellingPrice', col: 'Selling Price' },
@@ -15,8 +16,8 @@ export const catalogueHeaderTable: TableHeader[] = [
 export const GET_PRODUCT_CATALOGUES = gql`
   query GetProductCatalogue(
     $channelId: Int
-    $fromDate: String!
-    $toDate: String!
+    $fromDate: String
+    $toDate: String
     $keyword: String!
     $limit: Int
     $status: String
@@ -24,8 +25,8 @@ export const GET_PRODUCT_CATALOGUES = gql`
   ) {
     products(
       channelId: $channelId
-      fDate: $fromDate
-      tDate: $toDate
+      fromDate: $fromDate
+      toDate: $toDate
       keyword: $keyword
       limit: $limit
       status: $status
@@ -44,6 +45,8 @@ export const GET_PRODUCT_CATALOGUES = gql`
         basePrice
         createdAt
         status
+        channelName
+        channelImage
         availableStock
       }
     }

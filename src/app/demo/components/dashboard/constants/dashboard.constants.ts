@@ -1,7 +1,7 @@
 import { gql } from 'apollo-angular';
 
 export const GET_TOTAL_SALES = gql`
-  query GetTotalSale($fromDate: DateTime!, $toDate: DateTime!) {
+  query GetTotalSale($fromDate: String!, $toDate: String!) {
     totalSale(fromDate: $fromDate, toDate: $toDate) {
       date
       value
@@ -10,7 +10,7 @@ export const GET_TOTAL_SALES = gql`
 `;
 
 export const GET_RETURNS_BY = gql`
-  query GetReturnsBy($fromDate: DateTime!, $toDate: DateTime!) {
+  query GetReturnsBy($fromDate: String!, $toDate: String!) {
     returnsBy(fromDate: $fromDate, toDate: $toDate) {
       numberOfReturn
       value
@@ -20,7 +20,7 @@ export const GET_RETURNS_BY = gql`
 `;
 
 export const GET_TOTAL_SALES_BY_PRODUCT = gql`
-  query GetTotalSaleProductsBy($fromDate: DateTime!, $toDate: DateTime!) {
+  query GetTotalSaleProductsBy($fromDate: String!, $toDate: String!) {
     totalSaleProductsBy(fromDate: $fromDate, toDate: $toDate) {
       text
       value
@@ -67,8 +67,8 @@ export const GET_TOTAL_SALES_BY_CHANNEL = gql`
 export const GET_PRODUCT_VARIANT_ITEMS_SOLD = gql`
   query GetProductVariantItemSold(
     $productCatalogId: Int!
-    $fromDate: DateTime!
-    $toDate: DateTime!
+    $fromDate: String!
+    $toDate: String!
   ) {
     itemsSoldByProductVariant(
       productCatalogId: $productCatalogId
@@ -84,8 +84,8 @@ export const GET_PRODUCT_VARIANT_ITEMS_SOLD = gql`
 export const GET_ORDERS_STATISTIC = gql`
   query GetOrdersStatistic(
     $channelId: Int!
-    $fromDate: DateTime!
-    $toDate: DateTime!
+    $fromDate: String!
+    $toDate: String!
   ) {
     statisticOrders(
       channelId: $channelId

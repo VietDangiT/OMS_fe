@@ -2,12 +2,18 @@
   class="mb-2 px-4 cursor-pointer hover:!bg-gray-200 transition-all duration-100"
 >
   <td>
-    <p-avatar [image]="catalogue.productVariantImage"></p-avatar>
+    <oms-avatar [imgSrc]="catalogue.productVariantImage"></oms-avatar>
   </td>
 
   <td>{{ catalogue.sku }}</td>
 
   <td class="font-bold">{{ catalogue.productName | titlecase }}</td>
+
+  <td class="flex items-center gap-2">
+    <oms-avatar [imgSrc]="catalogue.channelImage"></oms-avatar>
+
+    <span>{{ catalogue.channelName }}</span>
+  </td>
 
   <td>{{ catalogue.createdAt | date : 'shortDate' }}</td>
 

@@ -39,6 +39,7 @@ export interface ChannelTableApiResponse {
 
 export interface ChannelParams extends PagingParams {
   countryId: number | null;
+
 }
 
 export type ChannelStatus = 'Active' | 'Inactive';
