@@ -16,6 +16,7 @@
   </span>
 
   <p-calendar
+    *ngIf="isDateFilterShow"
     placeholder="Choose range of date"
     (ngModelChange)="getDateRange($event)"
     [ngModel]="dateFilter"
