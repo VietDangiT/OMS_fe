@@ -17,7 +17,7 @@
         <ng-template let-marketplace pTemplate="item">
           <div
             class="dropdown-item px-2 py-3"
-            (click)="handleSelectMarketplace(marketplace.id)"
+            (click)="selectMarketplace(marketplace.id)"
           >
             {{ marketplace.marketPlaceName | titlecase }}
           </div>
@@ -40,6 +40,6 @@
 
   <dashboard-detail-statistic
     heading="Stock status"
-    [detailStatistic]="stockStatistic"
+    [stockStatistic]="stockStatistic"
   ></dashboard-detail-statistic>
 </div>

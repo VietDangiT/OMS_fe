@@ -111,6 +111,18 @@ export const GET_PRODUCT_CHANNEL_STOCK = gql`
   }
 `;
 
+export const GET_STOCK = gql`
+  query GetStock($channelId: Int) {
+    productStatistic(channelId: $channelId) {
+      live
+      delistedAndSuspended
+      outOfStock
+      onDemand
+      lowOfStock
+    }
+  }
+`;
+
 export const GET_PRODUCT_CHANNEL_BY_STATUS = gql`
   query GetProductChannelByStatus($channelId: Int!) {
     productChannelByStatus(channelId: $channelId) {
