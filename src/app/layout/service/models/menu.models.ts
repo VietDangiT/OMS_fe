@@ -14,4 +14,5 @@ export interface MenuElementItem {
   path: string;
   icon: string;
   param?: object;
+  value?: number;
 }

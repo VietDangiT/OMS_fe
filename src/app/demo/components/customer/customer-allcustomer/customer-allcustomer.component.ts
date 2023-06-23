@@ -10,8 +10,6 @@ import { OmsTable } from '../../share/model/oms-table';
 export class CustomerAllcustomerComponent implements OnInit {
   @HostBinding('class') hostClass = 'app-customer-allcustomer';
 
-  // @Input() order: Order;
-
   table: OmsTable<any>= {
     page: 0,
     first: 0,
@@ -20,37 +18,9 @@ export class CustomerAllcustomerComponent implements OnInit {
     totalRecord: 0,
     data: {
       header: [
-        // 'Customer Name',
-        // 'Address',
-        // 'Total Order',
-        // 'Total Spend',
-        // 'Phone Number',
-        // 'Last Order',
-        // 'Type Customer',
-        // 'Actions'
       ],
       body: [
-        {name:"Trần Quân",
-        address: "HCM",
-        totalspend : "12313",
-        totalorder:"1231311",
-        phone:"0397181527",
-        lastorder:"13/5/2022",
-        type:"Tran Quan"},
-        {name:"Trần Quân",
-        address: "HCM",
-        totalspend : "12313",
-        totalorder:"1231311",
-        phone:"0397181527",
-        lastorder:"13/5/2022",
-        type:"Tran Quan"},
-        {name:"Trần Quân",
-        address: "HCM",
-        totalspend : "12313",
-        totalorder:"1231311",
-        phone:"0397181527",
-        lastorder:"13/5/2022",
-        type:"Tran Quan"},
+
       ],
     },
   };
@@ -88,6 +58,9 @@ onActiveItemChange(event: any){
   handleCloseModal() {
     this.modalVisible = false;
   }
+
+
+
 }
 
 

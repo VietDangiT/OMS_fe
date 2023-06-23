@@ -4,10 +4,10 @@ export interface TableHeader {
 }
 
 export interface PagingParams {
-  fromDate: Date;
-  toDate: Date;
-  keyword: string;
-  status: string | number;
+  fromDate?: Date;
+  toDate?: Date;
+  keyword?: string;
+  status?: string | number;
   limit: number;
   page: number;
 }

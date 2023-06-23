@@ -1,0 +1,8 @@
+:host { display: contents; }
+
+.user-item{
+  &-row{
+    @apply align-middle px-4 py-2;
+  }
+}
+

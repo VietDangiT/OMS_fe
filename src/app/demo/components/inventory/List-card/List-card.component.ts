@@ -10,6 +10,7 @@ import { tap } from 'rxjs';
 })
 export class ListCardComponent implements OnInit {
   cardInventory:CardInventory;
+
   constructor(private inventoryService:InventoryService) { }
   ngOnInit() {
 
@@ -17,11 +18,8 @@ export class ListCardComponent implements OnInit {
       const  {productStatistic : cardInventory } = res;
       this.cardInventory = cardInventory;
       console.log(cardInventory);
-
-
     })
     )
     .subscribe();
-
   }
 }
