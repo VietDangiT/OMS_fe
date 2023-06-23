@@ -73,6 +73,8 @@ export class CatalogueListComponent implements OnInit, OnDestroy {
             this.handleCatalogueParams('channelId', null);
           }
 
+          this.handleCatalogueParams('status', 'Active');
+
           this.getComponentData();
         }),
         takeUntil(this.destroy$)
