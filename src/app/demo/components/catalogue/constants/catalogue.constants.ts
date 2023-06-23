@@ -18,7 +18,7 @@ export const GET_PRODUCT_CATALOGUES = gql`
     $channelId: Int
     $fromDate: String
     $toDate: String
-    $keyword: String!
+    $keyword: String
     $limit: Int
     $status: String
     $page: Int

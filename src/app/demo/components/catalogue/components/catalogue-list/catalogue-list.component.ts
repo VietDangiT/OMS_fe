@@ -1,7 +1,6 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   ViewEncapsulation,
   inject,
@@ -22,16 +21,13 @@ import { CatalogueService } from '../../services/catalogue.service';
   templateUrl: './catalogue-list.component.html',
   styleUrls: ['./catalogue-list.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CatalogueListComponent implements OnInit {
+export class CatalogueListComponent implements OnInit, OnDestroy {
   helperService = inject(HelperService);
 
   catalogueService = inject(CatalogueService);
 
   route = inject(ActivatedRoute);
-
-  cdRef = inject(ChangeDetectorRef);
 
   labelItems: MenuItem[] = [];
 
@@ -95,22 +91,22 @@ export class CatalogueListComponent implements OnInit {
       .getCatalogues(this.params)
       .pipe(
         tap(res => {
-          const { products: data } = res;
+          const { first, page, pageCount, rows, totalRecord, data } =
+            res.products;
 
           this.tableData = {
             data: {
               header: [...this.tableData.data.header],
-              body: [...data.data],
+              body: [...data],
             },
-            first: data.first,
-            page: data.page,
-            pageCount: data.pageCount,
-            rows: data.rows,
-            totalRecord: data.totalRecord,
+            first,
+            page,
+            pageCount,
+            rows,
+            totalRecord,
           };
-
-          this.cdRef.detectChanges();
         }),
+
         takeUntil(this.destroy$)
       )
       .subscribe();

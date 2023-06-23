@@ -65,23 +65,23 @@ export class ChannelListComponent implements OnInit, OnDestroy {
     this.route.queryParamMap
       .pipe(
         tap(params => {
-          this.params = {
-            ...this.params,
-          };
+          this.countryId = Number(params.get('countryId'));
 
-          const countryId = params.get('countryId');
-
-          if (countryId) {
-            this.handleChannelParams('countryId', Number(countryId));
+          if (this.countryId) {
+            this.handleChannelParams('countryId', this.countryId);
           } else {
             this.handleChannelParams('countryId', null);
           }
 
-          this.getChannelData();
+          this.getComponentData();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+
+  getComponentData(): void {
+    this.getChannelData();
 
     this.getChannelStatus();
   }

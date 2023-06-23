@@ -6,7 +6,7 @@ export interface Catalogue {
   productName: string;
   sku: string;
   productVariantImage: string;
-  channelImage: string;
+  channelImage: any;
   channelName: string;
   basePrice: number;
   createdAt: string;

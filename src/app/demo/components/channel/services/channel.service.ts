@@ -40,12 +40,12 @@ export class ChannelService {
       .valueChanges.pipe(map(res => res.data));
   }
 
-  getChannelStatus(id: number): Observable<ChannelStatusApiResponse> {
+  getChannelStatus(channelId: number): Observable<ChannelStatusApiResponse> {
     return this.apollo
       .watchQuery<ChannelStatusApiResponse>({
         query: GET_CHANNEL_STATUS,
         variables: {
-          countryId: id,
+          channelId,
         },
       })
       .valueChanges.pipe(map(res => res.data));
