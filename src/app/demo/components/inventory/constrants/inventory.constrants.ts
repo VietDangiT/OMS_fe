@@ -1,4 +1,5 @@
 import { gql } from 'apollo-angular';
+import { MenuItem } from 'primeng/api';
 export const CHANNEL_ID = 1;
 
 export const GET_INVENTORY_TABLE = gql`
@@ -21,6 +22,7 @@ export const GET_INVENTORY_TABLE = gql`
         basePrice
         inProcess
         sold
+        id
       }
     }
   }
@@ -41,6 +43,64 @@ export const GET_CARD_INVENTORY = gql`
     }
 `;
 
+export const GET_LISTED_STOCK_ON_CHANNEL = gql`
+  query GeListedProductOnChannelInfo(
+    $productVariantId: Int!
+  ) {
+    listedProductOnChannelInfo(
+      productVariantId: $productVariantId
+    ) {
+      image
+      info
+      displayText
+      value
+      }
+    }
+`;
+
+export const GET_CHANNEL_BY_PRODUCT_VARIANT = gql`
+  query GetChannelByProductVariant(
+    $productVariantId: Int!
+  ) {
+    channelByProductVariant(
+      productVariantId: $productVariantId
+    ) {
+      displayText
+      id
+      }
+    }
+`;
+
+export const GET_CHANNEL_STOCK_INFO = gql`
+  query GetChannelStockInfo(
+    $channelId: Int!,
+    $productVariantId: Int!
+  ) {
+    channelStockInfo(
+      channelId: $channelId,
+      productVariantId: $productVariantId
+    ) {
+      inProcess
+      sold
+      threshold
+      inStock
+      inhand
+      onhold
+      buffer
+      unusable
+      }
+    }
+`;
+
+export const GET_PRODUCT_INVENTORY_INFO = gql`
+  query GetProductInventoryInfo(
+    $productVariantId: Int!
+  ) {
+    productInventoryInfo(
+      productVariantId: $productVariantId
+    )
+    }
+`;
 
 
 export const inventoryTableHeader = [
@@ -58,7 +118,10 @@ export const inventoryLabelItems = [
   { label: '1', id: '2', badge: '0', title: 'Stock available' },
   { label: '1', id: '2', badge: '0', title: 'Low on stock' },
   { label: '1', id: '2', badge: '0', title: 'Out of stock' },
+];
 
-
+export const inventoryDetailMenu: MenuItem[] = [
+  { label: 'Product Info' },
+  { label: 'Sale Channel Performance' },
 ];
 

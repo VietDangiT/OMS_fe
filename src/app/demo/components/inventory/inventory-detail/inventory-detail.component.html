@@ -1,0 +1,57 @@
+<div class="min-w-[425px] mt-6">
+  <div class="flex justify-center gap-8 pb-4 px-2">
+    <oms-information-card [label]="numberListedOnChannel + ''" title="Listed On" description="Sales channel Store"></oms-information-card>
+    <oms-information-card [isImageUrl]="false"
+      srcImage="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"
+      title="Last Updated by" description="Henna Richard"></oms-information-card>
+  </div>
+  <p-tabView>
+    <p-tabPanel header="Product Info">
+      <div class="flex flex-col gap-2">
+        <p-fieldset [toggleable]="true" [collapsed]="true" >
+          <ng-template pTemplate="header">
+            <div class="w-full">
+              <oms-fieldset-header title="Product Details" iconClass="pi-file-edit"></oms-fieldset-header>
+            </div>
+          </ng-template>
+        </p-fieldset>
+        <p-fieldset [toggleable]="true">
+          <ng-template pTemplate="header">
+            <div class="w-full">
+              <oms-fieldset-header title="Channel Stock" linkText="Update Stock"></oms-fieldset-header>
+            </div>
+          </ng-template>
+          <div>
+            <oms-channel-stock [productVariantId]="productVariantId"></oms-channel-stock>
+          </div>
+        </p-fieldset>
+        <p-fieldset [toggleable]="true">
+          <ng-template pTemplate="header">
+            <div class="w-full">
+              <oms-fieldset-header title="Listed Stock on Channels" linkText="Manage Stock"></oms-fieldset-header>
+            </div>
+          </ng-template>
+          <div>
+            <oms-table [contentRef]="contentRef" [table]="table">
+              <ng-template #contentRef let-rowData>
+                <tr>
+                  <td>
+                    <div class="flex items-center">
+                      <p-avatar [image]="'data:image/png;base64, ' + rowData.image" styleClass="mr-2" size="large"
+                        shape="circle"></p-avatar>
+                      <span>{{ rowData.displayText }}</span>
+                    </div>
+                  </td>
+                  <td class="!text-left"> {{ rowData.info }} </td>
+                  <td class="!text-left">{{ rowData.value }}</td>
+                </tr>
+              </ng-template>
+            </oms-table>
+          </div>
+        </p-fieldset>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Sales Channel Performance">
+    </p-tabPanel>
+  </p-tabView>
+</div>
