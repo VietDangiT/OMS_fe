@@ -1,6 +1,7 @@
 import { PagingParams } from 'src/app/demo/interface/global.model';
 
 export interface Inventory {
+  id: number;
   productVariantImage? : string ;
   sku: number;
   productName : string;
@@ -21,6 +22,15 @@ export interface CardInventory {
   delistedAndSuspended : number ;
   onDemand : number;
   __typename : any;
+}
+
+export interface InventoryByChannelResponse {
+  channelWithTotalProduct : InventoryByChannel[];
+}
+export interface InventoryByChannel {
+  id: number;
+  displayText: string;
+  value : number;
 }
 
 

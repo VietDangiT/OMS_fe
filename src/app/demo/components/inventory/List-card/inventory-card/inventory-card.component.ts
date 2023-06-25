@@ -11,7 +11,7 @@ import { tap } from 'rxjs';
 })
 export class InventoryCardComponent implements OnInit {
   @Input() displayText : string = "";
-   sku = "SKUs"
+   sku = "SKUs";
   @Input() value : number = 0;
   constructor() { }
   ngOnInit() {

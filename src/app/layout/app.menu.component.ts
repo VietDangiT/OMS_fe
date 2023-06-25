@@ -9,6 +9,8 @@ import { ChannelService } from '../demo/service/channel.service';
 import { LayoutService } from './service/app.layout.service';
 import { MenuElement, MenuElementItem } from './service/models/menu.models';
 import { UserService } from '../demo/service/user.service';
+import { InventoryService } from '../demo/components/inventory/services/inventory.service';
+import { Inventory, InventoryByChannel } from '../demo/components/inventory/interfaces/inventory.component';
 
 @Component({
   selector: 'app-menu',
@@ -127,6 +129,16 @@ export class AppMenuComponent {
       },
     },
     {
+      name: 'customer',
+      path: '/customer',
+      icon: 'pi pi-user-plus',
+
+      submenu: {
+        title: 'CUSTOMER',
+        items: [],
+      },
+    },
+    {
       name: 'user',
       path: '/user/detail',
       icon: 'pi pi-user',
@@ -175,7 +187,8 @@ export class AppMenuComponent {
     public layoutService: LayoutService,
     private channelService: ChannelService,
     private marketPlaceService: MarketplaceService,
-    private _userService: UserService
+    private _userService: UserService,
+    private inventoryService: InventoryService
   ) {}
 
   ngOnInit(): void {
@@ -185,6 +198,8 @@ export class AppMenuComponent {
 
     this.initMarketplaces();
     this.initUserRole();
+    this.initSubMenuInventory();
+
   }
 
   getNavbarState(): void {
@@ -217,6 +232,36 @@ export class AppMenuComponent {
 
           const index = this.menuElements.findIndex(
             c => c.path === '/channels'
+          );
+
+          this.menuElements[index].submenu.items = resultArr;
+        }),
+
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+  initSubMenuInventory(): void {
+    this.inventoryService
+      .getSubmenuInventory()
+      .pipe(
+        tap(res => {
+          const { channelWithTotalProduct } = res;
+
+          const resultArr: MenuElementItem[] = [];
+
+          channelWithTotalProduct.forEach((i: InventoryByChannel) => {
+            resultArr.push({
+              name: i.displayText,
+              content: i.displayText ,
+              path: `/inventory`,
+              param: { id: i.id },
+              icon: 'pi pi-inbox',
+            });
+          });
+
+          const index = this.menuElements.findIndex(
+            c => c.path === '/inventory'
           );
 
           this.menuElements[index].submenu.items = resultArr;

@@ -21,7 +21,7 @@ export class CustomerBychannelComponent implements OnChanges {
   pieData: ChartData;
   totalReturn: string = '0';
   routerLink = 'total-orders';
-  channelByCustomer: { displayText: string; value: number }[] = [];
+  channelByCustomer: { displayText: string; value: number, percentage:number }[] = [];
   queryParams: { [key: string]: string } = {
     fDate: '',
     tDate: '',
@@ -41,7 +41,7 @@ export class CustomerBychannelComponent implements OnChanges {
           tap((result:CustomerByChannelResponse) => {
             const { customerByChannel: data } = result;
             this.initTotalOrderChart(data);
-            console.log(data)
+            this.channelByCustomer = data;
           })
         )
         .subscribe();
@@ -55,15 +55,9 @@ export class CustomerBychannelComponent implements OnChanges {
   initTotalOrderChart(result: BaseChart[]) {
     let totalArr: number[] = [];
     let labelArr: string[] = [];
-
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
-      labelArr.push (`${item.displayText}`  )
-
-      this.channelByCustomer.push({
-        displayText: item.displayText,
-        value: item.value,
-      });
+      labelArr.push (`${item.displayText}`)
     });
 
     this.pieData = {

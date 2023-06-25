@@ -16,14 +16,17 @@ export const GET_CUSTOMER_BY = gql`
     customerByChannel(fDate: $fromDate, tDate: $toDate ) {
       displayText
       value
+      percentage
+
     }
   }
 `;
 export const GET_RATING_BY = gql`
   query GetRatingByChannel($fromDate: String!, $toDate: String!) {
-    ratingByChannel(fDate: $fromDate, tDate: $toDate ) {
+    ratingByChannel(fDate: $fromDate, tDate: $toDate) {
       displayText
       value
+      percentage
     }
   }
 `;

@@ -40,6 +40,15 @@ export const GET_CARD_INVENTORY = gql`
       }
     }
 `;
+export const GET_CHANNEL_INVENTORY = gql`
+  query GetChannelWithTotalProduct {
+    channelWithTotalProduct{
+      id
+      displayText
+      value
+      }
+    }
+`;
 
 
 

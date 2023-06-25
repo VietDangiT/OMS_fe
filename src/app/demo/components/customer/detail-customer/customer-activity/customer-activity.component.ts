@@ -16,37 +16,8 @@ export class CustomerActivityComponent implements OnInit {
     totalRecord: 0,
     data: {
       header: [
-        // 'Product Code', 'Product name', 'Store', 'Description','Rating'
       ],
       body: [
-        {
-          code: '#00001',
-          name: 'Dec 28, 2022',
-          store: 'Lazada VN',
-          description: '$ 1,000',
-          rating: "Completed",
-        },
-        {
-          code: '#00001',
-          name: 'Dec 28, 2022',
-          store: 'Lazada VN',
-          description: '$ 1,000',
-          rating: "Completed",
-        },
-        {
-          code: '#00001',
-          name: 'Dec 28, 2022',
-          store: 'Lazada VN',
-          description: '$ 1,000',
-          rating: "Completed",
-        },
-        {
-            code: '#00001',
-            name: 'Dec 28, 2022',
-            store: 'Lazada VN',
-            description: '$ 1,000',
-            rating: "Completed",
-        },
       ],
     },
   };
