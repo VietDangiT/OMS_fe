@@ -1,0 +1,9 @@
+<div class="w-full flex justify-between items-center">
+  <span>{{title}}</span>
+  <div class="flex items-center gap-1">
+    <span *ngIf="iconClass" [class]="'pi ' + iconClass + ' mr-2 text-primary hover:text-primaryLight2'"></span>
+    <a *ngIf="linkText" class="!p-0 !text-blue-400 !text-xs font-medium hover:!text-blue-500">{{linkText}}</a>
+    <span *ngIf="!isDropDown" class="pi pi-angle-down mr-2 font-bold text-primary"></span>
+    <span *ngIf="isDropDown" class="pi pi-angle-up mr-2 font-bold text-primary"></span>
+  </div>
+</div>

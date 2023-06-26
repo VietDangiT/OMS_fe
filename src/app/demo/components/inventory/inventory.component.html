@@ -1,56 +1,64 @@
 <app-topbar></app-topbar>
 <div class="w-full">
-   <app-List-card></app-List-card>
-    <div class="p-2">
-      <p-tabMenu
-    [model]="items"
-    [activeItem]="activeItem"
-    (activeItemChange)="onActiveItemChange($event)"
-  >
-    <ng-template pTemplate="item" let-item let-i="index">
-      <span class="px-3 py-1 ml-2">
-        {{ item.title | titlecase }}
-      </span>
-      <span
-      class="rounded-full badge bg-primary bg-opacity-20 text-opacity-60 font-medium text-primary text-center px-3 py-1 ml-2"
-      >{{ item.badge }}</span
-    >
+  <app-List-card></app-List-card>
+  <div class="p-2">
+    <p-tabMenu [model]="items" [activeItem]="activeItem" (activeItemChange)="onActiveItemChange($event)">
+      <ng-template pTemplate="item" let-item let-i="index">
+        <span class="px-3 py-1 ml-2">
+          {{ item.title | titlecase }}
+        </span>
+        <span _ngcontent-vmi-c95="" class="px-2 py-1 rounded-full bg-primary text-white ng-star-inserted"> {{item.badge}} </span>
+      </ng-template>
+    </p-tabMenu>
+  </div>
+  <div class="p-2">
+    <oms-screen-filter (dateFilterChange)="dateFilterChange($event)" (searchValue)="searchValue($event)">
+    </oms-screen-filter>
+  </div>
+  <div class="p-2">
+    <oms-table [isPaginationShown]="true" (pagingInfo)="onPageChange($event)" [table]="table" [contentRef]="contentRef">
+      <ng-template #contentRef let-rowData>
+        <tr>
+          <td>
+            <div class="w-10 h-10 rounded-md">
+              <img class="object-cover" [src]="rowData.productVariantImage" alt="" />
+            </div>
+          </td>
+          <td class="!text-left"> {{ rowData.sku }} </td>
+
+          <td class="!text-left">{{ rowData.productName   }}</td>
+
+          <td class="!text-left">{{ rowData.availableStock }}</td>
+
+          <td class="!text-left">{{ rowData.inProcess }}</td>
+
+          <td class="!text-left">{{ rowData.sold }}</td>
+          <td class="!text-left "><i
+              class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"
+              (click)="handleClickActions(rowData.id, rowData.sku)">{{rowData.action}}</i>
+          </td>
+        </tr>
+      </ng-template>
+    </oms-table>
+    <p-sidebar [(visible)]="sidebarVisible" position="right" [dismissible]="false" [modal]="true" [blockScroll]="true">
+      <ng-template pTemplate="header">
+        <span class="font-bold text-2xl">{{ productSku }}</span>
+      </ng-template>
+      <oms-inventory-detail [productVariantId]="productVariantId"></oms-inventory-detail>
+    </p-sidebar>
+  </div>
+</div>
+
+<div class="card flex flex-wrap justify-center gap-2">
+  <p-sidebar
+    [(visible)]="sidebarVisible"
+    position="right"
+    [dismissible]="false"
+    [modal]="true"
+    [blockScroll]="true">
+    <ng-template pTemplate="header">
+      <span class="font-bold text-2xl">{{ productSku }}</span>
     </ng-template>
-  </p-tabMenu>
-</div>
-<div class="p-2">
-  <oms-screen-filter
-  (dateFilterChange)="dateFilterChange($event)"
-  (searchValue)="searchValue($event)"
->
-</oms-screen-filter>
-</div>
-<div class="p-2">
-  <oms-table [isPaginationShown] = "true"
-  (pagingInfo)="onPageChange($event)"
-  [table]="table"
-  [contentRef]="contentRef">
-  <ng-template #contentRef let-rowData>
-    <tr>
-      <td>
-          <div class="w-10 h-10 rounded-md">
-            <img class="object-cover" [src]="rowData.productVariantImage"  alt="" />
-          </div>
-      </td>
-      <td class="!text-left">  {{ rowData.sku }} </td>
-
-      <td class="!text-left">{{ rowData.productName   }}</td>
-
-      <td class="!text-left">{{ rowData.availableStock }}</td>
-
-      <td class="!text-left">{{ rowData.inProcess }}</td>
-
-      <td class="!text-left">{{ rowData.sold }}</td>
-      <td class="!text-left "><i class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full">{{rowData.action}}</i></td>
-    </tr>
-  </ng-template>
-
-</oms-table >
-
-</div>
+    <oms-inventory-detail [productVariantId]="productVariantId"></oms-inventory-detail>
+  </p-sidebar>
 </div>

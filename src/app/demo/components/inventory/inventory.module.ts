@@ -8,7 +8,17 @@ import { ShareModule } from '../share/share.module';
 import { ListCardComponent } from './List-card/List-card.component';
 import { InventoryCardComponent } from './List-card/inventory-card/inventory-card.component';
 import { MenuModule } from 'primeng/menu';
-
+import { InventoryDetailComponent } from './inventory-detail/inventory-detail.component';
+import { ButtonModule } from 'primeng/button';
+import { SidebarModule } from 'primeng/sidebar';
+import { TabViewModule } from 'primeng/tabview';
+import { FieldsetModule } from 'primeng/fieldset';
+import { ListStockOnChannelComponent } from './list-stock-on-channel/list-stock-on-channel.component';
+import { AvatarModule } from 'primeng/avatar';
+import { ChannelStockComponent } from './channel-stock/channel-stock.component';
+import { ItemStatisticComponent } from './item-statistic/item-statistic.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -18,10 +28,21 @@ import { MenuModule } from 'primeng/menu';
     AppTopBarModule,
     TabMenuModule,
     ShareModule,
+    SidebarModule,
+    ButtonModule,
+    TabViewModule,
+    FieldsetModule,
+    AvatarModule,
+    DropdownModule,
+    FormsModule
   ],
   declarations: [InventoryComponent,
                  ListCardComponent,
                  InventoryCardComponent,
+                 InventoryDetailComponent,
+                 ListStockOnChannelComponent,
+                 ChannelStockComponent,
+                 ItemStatisticComponent,
                 ]
 })
 export class InventoryModule { }

@@ -1,0 +1,11 @@
+<div class="flex gap-2">
+  <div>
+    <p-avatar *ngIf="label" [label]="label" styleClass="mr-2" size="large" [styleClass]="'bg-primary-2 text-primaryLight3'"></p-avatar>
+    <p-avatar *ngIf="srcImage && isImageUrl"  [image]="srcImage" syleClass="mr-2" size="large" shape="circle"></p-avatar>
+    <p-avatar *ngIf="srcImage && !isImageUrl"  [image]="'data:image/png;base64, ' + srcImage" styleClass="mr-2" size="large" shape="circle"></p-avatar>
+  </div>
+  <div>
+    <p class="text-gray-400 font-thin">{{title}}</p>
+    <p>{{description}}</p>
+  </div>
+</div>

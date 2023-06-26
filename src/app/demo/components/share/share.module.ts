@@ -13,6 +13,10 @@ import { OmsTableComponent } from './oms-table/oms-table.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { ScreenFilterComponent } from './screen-filter/screen-filter.component';
 import { CalendarModule } from 'primeng/calendar';
+import { InformationCardComponent as InformationCardComponent } from './infomation-card/information-card.component';
+import { AvatarModule } from 'primeng/avatar';
+import { FieldsetHeaderComponent } from './fieldset-header/fieldset-header.component';
+import { ColorMarkerComponent } from './color-marker/color-marker.component';
 
 
 @NgModule({
@@ -22,7 +26,9 @@ import { CalendarModule } from 'primeng/calendar';
     PaginationComponent,
     GlobalFilterComponent,
     ScreenFilterComponent,
-
+    InformationCardComponent,
+    FieldsetHeaderComponent,
+    ColorMarkerComponent,
   ],
   imports: [
     DateFilterComponent,
@@ -33,10 +39,19 @@ import { CalendarModule } from 'primeng/calendar';
     TableModule,
     PaginatorModule,
     SkeletonModule,
-    CalendarModule
-
+    CalendarModule,
+    AvatarModule
   ],
-  exports: [OMSChartComponent, DateFilterComponent, OmsTableComponent, GlobalFilterComponent, ScreenFilterComponent]
+  exports: [
+    OMSChartComponent, 
+    DateFilterComponent, 
+    OmsTableComponent, 
+    GlobalFilterComponent, 
+    ScreenFilterComponent, 
+    InformationCardComponent,
+    FieldsetHeaderComponent,
+    ColorMarkerComponent
+  ]
 
 })
 export class ShareModule {}

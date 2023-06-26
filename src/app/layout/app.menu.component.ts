@@ -10,7 +10,7 @@ import { LayoutService } from './service/app.layout.service';
 import { MenuElement, MenuElementItem } from './service/models/menu.models';
 import { UserService } from '../demo/service/user.service';
 import { InventoryService } from '../demo/components/inventory/services/inventory.service';
-import { Inventory, InventoryByChannel } from '../demo/components/inventory/interfaces/inventory.component';
+import { Inventory, InventoryByChannelResponse, InventoryChannel } from '../demo/components/inventory/interfaces/inventory.component';
 
 @Component({
   selector: 'app-menu',
@@ -250,7 +250,7 @@ export class AppMenuComponent {
 
           const resultArr: MenuElementItem[] = [];
 
-          channelWithTotalProduct.forEach((i: InventoryByChannel) => {
+          channelWithTotalProduct.forEach((i: InventoryChannel) => {
             resultArr.push({
               name: i.displayText,
               content: i.displayText ,

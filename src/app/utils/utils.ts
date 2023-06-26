@@ -12,3 +12,7 @@ export const originalOrder = (
 ): number => {
   return 0;
 };
+
+export const FIRST_INDEX = 0;
+export const ACTIVE_STATUS = "ACTIVE";
+export const INACTIVE_STATUS = "INACTIVE";

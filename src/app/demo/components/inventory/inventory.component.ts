@@ -1,8 +1,22 @@
-import { Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { OmsTable } from '../share/model/oms-table';
-import { Inventory, InventoryParams, InventoryTableApiResponse } from './interfaces/inventory.component';
-import { CHANNEL_ID, inventoryLabelItems, inventoryTableHeader } from './constrants/inventory.constrants';
+import {
+  Inventory,
+  InventoryParams,
+  InventoryTableApiResponse,
+} from './interfaces/inventory.component';
+import {
+  CHANNEL_ID,
+  inventoryLabelItems,
+  inventoryTableHeader,
+} from './constrants/inventory.constrants';
 import { tableConfig } from '../../constants/table.config';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { InventoryService } from './services/inventory.service';
@@ -14,10 +28,13 @@ import { PageChangeEvent } from '../../interface/event';
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.css'],
-  encapsulation : ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
 })
 export class InventoryComponent implements OnInit {
   @Input() inventory: Inventory;
+  sidebarVisible: boolean = false;
+  productVariantId: number;
+  productSku: string;
   modalVisible: boolean;
   table: OmsTable<Inventory> = {
     page: 0,
@@ -67,13 +84,10 @@ export class InventoryComponent implements OnInit {
           };
 
           this.getInventoryData();
-
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
-
-
   }
 
   getInventoryData(): void {
@@ -82,8 +96,6 @@ export class InventoryComponent implements OnInit {
       .pipe(
         tap((res: InventoryTableApiResponse) => {
           const { products: data } = res;
-          console.log(res);
-
           this.table = {
             page: data.page,
             first: data.first,
@@ -93,18 +105,13 @@ export class InventoryComponent implements OnInit {
             data: {
               header: [...this.table.data.header],
               body: [...data.data],
-
             },
-
           };
-          console.log(data);
-
         }),
 
         takeUntil(this.destroy$)
       )
       .subscribe();
-
   }
 
   onPageChange(e: PageChangeEvent): void {
@@ -155,13 +162,9 @@ export class InventoryComponent implements OnInit {
     this.destroy$.complete();
   }
 
-
-  // last
-  // onActiveItemChange(event: any){
-  //   this.activeItem = event;
-  //   console.log(event);
-  // }
-  // handleOrderDetail(e: Event): void {
-  //   this.modalVisible = !this.modalVisible;
-  // }
+  handleClickActions(productVariantId: number, productSku: string){
+    this.productSku = productSku;
+    this.productVariantId = productVariantId;
+    this.sidebarVisible = true;
+  }
 }
