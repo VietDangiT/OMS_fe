@@ -19,6 +19,10 @@ export interface TableConfig {
   gapPageNumber: number;
 }
 
+export interface StatusMap {
+  [key: string]: string;
+}
+
 export type DateFilterKey = 'week' | 'month' | 'year';
 
 export type DateFilterValues = {

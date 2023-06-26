@@ -23,8 +23,7 @@
 
   <td
     class="flex gap-2 items-center"
-    [class.text-success]="catalogue.status === 'Active'"
-    [class.text-danger]="catalogue.status === 'Inactive'"
+    [class]="helperService.statusClasses[catalogue.status?.toLowerCase()!]"
   >
     <i class="pi-circle-fill pi"></i>
 
@@ -33,7 +32,7 @@
     </span>
   </td>
 
-  <td class="font-bold cursor-pointer">
+  <!-- <td class="font-bold cursor-pointer">
     <i
       (click)="handleEdit()"
       class="pi pi-pencil text-primary p-1 border-b-2 border-primary mr-2"
@@ -43,5 +42,5 @@
       (click)="handleAction()"
       class="pi pi-arrow-up-left text-white bg-primary p-1 rounded-full"
     ></i>
-  </td>
+  </td> -->
 </tr>

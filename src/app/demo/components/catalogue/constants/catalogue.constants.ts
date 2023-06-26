@@ -10,7 +10,7 @@ export const catalogueHeaderTable: TableHeader[] = [
   { field: 'availableStock', col: 'Available Stock' },
   { field: 'sellingPrice', col: 'Selling Price' },
   { field: 'status', col: 'Status' },
-  { field: 'actions', col: 'Actions' },
+  // { field: 'actions', col: 'Actions' },
 ];
 
 export const GET_PRODUCT_CATALOGUES = gql`

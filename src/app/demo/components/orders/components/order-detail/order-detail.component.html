@@ -13,13 +13,7 @@
   </ng-template>
 
   <div>
-    <div
-      [class.text-success]="order.status === 'completed'"
-      [class.text-danger]="order.status === 'failed'"
-      [class.text-orange-400]="order.status === 'pending'"
-      [class.text-warning]="order.status === 'delivery'"
-      [class.text-blue-500]="order.status === 'return'"
-    >
+    <div [class]="helperService.statusClasses[order.status?.toLowerCase()!]">
       <i class="pi-circle-fill pi"></i>
 
       <span class="font-bold">

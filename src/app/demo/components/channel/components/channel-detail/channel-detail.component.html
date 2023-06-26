@@ -16,16 +16,15 @@
 
   <td>{{ channel.totalSale | number }}</td>
 
-  <td>
-    <i
-      class="pi pi-circle-fill text-success mr-2"
-      *ngIf="channel.status === 'Active'; else dangerIcon"
-    ></i>
+  <td
+    [class]="helperService.statusClasses[channel.status?.toLowerCase()!]"
+    class="flex gap-2 items-center"
+  >
+    <i class="pi-circle-fill pi"></i>
 
-    <ng-template #dangerIcon>
-      <i class="pi pi-circle-fill text-danger"></i>
-    </ng-template>
-    {{ channel.status | titlecase }}
+    <span class="font-bold">
+      {{ channel.status | titlecase }}
+    </span>
   </td>
 
   <td>{{ channel.createdAt }}</td>

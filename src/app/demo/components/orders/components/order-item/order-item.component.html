@@ -24,11 +24,7 @@
 
   <td
     class="p-4 flex gap-2 items-center"
-    [class.text-success]="order.status === 'COMPLETED'"
-    [class.text-danger]="order.status === 'FAILED'"
-    [class.text-orange-400]="order.status === 'PENDING'"
-    [class.text-warning]="order.status === 'DELIVERY'"
-    [class.text-blue-500]="order.status === 'RETURN'"
+    [class]="helperService.statusClasses[order.status?.toLowerCase()!]"
   >
     <i class="pi-circle-fill pi"></i>
 

@@ -15,7 +15,7 @@ export class OrderItemComponent {
 
   orderService = inject(OrdersService);
 
-  helperSerivce = inject(HelperService);
+  helperService = inject(HelperService);
 
   modalVisible = false;
 
@@ -26,7 +26,7 @@ export class OrderItemComponent {
   refactorImage(): void {
     this.order = {
       ...this.order,
-      channelImage: this.helperSerivce.refactorImg(this.order.channelImage!),
+      channelImage: this.helperService.refactorImg(this.order.channelImage!),
     };
   }
 

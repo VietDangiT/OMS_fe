@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DateFilterValues } from '../interface/global.model';
+import { DateFilterValues, StatusMap } from '../interface/global.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,18 @@ export abstract class HelperService {
     week: [this.addDays(new Date(), -7), new Date()],
     month: [this.addDays(new Date(), -30), new Date()],
     year: [this.addDays(new Date(), -365), new Date()],
+  };
+
+  statusClasses: StatusMap = {
+    active: 'text-success',
+    completed: 'text-success',
+    inactive: 'text-danger',
+    failed: 'text-danger',
+    pending: 'text-orange-400',
+    delivery: 'text-warning',
+    return: 'text-blue-500',
+    cancelled: 'text-danger',
+    unpaid: 'text-warning',
   };
 
   defaultDateRange: Date[] = [this.addDays(new Date(), -7), new Date()];
