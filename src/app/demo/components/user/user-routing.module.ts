@@ -4,6 +4,7 @@ import { UserChangePasswordComponent } from './components/user-change-password/u
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UserComponent } from './user.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
         data: { breadcrumbs: ['Change Password'] },
         component: UserChangePasswordComponent,
       },
+      {
+        path: 'list',
+        data: { breadcrumbs: ['User List'] },
+        component: UserListComponent,
+      }
     ],
   },
 ];

@@ -50,10 +50,20 @@
                 <div class="">
                   <i class="pi {{ item.icon }}  text-gray-600 mx-auto "></i>
                 </div>
-
-                <span class="text-gray-600 break-words whitespace-normal">{{
-                  item.content | titlecase
-                }}</span>
+                <div class="flex justify-between flex-1">
+                  <span class="text-gray-600 break-words whitespace-normal">{{
+                    item.content | titlecase
+                  }}</span>
+                  <div
+                    *ngIf="item.value"
+                    class="bg-slate-500 rounded-2xl w-[25px] h-[25px] flex justify-center items-center"
+                  >
+                    <span
+                      class="text-white break-words whitespace-normal justify-end"
+                      >{{ item.value }}</span
+                    >
+                  </div>
+                </div>
               </a>
             </li>
           </ul>

@@ -8,6 +8,7 @@ import { MarketplaceService } from '../demo/components/marketplace/services/mark
 import { ChannelService } from '../demo/service/channel.service';
 import { LayoutService } from './service/app.layout.service';
 import { MenuElement, MenuElementItem } from './service/models/menu.models';
+import { UserService } from '../demo/service/user.service';
 
 @Component({
   selector: 'app-menu',
@@ -18,10 +19,10 @@ import { MenuElement, MenuElementItem } from './service/models/menu.models';
         @apply font-semibold opacity-100  border-secondary md:border-b-0 text-primary;
       }
       .active div {
-        @apply visible block opacity-100 pointer-events-auto;
+        @apply visible flex opacity-100 pointer-events-auto;
       }
       .active.submenu {
-        @apply block;
+        @apply flex;
       }
       /* For Webkit-based browsers (Chrome, Safari and Opera) */
       .scrollbar-hide::-webkit-scrollbar {
@@ -142,11 +143,11 @@ export class AppMenuComponent {
       },
     },
     {
-      name: 'customer',
-      path: '/customer',
+      name: 'users',
+      path: '/user/list',
       icon: 'pi pi-users',
       submenu: {
-        title: 'Customer',
+        title: 'Users',
         items: [],
       },
     },
@@ -167,7 +168,8 @@ export class AppMenuComponent {
   constructor(
     public layoutService: LayoutService,
     private channelService: ChannelService,
-    private marketPlaceService: MarketplaceService
+    private marketPlaceService: MarketplaceService,
+    private _userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -176,6 +178,7 @@ export class AppMenuComponent {
     this.initCountries();
 
     this.initMarketplaces();
+    this.initUserRole();
   }
 
   getNavbarState(): void {
@@ -255,6 +258,38 @@ export class AppMenuComponent {
 
           this.menuElements[orderIndex].submenu.items = orderArr;
           this.menuElements[catalogueIndex].submenu.items = catalogueArr;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  initUserRole(): void {
+    this._userService
+      .getUserRole()
+      .pipe(
+        tap(res => {
+          const { userRole } = res;
+
+          const userArr: MenuElementItem[] = [];
+          const catalogueArr: MenuElementItem[] = [];
+
+          userRole.forEach(m => {
+            userArr.push({
+              name: m.displayText,
+              content: m.displayText,
+              path: `/user/list`,
+              param: { role: m.displayText },
+              icon: 'pi-user',
+              value: m.value
+            });
+          });
+
+          const userIndex = this.menuElements.findIndex(
+            c => c.path === '/user/list'
+          );
+
+          this.menuElements[userIndex].submenu.items = userArr;
         }),
         takeUntil(this.destroy$)
       )
