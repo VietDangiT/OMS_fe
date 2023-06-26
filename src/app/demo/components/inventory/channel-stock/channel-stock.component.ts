@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { InventoryService } from '../services/inventory.service';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { BaseChart } from '../../dashboard/interfaces/dashboard.models';
@@ -21,6 +21,7 @@ const MARKER_POSITION = -45;
   selector: 'oms-channel-stock',
   templateUrl: './channel-stock.component.html',
   styleUrls: ['./channel-stock.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ChannelStockComponent {
   readonly maxStatisticValue = MAX_STATISTIC_VALUE;
@@ -44,12 +45,6 @@ export class ChannelStockComponent {
 
   ngOnInit(){
     this.getChannelByProductVariant();
-  }
-
-  ngOnChanges(changes: SimpleChanges){
-    if(changes['productVariantId'].currentValue !== changes['productVariantId'].previousValue){
-      this.getChannelByProductVariant();
-    }
   }
 
   getChannelByProductVariant(): void {
