@@ -3,12 +3,12 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import {
   Channel,
   Country,
-} from '../demo/components/channel/interface/channel.component';
+} from '../demo/components/channel/interface/channel.model';
 import { MarketplaceService } from '../demo/components/marketplace/services/marketplace.service';
 import { ChannelService } from '../demo/service/channel.service';
+import { UserService } from '../demo/service/user.service';
 import { LayoutService } from './service/app.layout.service';
 import { MenuElement, MenuElementItem } from './service/models/menu.models';
-import { UserService } from '../demo/service/user.service';
 
 @Component({
   selector: 'app-menu',
@@ -281,7 +281,7 @@ export class AppMenuComponent {
               path: `/user/list`,
               param: { role: m.displayText },
               icon: 'pi-user',
-              value: m.value
+              value: m.value,
             });
           });
 

@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import {
   Channel,
   CountryApiResponse,
-} from '../components/channel/interface/channel.component';
+} from '../components/channel/interface/channel.model';
 
 const GET_COUNTRIES = gql`
   query {

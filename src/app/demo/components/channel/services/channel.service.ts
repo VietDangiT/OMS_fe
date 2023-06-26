@@ -5,13 +5,15 @@ import {
   GET_CHANNELS_TABLE,
   GET_CHANNEL_STATUS,
   GET_COUNTRIES,
+  GET_STORES,
 } from '../constants/channel.constants';
 import {
   ChannelParams,
   ChannelStatusApiResponse,
   ChannelTableApiResponse,
   CountryApiResponse,
-} from '../interface/channel.component';
+  StoresApiResponse,
+} from '../interface/channel.model';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +48,23 @@ export class ChannelService {
         query: GET_CHANNEL_STATUS,
         variables: {
           channelId,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
+  }
+
+  getStores(
+    channelId: number,
+    page: number,
+    limit: number
+  ): Observable<StoresApiResponse> {
+    return this.apollo
+      .watchQuery<StoresApiResponse>({
+        query: GET_STORES,
+        variables: {
+          channelId,
+          page,
+          limit,
         },
       })
       .valueChanges.pipe(map(res => res.data));

@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, inject } from '@angular/core';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { Channel } from '../../interface/channel.component';
+import { Channel } from '../../interface/channel.model';
 
 @Component({
   selector: 'oms-channel-detail',
@@ -13,6 +13,8 @@ export class ChannelDetailComponent {
   @Input() channel: Channel;
 
   helperService = inject(HelperService);
+
+  modalVisible = false;
 
   ngOnInit(): void {
     this.channel = {

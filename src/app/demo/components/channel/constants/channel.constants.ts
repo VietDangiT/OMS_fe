@@ -35,6 +35,7 @@ export const GET_CHANNELS_TABLE = gql`
       pageCount
       totalRecord
       data {
+        id
         channelName
         numberOfOrder
         totalSale
@@ -57,6 +58,26 @@ export const GET_CHANNEL_STATUS = gql`
   }
 `;
 
+export const GET_STORES = gql`
+  query GetStoresByChannel($channelId: Int, $limit: Int, $page: Int) {
+    storesFromChannel(channelId: $channelId, limit: $limit, page: $page) {
+      page
+      first
+      rows
+      pageCount
+      totalRecord
+      data {
+        totalSale
+        totalOrders
+        location
+        storeImage
+        displayText
+        date
+      }
+    }
+  }
+`;
+
 export const channelTableHeader = [
   { field: 'channelName', col: 'Channel' },
   { field: 'numberOfOrders', col: 'Number Of Orders' },
@@ -64,6 +85,15 @@ export const channelTableHeader = [
   { field: 'status', col: 'Status' },
   { field: 'createdAt', col: 'Created At' },
   { field: 'updatedAt', col: 'Updated At' },
+];
+
+export const storeTableHeader = [
+  { field: 'storeImage', col: 'Image' },
+  { field: 'displayText', col: 'Store Name' },
+  { field: 'date', col: 'Created At' },
+  { field: 'location', col: 'Location' },
+  { field: 'totalOrders', col: 'Total Orders' },
+  { field: 'totalSale', col: 'Total Sales' },
 ];
 
 export const channelLabelItems = [

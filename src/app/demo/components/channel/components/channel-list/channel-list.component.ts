@@ -14,7 +14,7 @@ import {
   Channel,
   ChannelParams,
   ChannelTableApiResponse,
-} from '../../interface/channel.component';
+} from '../../interface/channel.model';
 import { ChannelService } from '../../services/channel.service';
 
 @Component({

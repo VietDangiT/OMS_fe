@@ -39,11 +39,28 @@ export interface ChannelTableApiResponse {
 
 export interface ChannelParams extends PagingParams {
   countryId: number | null;
-
 }
 
 export type ChannelStatus = 'Active' | 'Inactive';
 
 export interface ChannelStatusApiResponse {
   channelStatus: BaseChart[];
+}
+
+export interface StoresApiResponse {
+  storesFromChannel: {
+    data: Store[];
+    first: number;
+    page: number;
+    pageCount: number;
+    rows: number;
+    totalRecord: number;
+  };
+}
+
+export interface Store extends Partial<BaseChart> {
+  totalSale: number;
+  totalOrders: number;
+  location: string;
+  storeImage: string;
 }

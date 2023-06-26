@@ -11,7 +11,7 @@ import { tableConfig } from 'src/app/demo/constants/table.config';
 import { DateFilterKey, ResultItem } from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
-import { Country } from '../../channel/interface/channel.component';
+import { Country } from '../../channel/interface/channel.model';
 import { ChannelService } from '../../channel/services/channel.service';
 import { heatChartOptions } from '../../charts/apex-chart.component';
 import { OmsTable } from '../../share/model/oms-table';

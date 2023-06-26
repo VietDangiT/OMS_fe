@@ -1,4 +1,4 @@
-<tr>
+<tr (click)="modalVisible = true">
   <td>
     <div class="flex items-center gap-2">
       <oms-avatar
@@ -31,3 +31,10 @@
 
   <td>{{ channel.updatedAt }}</td>
 </tr>
+
+<oms-channel-dialog
+  *ngIf="modalVisible"
+  [visible]="modalVisible"
+  [channel]="channel"
+  (onClose)="modalVisible = false"
+></oms-channel-dialog>
