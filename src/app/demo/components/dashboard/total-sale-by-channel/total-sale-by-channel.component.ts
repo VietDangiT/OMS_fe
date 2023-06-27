@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import {
   DateFilterKey,
@@ -73,6 +73,8 @@ export class TotalSaleByChannelComponent implements OnInit {
     page: tableConfig.page,
   };
 
+  destroy$ = new Subject();
+
   ngOnInit(): void {
     this.router.queryParams
       .pipe(
@@ -82,7 +84,8 @@ export class TotalSaleByChannelComponent implements OnInit {
           }
 
           this.getComponentData();
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -112,7 +115,8 @@ export class TotalSaleByChannelComponent implements OnInit {
               body: [...data.data],
             },
           };
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -127,7 +131,8 @@ export class TotalSaleByChannelComponent implements OnInit {
           this.handleHeatMap(data);
 
           this.handleLineChart(data);
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -168,7 +173,12 @@ export class TotalSaleByChannelComponent implements OnInit {
       labelArr.push(currentDate);
     });
 
-    this.saleOnChannelData = { labels: labelArr, datasets: result };
+    const maxLength = Math.max(...result.map(d => d.data.length));
+
+    this.saleOnChannelData = {
+      labels: labelArr.splice(0, maxLength),
+      datasets: result,
+    };
   }
 
   handleHeatMap(data: BaseChart[]): void {
@@ -195,10 +205,13 @@ export class TotalSaleByChannelComponent implements OnInit {
 
       dataItem.y += value;
     });
+
     this.saleByChannelHeatmapData = {
       series: result,
       ...heatmapChartOptions,
     };
+
+    console.log(this.saleByChannelHeatmapData);
   }
 
   dateFilterChanged(dateRange: Date[]): void {
@@ -233,5 +246,10 @@ export class TotalSaleByChannelComponent implements OnInit {
       ...this.params,
       [key]: value,
     };
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next('');
+    this.destroy$.complete();
   }
 }
