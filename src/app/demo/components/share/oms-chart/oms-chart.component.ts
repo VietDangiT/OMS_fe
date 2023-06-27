@@ -242,6 +242,7 @@ export class OMSChartComponent implements OnChanges {
       colorAxis: { colors: [`${colors.primary}`, `${colors.primary}`] },
       // displayMode: 'markers',
       datalessRegionColor: `${colors.datalessRegion}`,
+      region: '035',
     };
 
     let chart = new google.visualization.GeoChart(

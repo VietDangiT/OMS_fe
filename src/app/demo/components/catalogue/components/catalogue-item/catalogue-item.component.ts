@@ -14,6 +14,8 @@ export class CatalogueItemComponent {
 
   helperService = inject(HelperService);
 
+  modalVisible = false;
+
   ngOnInit(): void {
     this.catalogue = {
       ...this.catalogue,

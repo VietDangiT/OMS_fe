@@ -34,12 +34,13 @@ export class TotalOrdersService {
   getOrderTable(
     params: Partial<OrderParams>
   ): Observable<TotalOrderByStatusApiResponse> {
-    const { fromDate, toDate, limit, page } = params;
+    const { fromDate, toDate, limit, page, channelId } = params;
 
     return this.apollo
       .watchQuery<TotalOrderByStatusApiResponse>({
         query: GET_TOTAL_ORDER_TABLE,
         variables: {
+          channelId,
           fromDate,
           toDate,
           limit,

@@ -11,6 +11,7 @@ export interface Catalogue {
   basePrice: number;
   createdAt: string;
   status?: ProductChannelStatus;
+  channelId: number;
   availableStock: number;
 }
 
@@ -25,6 +26,23 @@ export interface CatalogueTableApiResponse {
     rows: number;
     totalRecord: number;
   };
+}
+
+export interface CatalogueDetailApiResponse {
+  productInventoryDetail: CatalogueDetail;
+}
+
+export interface CatalogueDetail {
+  image: string;
+  displayText: string;
+  value: number;
+  date: string | Date;
+  description: string;
+  images: any;
+  rating: number;
+  reviews: number;
+  sold: number;
+  channelsStock: Partial<BaseChart>[];
 }
 
 export interface CatalogueParams extends PagingParams {

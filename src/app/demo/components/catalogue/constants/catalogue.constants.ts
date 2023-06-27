@@ -47,6 +47,7 @@ export const GET_PRODUCT_CATALOGUES = gql`
         status
         channelName
         channelImage
+        channelId
         availableStock
       }
     }
@@ -58,6 +59,31 @@ export const GET_PRODUCT_STATUS = gql`
     productStatus(channelId: $channelId) {
       displayText
       value
+    }
+  }
+`;
+
+export const GET_CATALOGUE_DETAIL = gql`
+  query GetProductInventoryDetail($productVariantId: Int!, $channelId: Int) {
+    productInventoryDetail(
+      productVariantId: $productVariantId
+      channelId: $channelId
+    ) {
+      image
+      displayText
+      value
+      date
+      images
+      description
+      rating
+      reviews
+      sold
+      channelsStock {
+        image
+        displayText
+        value
+        id
+      }
     }
   }
 `;

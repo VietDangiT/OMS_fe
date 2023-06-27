@@ -26,10 +26,11 @@ export class ProductCatalogComponent {
 
   @Input() filterArr: string[];
 
-  //Product Variant list
   productVariantList: BaseItem[];
 
   product: BaseItem;
+
+  routerLink = '/catalogues';
 
   dataChart: ChartData;
 

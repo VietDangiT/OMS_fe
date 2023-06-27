@@ -17,12 +17,14 @@ export const GET_TOTAL_ORDER_TABLE = gql`
     $toDate: String
     $limit: Int
     $page: Int
+    $channelId: Int
   ) {
     totalOrderByStatus(
       fromDate: $fromDate
       toDate: $toDate
       limit: $limit
       page: $page
+      channelId: $channelId
     ) {
       page
       first

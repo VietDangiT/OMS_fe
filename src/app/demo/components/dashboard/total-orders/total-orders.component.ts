@@ -1,4 +1,10 @@
-import { Component, HostBinding, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  OnInit,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
@@ -26,7 +32,8 @@ import { TotalOrdersService } from './services/total-orders.service';
 @Component({
   selector: 'oms-total-orders',
   templateUrl: './total-orders.component.html',
-  styleUrls: ['./total-orders.component.scss'],
+  styleUrls: ['./total-orders.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class TotalOrdersComponent implements OnInit {
   @HostBinding('class') hostClass = 'oms-total-orders';
@@ -292,6 +299,14 @@ export class TotalOrdersComponent implements OnInit {
     this.getOrderTable();
   }
 
+  onSelectedChannel(e: DropdownChangeEvent): void {
+    this.handleParams('channelId', e.value.id);
+
+    this.getOrderByChannel();
+
+    this.getOrderTable();
+  }
+
   handleParams(
     key: keyof Partial<OrderParams>,
     value: string | number | Date
@@ -300,12 +315,6 @@ export class TotalOrdersComponent implements OnInit {
       ...this.params,
       [key]: value,
     };
-  }
-
-  onSelectedChannel(e: DropdownChangeEvent): void {
-    this.handleParams('channelId', e.value.id);
-
-    this.getOrderByChannel();
   }
 
   ngOnDestroy(): void {

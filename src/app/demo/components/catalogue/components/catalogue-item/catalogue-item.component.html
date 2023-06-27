@@ -1,5 +1,6 @@
 <tr
   class="mb-2 px-4 cursor-pointer hover:!bg-gray-200 transition-all duration-100"
+  (click)="modalVisible = true"
 >
   <td>
     <oms-avatar [imgSrc]="catalogue.productVariantImage"></oms-avatar>
@@ -44,3 +45,10 @@
     ></i>
   </td> -->
 </tr>
+
+<oms-catalogue-detail
+  *ngIf="modalVisible"
+  [visible]="modalVisible"
+  [catalogue]="catalogue"
+  (onClose)="modalVisible = false"
+></oms-catalogue-detail>
