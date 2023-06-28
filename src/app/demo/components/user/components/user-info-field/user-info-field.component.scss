@@ -1,0 +1,9 @@
+.info {
+  &-field {
+    @apply flex w-6/12 py-2 justify-between;
+  }
+
+  &-title {
+    @apply font-bold text-lg;
+  }
+}

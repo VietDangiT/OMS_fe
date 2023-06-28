@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  Input,
   Output,
   ViewEncapsulation,
   inject,
@@ -21,8 +20,6 @@ import { UserService } from '../../services/user.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class UserFormComponent {
-  @Input() isViewMode: boolean;
-
   @Output() handleEditForm = new EventEmitter();
 
   userService = inject(UserService);
@@ -34,8 +31,6 @@ export class UserFormComponent {
   notificationService = inject(NotificationService);
 
   editForm: FormGroup;
-
-  editRouterLink = '/user/edit';
 
   cancelRouterLink = '/user/detail';
 
@@ -63,31 +58,14 @@ export class UserFormComponent {
   initEditForm(): void {
     this.editForm = new FormGroup({
       id: new FormControl(this.user.id),
-      avatar: new FormControl({ value: '', disabled: this.isViewMode }),
-      fullName: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        { validators: [Validators.required] }
-      ),
-      email: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        { validators: [Validators.required] }
-      ),
-      gender: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        { validators: [Validators.required] }
-      ),
-      dob: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        { validators: [Validators.required] }
-      ),
-      phoneNumber: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        { validators: [Validators.required] }
-      ),
-      fullAddress: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        { validators: [Validators.required] }
-      ),
+      avatar: new FormControl(''),
+      fullName: new FormControl('', { validators: [Validators.required] }),
+      email: new FormControl('', { validators: [Validators.required] }),
+      gender: new FormControl('', { validators: [Validators.required] }),
+      dob: new FormControl('', { validators: [Validators.required] }),
+      phoneNumber: new FormControl('', { validators: [Validators.required] }),
+      fullAddress: new FormControl('', { validators: [Validators.required] }),
+      userRole: new FormControl('', { validators: [Validators.required] }),
     });
   }
 

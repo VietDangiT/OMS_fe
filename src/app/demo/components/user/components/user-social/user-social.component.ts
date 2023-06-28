@@ -10,10 +10,12 @@ export class UserSocialComponent {
 
   @Input() icon = '';
 
+  @Input() isKeptFull = false;
+
   prefixSocialLink = '';
 
   ngOnInit(): void {
-    this.prefixLink();
+    if (!this.isKeptFull) this.prefixLink();
   }
 
   prefixLink(): void {

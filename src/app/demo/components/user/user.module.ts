@@ -24,6 +24,7 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { UserSocialComponent } from './components/user-social/user-social.component';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
+import { UserInfoFieldComponent } from './components/user-info-field/user-info-field.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { UserComponent } from './user.component';
     UserComponent,
     UserSocialComponent,
     UserEditComponent,
+    UserInfoFieldComponent,
   ],
   imports: [
     CommonModule,

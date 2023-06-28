@@ -2,4 +2,16 @@ oms-user-form {
   .p-avatar img {
     @apply object-cover;
   }
+
+  .input-field {
+    @apply flex w-full mt-10 justify-between items-center;
+  }
+
+  label {
+    @apply font-bold text-xl cursor-pointer;
+  }
+
+  input {
+    @apply text-xl cursor-text;
+  }
 }

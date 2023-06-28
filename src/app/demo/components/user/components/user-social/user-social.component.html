@@ -1,9 +1,9 @@
 <ng-container>
-  <a *ngIf="link" [href]="link" class="text-black">
-    <span class="cursor-pointer py-2">
+  <a *ngIf="link" [href]="link" class="text-black inline-block">
+    <span class="cursor-pointer py-2 flex items-center">
       <i class="pi {{ icon }} mr-2 " style="font-size: 1.5rem"></i>
 
-      {{ prefixSocialLink }}
+      <span>{{ isKeptFull ? link : prefixSocialLink }}</span>
     </span>
   </a>
 </ng-container>

@@ -1,10 +1,7 @@
 <app-topbar></app-topbar>
 
-<div>
-  <h1 class="title">User Profile</h1>
+<div
+  class="w-screen -ml-9 h-[20vh] fixed bg-gradient-to-tl from-primary to-primaryLight3"
+></div>
 
-  <oms-user-form
-    [isViewMode]="false"
-    (handleEditForm)="edit($event)"
-  ></oms-user-form>
-</div>
+<oms-user-form (handleEditForm)="edit($event)"></oms-user-form>

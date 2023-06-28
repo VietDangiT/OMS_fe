@@ -38,6 +38,7 @@ export const GET_ORDERS = gql`
     $status: String
     $limit: Int
     $page: Int
+    $userId: Int
   ) {
     orders(
       channelId: $channelId
@@ -47,6 +48,7 @@ export const GET_ORDERS = gql`
       status: $status
       limit: $limit
       page: $page
+      userId: $userId
     ) {
       page
       first
