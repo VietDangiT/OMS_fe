@@ -46,6 +46,4 @@ export class UserEditComponent {
       )
       .subscribe();
   }
-
-  handleEdit(): void {}
 }

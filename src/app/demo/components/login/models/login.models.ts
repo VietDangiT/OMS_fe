@@ -13,6 +13,7 @@ export interface User {
   phoneNumber: string;
   facebook?: string;
   instagram?: string;
+  userStatus: string;
 }
 
 export type Role = 'ADMIN' | 'MANAGER' | 'USER';

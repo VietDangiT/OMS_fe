@@ -1,7 +1,89 @@
 <app-topbar></app-topbar>
 
 <div>
-  <h1 class="title">User Profile</h1>
+  <!-- <oms-user-form [isViewMode]="true"></oms-user-form> -->
+  <ng-container *ngIf="user as u">
+    <div>
+      <div
+        class="w-full h-[25vh] bg-gradient-to-tl from-primary to-primaryLight3"
+      ></div>
 
-  <oms-user-form [isViewMode]="true"></oms-user-form>
+      <div class="-mt-20 px-10">
+        <div class="w-32 h-32">
+          <img
+            [src]="u.avatar!"
+            alt="user-avatar"
+            i18n-alt
+            class="w-full h-full object-cover rounded-full border-white border-2"
+          />
+        </div>
+
+        <div class="">
+          <div class="flex items-center gap-4">
+            <p class="text-3xl font-bold text-primary">
+              {{ u.fullName }}
+            </p>
+
+            <span
+              [class]="
+                helperService.statusClasses[u.userStatus?.toLowerCase()!]
+              "
+            >
+              <i class="pi-circle-fill pi"></i>
+            </span>
+          </div>
+
+          <p class="text-gray-500 text-lg font-medium mt-1">
+            {{ u.userRole | titlecase }}
+          </p>
+
+          <p class="text-gray-400 mt-1">{{ u.fullAddress }}</p>
+        </div>
+
+        <div class="mt-4 flex justify-between">
+          <div class="w-1/2">
+            <p class="text-xl font-bold mb-2">Information</p>
+
+            <div>
+              <div class="info-field">
+                <span class="info-title" i18n>Phone Number: </span>
+
+                <span>{{ user.phoneNumber }}</span>
+              </div>
+
+              <div class="info-field">
+                <span class="info-title" i18n>Address: </span>
+
+                <span>{{ user.fullAddress }}</span>
+              </div>
+
+              <div class="info-field">
+                <span class="info-title" i18n>Email: </span>
+
+                <span>{{ user.email }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-1/2">
+            <p class="text-xl font-bold mb-2">Socials</p>
+
+            <ul class="flex flex-col gap-2">
+              <oms-user-social
+                *ngIf="u.facebook"
+                [link]="u.facebook"
+                icon="pi-facebook"
+              ></oms-user-social>
+
+              <oms-user-social
+                *ngIf="u.instagram"
+                [link]="u.instagram"
+                icon="pi-instagram"
+              ></oms-user-social>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>

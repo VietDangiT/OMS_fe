@@ -110,8 +110,6 @@ export class UserFormComponent {
 
   edit(): void {
     this.handleEditForm.emit(this.editForm);
-
-    this.route.navigate([this.cancelRouterLink]);
   }
 
   onUpload(f: File): void {

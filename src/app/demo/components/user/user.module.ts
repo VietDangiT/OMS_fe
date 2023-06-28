@@ -21,6 +21,7 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserItemComponent } from './components/user-item/user-item.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { UserSocialComponent } from './components/user-social/user-social.component';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 
@@ -29,10 +30,11 @@ import { UserComponent } from './user.component';
     UserListComponent,
     UserItemComponent,
     UserDetailComponent,
-    UserEditComponent,
     UserChangePasswordComponent,
     UserFormComponent,
     UserComponent,
+    UserSocialComponent,
+    UserEditComponent,
   ],
   imports: [
     CommonModule,

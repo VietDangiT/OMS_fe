@@ -10,47 +10,6 @@
     <span class="title text-primary"> {{ channel.channelName }}</span>
   </ng-template>
 
-  <!-- <div>
-    <div [class]="helperService.statusClasses[order.status?.toLowerCase()!]">
-      <i class="pi-circle-fill pi"></i>
-
-      <span class="font-bold">
-        {{ order.status | titlecase }}
-      </span>
-    </div>
-
-    <ul class="my-3">
-      <li class="text-heading mb-2"><span i18n>Customer Info</span>:</li>
-
-      <li class="order-detail-header">
-        <span i18n>Buyer</span>
-
-        :
-
-        <span class="order-detail-info">{{ orderDetail.customerName }}</span>
-      </li>
-
-      <li class="order-detail-header">
-        <span i18n> Address </span>
-        :
-        <span class="order-detail-info">{{ orderDetail.shippingAddress }}</span>
-      </li>
-
-      <li class="order-detail-header">
-        <span i18n>Recipient Name</span>
-        :
-
-        <span class="order-detail-info">{{ orderDetail.customerName }}</span>
-      </li>
-
-      <li class="order-detail-header">
-        <span i18n>Recipient Phone Number</span>
-        :
-
-        <span class="order-detail-info">{{ orderDetail.phoneNumber }}</span>
-      </li>
-    </ul>-->
-
   <oms-table
     [table]="tableData"
     [contentRef]="contentRef"

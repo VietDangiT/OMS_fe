@@ -95,6 +95,8 @@ export class UserService {
         let { userDetail: user } = res;
 
         user = this.refactorUser(user);
+
+        return user;
       })
     );
   }

@@ -6,10 +6,6 @@
   [resizable]="false"
   (onHide)="closeModal()"
 >
-  <!-- <ng-template pTemplate="header">
-    <span class="title text-primary"> {{ catalogueDetail.displayText }}</span>
-  </ng-template> -->
-
   <div class="flex gap-4">
     <div class="flex gap-2 w-1/2 h-full">
       <div class="flex flex-col justify-between">
@@ -69,10 +65,14 @@
       <div class="flex gap-8 mt-8 overflow-x-scroll">
         <div *ngFor="let i of catalogueDetail.channelsStock">
           <a class="flex flex-col items-center" routerLink="/channels">
-            <oms-avatar [imgSrc]="i.image!" size="xlarge"></oms-avatar>
+            <oms-avatar
+              [imgSrc]="i.image!"
+              size="xlarge"
+              shape="square"
+            ></oms-avatar>
 
             <div class="text-center">
-              <span i18n class="text-primary">Available Stock: </span>
+              <span i18n class="text-black">Available Stock: </span>
 
               <span class="font-bold text-primary">{{ i.value }}</span>
             </div>
