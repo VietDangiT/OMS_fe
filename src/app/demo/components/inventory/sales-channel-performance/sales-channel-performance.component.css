@@ -1,0 +1,19 @@
+dashboard-detail-statistic > div {
+  margin-bottom: 0 !important;
+}
+
+dashboard-detail-statistic > div > div {
+  padding: 0 !important;
+}
+
+dashboard-detail-statistic > div > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+p-chart div {
+  @apply w-[95%] mx-auto;
+}
+

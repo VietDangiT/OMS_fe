@@ -3,12 +3,8 @@ import { MenuItem } from 'primeng/api';
 export const CHANNEL_ID = 1;
 
 export const GET_INVENTORY_TABLE = gql`
-  query GetInventoryTableDate(
-    $channelId: Int
-  ) {
-    products(
-      channelId: $channelId
-    ) {
+  query GetInventoryTableDate($channelId: Int) {
+    products(channelId: $channelId) {
       page
       first
       rows
@@ -28,56 +24,41 @@ export const GET_INVENTORY_TABLE = gql`
   }
 `;
 export const GET_CARD_INVENTORY = gql`
-  query GetInventoryTableDate(
-    $channelId: Int
-  ) {
-    productStatistic(
-      channelId: $channelId
-    ) {
+  query GetInventoryTableDate($channelId: Int) {
+    productStatistic(channelId: $channelId) {
       live
       outOfStock
       lowOfStock
       delistedAndSuspended
       onDemand
-      }
     }
+  }
 `;
 
 export const GET_LISTED_STOCK_ON_CHANNEL = gql`
-  query GeListedProductOnChannelInfo(
-    $productVariantId: Int!
-  ) {
-    listedProductOnChannelInfo(
-      productVariantId: $productVariantId
-    ) {
+  query GeListedProductOnChannelInfo($productVariantId: Int!) {
+    listedProductOnChannelInfo(productVariantId: $productVariantId) {
       image
       info
       displayText
       value
-      }
     }
+  }
 `;
 
 export const GET_CHANNEL_BY_PRODUCT_VARIANT = gql`
-  query GetChannelByProductVariant(
-    $productVariantId: Int!
-  ) {
-    channelByProductVariant(
-      productVariantId: $productVariantId
-    ) {
+  query GetChannelByProductVariant($productVariantId: Int!) {
+    channelByProductVariant(productVariantId: $productVariantId) {
       displayText
       id
-      }
     }
+  }
 `;
 
 export const GET_CHANNEL_STOCK_INFO = gql`
-  query GetChannelStockInfo(
-    $channelId: Int!,
-    $productVariantId: Int!
-  ) {
+  query GetChannelStockInfo($channelId: Int!, $productVariantId: Int!) {
     channelStockInfo(
-      channelId: $channelId,
+      channelId: $channelId
       productVariantId: $productVariantId
     ) {
       inProcess
@@ -88,20 +69,72 @@ export const GET_CHANNEL_STOCK_INFO = gql`
       onhold
       buffer
       unusable
-      }
     }
+  }
 `;
 
 export const GET_PRODUCT_INVENTORY_INFO = gql`
-  query GetProductInventoryInfo(
-    $productVariantId: Int!
-  ) {
-    productInventoryInfo(
-      productVariantId: $productVariantId
-    )
-    }
+  query GetProductInventoryInfo($productVariantId: Int!) {
+    productInventoryInfo(productVariantId: $productVariantId)
+  }
 `;
 
+export const GET_SALES_CHANNEL_STATISTIC = gql`
+  query GetSaleStatistic(
+    $productVariantId: Int!
+    $fromDate: String
+    $toDate: String
+  ) {
+    totalSaleByProductVariant(
+      productVariantId: $productVariantId
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
+      text
+      current
+      value
+    }
+    totalSoldProductVariant(
+      productVariantId: $productVariantId
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
+      text
+      current
+      value
+    }
+    grossProfitByProductVariant(
+      productVariantId: $productVariantId
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
+      text
+      current
+    }
+    grossProfitMarginByProductVariant(
+      productVariantId: $productVariantId
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
+      text
+      current
+    }
+    productSaleOverview(productVariantId: $productVariantId, fromDate: $fromDate, toDate: $toDate){
+      date
+      value
+      extraValue
+    }
+    saleProductByChannel(productVariantId: $productVariantId, fromDate: $fromDate, toDate: $toDate){
+      percentage
+      displayText
+    }
+    salesGrowthByProductVariant(productVariantId: $productVariantId, fromDate: $fromDate, toDate: $toDate){
+      date
+      value
+      extraValue
+    }
+  }
+`;
 
 export const inventoryTableHeader = [
   { field: 'productVariantImage', col: 'Image' },
@@ -111,7 +144,6 @@ export const inventoryTableHeader = [
   { field: 'inProcess', col: 'In-process' },
   { field: 'sold', col: 'Sold' },
   { field: 'action', col: 'Action' },
-
 ];
 export const inventoryLabelItems = [
   { label: '0', id: '1', badge: '10', title: 'All' },
@@ -119,4 +151,3 @@ export const inventoryLabelItems = [
   { label: '1', id: '2', badge: '30', title: 'Low on stock' },
   { label: '1', id: '2', badge: '40', title: 'Out of stock' },
 ];
-

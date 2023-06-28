@@ -15,7 +15,6 @@ interface Channel {
 }
 
 const MAX_STATISTIC_VALUE = 100;
-const MARKER_POSITION = -45;
 
 @Component({
   selector: 'oms-channel-stock',
@@ -25,7 +24,6 @@ const MARKER_POSITION = -45;
 })
 export class ChannelStockComponent {
   readonly maxStatisticValue = MAX_STATISTIC_VALUE;
-  readonly markerPosition = MARKER_POSITION;
   @Input() productVariantId: number;
   stockInfo: StockInfo = {
     buffer: 0,
