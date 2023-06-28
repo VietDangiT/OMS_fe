@@ -1,4 +1,4 @@
-<div class="p-4 bg-white  ">
+<div class="p-2 bg-white  ">
   <div class="mb-4  font-bold " >
     <div class="w-full">
       <div>
@@ -9,7 +9,7 @@
       <div>
         <oms-chart type="geomap" [data]="chartData"></oms-chart>
       </div>
-      <div class="pt-10 flex flex-col gap-2 line-height-3 overflow-y-scroll h-[350px]">
+      <div class="pt-10 flex flex-col gap-2 line-height-3 overflow-y-scroll h-[327px]">
         <div *ngFor="let item of locationCustomer"  class="flex justify-between font-semibold pt-2 text-lg">
           <span>{{item.displayText}}</span>
           <span>{{item.value | number}}</span>

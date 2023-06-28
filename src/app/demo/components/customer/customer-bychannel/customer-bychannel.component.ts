@@ -15,7 +15,7 @@ import { pieChartColors, pieChartColorsCustomer } from '../../share/oms-chart/om
 export class CustomerBychannelComponent implements OnChanges {
   @Input() pieOptions: unknown;
   @Input() filterArr: string[];
-
+  public colors = pieChartColorsCustomer;
   private readonly customerService = inject(CustomerService);
 
   pieData: ChartData;
@@ -26,11 +26,6 @@ export class CustomerBychannelComponent implements OnChanges {
     fDate: '',
     tDate: '',
   };
-  displayTextChartData= [
-    { value: 1, color: 'red' },
-    { value: 4, color: 'blue' },
-    { value: 50, color: 'green' }
-  ];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr']?.currentValue && this.filterArr[1]) {

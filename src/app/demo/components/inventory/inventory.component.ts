@@ -32,6 +32,7 @@ import { PageChangeEvent } from '../../interface/event';
 })
 export class InventoryComponent implements OnInit {
   @Input() inventory: Inventory;
+  optionInventory:Inventory[];
   sidebarVisible: boolean = false;
   productVariantId: number;
   productSku: string;
@@ -49,21 +50,18 @@ export class InventoryComponent implements OnInit {
   };
 
   dateRange: Date[] = this.helperService.defaultDateRange;
-
+  dateFilterValue: string[];
   items: MenuItem[] = inventoryLabelItems;
-
   activeItem: MenuItem = this.items[0];
-
-  channelId = CHANNEL_ID;
-
+  gapPageNumber = 1;
+  marketPlaceId = 0;
   params: InventoryParams = {
-    channelId: this.channelId,
+    channelId: null,
     fromDate: this.dateRange[0],
     toDate: this.dateRange[1],
     keyword: tableConfig.keyword,
     limit: tableConfig.pageLimit,
     page: tableConfig.page,
-    status: 0,
   };
 
   destroy$ = new Subject();
@@ -75,39 +73,28 @@ export class InventoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParamMap
-      .pipe(
-        tap(params => {
-          this.params = {
-            ...this.params,
-            channelId: Number(params.get('channelId')),
-          };
-
-          this.getInventoryData();
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
+        this.getInventoryData();
   }
 
   getInventoryData(): void {
     this.inventoryService
-      .getInventoryTableData(this.params)
-      .pipe(
-        tap((res: InventoryTableApiResponse) => {
-          const { products: data } = res;
-          this.table = {
-            page: data.page,
-            first: data.first,
-            rows: data.rows,
-            pageCount: data.pageCount,
-            totalRecord: data.totalRecord,
-            data: {
-              header: [...this.table.data.header],
-              body: [...data.data],
-            },
-          };
-        }),
+    .getInventoryTableData(this.params)
+    .pipe(
+      tap(res => {
+        const { products } = res;
+
+        this.table = {
+          data: {
+            header: [...this.table.data.header],
+            body: [...products.data],
+          },
+          first: products.first,
+          page: products.page,
+          pageCount: products.pageCount,
+          rows: products.rows,
+          totalRecord: products.totalRecord,
+        };
+      }),
 
         takeUntil(this.destroy$)
       )
@@ -119,15 +106,6 @@ export class InventoryComponent implements OnInit {
 
     this.getInventoryData();
   }
-
-  onActiveItemChange(e: MenuItem): void {
-    this.activeItem = e;
-
-    this.handleChannelParams('status', Number(this.activeItem.label));
-
-    this.getInventoryData();
-  }
-
   dateFilterChange(dateRange: Date[]): void {
     if (dateRange[1] != null) {
       this.handleChannelParams('fromDate', dateRange[0]);
@@ -158,7 +136,6 @@ export class InventoryComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.destroy$.next('');
-
     this.destroy$.complete();
   }
 
@@ -167,4 +144,5 @@ export class InventoryComponent implements OnInit {
     this.productVariantId = productVariantId;
     this.sidebarVisible = true;
   }
+
 }

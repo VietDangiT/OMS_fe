@@ -4,10 +4,15 @@ export const CHANNEL_ID = 1;
 
 export const GET_INVENTORY_TABLE = gql`
   query GetInventoryTableDate(
-    $channelId: Int
+    $keyword: String
+    $limit: Int
+    $page: Int
   ) {
     products(
-      channelId: $channelId
+
+      keyword: $keyword
+      limit: $limit
+      page: $page
     ) {
       page
       first
@@ -114,7 +119,7 @@ export const GET_PRODUCT_INVENTORY_INFO = gql`
 export const inventoryTableHeader = [
   { field: 'productVariantImage', col: 'Image' },
   { field: 'sku', col: 'SKU' },
-  { field: 'productName', col: 'ProductName' },
+  { field: 'productName', col: 'Product Name' },
   { field: 'availableStock', col: 'Available Stock' },
   { field: 'inProcess', col: 'In-process' },
   { field: 'sold', col: 'Sold' },

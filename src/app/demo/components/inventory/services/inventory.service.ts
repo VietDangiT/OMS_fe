@@ -32,12 +32,16 @@ export class InventoryService {
   getInventoryTableData(
     params: InventoryParams
   ): Observable<InventoryTableApiResponse> {
+    const { channelId, keyword, limit, page, status } = params;
     return this.apollo
       .watchQuery<InventoryTableApiResponse>({
         query: GET_INVENTORY_TABLE,
         variables: {
-          ...params,
-          channelId: CHANNEL_ID,
+          channelId,
+          keyword,
+          status,
+          limit,
+          page,
         },
       })
       .valueChanges.pipe(map(res => res.data));

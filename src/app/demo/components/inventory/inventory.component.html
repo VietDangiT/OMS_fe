@@ -2,7 +2,7 @@
 <div class="w-full">
   <app-List-card></app-List-card>
   <div class="p-2">
-    <p-tabMenu [model]="items" [activeItem]="activeItem" (activeItemChange)="onActiveItemChange($event)">
+    <p-tabMenu [model]="items" [activeItem]="activeItem" >
       <ng-template pTemplate="item" let-item let-i="index">
         <span class="px-3 py-1 ml-2">
           {{ item.title | titlecase }}
@@ -11,9 +11,18 @@
       </ng-template>
     </p-tabMenu>
   </div>
-  <div class="p-2">
-    <oms-screen-filter (dateFilterChange)="dateFilterChange($event)" (searchValue)="searchValue($event)">
+  <div class="p-2 flex flex-auto gap-2">
+    <oms-screen-filter
+      (searchValue)="searchValue($event)"
+    >
     </oms-screen-filter>
+    <p-dropdown
+    optionLabel="name"
+    dropdownIcon="pi pi-filter text-primary"
+    [filter]="true"
+  >
+  </p-dropdown>
+
   </div>
   <div class="p-2">
     <oms-table [isPaginationShown]="true" (pagingInfo)="onPageChange($event)" [table]="table" [contentRef]="contentRef">
@@ -49,7 +58,6 @@
   </div>
 </div>
 
-<div class="card flex flex-wrap justify-center gap-2">
   <p-sidebar
     [(visible)]="sidebarVisible"
     position="right"
@@ -61,4 +69,3 @@
     </ng-template>
     <oms-inventory-detail *ngIf="sidebarVisible" [productVariantId]="productVariantId"></oms-inventory-detail>
   </p-sidebar>
-</div>

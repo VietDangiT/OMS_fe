@@ -165,6 +165,13 @@ export const pieChartColorsCustomer: string[] = [
   colors.warning,
   colors.danger,
 ];
+export const pieChartColorsCustomerRating: string[] = [
+  colors.danger,
+  colors.warning,
+  colors.fifth,
+  colors.secondary,
+  colors.primary,
+];
 
 export const colorArr: string[] = [
   colors.primary,

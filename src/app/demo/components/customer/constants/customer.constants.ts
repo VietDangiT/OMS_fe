@@ -50,6 +50,7 @@ export const GET_CUSTOMER_LOCATION = gql`
 export const GET_PRODUCT_CUSTOMER = gql `
 query GetTopProductByCustomer($fromDate: String!, $toDate: String!)  {
   topSaleProductEachChannel(fDate: $fromDate, tDate: $toDate ) {
+    id
     displayText
     value
     percentage
