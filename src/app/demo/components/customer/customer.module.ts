@@ -32,6 +32,7 @@ import { CardModule } from 'primeng/card';
 import { TabViewModule } from 'primeng/tabview';
 import { CustomerInfoComponent } from './detail-customer/customer-info/customer-info.component';
 import { CustomerActivityComponent } from './detail-customer/customer-activity/customer-activity.component';
+import { CustomerItemComponent } from './components/customer-item/customer-item.component';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import { CustomerActivityComponent } from './detail-customer/customer-activity/c
     CustomerAllcustomerComponent,
     DetailCustomerComponent,
     CustomerInfoComponent,
-    CustomerActivityComponent
+    CustomerActivityComponent,
+    CustomerItemComponent
 
 
 

@@ -2,17 +2,27 @@
 <div class="w-full">
   <app-List-card></app-List-card>
   <div class="p-2">
-    <p-tabMenu [model]="items" [activeItem]="activeItem" (activeItemChange)="onActiveItemChange($event)">
+    <p-tabMenu [model]="items" [activeItem]="activeItem" >
       <ng-template pTemplate="item" let-item let-i="index">
         <span class="px-3 py-1 ml-2">
           {{ item.title | titlecase }}
         </span>
+        <span _ngcontent-vmi-c95="" class="px-2 py-1 rounded-full bg-primary text-white ng-star-inserted"> {{item.badge}} </span>
       </ng-template>
     </p-tabMenu>
   </div>
-  <div class="p-2">
-    <oms-screen-filter (dateFilterChange)="dateFilterChange($event)" (searchValue)="searchValue($event)">
+  <div class="p-2 flex flex-auto gap-2">
+    <oms-screen-filter
+      (searchValue)="searchValue($event)"
+    >
     </oms-screen-filter>
+    <p-dropdown
+    optionLabel="name"
+    dropdownIcon="pi pi-filter text-primary"
+    [filter]="true"
+  >
+  </p-dropdown>
+
   </div>
   <div class="p-2">
     <oms-table [isPaginationShown]="true" (pagingInfo)="onPageChange($event)" [table]="table" [contentRef]="contentRef">
@@ -39,8 +49,8 @@
         </tr>
       </ng-template>
     </oms-table>
-    <p-sidebar [(visible)]="sidebarVisible" position="right" [dismissible]="false" [modal]="true" [blockScroll]="true"> 
-      <ng-template pTemplate="header"> 
+    <p-sidebar [(visible)]="sidebarVisible" position="right" [dismissible]="false" [modal]="true" [blockScroll]="true">
+      <ng-template pTemplate="header">
         <span class="font-bold text-2xl">{{ productSku }}</span>
       </ng-template>
       <oms-inventory-detail [productVariantId]="productVariantId"></oms-inventory-detail>
@@ -48,16 +58,14 @@
   </div>
 </div>
 
-<div class="card flex flex-wrap justify-center gap-2">
-  <p-sidebar 
-    [(visible)]="sidebarVisible" 
-    position="right" 
-    [dismissible]="false" 
-    [modal]="true" 
-    [blockScroll]="true"> 
-    <ng-template pTemplate="header"> 
+  <p-sidebar
+    [(visible)]="sidebarVisible"
+    position="right"
+    [dismissible]="false"
+    [modal]="true"
+    [blockScroll]="true">
+    <ng-template pTemplate="header">
       <span class="font-bold text-2xl">{{ productSku }}</span>
     </ng-template>
     <oms-inventory-detail *ngIf="sidebarVisible" [productVariantId]="productVariantId"></oms-inventory-detail>
   </p-sidebar>
-</div>

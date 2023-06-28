@@ -5,6 +5,7 @@ import {
   ChannelByProductVariantApiResponse,
   ChannelStockApiResponse,
   Inventory,
+  InventoryByChannelResponse,
   InventoryParams,
   InventoryTableApiResponse,
   ListedStockOnChannelApiResponse,
@@ -17,6 +18,7 @@ import {
   CHANNEL_ID,
   GET_CARD_INVENTORY,
   GET_CHANNEL_BY_PRODUCT_VARIANT,
+  GET_CHANNEL_INVENTORY,
   GET_CHANNEL_STOCK_INFO,
   GET_INVENTORY_TABLE,
   GET_LISTED_STOCK_ON_CHANNEL,
@@ -33,17 +35,29 @@ export class InventoryService {
   getInventoryTableData(
     params: InventoryParams
   ): Observable<InventoryTableApiResponse> {
+    const { channelId, keyword, limit, page, status } = params;
     return this.apollo
       .watchQuery<InventoryTableApiResponse>({
         query: GET_INVENTORY_TABLE,
         variables: {
-          ...params,
-          channelId: CHANNEL_ID,
+          channelId,
+          keyword,
+          status,
+          limit,
+          page,
         },
       })
       .valueChanges.pipe(map(res => res.data));
   }
-
+  getSubmenuInventory(): Observable<InventoryByChannelResponse> {
+    return this.apollo
+      .watchQuery<InventoryByChannelResponse>({
+        query: GET_CHANNEL_INVENTORY ,
+        variables: {
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
+  }
   getCardInventory(): Observable<CardInventoryApiResponse> {
     return this.apollo
       .watchQuery<CardInventoryApiResponse>({

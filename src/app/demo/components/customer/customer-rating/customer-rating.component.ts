@@ -3,8 +3,8 @@ import { ChartData } from 'chart.js';
 import { ListboxModule } from 'primeng/listbox';
 import { CustomerService } from '../services/customer.service';
 import { BaseChart, RatingByChannelResponse } from '../interfaces/customer.models';
-import { tap } from 'rxjs';
-import { pieChartColors, pieChartColorsCustomer } from '../../share/oms-chart/oms-chart.component';
+import { BehaviorSubject, tap } from 'rxjs';
+import { pieChartColors, pieChartColorsCustomer, pieChartColorsCustomerRating } from '../../share/oms-chart/oms-chart.component';
 
 @Component({
   selector: 'app-customer-rating',
@@ -14,9 +14,8 @@ import { pieChartColors, pieChartColorsCustomer } from '../../share/oms-chart/om
 export class CustomerRatingComponent implements OnChanges {
   @Input() pieOptions: unknown;
   @Input() filterArr: string[];
-
-  private readonly customerService = inject(CustomerService);
-
+  public colors = pieChartColorsCustomerRating;
+  constructor(private customerService: CustomerService) {}
   pieData: ChartData;
   totalReturn: string = '0';
   stars = "stars"
@@ -25,9 +24,8 @@ export class CustomerRatingComponent implements OnChanges {
     fDate: '',
     tDate: '',
   };
-  ratingByCustomer: { displayText: string; value: number }[] = [];
-
-
+  ratingByCustomer: { displayText: string; value: number , percentage: number}[] = [];
+  reversedObject : { displayText: string; value: number , percentage: number}[] = [];
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr']?.currentValue && this.filterArr[1]) {
       this.filterArr = changes['filterArr'].currentValue;
@@ -37,6 +35,7 @@ export class CustomerRatingComponent implements OnChanges {
           tap((result:RatingByChannelResponse) => {
             const { ratingByChannel: data } = result;
             this.initTotalOrderChart(data);
+            this.ratingByCustomer = data;
             console.log(data)
           })
         )
@@ -55,21 +54,23 @@ export class CustomerRatingComponent implements OnChanges {
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
       labelArr.push (`${item.displayText} ${this.stars}`)
-      this.ratingByCustomer.push({
-        displayText: `${item.displayText} ${this.stars}`,
-        value: item.value,
-      });
     });
     this.pieData = {
       labels: labelArr,
       datasets: [
         {
           data: totalArr,
-          backgroundColor: pieChartColorsCustomer,
+          backgroundColor: pieChartColorsCustomerRating,
           hoverBackgroundColor: pieChartColors,
         },
       ],
     };
   }
+
+
+
+
+
+
 
 }

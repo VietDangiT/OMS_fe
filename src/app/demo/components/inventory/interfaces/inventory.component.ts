@@ -12,7 +12,14 @@ export interface Inventory {
   action: string;
   id: number;
 }
-
+export interface InventoryChannel {
+  id: number;
+  displayText: string;
+  value: string;
+}
+export interface InventoryByChannelResponse {
+  channelWithTotalProduct :InventoryChannel[] ;
+}
 export interface ListedStockOnChannel {
   image: string;
   info: string;
@@ -52,7 +59,7 @@ export interface ChannelByProductVariantApiResponse {
 }
 
 export interface InventoryParams extends PagingParams {
-  channelId: number;
+  channelId: number | null;
 }
 
 export interface ListedStockOnChannelApiResponse {

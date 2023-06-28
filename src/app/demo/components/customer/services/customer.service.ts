@@ -3,6 +3,7 @@ import { Apollo } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
 import { GET_CUSTOMER_BY, GET_CUSTOMER_LOCATION, GET_FEEDBACK_BY, GET_LOYALTY_BY, GET_PRODUCT_CUSTOMER, GET_RATING_BY, HIGH_THRESHOLD, LOW_THRESHOLD } from '../constants/customer.constants';
 import { CustomerByChannelResponse, FeedbackByCustomerResponse, LocationByCustomerResponse, LoyaltyByApiResponse, RatingByChannelResponse, TopProductByCustomerResponse } from '../interfaces/customer.models';
+import { number } from 'echarts';
 
 
 @Injectable({
@@ -33,21 +34,19 @@ export class CustomerService {
         variables: {
           fromDate: filter[0],
           toDate: filter[1],
-          country: ''
         },
       })
       .valueChanges.pipe(map(res => res.data));
   }
 
 
-  getRatingByChannel(filter: string[]): Observable<RatingByChannelResponse> {
+  getRatingByChannel(filter: string[] ): Observable<RatingByChannelResponse> {
     return this.apollo
       .watchQuery<RatingByChannelResponse>({
         query: GET_RATING_BY,
         variables: {
           fromDate: filter[0],
           toDate: filter[1],
-          country: ''
         },
       })
       .valueChanges.pipe(map(res => res.data));
@@ -59,7 +58,6 @@ export class CustomerService {
           variables: {
             fromDate : filter[0],
             toDate : filter [1],
-            country : ''
           },
     })
     .valueChanges.pipe(map(res =>res.data));
@@ -70,7 +68,6 @@ export class CustomerService {
           variables: {
             fromDate : filter[0],
             toDate : filter [1],
-            country : ''
           },
     })
     .valueChanges.pipe(map(res =>res.data));

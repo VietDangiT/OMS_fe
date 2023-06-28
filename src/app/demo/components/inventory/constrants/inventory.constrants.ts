@@ -3,8 +3,17 @@ import { MenuItem } from 'primeng/api';
 export const CHANNEL_ID = 1;
 
 export const GET_INVENTORY_TABLE = gql`
-  query GetInventoryTableDate($channelId: Int) {
-    products(channelId: $channelId) {
+  query GetInventoryTableDate(
+    $keyword: String
+    $limit: Int
+    $page: Int
+  ) {
+    products(
+
+      keyword: $keyword
+      limit: $limit
+      page: $page
+    ) {
       page
       first
       rows
@@ -33,6 +42,14 @@ export const GET_CARD_INVENTORY = gql`
       onDemand
     }
   }
+`;
+export const GET_CHANNEL_INVENTORY = gql`
+  query GetChannelWithTotalProduct {
+    channelWithTotalProduct{
+      displayText
+      value
+      }
+    }
 `;
 
 export const GET_LISTED_STOCK_ON_CHANNEL = gql`
@@ -139,7 +156,7 @@ export const GET_SALES_CHANNEL_STATISTIC = gql`
 export const inventoryTableHeader = [
   { field: 'productVariantImage', col: 'Image' },
   { field: 'sku', col: 'SKU' },
-  { field: 'productName', col: 'ProductName' },
+  { field: 'productName', col: 'Product Name' },
   { field: 'availableStock', col: 'Available Stock' },
   { field: 'inProcess', col: 'In-process' },
   { field: 'sold', col: 'Sold' },

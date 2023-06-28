@@ -15,22 +15,17 @@ import { pieChartColors, pieChartColorsCustomer } from '../../share/oms-chart/om
 export class CustomerBychannelComponent implements OnChanges {
   @Input() pieOptions: unknown;
   @Input() filterArr: string[];
-
+  public colors = pieChartColorsCustomer;
   private readonly customerService = inject(CustomerService);
 
   pieData: ChartData;
   totalReturn: string = '0';
   routerLink = 'total-orders';
-  channelByCustomer: { displayText: string; value: number }[] = [];
+  channelByCustomer: { displayText: string; value: number, percentage:number }[] = [];
   queryParams: { [key: string]: string } = {
     fDate: '',
     tDate: '',
   };
-  displayTextChartData= [
-    { value: 1, color: 'red' },
-    { value: 4, color: 'blue' },
-    { value: 50, color: 'green' }
-  ];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr']?.currentValue && this.filterArr[1]) {
@@ -41,7 +36,7 @@ export class CustomerBychannelComponent implements OnChanges {
           tap((result:CustomerByChannelResponse) => {
             const { customerByChannel: data } = result;
             this.initTotalOrderChart(data);
-            console.log(data)
+            this.channelByCustomer = data;
           })
         )
         .subscribe();
@@ -55,15 +50,9 @@ export class CustomerBychannelComponent implements OnChanges {
   initTotalOrderChart(result: BaseChart[]) {
     let totalArr: number[] = [];
     let labelArr: string[] = [];
-
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
-      labelArr.push (`${item.displayText}`  )
-
-      this.channelByCustomer.push({
-        displayText: item.displayText,
-        value: item.value,
-      });
+      labelArr.push (`${item.displayText}`)
     });
 
     this.pieData = {
