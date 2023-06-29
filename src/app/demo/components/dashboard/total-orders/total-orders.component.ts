@@ -14,18 +14,24 @@ import {
   DropdownChangeEvent,
 } from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { environment } from 'src/environments/environment';
 import { Marketplace } from '../../marketplace/models/marketplace.models';
 import { MarketplaceService } from '../../marketplace/services/marketplace.service';
 import { OmsTable } from '../../share/model/oms-table';
 import { PagingInfo } from '../../share/model/paginginfo';
-import { baseChartOptions } from '../../share/oms-chart/oms-chart.component';
+import {
+  barHorizontalBaseChartOptions,
+  baseChartOptions,
+  colorObj,
+} from '../../share/oms-chart/oms-chart.component';
 import {
   BaseChart,
   TotalOrderApiResponse,
 } from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
-import { totalOrdersTableHeader } from './constants/total-orders.constants';
+import {
+  NUMBER_OF_PRODUCT,
+  totalOrdersTableHeader,
+} from './constants/total-orders.constants';
 import { OrderParams, TotalOrder } from './models/total-orders.models';
 import { TotalOrdersService } from './services/total-orders.service';
 
@@ -50,11 +56,17 @@ export class TotalOrdersComponent implements OnInit {
 
   baseChartOptions = baseChartOptions;
 
+  barHorizontalBaseChartOptions = barHorizontalBaseChartOptions;
+
   dateRange = this.helperService.defaultDateRange;
 
   marketplaces: Marketplace[];
 
   selectedMarketplace: Marketplace;
+
+  selectedNumber = 0;
+
+  numbers = Array.from({ length: NUMBER_OF_PRODUCT }, (_, i) => i + 1);
 
   tableData: OmsTable<TotalOrder> = {
     page: 0,
@@ -113,6 +125,15 @@ export class TotalOrdersComponent implements OnInit {
     page: tableConfig.page,
   };
 
+  avgPricePerOrder: ChartData = {
+    datasets: [],
+    labels: [],
+  };
+
+  topSoldProducts: ChartData = {
+    datasets: [],
+    labels: [],
+  };
   destroy$ = new Subject();
 
   ngOnInit(): void {
@@ -195,8 +216,8 @@ export class TotalOrdersComponent implements OnInit {
               {
                 label: $localize`Orders by channel`,
                 data: totalArr,
-                borderColor: environment.primaryColor,
-                backgroundColor: environment.primaryColor,
+                borderColor: colorObj['primary'],
+                backgroundColor: colorObj['primary'],
               },
             ],
           };
@@ -272,8 +293,8 @@ export class TotalOrdersComponent implements OnInit {
         {
           label: $localize`Total Orders`,
           data: totalArr,
-          borderColor: environment.primaryColor,
-          backgroundColor: environment.primaryColor,
+          borderColor: colorObj['primary'],
+          backgroundColor: colorObj['primary'],
         },
       ],
     };
@@ -309,6 +330,12 @@ export class TotalOrdersComponent implements OnInit {
     this.getOrderByChannel();
 
     this.getOrderTable();
+  }
+
+  onSelectedNumber(): void {
+    // this.selectedNumber = e.value;
+
+    console.log(this.selectedNumber);
   }
 
   handleParams(

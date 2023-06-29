@@ -1,12 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import {
-  Channel,
-  CountryApiResponse,
-} from '../components/channel/interface/channel.model';
+import { CountryApiResponse } from '../components/channel/interface/channel.model';
 
 const GET_COUNTRIES = gql`
   query {
@@ -22,29 +17,7 @@ const GET_COUNTRIES = gql`
   providedIn: 'root',
 })
 export class ChannelService {
-  constructor(private _http: HttpClient, private apollo: Apollo) {}
-
-  getChannels(): Observable<Channel> {
-    return this._http.get<Channel>(`${environment.apiUrl}/Channel/channels`);
-  }
-
-  getChannelList(
-    rows: number,
-    currentPage: number = 1,
-    search: string = '',
-    countryId: number = 0,
-    status: string = ''
-  ) {
-    return this._http.get(
-      `${environment.apiUrl}/Channel?search=${search}&countryId=${countryId}&rows=${rows}&currentPage=${currentPage}&status=${status}`
-    );
-  }
-
-  getActiveChannels(): Observable<Channel[]> {
-    return this._http.get<Channel[]>(
-      `${environment.apiUrl}/Channel/activechannels`
-    );
-  }
+  constructor(private apollo: Apollo) {}
 
   getCountries(): Observable<CountryApiResponse> {
     return this.apollo

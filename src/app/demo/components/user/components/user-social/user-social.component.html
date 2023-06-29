@@ -3,7 +3,9 @@
     <span class="cursor-pointer py-2 flex items-center">
       <i class="pi {{ icon }} mr-2 " style="font-size: 1.5rem"></i>
 
-      <span>{{ isKeptFull ? link : prefixSocialLink }}</span>
+      <span class="font-medium text-lg">{{
+        isKeptFull ? link : prefixSocialLink
+      }}</span>
     </span>
   </a>
 </ng-container>

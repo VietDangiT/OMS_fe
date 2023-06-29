@@ -68,6 +68,10 @@ export abstract class HelperService {
     return `https://localhost:7121/api/${src}`;
   }
 
+  refactorImgBase64(src: string): string {
+    return `data:image/jpeg;base64, ${src}`;
+  }
+
   convertToDisplayDate(
     date: Date | string | number,
     dateRange: Date[] | string[]

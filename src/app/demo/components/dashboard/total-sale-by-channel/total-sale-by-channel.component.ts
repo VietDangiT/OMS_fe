@@ -14,7 +14,7 @@ import { OmsTable } from '../../share/model/oms-table';
 import { PagingInfo } from '../../share/model/paginginfo';
 import {
   baseChartOptions,
-  colorArr,
+  colorObj,
   heatmapChartOptions,
 } from '../../share/oms-chart/oms-chart.component';
 import { BaseChart } from '../interfaces/dashboard.models';
@@ -148,12 +148,20 @@ export class TotalSaleByChannelComponent implements OnInit {
     res.forEach(item => {
       const { displayText, date, value } = item;
 
-      const currentDate = new Date(date).toLocaleDateString('en-EN');
+      const currentDate = this.helperService.convertToDisplayDate(
+        date,
+        this.dateRange
+      );
 
       let randomColor: string = '';
 
       if (!usedColors.includes(randomColor)) {
-        randomColor = colorArr[Math.floor(Math.random() * colorArr.length)];
+        randomColor =
+          colorObj[
+            Object.keys(colorObj)[
+              Math.floor(Math.random() * Object.keys(colorObj).length)
+            ]
+          ];
 
         usedColors.push(randomColor);
       }
@@ -189,7 +197,10 @@ export class TotalSaleByChannelComponent implements OnInit {
     data.forEach(item => {
       const { displayText, value, date } = item;
 
-      const currentDate = new Date(date).toLocaleDateString('en-EN');
+      const currentDate = this.helperService.convertToDisplayDate(
+        date,
+        this.dateRange
+      );
 
       let resultItem = result.find(item => item.name === displayText);
 
@@ -212,8 +223,6 @@ export class TotalSaleByChannelComponent implements OnInit {
       series: result,
       ...heatmapChartOptions,
     };
-
-    console.log(this.saleByChannelHeatmapData);
   }
 
   dateFilterChanged(dateRange: Date[]): void {

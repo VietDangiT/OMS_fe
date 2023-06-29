@@ -31,7 +31,20 @@ export class UserDetailComponent {
 
   helperService = inject(HelperService);
 
-  user: Partial<User>;
+  user: Partial<User> = {
+    avatar: '',
+    email: '',
+    dob: '',
+    fullAddress: '',
+    fullName: '',
+    phoneNumber: '',
+    gender: '',
+    userRole: 'USER',
+    userStatus: '',
+    facebook: '',
+    instagram: '',
+    id: 0,
+  };
 
   params: UserOrderParams = {
     channelId: null,

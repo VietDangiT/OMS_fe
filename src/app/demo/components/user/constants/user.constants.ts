@@ -23,7 +23,7 @@ export const userOrdersTableHeader: TableHeader[] = [
 ];
 
 export const userLabelItems: MenuItem[] = [
-  { label: 'All', id: '', badge: '0' },
+  { title: 'All', label: 'All', id: '', badge: '0' },
   { label: 'Active', id: 'Active', badge: '0' },
   { label: 'Inactive', id: 'Inactive', badge: '0' },
 ];

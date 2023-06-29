@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ChartOptions } from 'chart.js';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { environment } from 'src/environments/environment';
 import { HelperService } from '../../service/helper.service';
-import { baseChartOptions } from '../share/oms-chart/oms-chart.component';
+import {
+  baseChartOptions,
+  colorObj,
+} from '../share/oms-chart/oms-chart.component';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -12,7 +13,7 @@ import { baseChartOptions } from '../share/oms-chart/oms-chart.component';
 export class DashboardComponent implements OnInit, OnDestroy {
   pieOptions: any;
 
-  chartOptions: ChartOptions = baseChartOptions;
+  chartOptions = baseChartOptions;
 
   subscription!: Subscription;
 
@@ -43,7 +44,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             boxWidth: 20,
             padding: 20,
             usePointStyle: true,
-            color: environment.primaryColor,
+            color: colorObj['primary'],
             font: {
               size: 12,
             },

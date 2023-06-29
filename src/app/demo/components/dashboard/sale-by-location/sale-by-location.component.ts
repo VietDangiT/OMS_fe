@@ -10,7 +10,6 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { DateFilterKey, ResultItem } from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { environment } from 'src/environments/environment';
 import { Country } from '../../channel/interface/channel.model';
 import { ChannelService } from '../../channel/services/channel.service';
 import { heatChartOptions } from '../../charts/apex-chart.component';
@@ -19,6 +18,7 @@ import { PagingInfo } from '../../share/model/paginginfo';
 import {
   barBaseChartOptions,
   baseChartOptions,
+  colorObj,
   heatmapChartOptions,
   pieChartColors,
   pieChartOptions,
@@ -187,7 +187,7 @@ export class SaleByLocationComponent {
             datasets: [
               {
                 data: valueArr,
-                backgroundColor: environment.primaryColor,
+                backgroundColor: colorObj['primary'],
               },
             ],
           };
@@ -234,7 +234,7 @@ export class SaleByLocationComponent {
             datasets: [
               {
                 data: valueArr,
-                borderColor: environment.primaryColor,
+                borderColor: colorObj['primary'],
                 pointRadius: 0,
               },
             ],
@@ -315,8 +315,10 @@ export class SaleByLocationComponent {
           data.forEach(item => {
             const { displayText, value, date } = item;
 
-            const currentDate = new Date(date).toLocaleDateString('en-EN');
-            // this.helperService.convertToDisplayDate(date, this.dateRange)
+            const currentDate = this.helperService.convertToDisplayDate(
+              date,
+              this.dateRange
+            );
 
             // Check if there's displayText existed
             let resultItem = result.find(item => item.name === displayText);

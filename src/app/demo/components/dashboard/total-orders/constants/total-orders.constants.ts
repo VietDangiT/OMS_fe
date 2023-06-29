@@ -67,3 +67,5 @@ export const GET_ORDER_BY_CHANNEL = gql`
     }
   }
 `;
+
+export const NUMBER_OF_PRODUCT = 5;

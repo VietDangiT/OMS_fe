@@ -11,7 +11,6 @@
       <div class="flex flex-col justify-between">
         <oms-avatar
           [imgSrc]="i"
-          shape="square"
           size="xlarge"
           *ngFor="let i of catalogueDetail.images"
           (click)="mainImg = i"
@@ -65,11 +64,7 @@
       <div class="flex gap-8 mt-8 overflow-x-scroll">
         <div *ngFor="let i of catalogueDetail.channelsStock">
           <a class="flex flex-col items-center" routerLink="/channels">
-            <oms-avatar
-              [imgSrc]="i.image!"
-              size="xlarge"
-              shape="square"
-            ></oms-avatar>
+            <oms-avatar [imgSrc]="i.image!" size="xlarge"></oms-avatar>
 
             <div class="text-center">
               <span i18n class="text-black">Available Stock: </span>

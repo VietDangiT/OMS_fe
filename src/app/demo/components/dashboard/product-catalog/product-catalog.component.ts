@@ -8,7 +8,7 @@ import {
 import { ChartData, ChartOptions } from 'chart.js';
 import { BehaviorSubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { environment } from 'src/environments/environment';
+import { colorObj } from '../../share/oms-chart/oms-chart.component';
 import {
   BaseChart,
   BaseItem,
@@ -123,8 +123,8 @@ export class ProductCatalogComponent {
         {
           label: $localize`Product Catalogs`,
           data: totalArr,
-          borderColor: environment.primaryColor,
-          backgroundColor: environment.primaryColor,
+          borderColor: colorObj['primary'],
+          backgroundColor: colorObj['primary'],
         },
       ],
     };

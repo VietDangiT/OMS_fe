@@ -10,21 +10,21 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { TabMenuModule } from 'primeng/tabmenu';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
 import { AvatarComponent } from '../share/avatar/avatar.component';
 import { InputFieldComponent } from '../share/input-field/input-field.component';
 import { ShareModule } from '../share/share.module';
+import { TabMenuComponent } from '../share/tab-menu/tab-menu.component';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
+import { UserInfoFieldComponent } from './components/user-info-field/user-info-field.component';
 import { UserItemComponent } from './components/user-item/user-item.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { UserSocialComponent } from './components/user-social/user-social.component';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
-import { UserInfoFieldComponent } from './components/user-info-field/user-info-field.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,6 @@ import { UserInfoFieldComponent } from './components/user-info-field/user-info-f
     AppTopBarModule,
     CommonModule,
     UserRoutingModule,
-    TabMenuModule,
     ShareModule,
     DialogModule,
     AvatarModule,
@@ -54,6 +53,7 @@ import { UserInfoFieldComponent } from './components/user-info-field/user-info-f
     FormsModule,
     ReactiveFormsModule,
     AvatarComponent,
+    TabMenuComponent,
     InputTextModule,
     RadioButtonModule,
     CalendarModule,

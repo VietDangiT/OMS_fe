@@ -20,13 +20,13 @@
   </div>
 </div>
 
-<div class="flex gap-2 h-full">
-  <div class="w-full flex flex-col">
+<div class="grid grid-cols-6 w-full gap-2">
+  <div class="w-full flex flex-col col-span-5 justify-between">
     <div class="flex gap-2">
-      <div class="dashboard-detail-container w-full mb-2">
+      <div class="dashboard-detail-container w-full">
         <p class="font-bold text-black" i18n>Orders</p>
 
-        <div class="w-full h-full max-h-[40vh]">
+        <div class="w-full h-full max-h-[35vh]">
           <oms-chart
             [data]="overviewData"
             [options]="baseChartOptions"
@@ -35,10 +35,10 @@
         </div>
       </div>
 
-      <div class="dashboard-detail-container w-full mb-2">
+      <div class="dashboard-detail-container w-full">
         <p class="font-bold text-black" i18n>Orders by marketplace</p>
 
-        <div class="w-full h-full max-h-[40vh]">
+        <div class="w-full h-full max-h-[35vh]">
           <oms-chart
             [data]="orderByChannel"
             [options]="baseChartOptions"
@@ -48,17 +48,47 @@
       </div>
     </div>
 
-    <oms-table
-      (pagingInfo)="onPageChange($event)"
-      [isPaginationShown]="true"
-      [table]="tableData"
-    >
-    </oms-table>
+    <div class="flex gap-2 mt-2">
+      <div class="dashboard-detail-container w-full">
+        <p class="font-bold text-black" i18n>Avg Price Per Order</p>
+
+        <div class="w-full h-full max-h-[35vh]">
+          <oms-chart
+            [data]="avgPricePerOrder"
+            [options]="baseChartOptions"
+            type="line"
+          ></oms-chart>
+        </div>
+      </div>
+
+      <div class="dashboard-detail-container w-full">
+        <div class="flex justify-between">
+          <p class="font-bold text-black" i18n>Top Sold Catalogues</p>
+
+          <div>
+            <span i18n class="mr-2 font-medium">Products Quantity</span>
+
+            <p-dropdown
+              [(ngModel)]="selectedNumber"
+              [options]="numbers"
+              (onChange)="onSelectedNumber()"
+              placeholder="{{ numbers.length }} Items"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <div class="w-full h-full max-h-[35vh]">
+          <oms-chart
+            [data]="topSoldProducts"
+            [options]="barHorizontalBaseChartOptions"
+            type="bar"
+          ></oms-chart>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div
-    class="dashboard-detail-container flex flex-col justify-between w-[20vw]"
-  >
+  <div class="dashboard-detail-container flex flex-col justify-between">
     <overview-box
       *ngFor="let o of orderSummary"
       [dateRange]="dateRange"
@@ -68,3 +98,10 @@
     ></overview-box>
   </div>
 </div>
+
+<oms-table
+  (pagingInfo)="onPageChange($event)"
+  [isPaginationShown]="true"
+  [table]="tableData"
+>
+</oms-table>

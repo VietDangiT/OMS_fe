@@ -8,7 +8,7 @@ import {
 import { ChartData, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { colorArr } from '../../share/oms-chart/oms-chart.component';
+import { colorObj } from '../../share/oms-chart/oms-chart.component';
 import {
   BaseChart,
   TotalSalesApiResponse,
@@ -87,8 +87,8 @@ export class TotalSaleChartComponent {
         {
           label: $localize`Total Sales`,
           data: totalArr,
-          borderColor: colorArr[0],
-          backgroundColor: colorArr[0],
+          borderColor: colorObj['primary'],
+          backgroundColor: colorObj['primary'],
           tension: 0.4,
           pointBorderWidth: 2,
           pointRadius: 0,

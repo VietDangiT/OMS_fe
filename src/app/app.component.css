@@ -213,10 +213,20 @@ oms-table tr {
   @apply text-primary bg-primary bg-opacity-20;
 }
 
+.p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year:enabled:hover,
+.p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month:enabled:hover,
 .p-datepicker table td.p-datepicker-today > span.p-highlight {
   @apply text-primary;
 }
 
 .p-datatable .p-sortable-column:focus {
+  @apply shadow-none;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  @apply text-primary bg-primary-1 bg-opacity-30 border-primary-2;
+}
+
+.p-link:focus {
   @apply shadow-none;
 }

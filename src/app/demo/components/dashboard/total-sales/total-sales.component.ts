@@ -9,13 +9,13 @@ import {
   DropdownChangeEvent,
 } from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { environment } from 'src/environments/environment';
 import { Marketplace } from '../../marketplace/models/marketplace.models';
 import { MarketplaceService } from '../../marketplace/services/marketplace.service';
 import { OmsTable } from '../../share/model/oms-table';
 import {
   barBaseChartOptions,
   baseChartOptions,
+  colorObj,
 } from '../../share/oms-chart/oms-chart.component';
 import { BaseChart } from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
@@ -142,8 +142,8 @@ export class TotalSalesComponent {
               {
                 label: $localize`Sales by channel`,
                 data: totalArr,
-                borderColor: environment.primaryColor,
-                backgroundColor: environment.primaryColor,
+                borderColor: colorObj['primary'],
+                backgroundColor: colorObj['primary'],
               },
             ],
           };
@@ -250,7 +250,7 @@ export class TotalSalesComponent {
               datasets: [
                 {
                   data: totalArr,
-                  borderColor: environment.primaryColor,
+                  borderColor: colorObj['primary'],
                   fill: false,
                   pointRadius: 0,
                 },

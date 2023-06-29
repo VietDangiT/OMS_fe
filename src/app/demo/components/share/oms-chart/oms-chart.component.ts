@@ -109,6 +109,22 @@ export const barBaseChartOptions: ChartOptions = {
   },
 };
 
+export const barHorizontalBaseChartOptions: ChartOptions = {
+  responsive: true,
+  indexAxis: 'y',
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+};
+
 export const heatmapChartOptions: Partial<heatChartOptions> | any = {
   plotOptions: {
     heatmap: {
@@ -159,20 +175,20 @@ export const pieChartColors: string[] = [
   colors.primaryLight3,
 ];
 
-export const colorArr: string[] = [
-  colors.primary,
-  colors.secondary,
-  colors.third,
-  colors.forth,
-  colors.fifth,
-  colors.errors,
-  colors.warning,
-  colors.success,
-  colors.danger,
-  colors.brightOrange,
-  colors.geomapBackground,
-  colors.datalessRegion,
-];
+export const colorObj: { [key: string]: any } = {
+  primary: colors.primary,
+  secondary: colors.secondary,
+  third: colors.third,
+  forth: colors.forth,
+  fifth: colors.fifth,
+  errors: colors.errors,
+  warning: colors.warning,
+  success: colors.success,
+  danger: colors.danger,
+  brightOrange: colors.brightOrange,
+  geomapBackground: colors.geomapBackground,
+  datalessRegion: colors.datalessRegion,
+};
 
 export interface OmsChartOptions
   extends Partial<ApexChartOptions>,
