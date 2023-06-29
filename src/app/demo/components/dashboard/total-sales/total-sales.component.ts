@@ -74,27 +74,8 @@ export class TotalSalesComponent {
   channelId = 1;
 
   overviewData: ChartData = {
-    labels: [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-    ],
-    datasets: [
-      {
-        label: 'Orders on Swiggy',
-        data: [66, 49, 81, 71, 26, 65, 60],
-        backgroundColor: environment.primaryColor,
-      },
-      {
-        label: 'Orders on Zomato',
-        data: [56, 69, 89, 61, 36, 75, 50],
-        backgroundColor: environment.secondaryColor,
-      },
-    ],
+    labels: [],
+    datasets: [],
   };
 
   tableData: OmsTable<TotalSalesTableDTO> = {
@@ -205,7 +186,7 @@ export class TotalSalesComponent {
           const updatedData = data.map(d => {
             return {
               ...d,
-              date: this.helperService.convertToDisplayDate(d.date),
+              date: new Date(d.date).toLocaleDateString(),
             };
           });
 
@@ -250,7 +231,9 @@ export class TotalSalesComponent {
               totalSales += i.value;
 
               totalArr.push(i.value);
-              labelArr.push(new Date(i.date).toLocaleDateString('en-EN'));
+              labelArr.push(
+                this.helperService.convertToDisplayDate(i.date, this.dateRange)
+              );
             });
 
             this.totalSales = totalSales;
@@ -269,6 +252,7 @@ export class TotalSalesComponent {
                   data: totalArr,
                   borderColor: environment.primaryColor,
                   fill: false,
+                  pointRadius: 0,
                 },
               ],
             };

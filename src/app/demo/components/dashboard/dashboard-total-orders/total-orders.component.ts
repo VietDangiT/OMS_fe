@@ -3,9 +3,11 @@ import {
   Input,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
 import {
   BaseChart,
@@ -23,6 +25,8 @@ export class DashboardTotalOrdersComponent {
   @Input() basicOptions!: ChartOptions;
 
   @Input() filterArr: string[];
+
+  helperService = inject(HelperService);
 
   totalOrderData: ChartData;
 
@@ -65,7 +69,11 @@ export class DashboardTotalOrdersComponent {
 
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
-      labelArr.push(new Date(item.text).toLocaleDateString());
+
+      labelArr.push(
+        this.helperService.convertToDisplayDate(item.text, this.filterArr)
+      );
+
       order += item.value;
     });
 

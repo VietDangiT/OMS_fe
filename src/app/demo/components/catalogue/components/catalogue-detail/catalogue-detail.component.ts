@@ -84,11 +84,7 @@ export class CatalogueDetailComponent implements OnInit {
     const res: string[] = [];
 
     images.map(i => {
-      res.push(
-        this.helperService.refactorImg(
-          this.helperService.arrayBufferToBase64(i)
-        )
-      );
+      res.push(this.helperService.refactorImg(i.toString()));
     });
 
     res.unshift(this.helperService.refactorImg(mainImg));

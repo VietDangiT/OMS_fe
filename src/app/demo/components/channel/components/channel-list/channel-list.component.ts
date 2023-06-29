@@ -121,8 +121,8 @@ export class ChannelListComponent implements OnInit, OnDestroy {
           const updatedData = data.data.map(d => {
             return {
               ...d,
-              createdAt: this.helperService.convertToDisplayDate(d.createdAt!),
-              updatedAt: this.helperService.convertToDisplayDate(d.updatedAt!),
+              createdAt: new Date(d.createdAt!).toLocaleDateString(),
+              updatedAt: new Date(d.updatedAt!).toLocaleDateString(),
             };
           });
 

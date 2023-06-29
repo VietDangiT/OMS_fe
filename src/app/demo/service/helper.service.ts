@@ -64,11 +64,34 @@ export abstract class HelperService {
     return btoa(binary);
   }
 
-  refactorImg(base64: string): string {
-    return `data:image/png;base64, ${base64}`;
+  refactorImg(src: string): string {
+    return `https://localhost:7121/api/${src}`;
   }
 
-  convertToDisplayDate(d: string): string {
-    return new Date(d).toLocaleDateString('en-En');
+  convertToDisplayDate(
+    date: Date | string | number,
+    dateRange: Date[] | string[]
+  ): string {
+    const dates = dateRange.map(m => new Date(m));
+
+    const diffOfDays = Math.floor(
+      (dates[1].getTime() - dates[0].getTime()) / (1000 * 60 * 60 * 24)
+    );
+
+    const formattingOptions: { [key: number]: Intl.DateTimeFormatOptions } = {
+      60: { month: 'long', year: 'numeric' },
+      720: { year: 'numeric' },
+    };
+
+    for (const daysThreshold in formattingOptions) {
+      if (diffOfDays > Number(daysThreshold)) {
+        return new Date(date).toLocaleDateString(
+          'en-us',
+          formattingOptions[daysThreshold]
+        );
+      }
+    }
+
+    return new Date(date).toLocaleDateString();
   }
 }

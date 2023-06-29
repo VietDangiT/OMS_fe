@@ -26,6 +26,7 @@ interface DataSetItem {
   label: string;
   data: number[];
   borderColor: string;
+  pointRadius: number;
 }
 
 @Component({
@@ -164,6 +165,7 @@ export class TotalSaleByChannelComponent implements OnInit {
           label: displayText,
           data: [value],
           borderColor: randomColor,
+          pointRadius: 0,
         };
         result.push(dataSetItem);
       }

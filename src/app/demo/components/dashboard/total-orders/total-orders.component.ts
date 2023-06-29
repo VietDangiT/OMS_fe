@@ -184,7 +184,9 @@ export class TotalOrdersComponent implements OnInit {
           data.forEach((item: BaseChart) => {
             totalArr.push(item.value);
 
-            labelArr.push(new Date(item.date).toLocaleDateString());
+            labelArr.push(
+              this.helperService.convertToDisplayDate(item.date, this.dateRange)
+            );
           });
 
           this.orderByChannel = {
@@ -259,7 +261,9 @@ export class TotalOrdersComponent implements OnInit {
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
 
-      labelArr.push(new Date(item.text).toLocaleDateString());
+      labelArr.push(
+        this.helperService.convertToDisplayDate(item.text, this.dateRange)
+      );
     });
 
     this.overviewData = {

@@ -19,9 +19,9 @@ export class ChannelDetailComponent {
   ngOnInit(): void {
     this.channel = {
       ...this.channel,
-      image: this.helperService.refactorImg(
-        this.helperService.arrayBufferToBase64(this.channel.image)
-      ),
+      image: this.helperService.refactorImg(this.channel.image!),
     };
+
+    console.log(this.channel);
   }
 }

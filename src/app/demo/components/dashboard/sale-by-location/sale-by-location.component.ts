@@ -218,7 +218,9 @@ export class SaleByLocationComponent {
           currentData.forEach(d => {
             totalCurrentVal += d.value;
 
-            labelArr.push(new Date(d.date).toLocaleDateString());
+            labelArr.push(
+              this.helperService.convertToDisplayDate(d.date, this.dateRange)
+            );
             valueArr.push(d.value);
           });
 
@@ -233,6 +235,7 @@ export class SaleByLocationComponent {
               {
                 data: valueArr,
                 borderColor: environment.primaryColor,
+                pointRadius: 0,
               },
             ],
           };
@@ -313,6 +316,7 @@ export class SaleByLocationComponent {
             const { displayText, value, date } = item;
 
             const currentDate = new Date(date).toLocaleDateString('en-EN');
+            // this.helperService.convertToDisplayDate(date, this.dateRange)
 
             // Check if there's displayText existed
             let resultItem = result.find(item => item.name === displayText);

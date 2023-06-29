@@ -3,9 +3,11 @@ import {
   Input,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BehaviorSubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { environment } from 'src/environments/environment';
 import {
   BaseChart,
@@ -25,6 +27,8 @@ export class ProductCatalogComponent {
   @Input() basicOptions!: ChartOptions;
 
   @Input() filterArr: string[];
+
+  helperService = inject(HelperService);
 
   productVariantList: BaseItem[];
 
@@ -106,7 +110,9 @@ export class ProductCatalogComponent {
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
 
-      labelArr.push(new Date(item.date).toLocaleDateString());
+      labelArr.push(
+        this.helperService.convertToDisplayDate(item.date, this.filterArr)
+      );
     });
 
     this.totalValue = order.toLocaleString('en-US');
