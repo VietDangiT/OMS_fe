@@ -19,7 +19,7 @@
       <div
         class="font-bold text-lg md:text-xl max-w-[150px] text-ellipsis overflow-hidden whitespace-nowrap"
       >
-        {{ item.current }}
+        {{ item.current | number: '1.0-2' }}
       </div>
 
       <span
@@ -27,7 +27,7 @@
         >{{ item.current }}</span
       >
 
-      <div class="text-xs font-medium gap-1 mt-1 flex items-center">
+      <div [ngClass]="{'opacity-0': !item.value}" class="text-xs font-medium gap-1 mt-1 flex items-center">
         <i
           class="pi"
           [ngClass]="

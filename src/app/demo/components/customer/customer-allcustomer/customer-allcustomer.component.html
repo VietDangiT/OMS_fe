@@ -1,0 +1,55 @@
+<app-topbar></app-topbar>
+<div>
+  <p-tabMenu
+    [model]="items"
+    [activeItem]="activeItem"
+    (activeItemChange)="onActiveItemChange($event)"
+  >
+    <ng-template pTemplate="item" let-item let-i="index">
+      {{ item.label }}
+      <span
+        class="rounded-full badge bg-primary bg-opacity-20 text-opacity-60 font-medium text-primary text-center px-3 py-1 ml-2"
+        >{{ item.badge }}</span
+      >
+    </ng-template>
+  </p-tabMenu>
+  <div class="mt-3">
+    <oms-screen-filter>
+    </oms-screen-filter>
+
+  </div>
+  <div class="mt-3">
+    <oms-table  [table]="table">
+      <tr *ngFor="let item of table.data.body" class="group"  (click)="handleOrderDetail($event)">
+        <td class="!text-center">{{item.name}}</td>
+        <td class="!text-center">{{ item.address}}</td>
+        <td class="!text-center">{{ item.totalorder | number }}</td>
+        <td class="!text-center">{{item.totalspend}}</td>
+        <td class="!text-center">{{ item.phone }}</td>
+        <td class="!text-center">{{ item.lastorder }}</td>
+        <td class="!text-center">{{ item.type}}</td>
+        <td class="!text-center">
+          <div class="flex item-center gap-5 justify-center">
+            <span class="hidden lg:block min-w-[70px]">
+              <i
+                class="pi pi-circle-fill text-success"
+                *ngIf="item.status === 'ACTIVE'; else shareicon"
+              ></i>
+              <ng-template #shareicon>
+                <i class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"></i>
+              </ng-template>
+              {{ item.status | titlecase }}
+            </span>
+
+          </div>
+        </td>
+    </oms-table>
+
+    <app-detail-customer
+    *ngIf="modalVisible"
+    [visible]="modalVisible"
+    (onClose)="handleCloseModal()">
+
+    </app-detail-customer>
+  </div>
+</div>

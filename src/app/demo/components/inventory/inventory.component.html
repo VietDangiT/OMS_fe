@@ -1,0 +1,56 @@
+<p-sidebar
+  [(visible)]="sidebarVisible"
+  position="right"
+  [modal]="true"
+  [blockScroll]="true">
+  <ng-template pTemplate="header">
+    <span class="font-bold text-2xl">{{ productSku }}</span>
+  </ng-template>
+  <oms-inventory-detail *ngIf="sidebarVisible" [productVariantId]="productVariantId"></oms-inventory-detail>
+</p-sidebar>
+<app-topbar></app-topbar>
+<div class="w-full">
+
+  <app-List-card [card]="cardInventory" ></app-List-card>
+  <div class="p-2">
+    <oms-tab-menu
+    [labelItems]="labelItems"
+    [activeItem]="activeItem"
+    (onActiveItemChange)="onActiveItemChange($event)"
+  ></oms-tab-menu>
+  </div>
+  <div class="p-2 flex flex-auto gap-2">
+    <oms-screen-filter
+      (dateFilterChange)="dateFilterChange($event)"
+      (searchValue)="searchValue($event)"
+    >
+    </oms-screen-filter>
+
+  </div>
+  <div class="p-2">
+    <oms-table [isPaginationShown]="true" (pagingInfo)="onPageChange($event)" [table]="table" [contentRef]="contentRef">
+      <ng-template #contentRef let-rowData>
+        <tr>
+          <td>
+            <div class="w-10 h-10 rounded-md">
+              <p-avatar image="{{apiUrl + rowData.productVariantImage}}" styleClass="mr-2" size="xlarge" shape="circle"></p-avatar>
+            </div>
+          </td>
+          <td class="!text-left"> {{ rowData.sku }} </td>
+
+          <td class="!text-left">{{ rowData.productName   }}</td>
+
+          <td class="!text-left">{{ rowData.availableStock }}</td>
+
+          <td class="!text-left">{{ rowData.inProcess }}</td>
+
+          <td class="!text-left">{{ rowData.sold }}</td>
+          <td class="!text-left "><i
+              class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"
+              (click)="handleClickActions(rowData.id, rowData.sku)">{{rowData.action}}</i>
+          </td>
+        </tr>
+      </ng-template>
+    </oms-table>
+  </div>
+</div>

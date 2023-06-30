@@ -27,4 +27,9 @@ export class CustomerService {
             .then(res => res.data as Customer[])
             .then(data => data);
     }
+    GetFeedback() {
+      return this.http
+        .get<any>('./assets/demo/data/product-catalogs.json')
+        .pipe();
+    }
 }

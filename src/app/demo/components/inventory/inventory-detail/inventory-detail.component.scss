@@ -1,0 +1,19 @@
+.p-tabview-nav-container {
+  @apply pt-2 pl-2 pr-2 border-solid border-y-[1px];
+}
+
+.p-fieldset-legend {
+  @apply w-full;
+}
+
+.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a .p-fieldset-toggler {
+  @apply hidden;
+}
+
+.p-ripple {
+  @apply py-3
+}
+
+table{
+  min-width: 0 !important;
+}

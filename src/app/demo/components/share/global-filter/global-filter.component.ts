@@ -4,8 +4,8 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { HelperService } from '../../service/helper.service';
 import { MenuItem } from 'primeng/api';
+import { HelperService } from 'src/app/demo/service/helper.service';
 
 @Component({
   selector: 'app-global-filter',

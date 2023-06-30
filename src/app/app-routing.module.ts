@@ -27,6 +27,23 @@ import { AppLayoutComponent } from './layout/app.layout.component';
                 import('./demo/components/dashboard/dashboard.module').then(
                   m => m.DashboardModule
                 ),
+
+            },
+            {
+              path: 'customer',
+              loadChildren: () =>
+                import('./demo/components/customer/customer.module').then(
+                  (m) => m.CustomerModule
+                ),
+
+            },
+            {
+              path: 'inventory',
+              loadChildren: () =>
+                import('./demo/components/inventory/inventory.module').then(
+                  (m) => m.InventoryModule
+                ),
+
             },
             {
               path: 'uikit',
@@ -91,7 +108,7 @@ import { AppLayoutComponent } from './layout/app.layout.component';
                   m => m.OrdersModule
                 ),
             },
-            
+
             {
               path: 'user',
               loadChildren: () =>

@@ -158,6 +158,20 @@ export const pieChartColors: string[] = [
   colors.primaryLight2,
   colors.primaryLight3,
 ];
+export const pieChartColorsCustomer: string[] = [
+  colors.primary,
+  colors.secondary,
+  colors.fifth,
+  colors.warning,
+  colors.danger,
+];
+export const pieChartColorsCustomerRating: string[] = [
+  colors.danger,
+  colors.warning,
+  colors.fifth,
+  colors.secondary,
+  colors.primary,
+];
 
 export const colorArr: string[] = [
   colors.primary,
@@ -242,6 +256,7 @@ export class OMSChartComponent implements OnChanges {
       colorAxis: { colors: [`${colors.primary}`, `${colors.primary}`] },
       // displayMode: 'markers',
       datalessRegionColor: `${colors.datalessRegion}`,
+      region: '035'
     };
 
     let chart = new google.visualization.GeoChart(

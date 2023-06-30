@@ -1,0 +1,41 @@
+<div class="pb-4">
+  <p-dropdown [options]="channel" (onChange)="handleChannelChange()" [(ngModel)]="selectedChannel"
+    placeholder="Select a City" [editable]="true" optionLabel="displayText" styleClass="mb-4"></p-dropdown>
+  <div class="flex gap-2 justify-center w-full">
+    <div class="flex gap-2 items-center">
+      <span class="pi pi-circle-fill text-xs text-black"></span>
+      <span>Buffer</span>
+    </div>
+    <div class="flex gap-2 items-center">
+      <span class="pi pi-circle-fill text-xs text-red-400"></span>
+      <span>Threshold Value</span>
+    </div>
+  </div>
+  <div class="w-full h-6 bg-gradient-to-r from-lime-400 to-green-700 rounded-sm relative mt-4">
+    <div class="absolute" [class]="'top-[-45%]'" [style]="'left: '+ stockInfo.buffer +'%;'">
+      <oms-color-marker colorClass="bg-black"></oms-color-marker>
+    </div>
+    <div class="absolute" [class]="'top-[-45%]'" [style]="'left: '+ stockInfo.threshold +'%;'">
+      <oms-color-marker colorClass="bg-red-400"></oms-color-marker>
+    </div>
+  </div>
+  <div class="flex justify-between mt-2 mb-8">
+    <span>0</span>
+    <span>{{ maxStatisticValue }}</span>
+  </div>
+  <div class="flex flex-col gap-8 px-10 w-full items-center">
+    <div class="flex justify-center gap-10 w-3/4">
+      <oms-item-statistic class="flex-1" colorClass="text-green-800" displayText="In Hand" [value]="stockInfo.inhand">
+      </oms-item-statistic>
+      <oms-item-statistic class="flex-1" colorClass="text-lime-600" displayText="Buffer" [value]="stockInfo.buffer">
+      </oms-item-statistic>
+      <oms-item-statistic class="flex-1" colorClass="text-orange-400" displayText="In Process" [value]="stockInfo.inProcess">
+      </oms-item-statistic>
+    </div>
+    <div class="flex justify-center gap-10 w-3/4">
+      <oms-item-statistic class="flex-1" displayText="On Hold" [value]="stockInfo.onhold"></oms-item-statistic>
+      <oms-item-statistic class="flex-1" displayText="Unusable" [value]="stockInfo.unusable"></oms-item-statistic>
+      <oms-item-statistic class="flex-1" colorClass="text-black" displayText="Sold" [value]="stockInfo.sold"></oms-item-statistic>
+    </div>
+  </div>
+</div>

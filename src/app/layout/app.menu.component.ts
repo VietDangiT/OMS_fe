@@ -9,6 +9,8 @@ import { ChannelService } from '../demo/service/channel.service';
 import { LayoutService } from './service/app.layout.service';
 import { MenuElement, MenuElementItem } from './service/models/menu.models';
 import { UserService } from '../demo/service/user.service';
+import { InventoryService } from '../demo/components/inventory/services/inventory.service';
+import { Inventory, InventoryByChannelResponse, InventoryChannel } from '../demo/components/inventory/interfaces/inventory.component';
 
 @Component({
   selector: 'app-menu',
@@ -98,6 +100,14 @@ export class AppMenuComponent {
         items: [],
       },
     },
+
+    //   name: 'inventory',
+    //   path: '/inventory',
+    //   icon: 'pi pi-inbox',
+    //   submenu: {
+    //     title: 'Inventory',
+    //     items: [],
+    //   },
     // {
     //   name: 'payment',
     //   path: '/payment',
@@ -107,15 +117,27 @@ export class AppMenuComponent {
     //     items: [],
     //   },
     // },
-    // {
-    //   name: 'inventory',
-    //   path: '/inventory',
-    //   icon: 'pi pi-inbox',
-    //   submenu: {
-    //     title: 'Inventory',
-    //     items: [],
-    //   },
+    //
     // },
+    {
+      name: 'inventory',
+      path: '/inventory',
+      icon: 'pi pi-box',
+      submenu: {
+        title: 'Inventory',
+        items: [],
+      },
+    },
+    {
+      name: 'customer',
+      path: '/customer',
+      icon: 'pi pi-user-plus',
+
+      submenu: {
+        title: 'Customer',
+        items: [],
+      },
+    },
     {
       name: 'user',
       path: '/user/detail',
@@ -165,7 +187,8 @@ export class AppMenuComponent {
     public layoutService: LayoutService,
     private channelService: ChannelService,
     private marketPlaceService: MarketplaceService,
-    private _userService: UserService
+    private _userService: UserService,
+    private inventoryService: InventoryService
   ) {}
 
   ngOnInit(): void {
@@ -175,6 +198,8 @@ export class AppMenuComponent {
 
     this.initMarketplaces();
     this.initUserRole();
+    this.initSubMenuInventory();
+
   }
 
   getNavbarState(): void {
@@ -207,6 +232,36 @@ export class AppMenuComponent {
 
           const index = this.menuElements.findIndex(
             c => c.path === '/channels'
+          );
+
+          this.menuElements[index].submenu.items = resultArr;
+        }),
+
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+  initSubMenuInventory(): void {
+    this.inventoryService
+      .getSubmenuInventory()
+      .pipe(
+        tap(res => {
+          const { channelWithTotalProduct } = res;
+
+          const resultArr: MenuElementItem[] = [];
+
+          channelWithTotalProduct.forEach((i: InventoryChannel) => {
+            resultArr.push({
+              name: i.displayText,
+              content: i.displayText ,
+              path: `/inventory`,
+              param: { channelId: i.id },
+              icon: 'pi pi-box',
+            });
+          });
+
+          const index = this.menuElements.findIndex(
+            i => i.path === '/inventory'
           );
 
           this.menuElements[index].submenu.items = resultArr;

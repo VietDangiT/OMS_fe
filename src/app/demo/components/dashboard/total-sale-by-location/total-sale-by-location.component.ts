@@ -65,12 +65,9 @@ export class TotalSaleByLocationComponent {
 
           data.forEach((item: BaseChart) => {
             this.totalSale += item.value;
-
             temp.push([`${item.displayText}`, item.value.toString()]);
-
             this.locationSale.push({
               displayText: item.displayText,
-
               value: item.value,
             });
           });
