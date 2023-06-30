@@ -8,6 +8,8 @@ import {
 import { MenuItem } from 'primeng/api';
 import { OmsTable } from '../share/model/oms-table';
 import {
+  CardInventory,
+  CardInventoryApiResponse,
   Inventory,
   InventoryParams,
   InventoryTableApiResponse,
@@ -16,7 +18,7 @@ import {
   CHANNEL_ID,
   inventoryLabelItems,
   inventoryTableHeader,
-} from './constrants/inventory.constrants';
+} from './constrants/inventory.constants';
 import { tableConfig } from '../../constants/table.config';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { InventoryService } from './services/inventory.service';
@@ -32,11 +34,13 @@ import { PageChangeEvent } from '../../interface/event';
 })
 export class InventoryComponent implements OnInit {
   @Input() inventory: Inventory;
-  optionInventory:Inventory[];
+  available:number= 0;
+  cardInventory:CardInventory;
   sidebarVisible: boolean = false;
   productVariantId: number;
   productSku: string;
   modalVisible: boolean;
+  countInventory:Inventory[];
   table: OmsTable<Inventory> = {
     page: 0,
     first: 0,
@@ -48,15 +52,16 @@ export class InventoryComponent implements OnInit {
       body: [],
     },
   };
-
+  apiUrl = "https://localhost:7121/api";
   dateRange: Date[] = this.helperService.defaultDateRange;
   dateFilterValue: string[];
-  items: MenuItem[] = inventoryLabelItems;
-  activeItem: MenuItem = this.items[0];
+  labelItems: MenuItem[] = inventoryLabelItems;
+  activeItem: MenuItem = this.labelItems[0];
   gapPageNumber = 1;
   marketPlaceId = 0;
   params: InventoryParams = {
     channelId: null,
+    stockStatusFilter: '',
     fromDate: this.dateRange[0],
     toDate: this.dateRange[1],
     keyword: tableConfig.keyword,
@@ -74,14 +79,16 @@ export class InventoryComponent implements OnInit {
 
   ngOnInit(): void {
         this.getInventoryData();
+        this.getListCardsComponent();
+        this.getOrderStatus();
   }
-
   getInventoryData(): void {
     this.inventoryService
     .getInventoryTableData(this.params)
     .pipe(
       tap(res => {
         const { products } = res;
+
 
         this.table = {
           data: {
@@ -144,5 +151,58 @@ export class InventoryComponent implements OnInit {
     this.productVariantId = productVariantId;
     this.sidebarVisible = true;
   }
+ // filter
+  getListCardsComponent():void {
+    this.inventoryService.getCardInventory()
+    .pipe(
+      tap((res : CardInventoryApiResponse)=> {
+      const  {productStatistic : cardInventory } = res;
+      this.cardInventory = cardInventory;
+      console.log(cardInventory);
+    })
+    )
+    .subscribe();
+  }
 
+  getOrderStatus(): void {
+    this.inventoryService
+      .getCardInventory()
+      .pipe(
+        tap((res : CardInventoryApiResponse)=> {
+          const  {productStatistic : data } = res;
+          const entries = Object.entries(data);
+          console.log(entries);
+          const labelItems: MenuItem[] = [];
+          let total = 0;
+          entries.forEach(d => {
+            if(d[0] !== '__typename'){
+            labelItems.push({
+              title: d[0].replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toLocaleUpperCase(); }),
+              badge: d[1].toString(),
+              label: d[0].toLowerCase(),
+            });
+
+            total += d[1];
+          }
+          });
+
+          this.labelItems = labelItems;
+          inventoryLabelItems[0].badge = total.toString();
+          this.labelItems.unshift(inventoryLabelItems[0]);
+          this.activeItem = this.labelItems[0];
+        })
+      )
+      .subscribe();
+  }
+
+
+  onActiveItemChange(label: MenuItem): void {
+    this.activeItem = label;
+
+    this.handleChannelParams('stockStatusFilter', this.activeItem.label!);
+
+    console.log(this.params);
+
+    this.getInventoryData();
+  }
 }

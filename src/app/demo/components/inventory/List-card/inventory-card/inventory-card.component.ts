@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CardInventory, CardInventoryApiResponse, InventoryParams } from '../../interfaces/inventory.component';
-import { CHANNEL_ID } from '../../constrants/inventory.constrants';
+import { CHANNEL_ID } from '../../constrants/inventory.constants';
 import { InventoryService } from '../../services/inventory.service';
 import { tap } from 'rxjs';
 

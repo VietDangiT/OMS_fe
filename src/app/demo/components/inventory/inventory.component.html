@@ -1,27 +1,20 @@
 <app-topbar></app-topbar>
 <div class="w-full">
-  <app-List-card></app-List-card>
+
+  <app-List-card [card]="cardInventory" ></app-List-card>
   <div class="p-2">
-    <p-tabMenu [model]="items" [activeItem]="activeItem" >
-      <ng-template pTemplate="item" let-item let-i="index">
-        <span class="px-3 py-1 ml-2">
-          {{ item.title | titlecase }}
-        </span>
-        <span _ngcontent-vmi-c95="" class="px-2 py-1 rounded-full bg-primary text-white ng-star-inserted"> {{item.badge}} </span>
-      </ng-template>
-    </p-tabMenu>
+    <oms-tab-menu
+    [labelItems]="labelItems"
+    [activeItem]="activeItem"
+    (onActiveItemChange)="onActiveItemChange($event)"
+  ></oms-tab-menu>
   </div>
   <div class="p-2 flex flex-auto gap-2">
     <oms-screen-filter
+      (dateFilterChange)="dateFilterChange($event)"
       (searchValue)="searchValue($event)"
     >
     </oms-screen-filter>
-    <p-dropdown
-    optionLabel="name"
-    dropdownIcon="pi pi-filter text-primary"
-    [filter]="true"
-  >
-  </p-dropdown>
 
   </div>
   <div class="p-2">
@@ -30,7 +23,7 @@
         <tr>
           <td>
             <div class="w-10 h-10 rounded-md">
-              <img class="object-cover" [src]="rowData.productVariantImage" alt="" />
+              <p-avatar image="{{apiUrl + rowData.productVariantImage}}" styleClass="mr-2" size="xlarge" shape="circle"></p-avatar>
             </div>
           </td>
           <td class="!text-left"> {{ rowData.sku }} </td>

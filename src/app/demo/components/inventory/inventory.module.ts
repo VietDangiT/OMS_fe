@@ -19,30 +19,32 @@ import { ChannelStockComponent } from './channel-stock/channel-stock.component';
 import { ItemStatisticComponent } from './item-statistic/item-statistic.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
+import { TabMenuComponent } from "../share/tab-menu/tab-menu.component";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    InventoryRoutes,
-    MenuModule,
-    AppTopBarModule,
-    TabMenuModule,
-    ShareModule,
-    SidebarModule,
-    ButtonModule,
-    TabViewModule,
-    FieldsetModule,
-    AvatarModule,
-    DropdownModule,
-    FormsModule
-  ],
-  declarations: [InventoryComponent,
-                 ListCardComponent,
-                 InventoryCardComponent,
-                 InventoryDetailComponent,
-                 ListStockOnChannelComponent,
-                 ChannelStockComponent,
-                 ItemStatisticComponent,
-                ]
+    declarations: [InventoryComponent,
+        ListCardComponent,
+        InventoryCardComponent,
+        InventoryDetailComponent,
+        ListStockOnChannelComponent,
+        ChannelStockComponent,
+        ItemStatisticComponent,
+    ],
+    imports: [
+        CommonModule,
+        InventoryRoutes,
+        MenuModule,
+        AppTopBarModule,
+        TabMenuModule,
+        ShareModule,
+        SidebarModule,
+        ButtonModule,
+        TabViewModule,
+        FieldsetModule,
+        AvatarModule,
+        DropdownModule,
+        FormsModule,
+        TabMenuComponent
+    ]
 })
 export class InventoryModule { }

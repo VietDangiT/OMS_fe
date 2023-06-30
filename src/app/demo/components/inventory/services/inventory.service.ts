@@ -21,7 +21,7 @@ import {
   GET_INVENTORY_TABLE,
   GET_LISTED_STOCK_ON_CHANNEL,
   GET_PRODUCT_INVENTORY_INFO,
-} from '../constrants/inventory.constrants';
+} from '../constrants/inventory.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -32,11 +32,13 @@ export class InventoryService {
   getInventoryTableData(
     params: InventoryParams
   ): Observable<InventoryTableApiResponse> {
-    const { channelId, keyword, limit, page, status } = params;
+    const { channelId, keyword, limit, page, status,fromDate,toDate } = params;
     return this.apollo
       .watchQuery<InventoryTableApiResponse>({
         query: GET_INVENTORY_TABLE,
         variables: {
+          fromDate,
+          toDate,
           channelId,
           keyword,
           status,

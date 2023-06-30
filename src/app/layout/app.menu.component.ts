@@ -122,7 +122,7 @@ export class AppMenuComponent {
     {
       name: 'inventory',
       path: '/inventory',
-      icon: 'pi pi-inbox',
+      icon: 'pi pi-box',
       submenu: {
         title: 'Inventory',
         items: [],
@@ -134,7 +134,7 @@ export class AppMenuComponent {
       icon: 'pi pi-user-plus',
 
       submenu: {
-        title: 'CUSTOMER',
+        title: 'Customer',
         items: [],
       },
     },
@@ -255,13 +255,13 @@ export class AppMenuComponent {
               name: i.displayText,
               content: i.displayText ,
               path: `/inventory`,
-              param: { id: i.id },
-              icon: 'pi pi-inbox',
+              param: { channelId: i.id },
+              icon: 'pi pi-box',
             });
           });
 
           const index = this.menuElements.findIndex(
-            c => c.path === '/inventory'
+            i => i.path === '/inventory'
           );
 
           this.menuElements[index].submenu.items = resultArr;

@@ -4,15 +4,20 @@ export const CHANNEL_ID = 1;
 
 export const GET_INVENTORY_TABLE = gql`
   query GetInventoryTableDate(
+    $fromDate: String
+    $toDate: String
     $keyword: String
     $limit: Int
     $page: Int
+    $stockStatusFilter: String
   ) {
     products(
-
-      keyword: $keyword
-      limit: $limit
-      page: $page
+      fromDate: $fromDate,
+      toDate: $toDate,
+      keyword: $keyword,
+      limit: $limit,
+      page: $page,
+      stockStatusFilter: $stockStatusFilter
     ) {
       page
       first
@@ -127,9 +132,9 @@ export const inventoryTableHeader = [
 
 ];
 export const inventoryLabelItems = [
-  { label: '0', id: '1', badge: '10', title: 'All' },
-  { label: '1', id: '2', badge: '20', title: 'Stock available' },
-  { label: '1', id: '2', badge: '30', title: 'Low on stock' },
-  { label: '1', id: '2', badge: '40', title: 'Out of stock' },
+  { label: '', id: '0', badge: '0', title: 'All' },
+  { label: '', id: '2', badge: '0', title: 'Stock available' },
+  { label: '', id: '3', badge: '0', title: 'Low on stock' },
+  { label: '', id: '4', badge: '0', title: 'Out of stock' },
 ];
 

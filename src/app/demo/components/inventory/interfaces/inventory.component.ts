@@ -59,6 +59,7 @@ export interface ChannelByProductVariantApiResponse {
 
 export interface InventoryParams extends PagingParams {
   channelId: number | null;
+  stockStatusFilter: String;
 }
 
 export interface ListedStockOnChannelApiResponse {

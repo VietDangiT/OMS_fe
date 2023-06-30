@@ -108,7 +108,7 @@ import { AppLayoutComponent } from './layout/app.layout.component';
                   m => m.OrdersModule
                 ),
             },
-            
+
             {
               path: 'user',
               loadChildren: () =>
