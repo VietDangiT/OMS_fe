@@ -82,7 +82,6 @@ export class SalesChannelPerformanceComponent {
           },
         },
       },
-      beginAtZero: true
     },
     plugins: {
       legend: {

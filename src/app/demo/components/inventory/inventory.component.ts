@@ -145,4 +145,8 @@ export class InventoryComponent implements OnInit {
     this.sidebarVisible = true;
   }
 
+  handleOnVisibleChange(value: boolean){
+    this.sidebarVisible = value;
+  }
+
 }
