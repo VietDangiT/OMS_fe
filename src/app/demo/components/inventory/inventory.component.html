@@ -1,3 +1,13 @@
+<p-sidebar
+  [(visible)]="sidebarVisible"
+  position="right"
+  [modal]="true"
+  [blockScroll]="true">
+  <ng-template pTemplate="header">
+    <span class="font-bold text-2xl">{{ productSku }}</span>
+  </ng-template>
+  <oms-inventory-detail *ngIf="sidebarVisible" [productVariantId]="productVariantId"></oms-inventory-detail>
+</p-sidebar>
 <app-topbar></app-topbar>
 <div class="w-full">
 
@@ -42,23 +52,5 @@
         </tr>
       </ng-template>
     </oms-table>
-    <p-sidebar [(visible)]="sidebarVisible" position="right" [dismissible]="false" [modal]="true" [blockScroll]="true">
-      <ng-template pTemplate="header">
-        <span class="font-bold text-2xl">{{ productSku }}</span>
-      </ng-template>
-      <oms-inventory-detail [productVariantId]="productVariantId"></oms-inventory-detail>
-    </p-sidebar>
   </div>
 </div>
-
-  <p-sidebar
-    [(visible)]="sidebarVisible"
-    position="right"
-    [dismissible]="false"
-    [modal]="true"
-    [blockScroll]="true">
-    <ng-template pTemplate="header">
-      <span class="font-bold text-2xl">{{ productSku }}</span>
-    </ng-template>
-    <oms-inventory-detail *ngIf="sidebarVisible" [productVariantId]="productVariantId"></oms-inventory-detail>
-  </p-sidebar>
