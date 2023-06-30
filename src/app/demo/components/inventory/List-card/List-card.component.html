@@ -1,0 +1,5 @@
+<div class=" p-2 gap-3 md:grid md:grid-cols-10 sm:flex-col justify-between">
+  <ng-container  *ngFor="let item of card | keyvalue" >
+  <app-inventory-card *ngIf="item.key !== '__typename' " class="md:grid-cols-2 md:col-span-2" [value]="item.value" [displayText]="item.key"></app-inventory-card>
+</ng-container>
+</div>

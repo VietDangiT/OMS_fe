@@ -17,11 +17,12 @@
     [(ngModel)]="dateFilter"
     selectionMode="range"
     view="date"
-    dateFormat="dd.mm.yy"
     [readonlyInput]="true"
     [showIcon]="true"
+    dateFormat="dd.mm.yy"
     appendTo="body"
     inputId="icon"
     class="cursor-pointer"
+    ngDefaultControl
   ></p-calendar>
 </div>

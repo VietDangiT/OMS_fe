@@ -70,7 +70,6 @@ export class TotalSaleByLocationComponent {
 
             this.locationSale.push({
               displayText: item.displayText,
-
               value: item.value,
             });
           });

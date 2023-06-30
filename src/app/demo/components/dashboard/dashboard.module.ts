@@ -12,7 +12,6 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { TableModule } from 'primeng/table';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
 import { ChartsModule } from '../charts/charts.module';
-import { GlobalFilterComponent } from '../global-filter/global-filter.component';
 import { DateFilterComponent } from '../share/date-filter/date-filter.component';
 import { ShareModule } from '../share/share.module';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
@@ -69,7 +68,6 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
     DetailStatisticComponent,
     SaleByLocationComponent,
     TopSellingProductComponent,
-    GlobalFilterComponent,
     TotalSaleByLocationComponent,
     TotalSalesComponent,
     OverviewBoxComponent,
@@ -78,6 +76,10 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
     TotalSaleByChannelItemComponent,
     SaleByLocationItemComponent,
     SaleTotalBoxComponent,
+  ],
+  exports: [
+    DashboardStatisticComponent, 
+    DetailStatisticComponent
   ],
 })
 export class DashboardModule {}

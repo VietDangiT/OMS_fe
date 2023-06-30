@@ -186,6 +186,20 @@ export const pieChartColors: string[] = [
   colors.primaryLight2,
   colors.primaryLight3,
 ];
+export const pieChartColorsCustomer: string[] = [
+  colors.primary,
+  colors.secondary,
+  colors.fifth,
+  colors.warning,
+  colors.danger,
+];
+export const pieChartColorsCustomerRating: string[] = [
+  colors.danger,
+  colors.warning,
+  colors.fifth,
+  colors.secondary,
+  colors.primary,
+];
 
 export const colorObj: { [key: string]: any } = {
   primary: colors.primary,

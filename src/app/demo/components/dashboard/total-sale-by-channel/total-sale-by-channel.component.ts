@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
@@ -33,6 +33,7 @@ interface DataSetItem {
   selector: 'dashboard-total-sale-by-channel',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TotalSaleByChannelComponent implements OnInit {
   private readonly service = inject(TotalSaleByChannelService);

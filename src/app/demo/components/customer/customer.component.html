@@ -1,1 +1,41 @@
-<router-outlet></router-outlet>
+<app-topbar></app-topbar>
+<div class="w-full">
+  <app-global-filter   (dateFilterChange)="dateFilterChanged($event)"></app-global-filter>
+  <div class="gap-2 md:grid md:grid-cols-9 sm:flex-col">
+
+    <div class="md:col-span-6 sm:flex-row">
+      <div class="grid-cols-6 gap-2 md:grid lg:justify-between">
+
+        <div class="p-4 bg-white rounded-md lg:col-span-3 md:col-span-3">
+          <app-customer-loyalty   [filterArr]="filterArr" [pieOptions]="pieOptions"></app-customer-loyalty>
+        </div>
+
+        <div class="p-4 bg-white rounded-md lg:col-span-3 md:col-span-3">
+         <app-customer-feedback   [filterArr]="filterArr" [option]="chartOptions" ></app-customer-feedback>
+        </div>
+      </div>
+      <div class="grid-cols-6 gap-2 mt-2 md:grid lg:justify-between">
+        <div class="p-4 bg-white rounded-md lg:col-span-3 md:col-span-3">
+          <app-customer-bychannel [filterArr]="filterArr" [pieOptions]="pieOptions" ></app-customer-bychannel>
+        </div>
+
+        <div class="p-4 bg-white rounded-md lg:col-span-3 md:col-span-6">
+          <app-customer-rating [filterArr]="filterArr" [pieOptions]="pieOptions" ></app-customer-rating>
+        </div>
+      </div>
+    </div>
+    <div class="rounded-md lg:col-span-3 md:col-span-2">
+      <div class="flex flex-col gap-2">
+        <div>
+          <app-customer-location [filterArr]="filterArr"></app-customer-location>
+        </div>
+        <div class="sm:mb-2 md:mb-0">
+         <app-customer-topproduct [filterArr]="filterArr"></app-customer-topproduct>
+        </div>
+      </div>
+
+      </div>
+
+  </div>
+
+

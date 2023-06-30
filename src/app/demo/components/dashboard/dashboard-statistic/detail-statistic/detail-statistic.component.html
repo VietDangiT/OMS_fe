@@ -22,7 +22,7 @@
       <div
         class="font-bold text-lg md:text-xl max-w-[150px] text-ellipsis overflow-hidden whitespace-nowrap"
       >
-        {{ item.current }}
+        {{ item.current | number : '1.0-2' }}
       </div>
 
       <span
