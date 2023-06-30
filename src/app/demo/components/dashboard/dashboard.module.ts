@@ -77,5 +77,9 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
     SaleByLocationItemComponent,
     SaleTotalBoxComponent,
   ],
+  exports: [
+    DashboardStatisticComponent, 
+    DetailStatisticComponent
+  ],
 })
 export class DashboardModule {}

@@ -1,4 +1,5 @@
 import { PagingParams } from 'src/app/demo/interface/global.model';
+import { Statistic } from '../../dashboard/interfaces/dashboard.models';
 
 export interface Inventory {
   productVariantImage?: string;
@@ -20,10 +21,10 @@ export interface InventoryByChannelResponse {
   channelWithTotalProduct :InventoryChannel[] ;
 }
 export interface ListedStockOnChannel {
-  image: string,
-  info: string,
-  displayText: string,
-  value: number,
+  image: string;
+  info: string;
+  displayText: string;
+  value: number;
 }
 
 export interface CardInventoryApiResponse {
@@ -71,8 +72,6 @@ export interface ListedStockOnChannelApiResponse {
   }[];
 }
 
-
-
 export interface StockInfo {
   inProcess: number;
   sold: number;
@@ -90,4 +89,31 @@ export interface ChannelStockApiResponse {
 
 export interface ProductInventoryInfoApiResponse {
   productInventoryInfo: number;
+}
+
+export interface SaleChannelParams {
+  Id?: number;
+  fromDate?: Date | string;
+  toDate?: Date | string;
+}
+
+export interface SaleChannelStatisticApiResponse {
+  totalSaleByProductVariant: Statistic;
+  totalSoldProductVariant: Statistic;
+  grossProfitByProductVariant: Statistic;
+  grossProfitMarginByProductVariant: Statistic;
+  productSaleOverview: {
+    date: Date,
+    value: number,
+    extraValue: number
+  }[],
+  saleProductByChannel: {
+    percentage: number,
+    displayText: string
+  }[],
+  salesGrowthByProductVariant: {
+    date: Date,
+    value: number,
+    extraValue: number
+  }[],
 }

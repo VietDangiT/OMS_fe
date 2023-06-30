@@ -10,6 +10,8 @@ import {
   InventoryTableApiResponse,
   ListedStockOnChannelApiResponse,
   ProductInventoryInfoApiResponse,
+  SaleChannelParams,
+  SaleChannelStatisticApiResponse,
 } from '../interfaces/inventory.component';
 import { Observable, map } from 'rxjs';
 import {
@@ -21,6 +23,7 @@ import {
   GET_INVENTORY_TABLE,
   GET_LISTED_STOCK_ON_CHANNEL,
   GET_PRODUCT_INVENTORY_INFO,
+  GET_SALES_CHANNEL_STATISTIC,
 } from '../constrants/inventory.constants';
 
 @Injectable({
@@ -113,4 +116,16 @@ export class InventoryService {
       .valueChanges.pipe(map(res => res.data));
   }
 
+  getSaleChannelStatistic(saleChannelParams: SaleChannelParams): Observable<SaleChannelStatisticApiResponse> {
+    return this.apollo
+      .watchQuery<SaleChannelStatisticApiResponse>({
+        query: GET_SALES_CHANNEL_STATISTIC,
+        variables: {
+          productVariantId: saleChannelParams.Id,
+          fromDate: saleChannelParams.fromDate,
+          toDate: saleChannelParams.toDate
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
+  }
 }

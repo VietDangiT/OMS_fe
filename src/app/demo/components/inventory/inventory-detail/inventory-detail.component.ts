@@ -3,6 +3,7 @@ import { InventoryService } from '../services/inventory.service';
 import { ListedStockOnChannel, ListedStockOnChannelApiResponse, ProductInventoryInfoApiResponse } from '../interfaces/inventory.component';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { OmsTable } from '../../share/model/oms-table';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'oms-inventory-detail',
@@ -13,6 +14,7 @@ import { OmsTable } from '../../share/model/oms-table';
 export class InventoryDetailComponent {
   @Input() productVariantId: number;
   @Input() isSidebarShow: boolean;
+  apiUrl = environment.apiUrl;
   numberListedOnChannel: number = 0;
   destroy$ = new Subject();
   table: OmsTable<ListedStockOnChannel> = {

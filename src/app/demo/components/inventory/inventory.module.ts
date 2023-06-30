@@ -19,6 +19,8 @@ import { ChannelStockComponent } from './channel-stock/channel-stock.component';
 import { ItemStatisticComponent } from './item-statistic/item-statistic.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
+import { SalesChannelPerformanceComponent } from './sales-channel-performance/sales-channel-performance.component';
+import { DashboardModule } from '../dashboard/dashboard.module';
 import { TabMenuComponent } from "../share/tab-menu/tab-menu.component";
 
 @NgModule({
@@ -29,6 +31,7 @@ import { TabMenuComponent } from "../share/tab-menu/tab-menu.component";
         ListStockOnChannelComponent,
         ChannelStockComponent,
         ItemStatisticComponent,
+        SalesChannelPerformanceComponent,
     ],
     imports: [
         CommonModule,
@@ -44,6 +47,7 @@ import { TabMenuComponent } from "../share/tab-menu/tab-menu.component";
         AvatarModule,
         DropdownModule,
         FormsModule,
+        DashboardModule,
         TabMenuComponent
     ]
 })
