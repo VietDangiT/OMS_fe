@@ -6,6 +6,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Subject, tap } from 'rxjs';
 import { HelperService } from 'src/app/demo/service/helper.service';
@@ -29,6 +30,8 @@ export class UserFormComponent {
   route = inject(Router);
 
   notificationService = inject(NotificationService);
+
+  sanitizer = inject(DomSanitizer);
 
   editForm: FormGroup;
 
@@ -84,6 +87,10 @@ export class UserFormComponent {
         })
       )
       .subscribe();
+  }
+
+  getTimeStamp(): number {
+    return Date.now();
   }
 
   edit(): void {

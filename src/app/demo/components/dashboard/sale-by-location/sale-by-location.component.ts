@@ -18,7 +18,6 @@ import { PagingInfo } from '../../share/model/paginginfo';
 import {
   barBaseChartOptions,
   baseChartOptions,
-  colorObj,
   heatmapChartOptions,
   pieChartColors,
   pieChartOptions,
@@ -173,24 +172,11 @@ export class SaleByLocationComponent {
         tap(res => {
           const { saleLeads: data } = res;
 
-          const labelArr: string[] = [];
-          const valueArr: number[] = [];
-
-          data.forEach(d => {
-            labelArr.push(d.displayText);
-
-            valueArr.push(d.value);
-          });
-
-          this.leadData = {
-            labels: labelArr,
-            datasets: [
-              {
-                data: valueArr,
-                backgroundColor: colorObj['primary'],
-              },
-            ],
-          };
+          this.leadData = this.helperService.setupBasicChartData(
+            true,
+            data,
+            this.dateRange
+          );
         }),
         takeUntil(this.destroy$)
       )
@@ -229,16 +215,7 @@ export class SaleByLocationComponent {
           this.comparedPercentage =
             totalPreviousVal > 0 ? totalCurrentVal / totalPreviousVal : -100;
 
-          this.salesData = {
-            labels: labelArr,
-            datasets: [
-              {
-                data: valueArr,
-                borderColor: colorObj['primary'],
-                pointRadius: 0,
-              },
-            ],
-          };
+          this.salesData = this.helperService.setChartData(labelArr, valueArr);
         }),
         takeUntil(this.destroy$)
       )

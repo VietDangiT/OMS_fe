@@ -4,6 +4,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { switchMap, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { HelperService } from 'src/app/demo/service/helper.service';
@@ -30,6 +31,8 @@ export class UserDetailComponent {
   orderService = inject(OrdersService);
 
   helperService = inject(HelperService);
+
+  sanitizer = inject(DomSanitizer);
 
   user: Partial<User> = {
     avatar: '',
@@ -112,6 +115,10 @@ export class UserDetailComponent {
         })
       )
       .subscribe();
+  }
+
+  getTimeStamp(): number {
+    return Date.now();
   }
 
   initUserOrdersTable(res: OrderApiResponse) {

@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
 import {
+  GET_AVG_PRICE,
   GET_ORDER_BY_CHANNEL,
   GET_ORDER_SUMMARY,
+  GET_TOP_SOLD_PRODUCT,
   GET_TOTAL_ORDER_TABLE,
 } from '../constants/total-orders.constants';
 import {
+  AvgPriceApiResponse,
   OrderByChannelApiResponse,
   OrderParams,
+  TopSoldProductApiResponse,
   TotalOrderByStatusApiResponse,
   TotalOrderSummaryApiResponse,
 } from '../models/total-orders.models';
@@ -62,6 +66,42 @@ export class TotalOrdersService {
           channelId,
           fromDate,
           toDate,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
+  }
+
+  getAvgPricePerOrder(
+    params: Partial<OrderParams>
+  ): Observable<AvgPriceApiResponse> {
+    const { channelId, fromDate, toDate } = params;
+
+    return this.apollo
+      .watchQuery<AvgPriceApiResponse>({
+        query: GET_AVG_PRICE,
+        variables: {
+          channelId,
+          fromDate,
+          toDate,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
+  }
+
+  getTopSoldProducts(
+    params: Partial<OrderParams>,
+    top: number
+  ): Observable<TopSoldProductApiResponse> {
+    const { channelId, fromDate, toDate } = params;
+
+    return this.apollo
+      .watchQuery<TopSoldProductApiResponse>({
+        query: GET_TOP_SOLD_PRODUCT,
+        variables: {
+          channelId,
+          fromDate,
+          toDate,
+          top,
         },
       })
       .valueChanges.pipe(map(res => res.data));

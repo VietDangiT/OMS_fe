@@ -6,6 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { SafeUrl } from '@angular/platform-browser';
 import { AvatarModule } from 'primeng/avatar';
 
 @Component({
@@ -16,7 +17,7 @@ import { AvatarModule } from 'primeng/avatar';
   styleUrls: ['./avatar.component.scss'],
 })
 export class AvatarComponent {
-  @Input() imgSrc: string;
+  @Input() imgSrc: string | SafeUrl;
 
   @Input() shape = 'square';
 

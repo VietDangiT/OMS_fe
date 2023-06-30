@@ -5,9 +5,13 @@
     <div class="flex justify-between items-end">
       <div class="flex gap-8 items-center">
         <div class="w-32 h-32">
-          <a [routerLink]="editRouterLink">
+          <a [routerLink]="editRouterLink" *ngIf="u.avatar">
             <img
-              [src]="u.avatar!"
+              [src]="
+                sanitizer.bypassSecurityTrustUrl(
+                  u.avatar + '&' + getTimeStamp()
+                )
+              "
               alt="user-avatar"
               i18n-alt
               class="w-full h-full object-cover rounded-full border-white border-2"

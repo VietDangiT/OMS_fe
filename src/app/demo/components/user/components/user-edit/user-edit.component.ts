@@ -27,9 +27,11 @@ export class UserEditComponent {
 
   edit(form: FormGroup): void {
     if (!form.valid) {
-      this.notificationService.successNotification(
+      this.notificationService.errorNotification(
         $localize`Edit form must be valid or filled`
       );
+
+      return;
     }
 
     this.userService

@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { ChartData } from 'chart.js';
+import { BaseChart } from '../components/dashboard/interfaces/dashboard.models';
+import { colorObj } from '../components/share/oms-chart/oms-chart.component';
 import { DateFilterValues, StatusMap } from '../interface/global.model';
 
 @Injectable({
@@ -14,13 +17,15 @@ export abstract class HelperService {
   statusClasses: StatusMap = {
     active: 'text-success',
     completed: 'text-success',
+    on_process: 'text-fifth',
+    on_shipping: 'text-secondary',
     inactive: 'text-danger',
     failed: 'text-danger',
-    pending: 'text-orange-400',
-    delivery: 'text-warning',
-    return: 'text-blue-500',
+    pending: 'text-secondary',
+    delivery: 'text-secondary',
+    return: 'text-primary',
     cancelled: 'text-danger',
-    unpaid: 'text-warning',
+    unpaid: 'text-black',
   };
 
   defaultDateRange: Date[] = [this.addDays(new Date(), -7), new Date()];
@@ -97,5 +102,47 @@ export abstract class HelperService {
     }
 
     return new Date(date).toLocaleDateString();
+  }
+
+  setupBasicChartData(
+    isText = false,
+    data: BaseChart[],
+    dateRange: Date[] | string[],
+    label = ''
+  ): ChartData {
+    let totalArr: number[] = [];
+
+    let labelArr: string[] = [];
+
+    data.forEach((item: BaseChart) => {
+      totalArr.push(item.value);
+
+      labelArr.push(
+        !isText
+          ? this.convertToDisplayDate(item.date, dateRange)
+          : item.displayText
+      );
+    });
+
+    return this.setChartData(labelArr, totalArr, label);
+  }
+
+  setChartData(
+    labels: string[],
+    data: number[],
+    label: string = ''
+  ): ChartData {
+    return {
+      labels,
+      datasets: [
+        {
+          label,
+          data,
+          borderColor: colorObj['primary'],
+          backgroundColor: colorObj['primary'],
+          pointRadius: 0,
+        },
+      ],
+    };
   }
 }

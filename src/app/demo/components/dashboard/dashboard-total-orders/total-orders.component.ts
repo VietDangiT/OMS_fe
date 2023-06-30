@@ -8,7 +8,6 @@ import {
 import { ChartData, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { colorObj } from '../../share/oms-chart/oms-chart.component';
 import {
   BaseChart,
   TotalOrderApiResponse,
@@ -71,7 +70,7 @@ export class DashboardTotalOrdersComponent {
       totalArr.push(item.value);
 
       labelArr.push(
-        this.helperService.convertToDisplayDate(item.text, this.filterArr)
+        this.helperService.convertToDisplayDate(item.date, this.filterArr)
       );
 
       order += item.value;
@@ -79,16 +78,10 @@ export class DashboardTotalOrdersComponent {
 
     this.totalOrder = order.toLocaleString('en-US');
 
-    this.totalOrderData = {
-      labels: labelArr,
-      datasets: [
-        {
-          label: $localize`Total Orders`,
-          data: totalArr,
-          borderColor: colorObj['primary'],
-          backgroundColor: colorObj['primary'],
-        },
-      ],
-    };
+    this.totalOrderData = this.helperService.setChartData(
+      labelArr,
+      totalArr,
+      $localize`Total Orders`
+    );
   }
 }

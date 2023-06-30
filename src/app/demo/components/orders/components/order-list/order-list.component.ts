@@ -151,6 +151,8 @@ export class OrderListComponent {
 
       this.dateRange = dates;
 
+      this.handleOrderParams('page', tableConfig.gapPageNumber);
+
       this.getComponentData();
     }
   }

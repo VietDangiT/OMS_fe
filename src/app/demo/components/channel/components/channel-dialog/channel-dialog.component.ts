@@ -60,7 +60,11 @@ export class ChannelDialogComponent {
           const { first, page, pageCount, totalRecord, rows } = data;
 
           const updatedData = data.data.map(d => {
-            return { ...d, date: new Date(d.date!).toLocaleDateString() };
+            return {
+              ...d,
+              date: new Date(d.date!).toLocaleDateString(),
+              storeImage: this.helperService.refactorImg(d.storeImage),
+            };
           });
 
           this.tableData = {

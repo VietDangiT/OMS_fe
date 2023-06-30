@@ -21,7 +21,6 @@ import { PagingInfo } from '../../share/model/paginginfo';
 import {
   barHorizontalBaseChartOptions,
   baseChartOptions,
-  colorObj,
 } from '../../share/oms-chart/oms-chart.component';
 import {
   BaseChart,
@@ -29,6 +28,7 @@ import {
 } from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 import {
+  LIMIT_OF_PRODUCT_SELECTION,
   NUMBER_OF_PRODUCT,
   totalOrdersTableHeader,
 } from './constants/total-orders.constants';
@@ -64,9 +64,9 @@ export class TotalOrdersComponent implements OnInit {
 
   selectedMarketplace: Marketplace;
 
-  selectedNumber = 0;
+  selectedNumber = NUMBER_OF_PRODUCT;
 
-  numbers = Array.from({ length: NUMBER_OF_PRODUCT }, (_, i) => i + 1);
+  numbers = Array.from({ length: LIMIT_OF_PRODUCT_SELECTION }, (_, i) => i + 1);
 
   tableData: OmsTable<TotalOrder> = {
     page: 0,
@@ -134,6 +134,7 @@ export class TotalOrdersComponent implements OnInit {
     datasets: [],
     labels: [],
   };
+
   destroy$ = new Subject();
 
   ngOnInit(): void {
@@ -161,6 +162,10 @@ export class TotalOrdersComponent implements OnInit {
     this.getTotalOrder();
 
     this.getOrderByChannel();
+
+    this.getAvgPricePerOrder();
+
+    this.getTopSoldProduct();
   }
 
   getChannels(): void {
@@ -198,29 +203,11 @@ export class TotalOrdersComponent implements OnInit {
         tap(res => {
           const { totalOrderByChannel: data } = res;
 
-          let totalArr: number[] = [];
-
-          let labelArr: string[] = [];
-
-          data.forEach((item: BaseChart) => {
-            totalArr.push(item.value);
-
-            labelArr.push(
-              this.helperService.convertToDisplayDate(item.date, this.dateRange)
-            );
-          });
-
-          this.orderByChannel = {
-            labels: labelArr,
-            datasets: [
-              {
-                label: $localize`Orders by channel`,
-                data: totalArr,
-                borderColor: colorObj['primary'],
-                backgroundColor: colorObj['primary'],
-              },
-            ],
-          };
+          this.orderByChannel = this.helperService.setupBasicChartData(
+            false,
+            data,
+            this.dateRange
+          );
         })
       )
       .subscribe();
@@ -267,37 +254,50 @@ export class TotalOrdersComponent implements OnInit {
         tap((result: TotalOrderApiResponse) => {
           const { totalOrdersBy: totalOrders } = result;
 
-          this.initTotalOrderChart(totalOrders);
+          this.overviewData = this.helperService.setupBasicChartData(
+            false,
+            totalOrders,
+            this.dateRange,
+            $localize`Total Orders`
+          );
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
   }
 
-  initTotalOrderChart(result: BaseChart[]): void {
-    let totalArr: number[] = [];
+  getAvgPricePerOrder(): void {
+    this.service
+      .getAvgPricePerOrder(this.params)
+      .pipe(
+        tap(res => {
+          const { averagePricePerOrder: data } = res;
 
-    let labelArr: string[] = [];
+          this.avgPricePerOrder = this.helperService.setupBasicChartData(
+            false,
+            data,
+            this.dateRange
+          );
+        })
+      )
+      .subscribe();
+  }
 
-    result.forEach((item: BaseChart) => {
-      totalArr.push(item.value);
+  getTopSoldProduct(): void {
+    this.service
+      .getTopSoldProducts(this.params, this.selectedNumber)
+      .pipe(
+        tap(res => {
+          const { topSoldProduct: data } = res;
 
-      labelArr.push(
-        this.helperService.convertToDisplayDate(item.text, this.dateRange)
-      );
-    });
-
-    this.overviewData = {
-      labels: labelArr,
-      datasets: [
-        {
-          label: $localize`Total Orders`,
-          data: totalArr,
-          borderColor: colorObj['primary'],
-          backgroundColor: colorObj['primary'],
-        },
-      ],
-    };
+          this.topSoldProducts = this.helperService.setupBasicChartData(
+            true,
+            data,
+            this.dateRange
+          );
+        })
+      )
+      .subscribe();
   }
 
   dateFilterChanged(dateRange: Date[]): void {
@@ -330,12 +330,14 @@ export class TotalOrdersComponent implements OnInit {
     this.getOrderByChannel();
 
     this.getOrderTable();
+
+    this.getAvgPricePerOrder();
+
+    this.getTopSoldProduct();
   }
 
   onSelectedNumber(): void {
-    // this.selectedNumber = e.value;
-
-    console.log(this.selectedNumber);
+    this.getTopSoldProduct();
   }
 
   handleParams(

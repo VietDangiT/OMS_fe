@@ -32,8 +32,6 @@ export const GET_USER_DETAIL = gql`
   query GetUserDetail($id: Int!) {
     userDetail(id: $id) {
       fullName
-      userName
-      userPassword
       phoneNumber
       dob
       gender

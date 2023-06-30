@@ -8,7 +8,6 @@ import {
 import { ChartData, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { colorObj } from '../../share/oms-chart/oms-chart.component';
 import {
   BaseChart,
   TotalSalesApiResponse,
@@ -81,19 +80,10 @@ export class TotalSaleChartComponent {
 
     this.totalSale = sale.toLocaleString('en-US');
 
-    this.totalSaleData = {
-      labels: labelArr,
-      datasets: [
-        {
-          label: $localize`Total Sales`,
-          data: totalArr,
-          borderColor: colorObj['primary'],
-          backgroundColor: colorObj['primary'],
-          tension: 0.4,
-          pointBorderWidth: 2,
-          pointRadius: 0,
-        },
-      ],
-    };
+    this.totalSaleData = this.helperService.setChartData(
+      labelArr,
+      totalArr,
+      $localize`Total Sales`
+    );
   }
 }

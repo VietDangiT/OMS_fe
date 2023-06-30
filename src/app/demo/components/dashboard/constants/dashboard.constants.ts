@@ -40,7 +40,7 @@ export const GET_TOTAL_SALES_BY_LOCATION = gql`
 export const GET_TOTAL_ORDERS = gql`
   query GetTotalOrders($fromDate: String!, $toDate: String!) {
     totalOrdersBy(fromDate: $fromDate, toDate: $toDate) {
-      text
+      date
       value
     }
   }

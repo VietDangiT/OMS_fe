@@ -123,6 +123,18 @@ export const barHorizontalBaseChartOptions: ChartOptions = {
       display: false,
     },
   },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+    },
+  },
 };
 
 export const heatmapChartOptions: Partial<heatChartOptions> | any = {

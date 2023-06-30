@@ -31,3 +31,11 @@ export interface OrderByChannelApiResponse {
 export interface OrderParams extends PagingParams {
   channelId?: number | null;
 }
+
+export interface AvgPriceApiResponse {
+  averagePricePerOrder: BaseChart[];
+}
+
+export interface TopSoldProductApiResponse {
+  topSoldProduct: BaseChart[];
+}

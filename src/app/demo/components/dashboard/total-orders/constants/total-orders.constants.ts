@@ -68,4 +68,38 @@ export const GET_ORDER_BY_CHANNEL = gql`
   }
 `;
 
+export const GET_AVG_PRICE = gql`
+  query GetAvgPrice($channelId: Int, $fromDate: String, $toDate: String) {
+    averagePricePerOrder(
+      channelId: $channelId
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
+      value
+      date
+    }
+  }
+`;
+
+export const GET_TOP_SOLD_PRODUCT = gql`
+  query GetTopSoldProduct(
+    $channelId: Int
+    $fromDate: String
+    $toDate: String
+    $top: Int
+  ) {
+    topSoldProduct(
+      channelId: $channelId
+      fromDate: $fromDate
+      toDate: $toDate
+      top: $top
+    ) {
+      value
+      displayText
+    }
+  }
+`;
+
 export const NUMBER_OF_PRODUCT = 5;
+
+export const LIMIT_OF_PRODUCT_SELECTION = 8;

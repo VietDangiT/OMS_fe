@@ -26,9 +26,7 @@ export class UserService {
     return {
       ...user,
       dob: new Date(user.dob!).toLocaleDateString(),
-      avatar: this.helperService.refactorImgBase64(
-        this.helperService.arrayBufferToBase64(user.avatar!)
-      ),
+      avatar: this.helperService.refactorImg(user.avatar!),
     };
   }
 

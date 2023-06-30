@@ -15,9 +15,7 @@ import { OmsTable } from '../../share/model/oms-table';
 import {
   barBaseChartOptions,
   baseChartOptions,
-  colorObj,
 } from '../../share/oms-chart/oms-chart.component';
-import { BaseChart } from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 import { totalSalesTableHeader } from './constants/total-sales.constants';
 import { TotalSalesTableDTO } from './models/total-sales.models';
@@ -126,27 +124,12 @@ export class TotalSalesComponent {
         tap(res => {
           const { totalSaleByChannel: data } = res;
 
-          let totalArr: number[] = [];
-
-          let labelArr: string[] = [];
-
-          data.forEach((item: BaseChart) => {
-            totalArr.push(item.value);
-
-            labelArr.push(item.displayText);
-          });
-
-          this.overviewData = {
-            labels: labelArr,
-            datasets: [
-              {
-                label: $localize`Sales by channel`,
-                data: totalArr,
-                borderColor: colorObj['primary'],
-                backgroundColor: colorObj['primary'],
-              },
-            ],
-          };
+          this.overviewData = this.helperService.setupBasicChartData(
+            true,
+            data,
+            this.dateRange,
+            $localize`Sales by channel`
+          );
         }),
         takeUntil(this.destroy$)
       )
@@ -245,17 +228,10 @@ export class TotalSalesComponent {
             this.avgSales = totalSales / selectedData.length;
             this.avgSalesPercent = this.avgSales / avgSalesCompareData;
 
-            this.revenueData = {
-              labels: labelArr,
-              datasets: [
-                {
-                  data: totalArr,
-                  borderColor: colorObj['primary'],
-                  fill: false,
-                  pointRadius: 0,
-                },
-              ],
-            };
+            this.revenueData = this.helperService.setChartData(
+              labelArr,
+              totalArr
+            );
           }
         }),
         takeUntil(this.destroy$)
