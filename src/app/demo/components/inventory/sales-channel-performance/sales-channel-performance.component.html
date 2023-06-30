@@ -2,30 +2,30 @@
   <div>
     <app-global-filter (dateFilterChange)="dateFilterChanged($event)"></app-global-filter>
   </div>
-  <div class="flex gap-2 mb-2 mt-6 max-h-[221px]">
-    <div class="w-1/4">
+  <div class="flex gap-2 mb-2 mt-6">
+    <div class="w-1/3">
         <dashboard-detail-statistic [detailStatistic]="productSummary"></dashboard-detail-statistic>
     </div>
-    <div class="w-3/4 bg-slate-50 p-2 rounded-md flex flex-col">
-      <span>Product Sales Overview</span>
+    <div class="w-2/3 bg-slate-50 rounded-md flex flex-col pt-6 chart-container">
+      <span class="font-medium text-lg pl-6">Product Sales Overview</span>
       <div class="flex-1">
         <oms-chart type="bar" [options]="overviewChartOptions" [data]="overviewData"></oms-chart>
       </div>
     </div>
   </div>
-  <div class="flex gap-2 my-2 max-h-[221px]">
-    <div class="w-1/4">
+  <div class="flex gap-2 my-2">
+    <div class="w-1/3">
       <dashboard-detail-statistic [detailStatistic]="grossProfitSummary"></dashboard-detail-statistic>
     </div>
-    <div class="w-3/4 bg-slate-50 p-2 rounded-md flex flex-col">
-      <span>Sale By Channel</span>
+    <div class="w-2/3 bg-slate-50 rounded-md pb-2 flex flex-col pt-6 chart-container">
+      <span class="font-medium text-lg pl-6">Sale By Channel</span>
       <div class="flex-1 h-[80%]" >
         <oms-chart type="doughnut" [data]="pieData" [options]="pieOptions"></oms-chart>
       </div>
     </div>
   </div>
-  <div class="bg-slate-50 p-2 rounded-md my-2">
-    <p class="text-center">Sales Growth</p>
+  <div class="bg-slate-50 pt-6 rounded-md my-2">
+    <p class="text-center font-medium text-lg">Sales Growth</p>
     <oms-chart type="bar" [options]="negativeChartOptions" [data]="salesGrowth"></oms-chart>
   </div>
 </div>

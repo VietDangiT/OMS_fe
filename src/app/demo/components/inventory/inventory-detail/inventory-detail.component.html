@@ -1,4 +1,4 @@
-<div class="min-w-[425px] mt-6">
+<div class="min-w-[869px] mt-6">
   <div class="flex justify-center gap-8 pb-4 px-2">
     <oms-information-card [label]="numberListedOnChannel + ''" title="Listed On" description="Sales channel Store"></oms-information-card>
     <oms-information-card [isImageUrl]="false"
@@ -37,7 +37,7 @@
                 <tr>
                   <td>
                     <div class="flex items-center">
-                      <p-avatar [image]="'data:image/png;base64, ' + rowData.image" styleClass="mr-2" size="large"
+                      <p-avatar [image]="apiUrl + '/' + rowData.image" styleClass="mr-2" size="large"
                         shape="circle"></p-avatar>
                       <span>{{ rowData.displayText }}</span>
                     </div>

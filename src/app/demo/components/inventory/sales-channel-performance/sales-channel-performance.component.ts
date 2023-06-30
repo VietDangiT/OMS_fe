@@ -102,7 +102,7 @@ export class SalesChannelPerformanceComponent {
   pieOptions: any = {
     responsive: true,
     maintainAspectRatio: false,
-    cutout: 75,
+    cutout: 95,
     plugins: {
       legend: {
         position: 'right',
@@ -134,11 +134,6 @@ export class SalesChannelPerformanceComponent {
   overviewData: ChartData = {
     labels: [],
     datasets: [
-      {
-        label: '# Sold Product',
-        backgroundColor: colors.primary,
-        data: [],
-      },
       {
         label: 'Total Sales',
         backgroundColor: colors.secondary,
@@ -195,8 +190,7 @@ export class SalesChannelPerformanceComponent {
           //Overview Chart
           const tmpOverviewData = this.overviewData;
           tmpOverviewData.labels = res.productSaleOverview.map(item => new Date(item.date).toLocaleDateString());
-          tmpOverviewData.datasets[FIRST_INDEX].data = res.productSaleOverview.map(item => item.extraValue);
-          tmpOverviewData.datasets[SECOND_INDEX].data = [...res.productSaleOverview].map(item => item.value);
+          tmpOverviewData.datasets[FIRST_INDEX].data = [...res.productSaleOverview].map(item => item.value);
           this.overviewData = {...tmpOverviewData};
 
           //Sale Growth Chart
