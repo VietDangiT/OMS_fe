@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from '../../constants/table.config';
@@ -14,7 +15,7 @@ import {
   CardInventoryApiResponse,
   Inventory,
   InventoryParams,
-} from './interfaces/inventory.component';
+} from './interfaces/inventory.models';
 import { InventoryService } from './services/inventory.service';
 
 @Component({
@@ -43,8 +44,7 @@ export class InventoryComponent implements OnInit {
       body: [],
     },
   };
-  apiUrl = 'https://localhost:7121/api';
-  dateRange: Date[] = this.helperService.defaultDateRange;
+  dateRange: Date[] = [];
   dateFilterValue: string[];
   labelItems: MenuItem[] = inventoryLabelItems;
   activeItem: MenuItem = this.labelItems[0];
@@ -53,8 +53,8 @@ export class InventoryComponent implements OnInit {
   params: InventoryParams = {
     channelId: null,
     stockStatusFilter: '',
-    fromDate: this.dateRange[0],
-    toDate: this.dateRange[1],
+    fromDate: null,
+    toDate: null,
     keyword: tableConfig.keyword,
     limit: tableConfig.pageLimit,
     page: tableConfig.page,
@@ -64,14 +64,34 @@ export class InventoryComponent implements OnInit {
 
   constructor(
     private inventoryService: InventoryService,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private router: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.router.queryParamMap
+      .pipe(
+        tap(params => {
+          this.marketPlaceId = Number(params.get('marketplaceId'));
+
+          if (this.marketPlaceId) {
+            this.handleChannelParams('channelId', this.marketPlaceId);
+          } else {
+            this.handleChannelParams('channelId', null);
+          }
+
+          this.getComponentData();
+        })
+      )
+      .subscribe();
+  }
+
+  getComponentData(): void {
     this.getInventoryData();
-    this.getListCardsComponent();
+
     this.getOrderStatus();
   }
+
   getInventoryData(): void {
     this.inventoryService
       .getInventoryTableData(this.params)
@@ -79,10 +99,19 @@ export class InventoryComponent implements OnInit {
         tap(res => {
           const { products } = res;
 
+          const updatedData = products.data.map(d => {
+            return {
+              ...d,
+              productVariantImage: this.helperService.prefixImgSrc(
+                d.productVariantImage!
+              ),
+            };
+          });
+
           this.table = {
             data: {
               header: [...this.table.data.header],
-              body: [...products.data],
+              body: [...updatedData],
             },
             first: products.first,
             page: products.page,
@@ -122,7 +151,7 @@ export class InventoryComponent implements OnInit {
 
   handleChannelParams(
     key: keyof InventoryParams,
-    value: string | number | Date
+    value: string | number | Date | null
   ): void {
     this.params = {
       ...this.params,
@@ -130,35 +159,21 @@ export class InventoryComponent implements OnInit {
     };
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next('');
-    this.destroy$.complete();
-  }
-
   handleClickActions(productVariantId: number, productSku: string) {
     this.productSku = productSku;
     this.productVariantId = productVariantId;
     this.sidebarVisible = true;
   }
-  // filter
-  getListCardsComponent(): void {
-    this.inventoryService
-      .getCardInventory()
-      .pipe(
-        tap((res: CardInventoryApiResponse) => {
-          const { productStatistic: cardInventory } = res;
-          this.cardInventory = cardInventory;
-        })
-      )
-      .subscribe();
-  }
 
   getOrderStatus(): void {
     this.inventoryService
-      .getCardInventory()
+      .getCardInventory(this.params.channelId!)
       .pipe(
         tap((res: CardInventoryApiResponse) => {
           const { productStatistic: data } = res;
+
+          this.cardInventory = data;
+
           const entries = Object.entries(data);
           const labelItems: MenuItem[] = [];
           let total = 0;
@@ -193,5 +208,10 @@ export class InventoryComponent implements OnInit {
     this.handleChannelParams('stockStatusFilter', this.activeItem.label!);
 
     this.getInventoryData();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next('');
+    this.destroy$.complete();
   }
 }

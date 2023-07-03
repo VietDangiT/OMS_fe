@@ -3,12 +3,11 @@
   (click)="handleUserDetail($event)"
 >
   <td class="user-item-row text-left">
-    <p-avatar
-      image="{{ user.avatar }}"
-      styleClass="mr-2"
-      size="xlarge"
+    <oms-avatar
+      [imgSrc]="user.avatar!"
+      size="large"
       shape="circle"
-    ></p-avatar>
+    ></oms-avatar>
   </td>
 
   <td class="user-item-row text-left">{{ user.fullName | titlecase }}</td>
@@ -30,9 +29,9 @@
     </div>
   </td>
 
-  <td class="user-item-row text-center" (click)="handleAction($event)">
+  <!-- <td class="user-item-row text-center" (click)="handleAction($event)">
     <i
       class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"
     ></i>
-  </td>
+  </td> -->
 </tr>

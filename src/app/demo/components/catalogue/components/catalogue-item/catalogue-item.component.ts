@@ -19,10 +19,12 @@ export class CatalogueItemComponent {
   ngOnInit(): void {
     this.catalogue = {
       ...this.catalogue,
-      productVariantImage: this.helperService.refactorImg(
+      productVariantImage: this.helperService.prefixImgSrc(
         this.catalogue.productVariantImage
       ),
-      channelImage: this.helperService.refactorImg(this.catalogue.channelImage),
+      channelImage: this.helperService.prefixImgSrc(
+        this.catalogue.channelImage
+      ),
     };
   }
 

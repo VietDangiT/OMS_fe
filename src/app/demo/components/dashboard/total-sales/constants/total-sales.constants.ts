@@ -54,6 +54,7 @@ export const GET_SALE_STATISTIC = gql`
       current
       previous
       percentage
+      text
     }
   }
 `;

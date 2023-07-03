@@ -32,6 +32,8 @@ export class AvatarComponent {
 
   imageError(e: Event): void {
     this.onImageError.emit(e);
+
+    if (e) this.imgSrc = '/assets/avt.jpg';
   }
 
   ngOnChanges(changes: SimpleChanges): void {

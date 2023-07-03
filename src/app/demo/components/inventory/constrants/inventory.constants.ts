@@ -1,9 +1,7 @@
 import { gql } from 'apollo-angular';
-import { MenuItem } from 'primeng/api';
-export const CHANNEL_ID = 1;
 
 export const GET_INVENTORY_TABLE = gql`
-  query GetInventoryTableDate(
+  query GetInventoryTableData(
     $fromDate: String
     $toDate: String
     $keyword: String
@@ -12,11 +10,11 @@ export const GET_INVENTORY_TABLE = gql`
     $stockStatusFilter: String
   ) {
     products(
-      fromDate: $fromDate,
-      toDate: $toDate,
-      keyword: $keyword,
-      limit: $limit,
-      page: $page,
+      fromDate: $fromDate
+      toDate: $toDate
+      keyword: $keyword
+      limit: $limit
+      page: $page
       stockStatusFilter: $stockStatusFilter
     ) {
       page
@@ -38,7 +36,7 @@ export const GET_INVENTORY_TABLE = gql`
   }
 `;
 export const GET_CARD_INVENTORY = gql`
-  query GetInventoryTableDate($channelId: Int) {
+  query GetInventoryTableData($channelId: Int) {
     productStatistic(channelId: $channelId) {
       live
       outOfStock
@@ -50,11 +48,11 @@ export const GET_CARD_INVENTORY = gql`
 `;
 export const GET_CHANNEL_INVENTORY = gql`
   query GetChannelWithTotalProduct {
-    channelWithTotalProduct{
+    channelWithTotalProduct {
       displayText
       value
-      }
     }
+  }
 `;
 
 export const GET_LISTED_STOCK_ON_CHANNEL = gql`
@@ -141,16 +139,28 @@ export const GET_SALES_CHANNEL_STATISTIC = gql`
       text
       current
     }
-    productSaleOverview(productVariantId: $productVariantId, fromDate: $fromDate, toDate: $toDate){
+    productSaleOverview(
+      productVariantId: $productVariantId
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
       date
       value
       extraValue
     }
-    saleProductByChannel(productVariantId: $productVariantId, fromDate: $fromDate, toDate: $toDate){
+    saleProductByChannel(
+      productVariantId: $productVariantId
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
       percentage
       displayText
     }
-    salesGrowthByProductVariant(productVariantId: $productVariantId, fromDate: $fromDate, toDate: $toDate){
+    salesGrowthByProductVariant(
+      productVariantId: $productVariantId
+      fromDate: $fromDate
+      toDate: $toDate
+    ) {
       date
       value
       extraValue

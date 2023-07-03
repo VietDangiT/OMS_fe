@@ -16,6 +16,7 @@ import {
   barBaseChartOptions,
   baseChartOptions,
 } from '../../share/oms-chart/oms-chart.component';
+import { Statistic } from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 import { totalSalesTableHeader } from './constants/total-sales.constants';
 import { TotalSalesTableDTO } from './models/total-sales.models';
@@ -43,29 +44,13 @@ export class TotalSalesComponent {
 
   selectedMarketplace: Marketplace;
 
-  marketplaces: Marketplace[];
-
-  saleBoxTitle = 'sales';
-
-  avgOrderSaleBoxTitle = 'avg. order sales';
-
-  returnBoxTitle = 'return';
+  marketplaces: Marketplace[] = [];
 
   dateRange = this.helperService.defaultDateRange;
 
+  salesStatistic: Statistic[] = [];
+
   pageNumber = 1;
-
-  totalSales = 0;
-
-  totalSalesPercent = 0;
-
-  avgSales = 0;
-
-  avgSalesPercent = 0;
-
-  totalReturn = 0;
-
-  totalReturnPercent = 0;
 
   revenueData: ChartData;
 
@@ -215,14 +200,7 @@ export class TotalSalesComponent {
         tap(res => {
           const { totalSalesStatistic: data } = res;
 
-          this.totalSales = data[0].current;
-          this.totalSalesPercent = data[0].current;
-
-          this.avgSales = data[1].current;
-          this.avgSalesPercent = data[1].current;
-
-          this.totalReturn = data[2].current;
-          this.totalReturnPercent = data[2].current;
+          this.salesStatistic = data;
         })
       )
       .subscribe();

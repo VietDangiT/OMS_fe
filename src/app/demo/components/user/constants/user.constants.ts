@@ -10,7 +10,7 @@ export const userHeaderTable: TableHeader[] = [
   { field: 'fullAddress', col: 'Address' },
   { field: 'userRole', col: 'Role' },
   { field: 'userStatus', col: 'Status' },
-  { field: 'actions', col: 'Actions' },
+  // { field: 'actions', col: 'Actions' },
 ];
 
 export const userOrdersTableHeader: TableHeader[] = [

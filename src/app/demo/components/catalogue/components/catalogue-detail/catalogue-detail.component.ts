@@ -72,7 +72,7 @@ export class CatalogueDetailComponent implements OnInit {
     data.images = this.refactorImages(data.images, data.image);
 
     data.channelsStock = data.channelsStock.map(c => {
-      return { ...c, image: this.helperService.refactorImg(c.image!) };
+      return { ...c, image: this.helperService.prefixImgSrc(c.image!) };
     });
 
     this.mainImg = data.images[0];
@@ -84,10 +84,10 @@ export class CatalogueDetailComponent implements OnInit {
     const res: string[] = [];
 
     images.map(i => {
-      res.push(this.helperService.refactorImg(i.toString()));
+      res.push(this.helperService.prefixImgSrc(i.toString()));
     });
 
-    res.unshift(this.helperService.refactorImg(mainImg));
+    res.unshift(this.helperService.prefixImgSrc(mainImg));
 
     return res;
   }

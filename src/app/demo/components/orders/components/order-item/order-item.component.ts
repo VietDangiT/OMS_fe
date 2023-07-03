@@ -26,7 +26,7 @@ export class OrderItemComponent {
   refactorImage(): void {
     this.order = {
       ...this.order,
-      channelImage: this.helperService.refactorImg(this.order.channelImage!),
+      channelImage: this.helperService.prefixImgSrc(this.order.channelImage!),
     };
   }
 

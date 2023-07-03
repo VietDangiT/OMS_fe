@@ -63,7 +63,7 @@ export class ChannelDialogComponent {
             return {
               ...d,
               date: new Date(d.date!).toLocaleDateString(),
-              storeImage: this.helperService.refactorImg(d.storeImage),
+              storeImage: this.helperService.prefixImgSrc(d.storeImage),
             };
           });
 

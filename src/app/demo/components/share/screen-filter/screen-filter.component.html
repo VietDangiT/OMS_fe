@@ -19,7 +19,7 @@
     *ngIf="isDateFilterShow"
     placeholder="Choose range of date"
     (ngModelChange)="getDateRange($event)"
-    [ngModel]="dateFilter"
+    [(ngModel)]="dateFilter"
     selectionMode="range"
     view="date"
     dateFormat="dd.mm.yy"

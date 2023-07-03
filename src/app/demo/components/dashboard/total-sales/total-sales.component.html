@@ -14,24 +14,11 @@
   <div class="w-full md:col-span-3 lg:col-span-1 dashboard-detail-container">
     <div class="flex flex-col h-full gap-2 justify-between">
       <overview-box
+        *ngFor="let data of salesStatistic"
         [dateRange]="dateRange"
-        [type]="saleBoxTitle"
-        [total]="totalSales"
-        [percentage]="totalSalesPercent"
-      ></overview-box>
-
-      <overview-box
-        [dateRange]="dateRange"
-        [type]="avgOrderSaleBoxTitle"
-        [total]="avgSales"
-        [percentage]="avgSalesPercent"
-      ></overview-box>
-
-      <overview-box
-        [dateRange]="dateRange"
-        [type]="returnBoxTitle"
-        [total]="totalReturn"
-        [percentage]="totalReturnPercent"
+        [type]="data.text"
+        [total]="data.current"
+        [percentage]="data.percentage"
       ></overview-box>
     </div>
   </div>

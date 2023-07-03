@@ -129,7 +129,7 @@ export class UserDetailComponent {
     const updatedData = d.map(o => {
       return {
         ...o,
-        channelImage: this.helperService.refactorImg(o.channelImage!),
+        channelImage: this.helperService.prefixImgSrc(o.channelImage!),
         orderedAt: new Date(o.orderedAt!).toLocaleDateString(),
       };
     });

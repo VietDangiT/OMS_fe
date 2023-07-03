@@ -17,9 +17,7 @@ export class UserItemComponent {
   ngOnInit(): void {
     this.user = {
       ...this.user,
-      avatar: this._helperService.refactorImg(
-        this._helperService.arrayBufferToBase64(this.user.avatar)
-      ),
+      avatar: this._helperService.prefixImgSrc(this.user.avatar!),
     };
   }
 

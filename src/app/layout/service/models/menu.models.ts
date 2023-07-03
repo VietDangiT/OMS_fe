@@ -4,7 +4,7 @@ export interface MenuElement {
   icon: string;
   submenu: {
     title: string;
-    items?: MenuElementItem[];
+    items: MenuElementItem[];
   };
 }
 

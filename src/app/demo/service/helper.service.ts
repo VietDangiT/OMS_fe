@@ -69,7 +69,7 @@ export abstract class HelperService {
     return btoa(binary);
   }
 
-  refactorImg(src: string): string {
+  prefixImgSrc(src: string): string {
     return `https://localhost:7121/api/${src}`;
   }
 

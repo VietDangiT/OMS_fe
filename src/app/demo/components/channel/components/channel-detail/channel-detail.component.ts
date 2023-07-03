@@ -19,7 +19,7 @@ export class ChannelDetailComponent {
   ngOnInit(): void {
     this.channel = {
       ...this.channel,
-      image: this.helperService.refactorImg(this.channel.image!),
+      image: this.helperService.prefixImgSrc(this.channel.image!),
     };
   }
 }

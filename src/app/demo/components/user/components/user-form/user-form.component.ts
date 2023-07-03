@@ -131,22 +131,6 @@ export class UserFormComponent {
     });
   }
 
-  isBase64ImageOver1MB(base64Image: string): boolean {
-    const padding =
-      base64Image.charAt(base64Image.length - 2) === '='
-        ? 2
-        : base64Image.charAt(base64Image.length - 1) === '='
-        ? 1
-        : 0;
-
-    const base64StringLength = base64Image.length;
-    const fileSizeInBytes = base64StringLength * 0.75 - padding;
-    const fileSizeInKB = fileSizeInBytes / 1024;
-    const fileSizeInMB = fileSizeInKB / 1024;
-
-    return fileSizeInMB > 1;
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next('');
 

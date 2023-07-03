@@ -18,4 +18,9 @@ oms-inventory-detail {
   table {
     min-width: 0 !important;
   }
+
+  .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus,
+  .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    @apply border-primary text-primary shadow-none;
+  }
 }

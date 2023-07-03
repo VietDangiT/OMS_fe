@@ -14,10 +14,10 @@ export class ScreenFilterComponent {
 
   @Input('isDateFilterShow') isDateFilterShow = true;
 
-  dateFilter: string[];
+  @Input()
+  dateFilter: Date[];
 
   searchValue: string;
-  
 
   getDateRange(dateRange: Date[]) {
     this.dateFilterChange.emit(dateRange);

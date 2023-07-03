@@ -1,13 +1,12 @@
-import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { InventoryService } from '../services/inventory.service';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { Subject, takeUntil, tap } from 'rxjs';
-import { BaseChart } from '../../dashboard/interfaces/dashboard.models';
+import { FIRST_INDEX } from 'src/app/utils/utils';
 import {
   ChannelByProductVariantApiResponse,
   ChannelStockApiResponse,
   StockInfo,
-} from '../interfaces/inventory.component';
-import { FIRST_INDEX } from 'src/app/utils/utils';
+} from '../interfaces/inventory.models';
+import { InventoryService } from '../services/inventory.service';
 
 interface Channel {
   displayText: string;
@@ -20,7 +19,7 @@ const MAX_STATISTIC_VALUE = 100;
   selector: 'oms-channel-stock',
   templateUrl: './channel-stock.component.html',
   styleUrls: ['./channel-stock.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class ChannelStockComponent {
   readonly maxStatisticValue = MAX_STATISTIC_VALUE;
@@ -41,7 +40,7 @@ export class ChannelStockComponent {
 
   constructor(private _inventoryService: InventoryService) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.getChannelByProductVariant();
   }
 
@@ -56,10 +55,10 @@ export class ChannelStockComponent {
           this.selectedChannel = this.channel[FIRST_INDEX];
           this.getChannelStockInfo();
         }),
-        
+
         takeUntil(this.destroy$)
-        )
-        .subscribe();
+      )
+      .subscribe();
   }
 
   getChannelStockInfo(): void {

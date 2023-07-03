@@ -13,21 +13,15 @@
     </div>
   </td>
 
-  <td>
-    <span
-      *ngIf="rowData.status === 'Active'; else inActive"
-      class="flex items-center gap-2"
-    >
-      <i class="pi pi-circle-fill text-success"></i>
+  <td
+    class="flex items-center gap-2"
+    [class]="helperService.statusClasses[rowData.status.toLowerCase()]"
+  >
+    <i class="pi pi-circle-fill"></i>
 
-      <span i18n class="font-medium text-success">Active</span>
+    <span class="font-bold">
+      {{ rowData.status | titlecase }}
     </span>
-
-    <ng-template #inActive>
-      <i class="pi pi-circle-fill text-danger"></i>
-
-      <span i18n class="font-medium text-danger">Inactive</span>
-    </ng-template>
   </td>
 
   <td>{{ rowData.numberOfOrder | number }}</td>

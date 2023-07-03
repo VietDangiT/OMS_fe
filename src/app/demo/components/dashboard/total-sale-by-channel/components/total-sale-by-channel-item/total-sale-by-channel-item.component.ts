@@ -21,7 +21,7 @@ export class TotalSaleByChannelItemComponent {
   refactorData(): void {
     this.rowData = {
       ...this.rowData,
-      channelImage: this.helperService.refactorImg(this.rowData.channelImage),
+      channelImage: this.helperService.prefixImgSrc(this.rowData.channelImage),
     };
   }
 }

@@ -11,6 +11,7 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { TabViewModule } from 'primeng/tabview';
 import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
 import { DashboardModule } from '../dashboard/dashboard.module';
+import { AvatarComponent } from '../share/avatar/avatar.component';
 import { ShareModule } from '../share/share.module';
 import { TabMenuComponent } from '../share/tab-menu/tab-menu.component';
 import { ListCardComponent } from './List-card/List-card.component';
@@ -46,6 +47,7 @@ import { SalesChannelPerformanceComponent } from './sales-channel-performance/sa
     TabViewModule,
     FieldsetModule,
     AvatarModule,
+    AvatarComponent,
     DropdownModule,
     FormsModule,
     DashboardModule,

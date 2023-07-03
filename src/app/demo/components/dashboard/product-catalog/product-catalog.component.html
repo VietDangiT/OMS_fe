@@ -1,9 +1,31 @@
 <div class="flex-col">
-  <div class="mb-4 flex-col font-bold flex test-sm justify-between">
-    <div i18n>Product Catalog</div>
+  <div class="mb-4 font-bold flex test-sm justify-between">
+    <div class="flex flex-col">
+      <div i18n>Product Catalog</div>
 
-    <div class="text-yellow-400">
-      {{ selectedProduct.name }} {{ selectedProduct.description }}
+      <div class="text-yellow-400">
+        {{ selectedProduct.name }} {{ selectedProduct.description }}
+      </div>
+    </div>
+
+    <div class="flex justify-center">
+      <p-dropdown
+        [options]="productVariantList"
+        [(ngModel)]="selectedProduct"
+        optionLabel="name"
+        dropdownIcon="pi pi-filter text-primary"
+        [filter]="true"
+        filterBy="name"
+      >
+        <ng-template let-product pTemplate="item">
+          <div
+            class="dropdown-item px-2 py-3"
+            (click)="handleProductVariant(product.id)"
+          >
+            {{ product.name }} {{ product.description }}
+          </div>
+        </ng-template>
+      </p-dropdown>
     </div>
   </div>
 
@@ -12,26 +34,6 @@
       <p class="font-normal text-sm text-gray-500" i18n>
         {{ 'Product sales over time' | titlecase }}
       </p>
-
-      <div class="flex justify-center">
-        <p-dropdown
-          [options]="productVariantList"
-          [(ngModel)]="selectedProduct"
-          optionLabel="name"
-          dropdownIcon="pi pi-filter text-primary"
-          [filter]="true"
-          filterBy="name"
-        >
-          <ng-template let-product pTemplate="item">
-            <div
-              class="dropdown-item px-2 py-3"
-              (click)="handleProductVariant(product.id)"
-            >
-              {{ product.name }} {{ product.description }}
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
     </div>
 
     <a [routerLink]="routerLink">

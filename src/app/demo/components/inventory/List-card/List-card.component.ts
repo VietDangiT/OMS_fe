@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CardInventory } from '../interfaces/inventory.component';
+import { CardInventory } from '../interfaces/inventory.models';
 
 @Component({
   selector: 'app-List-card',
