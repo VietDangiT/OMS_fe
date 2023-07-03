@@ -14,7 +14,7 @@ import {
   Channel,
   ChannelParams,
   ChannelTableApiResponse,
-} from '../../interface/channel.component';
+} from '../../interface/channel.model';
 import { ChannelService } from '../../services/channel.service';
 
 @Component({
@@ -51,8 +51,8 @@ export class ChannelListComponent implements OnInit, OnDestroy {
 
   params: ChannelParams = {
     countryId: null,
-    fromDate: this.dateRange[0],
-    toDate: this.dateRange[1],
+    fromDate: null,
+    toDate: null,
     keyword: tableConfig.keyword,
     limit: tableConfig.pageLimit,
     page: tableConfig.page,
@@ -65,18 +65,23 @@ export class ChannelListComponent implements OnInit, OnDestroy {
     this.route.queryParamMap
       .pipe(
         tap(params => {
-          if (params.get('countryId')) {
-            this.params = {
-              ...this.params,
-              countryId: Number(params.get('countryId')),
-            };
+          this.countryId = Number(params.get('countryId'));
+
+          if (this.countryId) {
+            this.handleChannelParams('countryId', this.countryId);
+          } else {
+            this.handleChannelParams('countryId', null);
           }
 
-          this.getChannelData();
+          this.getComponentData();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+
+  getComponentData(): void {
+    this.getChannelData();
 
     this.getChannelStatus();
   }
@@ -113,6 +118,14 @@ export class ChannelListComponent implements OnInit, OnDestroy {
         tap((res: ChannelTableApiResponse) => {
           const { channelsTableData: data } = res;
 
+          const updatedData = data.data.map(d => {
+            return {
+              ...d,
+              createdAt: new Date(d.createdAt!).toLocaleDateString(),
+              updatedAt: new Date(d.updatedAt!).toLocaleDateString(),
+            };
+          });
+
           this.table = {
             page: data.page,
             first: data.first,
@@ -121,7 +134,7 @@ export class ChannelListComponent implements OnInit, OnDestroy {
             totalRecord: data.totalRecord,
             data: {
               header: [...this.table.data.header],
-              body: [...data.data],
+              body: [...updatedData],
             },
           };
         }),
@@ -141,6 +154,8 @@ export class ChannelListComponent implements OnInit, OnDestroy {
 
     this.handleChannelParams('status', Number(this.activeItem.label));
 
+    this.handleChannelParams('page', tableConfig.gapPageNumber);
+
     this.getChannelData();
   }
 
@@ -155,16 +170,14 @@ export class ChannelListComponent implements OnInit, OnDestroy {
   }
 
   searchValue(search: string): void {
-    if (search) {
-      this.handleChannelParams('keyword', search);
+    this.handleChannelParams('keyword', search);
 
-      this.getChannelData();
-    }
+    this.getChannelData();
   }
 
   handleChannelParams(
     key: keyof ChannelParams,
-    value: string | number | Date
+    value: string | number | Date | null
   ): void {
     this.params = {
       ...this.params,

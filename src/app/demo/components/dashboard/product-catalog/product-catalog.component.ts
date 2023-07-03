@@ -3,12 +3,12 @@ import {
   Input,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BehaviorSubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import {
-  BaseChart,
   BaseItem,
   ProductVariantApiResponse,
   ProductVariantItemsSoldApiResponse,
@@ -26,10 +26,13 @@ export class ProductCatalogComponent {
 
   @Input() filterArr: string[];
 
-  //Product Variant list
+  helperService = inject(HelperService);
+
   productVariantList: BaseItem[];
 
   product: BaseItem;
+
+  routerLink = '/catalogues';
 
   dataChart: ChartData;
 
@@ -57,8 +60,6 @@ export class ProductCatalogComponent {
         tap((result: ProductVariantApiResponse) => {
           const { productVariants: data } = result;
 
-          console.log(data);
-
           this.productVariantList = [this.selectedProduct, ...data];
         })
       )
@@ -79,7 +80,12 @@ export class ProductCatalogComponent {
               tap((result: ProductVariantItemsSoldApiResponse) => {
                 const { itemsSoldByProductVariant: data } = result;
 
-                this.setupChartData(data);
+                this.dataChart = this.helperService.setupBasicChartData(
+                  data,
+                  this.filterArr,
+                  false,
+                  $localize`Product Catalogs`
+                );
               })
             );
         }),
@@ -95,33 +101,5 @@ export class ProductCatalogComponent {
     this.product = this.productVariantList[index];
     this.productId.next(this.product.id);
     this.selectedProduct = { ...this.product };
-  }
-
-  setupChartData(result: BaseChart[]) {
-    let totalArr: number[] = [];
-
-    let labelArr: string[] = [];
-
-    let order: number = 0;
-
-    result.forEach((item: BaseChart) => {
-      totalArr.push(item.value);
-
-      labelArr.push(new Date(item.date).toLocaleDateString());
-    });
-
-    this.totalValue = order.toLocaleString('en-US');
-
-    this.dataChart = {
-      labels: labelArr,
-      datasets: [
-        {
-          label: $localize`Product Catalogs`,
-          data: totalArr,
-          borderColor: environment.primaryColor,
-          backgroundColor: environment.primaryColor,
-        },
-      ],
-    };
   }
 }

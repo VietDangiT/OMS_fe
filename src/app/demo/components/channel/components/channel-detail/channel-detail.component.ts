@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { Channel } from '../../interface/channel.component';
+import { Component, HostBinding, Input, inject } from '@angular/core';
+import { HelperService } from 'src/app/demo/service/helper.service';
+import { Channel } from '../../interface/channel.model';
 
 @Component({
   selector: 'oms-channel-detail',
@@ -7,5 +8,18 @@ import { Channel } from '../../interface/channel.component';
   styleUrls: ['./channel-detail.component.scss'],
 })
 export class ChannelDetailComponent {
+  @HostBinding('class') hostClass = 'oms-channel-detail';
+
   @Input() channel: Channel;
+
+  helperService = inject(HelperService);
+
+  modalVisible = false;
+
+  ngOnInit(): void {
+    this.channel = {
+      ...this.channel,
+      image: this.helperService.refactorImg(this.channel.image!),
+    };
+  }
 }

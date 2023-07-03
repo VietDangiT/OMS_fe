@@ -13,8 +13,8 @@ export const GET_COUNTRIES = gql`
 export const GET_CHANNELS_TABLE = gql`
   query GetChannelsTableDate(
     $countryId: Int
-    $fromDate: DateTime
-    $toDate: DateTime
+    $fromDate: String
+    $toDate: String
     $keyword: String
     $status: Byte
     $limit: Int
@@ -22,8 +22,8 @@ export const GET_CHANNELS_TABLE = gql`
   ) {
     channelsTableData(
       countryId: $countryId
-      fromDate: $fromDate
-      toDate: $toDate
+      fDate: $fromDate
+      tDate: $toDate
       limit: $limit
       page: $page
       keyword: $keyword
@@ -35,9 +35,13 @@ export const GET_CHANNELS_TABLE = gql`
       pageCount
       totalRecord
       data {
+        id
         channelName
         numberOfOrder
         totalSale
+        shortCode
+        image
+        updatedAt
         status
         createdAt
       }
@@ -54,13 +58,42 @@ export const GET_CHANNEL_STATUS = gql`
   }
 `;
 
+export const GET_STORES = gql`
+  query GetStoresByChannel($channelId: Int, $limit: Int, $page: Int) {
+    storesFromChannel(channelId: $channelId, limit: $limit, page: $page) {
+      page
+      first
+      rows
+      pageCount
+      totalRecord
+      data {
+        totalSale
+        totalOrders
+        location
+        storeImage
+        displayText
+        date
+      }
+    }
+  }
+`;
+
 export const channelTableHeader = [
-  { field: 'channel', col: 'Channel' },
+  { field: 'channelName', col: 'Channel' },
   { field: 'numberOfOrders', col: 'Number Of Orders' },
-  { field: 'totalSales', col: 'Total Sales' },
+  { field: 'totalSale', col: 'Total Sales' },
   { field: 'status', col: 'Status' },
   { field: 'createdAt', col: 'Created At' },
   { field: 'updatedAt', col: 'Updated At' },
+];
+
+export const storeTableHeader = [
+  { field: 'storeImage', col: 'Image' },
+  { field: 'displayText', col: 'Store Name' },
+  { field: 'date', col: 'Created At' },
+  { field: 'location', col: 'Location' },
+  { field: 'totalOrders', col: 'Total Orders' },
+  { field: 'totalSale', col: 'Total Sales' },
 ];
 
 export const channelLabelItems = [

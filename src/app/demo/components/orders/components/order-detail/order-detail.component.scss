@@ -1,13 +1,15 @@
-.oms-order-detail {
+oms-order-detail {
   .p-datatable .p-datatable-tbody > tr > td {
     @apply text-center;
   }
 
-  &-header {
-    @apply font-bold;
-  }
+  .order-detail {
+    &-header {
+      @apply w-2/6 flex justify-between;
+    }
 
-  &-info {
-    @apply font-normal;
+    &-info {
+      @apply font-bold ml-4;
+    }
   }
 }

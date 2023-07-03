@@ -1,4 +1,4 @@
-import { BaseChart } from '../../interfaces/dashboard.models';
+import { BaseChart, Statistic } from '../../interfaces/dashboard.models';
 
 export interface TotalSalesTable {
   paging: Pagination;
@@ -9,17 +9,8 @@ export interface TotalSalesTableApiResponse {
   detailTotalSales: TotalSalesTable;
 }
 
-export interface CompareDataApiResponse {
-  compareData: TotalSalesChartDTO[];
-  selectedData: TotalSalesChartDTO[];
-}
-
 export interface TotalSalesApiResponse {
-  totalSales: CompareDataApiResponse[];
-}
-
-export interface ReturnApiResponse {
-  return: CompareDataApiResponse[];
+  revenue: BaseChart[];
 }
 
 export interface Pagination {
@@ -41,4 +32,8 @@ export interface TotalSalesTableDTO {
 
 export interface TotalSalesChartDTO extends BaseChart {
   numberOfOrders: number;
+}
+
+export interface SaleStatisticApiResponse {
+  totalSalesStatistic: Statistic[];
 }

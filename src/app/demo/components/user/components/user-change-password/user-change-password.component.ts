@@ -12,8 +12,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { catchError, tap } from 'rxjs';
+import { NotificationService } from '../../../share/message/notification.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class UserChangePasswordComponent {
 
   userService = inject(UserService);
 
-  messageService = inject(MessageService);
+  notificationService = inject(NotificationService);
 
   changePasswordForm: FormGroup;
 
@@ -54,12 +54,9 @@ export class UserChangePasswordComponent {
 
       this.handleChangePassword(currentPassword, Number(id)!, newPassword);
     } else {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Form must be valid or filled',
-        closable: true,
-      });
+      this.notificationService.successNotification(
+        $localize`Form must be valid or filled`
+      );
     }
   }
 
@@ -74,21 +71,13 @@ export class UserChangePasswordComponent {
         catchError(async err => {
           const errMes = err.networkError.error.errors[0].extensions.message;
 
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: errMes,
-            closable: true,
-          });
+          this.notificationService.errorNotification(errMes);
         }),
         tap(res => {
           if (res) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: $localize`Success change password`,
-              closable: true,
-            });
+            this.notificationService.successNotification(
+              $localize`Success change password`
+            );
           }
         })
       )

@@ -1,6 +1,6 @@
-import { MenuItem } from "primeng/api";
-import { TableHeader } from "src/app/demo/interface/global.model";
 import { gql } from 'apollo-angular';
+import { MenuItem } from 'primeng/api';
+import { TableHeader } from 'src/app/demo/interface/global.model';
 
 export const userHeaderTable: TableHeader[] = [
   { field: 'avatar', col: 'Avatar' },
@@ -13,8 +13,17 @@ export const userHeaderTable: TableHeader[] = [
   { field: 'actions', col: 'Actions' },
 ];
 
+export const userOrdersTableHeader: TableHeader[] = [
+  { field: 'id', col: 'Order Id' },
+  { field: 'channel', col: 'Channel' },
+  { field: 'orderedAt', col: 'Ordered At' },
+  { field: 'productUnit', col: 'Product Unit' },
+  { field: 'shippingCarrier', col: 'Shipping Carrier' },
+  { field: 'status', col: 'Status' },
+];
+
 export const userLabelItems: MenuItem[] = [
-  { label: 'All', id: '', badge: '0' ,},
+  { title: 'All', label: 'All', id: '', badge: '0' },
   { label: 'Active', id: 'Active', badge: '0' },
   { label: 'Inactive', id: 'Inactive', badge: '0' },
 ];
@@ -22,14 +31,18 @@ export const userLabelItems: MenuItem[] = [
 export const GET_USER_DETAIL = gql`
   query GetUserDetail($id: Int!) {
     userDetail(id: $id) {
-      id
       fullName
-      avatar
       phoneNumber
       dob
       gender
       email
+      userRole
       fullAddress
+      userStatus
+      facebook
+      instagram
+      avatar
+      id
     }
   }
 `;
@@ -50,8 +63,8 @@ export const CHANGE_PASSWORD = gql`
 
 export const EDIT_USER = gql`
   mutation EditUserProfile(
-    $avatar: [Byte!]!
-    $dob: DateTime!
+    $avatar: [Byte!] = null
+    $dob: String!
     $email: String!
     $fullAddress: String!
     $fullName: String!

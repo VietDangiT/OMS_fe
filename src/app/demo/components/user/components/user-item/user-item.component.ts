@@ -1,18 +1,18 @@
 import { Component, Input } from '@angular/core';
-import { UserItem } from '../../models/user.models';
 import { HelperService } from 'src/app/demo/service/helper.service';
+import { UserItem } from '../../models/user.models';
 
 @Component({
   selector: 'oms-user-item',
   templateUrl: './user-item.component.html',
-  styleUrls: ['./user-item.component.scss']
+  styleUrls: ['./user-item.component.scss'],
 })
 export class UserItemComponent {
   @Input() user: UserItem;
 
   modalVisible = false;
 
-  constructor(private _helperService: HelperService){}
+  constructor(private _helperService: HelperService) {}
 
   ngOnInit(): void {
     this.user = {
@@ -25,7 +25,6 @@ export class UserItemComponent {
 
   handleAction(e: Event): void {
     e.stopPropagation();
-    console.log('click action icon');
   }
 
   handleUserDetail(e: Event): void {

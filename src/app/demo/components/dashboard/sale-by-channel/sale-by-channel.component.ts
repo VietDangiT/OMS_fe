@@ -5,7 +5,6 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import tailwindConfig from 'tailwind.config.js';
 import resolveConfig from 'tailwindcss/resolveConfig';
@@ -32,8 +31,6 @@ export class SaleByChannelComponent {
   @Input() filterArr: string[] = [];
 
   private readonly dashboardService = inject(DashboardService);
-
-  private readonly router = inject(Router);
 
   chartData: TreeMapData[] = [];
 
@@ -68,26 +65,7 @@ export class SaleByChannelComponent {
       dataLabels: {
         enabled: false,
       },
-      apexResponsive: [
-        // {
-        //   breakpoint: 1024,
-        //   options: {
-        //     chart: {
-        //       offsetX: 2,
-        //       width: '103%',
-        //     },
-        //   },
-        // },
-        // {
-        //   breakpoint: 1102,
-        //   options: {
-        //     chart: {
-        //       offsetX: 0,
-        //       width: '110%',
-        //     },
-        //   },
-        // },
-      ],
+      apexResponsive: [],
     };
   }
 

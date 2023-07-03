@@ -28,8 +28,6 @@ export class OrderListComponent {
 
   dateFilterValue: string[];
 
-  gapPageNumber = 1;
-
   marketPlaceId = 0;
 
   orderParams: OrderParams = {
@@ -70,24 +68,33 @@ export class OrderListComponent {
 
           if (this.marketPlaceId) {
             this.handleOrderParams('channelId', this.marketPlaceId);
+          } else {
+            this.handleOrderParams('channelId', null);
           }
 
-          this.getOrderTable();
+          this.getComponentData();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+
+  getComponentData(): void {
+    this.handleOrderParams('status', '');
+
+    this.getOrderTable();
 
     this.getOrderStatus();
   }
 
   getOrderStatus(): void {
     this.ordersService
-      .getOrderStatus(this.orderParams.channelId!)
+      .getOrderStatus(this.orderParams)
       .pipe(
         tap(res => {
           const { orderStatus: data } = res;
           const labelItems: MenuItem[] = [];
+          let total = 0;
 
           data.forEach(d => {
             labelItems.push({
@@ -95,12 +102,19 @@ export class OrderListComponent {
               badge: d.value.toString(),
               label: d.displayText.toLowerCase(),
             });
+
+            total += d.value;
           });
 
           this.labelItems = labelItems;
 
+          orderLabelItems[0].badge = total.toString();
+
+          this.labelItems.unshift(orderLabelItems[0]);
+
           this.activeItem = this.labelItems[0];
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -135,7 +149,11 @@ export class OrderListComponent {
 
       this.handleOrderParams('toDate', dates[1]);
 
-      this.getOrderTable();
+      this.dateRange = dates;
+
+      this.handleOrderParams('page', tableConfig.gapPageNumber);
+
+      this.getComponentData();
     }
   }
 
@@ -150,20 +168,20 @@ export class OrderListComponent {
 
     this.handleOrderParams('status', this.activeItem.label!);
 
-    console.log(this.orderParams);
+    this.handleOrderParams('page', tableConfig.gapPageNumber);
 
     this.getOrderTable();
   }
 
   onPageChange(e: PageChangeEvent): void {
-    this.handleOrderParams('page', e.page + this.gapPageNumber);
+    this.handleOrderParams('page', e.page + tableConfig.gapPageNumber);
 
     this.getOrderTable();
   }
 
   handleOrderParams(
     key: keyof OrderParams,
-    value: string | number | Date
+    value: string | number | Date | null
   ): void {
     this.orderParams = {
       ...this.orderParams,

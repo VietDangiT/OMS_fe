@@ -1,14 +1,17 @@
-import { UserService } from 'src/app/demo/service/user.service';
 import { Component, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subject, takeUntil, tap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { UserItem, UserParams } from '../../models/user.models';
-import { userHeaderTable, userLabelItems } from '../../constants/user.constants';
+import { UserService } from 'src/app/demo/service/user.service';
 import { OmsTable } from '../../../share/model/oms-table';
+import {
+  userHeaderTable,
+  userLabelItems,
+} from '../../constants/user.constants';
+import { UserItem, UserParams } from '../../models/user.models';
 
 @Component({
   selector: 'oms-user-list',
@@ -143,19 +146,21 @@ export class UserListComponent {
               title: d.displayText,
               badge: d.value.toString(),
               label: d.displayText,
-              id: d.displayText
+              id: d.displayText,
             });
           });
 
           const sum = labelItems
-          .map(obj => Number(obj.badge))
-          .reduce((accumulator, current) => accumulator + current, 0);
+            .map(obj => Number(obj.badge))
+            .reduce((accumulator, current) => accumulator + current, 0);
 
           labelItems[0].badge = sum + '';
+
           this.labelItems = labelItems;
 
           this.activeItem = this.labelItems[0];
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }

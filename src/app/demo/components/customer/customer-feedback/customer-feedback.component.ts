@@ -1,14 +1,23 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
-import { CustomerService } from '../services/customer.service';
-import { BaseChart, FeedbackByCustomerResponse } from '../interfaces/customer.models';
 import { tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import {
+  BaseChart,
+  FeedbackByCustomerResponse,
+} from '../interfaces/customer.models';
+import { CustomerService } from '../services/customer.service';
 
 @Component({
   selector: 'app-customer-feedback',
   templateUrl: './customer-feedback.component.html',
-  styleUrls: ['./customer-feedback.component.scss']
+  styleUrls: ['./customer-feedback.component.scss'],
 })
 export class CustomerFeedbackComponent implements OnChanges {
   @Input() option: ChartOptions;
@@ -31,10 +40,9 @@ export class CustomerFeedbackComponent implements OnChanges {
       this.customerService
         .getFeedbackByCustomer(this.filterArr)
         .pipe(
-          tap((result:FeedbackByCustomerResponse) => {
+          tap((result: FeedbackByCustomerResponse) => {
             const { feedback: data } = result;
-            this.initFeedBackChart(data)
-            console.log(data)
+            this.initFeedBackChart(data);
           })
         )
         .subscribe();
@@ -45,7 +53,7 @@ export class CustomerFeedbackComponent implements OnChanges {
     }
   }
 
-initFeedBackChart(result: BaseChart[]) {
+  initFeedBackChart(result: BaseChart[]) {
     let totalArr: number[] = [];
 
     let labelArr: string[] = [];
@@ -55,7 +63,6 @@ initFeedBackChart(result: BaseChart[]) {
 
       labelArr.push(new Date(item.displayText).toLocaleDateString());
     });
-
 
     this.feedBackChartData = {
       labels: labelArr,
@@ -71,6 +78,4 @@ initFeedBackChart(result: BaseChart[]) {
       ],
     };
   }
-
-
 }

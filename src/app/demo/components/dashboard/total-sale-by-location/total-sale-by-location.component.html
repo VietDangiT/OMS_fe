@@ -19,9 +19,13 @@
       >
     </div>
 
-    <div class="py-4 chart-container">
+    <a
+      [routerLink]="routerLink"
+      [queryParams]="queryParams"
+      class="py-4 chart-container"
+    >
       <oms-chart type="geomap" [data]="chartData"></oms-chart>
-    </div>
+    </a>
 
     <div class="flex flex-col gap-4 px-4 pb-4 overflow-auto">
       <div

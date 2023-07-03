@@ -21,7 +21,8 @@ import {
   Statistic,
   StatisticOrderStatusApiResponse,
   StatisticProductChannelByStatusApiResponse,
-  StatisticProductMarketplaceStockApiResponse,
+  StockApiResponse,
+  StockStatus,
 } from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 
@@ -47,7 +48,7 @@ export class DashboardStatisticComponent {
 
   productStatistic: Statistic[];
 
-  stockStatistic: Statistic[];
+  stockStatistic: StockStatus;
 
   private marketplaceId = new BehaviorSubject<number>(0);
 
@@ -81,13 +82,15 @@ export class DashboardStatisticComponent {
     this.marketplaceId$
       .pipe(
         switchMap((id: number) => {
-          const order$ = this.dashboardService.getOrderStatus(id, filter).pipe(
-            tap((result: StatisticOrderStatusApiResponse) => {
-              const { statisticOrders: data } = result;
+          const order$ = this.dashboardService
+            .getOrderStatistic(id, filter)
+            .pipe(
+              tap((result: StatisticOrderStatusApiResponse) => {
+                const { statisticOrders: data } = result;
 
-              this.orderStatistic = data;
-            })
-          );
+                this.orderStatistic = data;
+              })
+            );
 
           const product$ = this.dashboardService
             .getProductChannelByStatus(id)
@@ -99,15 +102,13 @@ export class DashboardStatisticComponent {
               })
             );
 
-          const stock$ = this.dashboardService
-            .getProductMarketplaceStock(id)
-            .pipe(
-              tap((result: StatisticProductMarketplaceStockApiResponse) => {
-                const { productChannelStock: data } = result;
+          const stock$ = this.dashboardService.getStock(id).pipe(
+            tap((result: StockApiResponse) => {
+              const { productStatistic: data } = result;
 
-                this.stockStatistic = data;
-              })
-            );
+              this.stockStatistic = data;
+            })
+          );
 
           return forkJoin([order$, product$, stock$]);
         }),
@@ -116,12 +117,15 @@ export class DashboardStatisticComponent {
       .subscribe();
   }
 
-  handleSelectMarketplace(id: number) {
-    var index = this.marketplaceList.findIndex(marketplace => {
+  selectMarketplace(id: number) {
+    const index = this.marketplaceList.findIndex(marketplace => {
       return marketplace.id === id;
     });
+
     this.marketplace = this.marketplaceList[index];
-    this.marketplaceId.next(this.marketplace.id);
+
+    this.marketplaceId.next(this.marketplace.id!);
+
     this.selectedMarketplace = { ...this.marketplace };
   }
 }

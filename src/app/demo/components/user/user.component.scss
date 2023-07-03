@@ -14,12 +14,4 @@
   .p-button:focus {
     @apply shadow-none;
   }
-
-  label {
-    @apply font-medium text-lg cursor-pointer;
-  }
-
-  input {
-    @apply text-xl cursor-text;
-  }
 }

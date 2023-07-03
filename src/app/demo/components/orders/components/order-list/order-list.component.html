@@ -23,7 +23,7 @@
     [table]="tableData"
     [contentRef]="contentRef"
   >
-    <ng-template #contentRef let-rowData let-columns="columns">
+    <ng-template #contentRef let-rowData>
       <oms-order-item [order]="rowData"></oms-order-item>
     </ng-template>
   </oms-table>

@@ -109,6 +109,34 @@ export const barBaseChartOptions: ChartOptions = {
   },
 };
 
+export const barHorizontalBaseChartOptions: ChartOptions = {
+  responsive: true,
+  indexAxis: 'y',
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+    },
+  },
+};
+
 export const heatmapChartOptions: Partial<heatChartOptions> | any = {
   plotOptions: {
     heatmap: {
@@ -173,20 +201,20 @@ export const pieChartColorsCustomerRating: string[] = [
   colors.primary,
 ];
 
-export const colorArr: string[] = [
-  colors.primary,
-  colors.secondary,
-  colors.third,
-  colors.forth,
-  colors.fifth,
-  colors.errors,
-  colors.warning,
-  colors.success,
-  colors.danger,
-  colors.brightOrange,
-  colors.geomapBackground,
-  colors.datalessRegion,
-];
+export const colorObj: { [key: string]: any } = {
+  primary: colors.primary,
+  secondary: colors.secondary,
+  third: colors.third,
+  forth: colors.forth,
+  fifth: colors.fifth,
+  errors: colors.errors,
+  warning: colors.warning,
+  success: colors.success,
+  danger: colors.danger,
+  brightOrange: colors.brightOrange,
+  geomapBackground: colors.geomapBackground,
+  datalessRegion: colors.datalessRegion,
+};
 
 export interface OmsChartOptions
   extends Partial<ApexChartOptions>,
@@ -256,7 +284,7 @@ export class OMSChartComponent implements OnChanges {
       colorAxis: { colors: [`${colors.primary}`, `${colors.primary}`] },
       // displayMode: 'markers',
       datalessRegionColor: `${colors.datalessRegion}`,
-      region: '035'
+      region: '035',
     };
 
     let chart = new google.visualization.GeoChart(

@@ -26,9 +26,9 @@ interface FilterOption {
 export class DateFilterComponent {
   filter: string = 'week';
 
-  dateFilter!: Date[];
-
   defaultDate: Date = new Date();
+
+  @Input() dateFilter: Date[];
 
   @Output('dateFilterChange') dateFilterChange = new EventEmitter<Date[]>();
 
@@ -48,6 +48,10 @@ export class DateFilterComponent {
       value: 'year',
     },
   ];
+
+  ngOnInit(): void {
+    this.dateFilter = this.dateFilter.map(d => new Date(d));
+  }
 
   getDateRange(dateRange: Date[]) {
     this.dateFilterChange.emit(dateRange);

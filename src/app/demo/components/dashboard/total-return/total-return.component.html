@@ -19,12 +19,16 @@
       >
     </div>
 
-    <div class="h-full flex-1">
+    <a
+      [routerLink]="routerLink"
+      [queryParams]="queryParams"
+      class="h-full flex-1"
+    >
       <oms-chart
         type="doughnut"
         [data]="pieData"
         [options]="pieOptions"
       ></oms-chart>
-    </div>
+    </a>
   </div>
 </div>

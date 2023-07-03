@@ -21,13 +21,15 @@
     </div>
   </div>
 
-  <div>
-    <div class="w-full chart-container">
-      <oms-chart
-        type="bar"
-        [data]="totalOrderData"
-        [options]="basicOptions"
-      ></oms-chart>
-    </div>
-  </div>
+  <a
+    [routerLink]="routerLink"
+    [queryParams]="queryParams"
+    class="w-full chart-container"
+  >
+    <oms-chart
+      type="bar"
+      [data]="totalOrderData"
+      [options]="basicOptions"
+    ></oms-chart>
+  </a>
 </div>

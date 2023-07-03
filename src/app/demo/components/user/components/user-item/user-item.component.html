@@ -1,24 +1,38 @@
-<tr class="mt-3 cursor-pointer hover:!bg-gray-200 transition-all duration-100" (click)="handleUserDetail($event)">
+<tr
+  class="mt-3 cursor-pointer hover:!bg-gray-200 transition-all duration-100"
+  (click)="handleUserDetail($event)"
+>
   <td class="user-item-row text-left">
-    <p-avatar image="{{user.avatar}}" styleClass="mr-2" size="xlarge" shape="circle"></p-avatar>
+    <p-avatar
+      image="{{ user.avatar }}"
+      styleClass="mr-2"
+      size="xlarge"
+      shape="circle"
+    ></p-avatar>
   </td>
 
-  <td class="user-item-row text-left">{{ user.fullName | titlecase}}</td>
+  <td class="user-item-row text-left">{{ user.fullName | titlecase }}</td>
   <td class="user-item-row text-left">{{ user.email }}</td>
   <td class="user-item-row text-left">{{ user.phoneNumber }}</td>
   <td class="user-item-row text-left">{{ user.fullAddress }}</td>
-  <td class="user-item-row text-left">{{ user.userRole }}</td>
+  <td class="user-item-row text-left">{{ user.userRole | titlecase }}</td>
 
-  <td class="user-item-row" [class.text-success]="user.userStatus === 'ACTIVE'"
-    [class.text-danger]="user.userStatus === 'INACTIVE'">
+  <td
+    class="user-item-row"
+    [class.text-success]="user.userStatus === 'ACTIVE'"
+    [class.text-danger]="user.userStatus === 'INACTIVE'"
+  >
     <div class="flex gap-2 justify-center items-center">
       <i class="pi-circle-fill pi"></i>
       <span class="font-bold">
         {{ user.userStatus | titlecase }}
-      </span></div>
+      </span>
+    </div>
   </td>
 
   <td class="user-item-row text-center" (click)="handleAction($event)">
-    <i class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"></i>
+    <i
+      class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"
+    ></i>
   </td>
 </tr>

@@ -10,7 +10,7 @@ export const orderHeaderTable: TableHeader[] = [
   { field: 'price', col: 'Price' },
   { field: 'shippingCarrier', col: 'Shipping carrier' },
   { field: 'status', col: 'Status' },
-  { field: 'actions', col: 'Actions' },
+  { field: 'view', col: 'View' },
 ];
 
 export const orderLabelItems: MenuItem[] = [
@@ -38,6 +38,7 @@ export const GET_ORDERS = gql`
     $status: String
     $limit: Int
     $page: Int
+    $userId: Int
   ) {
     orders(
       channelId: $channelId
@@ -47,6 +48,7 @@ export const GET_ORDERS = gql`
       status: $status
       limit: $limit
       page: $page
+      userId: $userId
     ) {
       page
       first
@@ -85,8 +87,8 @@ export const GET_ORDER_DETAIL = gql`
 `;
 
 export const GET_ORDER_STATUS = gql`
-  query GetOrderStatus($channelId: Int) {
-    orderStatus(channelId: $channelId) {
+  query GetOrderStatus($channelId: Int, $fromDate: String, $toDate: String) {
+    orderStatus(channelId: $channelId, fromDate: $fromDate, toDate: $toDate) {
       displayText
       value
     }

@@ -152,3 +152,81 @@
 .p-tabmenuitem.p-highlight {
   @apply opacity-100;
 }
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) var(--primary);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  @apply w-2;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-transparent rounded;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-primary border-2 border-white;
+}
+
+.p-avatar img {
+  @apply object-contain;
+}
+
+.title {
+  @apply text-xl font-bold;
+}
+
+.main-dashboard-container {
+  @apply bg-white rounded-md lg:col-span-2 md:col-span-3;
+}
+
+oms-table tr {
+  @apply cursor-pointer hover:!bg-gray-200 transition-all duration-100;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+  @apply text-primary font-medium bg-primary bg-opacity-30;
+}
+.p-overlay.p-component {
+  @apply min-w-[200px] right-0 left-auto !important;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  @apply border-primary;
+}
+
+.p-dropdown-items-wrapper {
+  @apply [&::-webkit-scrollbar]:hidden;
+}
+.p-dropdown-panel .p-dropdown-header {
+  @apply py-2 px-3;
+}
+
+.p-datepicker table td > span.p-highlight,
+.p-datatable .p-sortable-column.p-highlight:hover,
+.p-datatable .p-sortable-column.p-highlight,
+.p-datepicker table td.p-datepicker-today > span.p-highlight {
+  @apply text-primary bg-primary bg-opacity-20;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year:enabled:hover,
+.p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month:enabled:hover,
+.p-datepicker table td.p-datepicker-today > span.p-highlight {
+  @apply text-primary;
+}
+
+.p-datatable .p-sortable-column:focus {
+  @apply shadow-none;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  @apply text-primary bg-primary-1 bg-opacity-30 border-primary-2;
+}
+
+.p-link:focus {
+  @apply shadow-none;
+}

@@ -1,112 +1,105 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
+  ViewEncapsulation,
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { tap } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { Subject, tap } from 'rxjs';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { User } from '../../../login/models/login.models';
+import { NotificationService } from '../../../share/message/notification.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'oms-user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserFormComponent {
-  @Input() isViewMode: boolean;
-
   @Output() handleEditForm = new EventEmitter();
 
   userService = inject(UserService);
 
+  helperService = inject(HelperService);
+
+  route = inject(Router);
+
+  notificationService = inject(NotificationService);
+
+  sanitizer = inject(DomSanitizer);
+
   editForm: FormGroup;
 
-  editRouterLink = '';
-
-  cancelRouterLink = '';
-
-  isImageError = false;
+  cancelRouterLink = '/user/detail';
 
   user: Partial<User> = {
     avatar: '',
-    dob: '',
-    gender: '',
-    fullAddress: '',
     email: '',
+    fullAddress: '',
     fullName: '',
+    gender: '',
+    dob: '',
     phoneNumber: '',
+    password: '',
   };
 
-  ngOnInit(): void {
-    const id = localStorage.getItem('userId');
+  tempImg = '';
 
+  destroy$ = new Subject();
+
+  ngOnInit(): void {
     this.initEditForm();
 
-    this.initRouterLinks();
-
-    this.getUser(Number(id));
+    this.initUser();
   }
 
   initEditForm(): void {
     this.editForm = new FormGroup({
       id: new FormControl(this.user.id),
-      avatar: new FormControl({ value: '', disabled: this.isViewMode }),
-      fullName: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        Validators.required
-      ),
-      email: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        Validators.required
-      ),
-      gender: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        Validators.required
-      ),
-      dob: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        Validators.required
-      ),
-      phoneNumber: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        Validators.required
-      ),
-      fullAddress: new FormControl(
-        { value: '', disabled: this.isViewMode },
-        Validators.required
-      ),
+      avatar: new FormControl(''),
+      fullName: new FormControl('', { validators: [Validators.required] }),
+      email: new FormControl('', { validators: [Validators.required] }),
+      gender: new FormControl('', { validators: [Validators.required] }),
+      dob: new FormControl('', { validators: [Validators.required] }),
+      phoneNumber: new FormControl('', { validators: [Validators.required] }),
+      fullAddress: new FormControl('', { validators: [Validators.required] }),
+      userRole: new FormControl('', { validators: [Validators.required] }),
     });
   }
 
-  getUser(id: number): void {
+  initUser(): void {
     this.userService
-      .getUserDetail(Number(id))
+      .getUser()
       .pipe(
         tap(res => {
           let { userDetail: user } = res;
 
-          user = this.userService.refactorUser(user);
+          user = { ...user, dob: new Date(user.dob!).toLocaleDateString() };
 
-          this.user = user;
+          this.editForm.patchValue({ ...user });
 
-          this.editForm.patchValue(this.user);
+          this.user = this.userService.refactorUser(user);
         })
       )
       .subscribe();
   }
 
-  initRouterLinks(): void {
-    this.editRouterLink = `/user/edit`;
-
-    this.cancelRouterLink = `/user/detail`;
+  getTimeStamp(): number {
+    return Date.now();
   }
 
   edit(): void {
+    if (!this.tempImg) {
+      this.editForm.patchValue({
+        avatar: null,
+      });
+    }
+
     this.handleEditForm.emit(this.editForm);
   }
 
@@ -116,34 +109,47 @@ export class UserFormComponent {
     reader.onload = () => {
       const fileContent = reader.result as string; // Get the file content as base64 string
 
-      const avaBytesArr = this.base64ToBytes(fileContent); // Convert base64 string to bytes
+      this.tempImg = fileContent;
 
-      const byteArr = Array.from(avaBytesArr);
+      this.notificationService.successNotification(
+        $localize`Uploaded new photo`
+      );
 
-      this.editForm.patchValue({
-        avatar: byteArr,
-      });
+      this.parseToByteArray(fileContent);
     };
 
     reader.readAsDataURL(f); // Read the file as base64 data
   }
 
-  base64ToBytes(base64String: string): Uint8Array {
-    const base64WithoutPrefix = base64String.replace(
-      /^data:image\/\w+;base64,/,
-      ''
-    );
-    const decodedData = atob(base64WithoutPrefix);
-    const outputArray = new Uint8Array(decodedData.length);
+  private parseToByteArray(base64: string) {
+    const avaBytesArr = this.helperService.base64ToBytes(base64); // Convert base64 string to bytes
 
-    for (let i = 0; i < decodedData.length; ++i) {
-      outputArray[i] = decodedData.charCodeAt(i);
-    }
+    const byteArr = Array.from(avaBytesArr);
 
-    return outputArray;
+    this.editForm.patchValue({
+      avatar: byteArr,
+    });
   }
 
-  onImageError(e: Event): void {
-    if (e) this.isImageError = true;
+  isBase64ImageOver1MB(base64Image: string): boolean {
+    const padding =
+      base64Image.charAt(base64Image.length - 2) === '='
+        ? 2
+        : base64Image.charAt(base64Image.length - 1) === '='
+        ? 1
+        : 0;
+
+    const base64StringLength = base64Image.length;
+    const fileSizeInBytes = base64StringLength * 0.75 - padding;
+    const fileSizeInKB = fileSizeInBytes / 1024;
+    const fileSizeInMB = fileSizeInKB / 1024;
+
+    return fileSizeInMB > 1;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next('');
+
+    this.destroy$.complete();
   }
 }

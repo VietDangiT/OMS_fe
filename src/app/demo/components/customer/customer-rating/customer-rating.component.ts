@@ -1,15 +1,20 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ChartData } from 'chart.js';
-import { ListboxModule } from 'primeng/listbox';
+import { tap } from 'rxjs';
+import {
+  pieChartColors,
+  pieChartColorsCustomerRating,
+} from '../../share/oms-chart/oms-chart.component';
+import {
+  BaseChart,
+  RatingByChannelResponse,
+} from '../interfaces/customer.models';
 import { CustomerService } from '../services/customer.service';
-import { BaseChart, RatingByChannelResponse } from '../interfaces/customer.models';
-import { BehaviorSubject, tap } from 'rxjs';
-import { pieChartColors, pieChartColorsCustomer, pieChartColorsCustomerRating } from '../../share/oms-chart/oms-chart.component';
 
 @Component({
   selector: 'app-customer-rating',
   templateUrl: './customer-rating.component.html',
-  styleUrls: ['./customer-rating.component.scss']
+  styleUrls: ['./customer-rating.component.scss'],
 })
 export class CustomerRatingComponent implements OnChanges {
   @Input() pieOptions: unknown;
@@ -18,25 +23,29 @@ export class CustomerRatingComponent implements OnChanges {
   constructor(private customerService: CustomerService) {}
   pieData: ChartData;
   totalReturn: string = '0';
-  stars = "stars"
+  stars = 'stars';
   routerLink = 'total-orders';
   queryParams: { [key: string]: string } = {
     fDate: '',
     tDate: '',
   };
-  ratingByCustomer: { displayText: string; value: number , percentage: number}[] = [];
-  reversedObject : { displayText: string; value: number , percentage: number}[] = [];
+  ratingByCustomer: {
+    displayText: string;
+    value: number;
+    percentage: number;
+  }[] = [];
+  reversedObject: { displayText: string; value: number; percentage: number }[] =
+    [];
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr']?.currentValue && this.filterArr[1]) {
       this.filterArr = changes['filterArr'].currentValue;
       this.customerService
         .getRatingByChannel(this.filterArr)
         .pipe(
-          tap((result:RatingByChannelResponse) => {
+          tap((result: RatingByChannelResponse) => {
             const { ratingByChannel: data } = result;
             this.initTotalOrderChart(data);
             this.ratingByCustomer = data;
-            console.log(data)
           })
         )
         .subscribe();
@@ -53,7 +62,7 @@ export class CustomerRatingComponent implements OnChanges {
 
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
-      labelArr.push (`${item.displayText} ${this.stars}`)
+      labelArr.push(`${item.displayText} ${this.stars}`);
     });
     this.pieData = {
       labels: labelArr,
@@ -66,11 +75,4 @@ export class CustomerRatingComponent implements OnChanges {
       ],
     };
   }
-
-
-
-
-
-
-
 }

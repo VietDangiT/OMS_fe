@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import {
   DateFilterKey,
@@ -14,7 +14,7 @@ import { OmsTable } from '../../share/model/oms-table';
 import { PagingInfo } from '../../share/model/paginginfo';
 import {
   baseChartOptions,
-  colorArr,
+  colorObj,
   heatmapChartOptions,
 } from '../../share/oms-chart/oms-chart.component';
 import { BaseChart } from '../interfaces/dashboard.models';
@@ -26,13 +26,14 @@ interface DataSetItem {
   label: string;
   data: number[];
   borderColor: string;
+  pointRadius: number;
 }
 
 @Component({
   selector: 'dashboard-total-sale-by-channel',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class TotalSaleByChannelComponent implements OnInit {
   private readonly service = inject(TotalSaleByChannelService);
@@ -74,6 +75,8 @@ export class TotalSaleByChannelComponent implements OnInit {
     page: tableConfig.page,
   };
 
+  destroy$ = new Subject();
+
   ngOnInit(): void {
     this.router.queryParams
       .pipe(
@@ -83,7 +86,8 @@ export class TotalSaleByChannelComponent implements OnInit {
           }
 
           this.getComponentData();
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -113,7 +117,8 @@ export class TotalSaleByChannelComponent implements OnInit {
               body: [...data.data],
             },
           };
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -128,7 +133,8 @@ export class TotalSaleByChannelComponent implements OnInit {
           this.handleHeatMap(data);
 
           this.handleLineChart(data);
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -143,12 +149,20 @@ export class TotalSaleByChannelComponent implements OnInit {
     res.forEach(item => {
       const { displayText, date, value } = item;
 
-      const currentDate = new Date(date).toLocaleDateString('en-EN');
+      const currentDate = this.helperService.convertToDisplayDate(
+        date,
+        this.dateRange
+      );
 
       let randomColor: string = '';
 
       if (!usedColors.includes(randomColor)) {
-        randomColor = colorArr[Math.floor(Math.random() * colorArr.length)];
+        randomColor =
+          colorObj[
+            Object.keys(colorObj)[
+              Math.floor(Math.random() * Object.keys(colorObj).length)
+            ]
+          ];
 
         usedColors.push(randomColor);
       }
@@ -160,16 +174,25 @@ export class TotalSaleByChannelComponent implements OnInit {
           label: displayText,
           data: [value],
           borderColor: randomColor,
+          pointRadius: 0,
         };
+
         result.push(dataSetItem);
+      } else {
+        dataSetItem.data.push(value);
       }
 
-      dataSetItem.data.push(value);
-
-      labelArr.push(currentDate);
+      if (!labelArr.includes(currentDate)) {
+        labelArr.push(currentDate);
+      }
     });
 
-    this.saleOnChannelData = { labels: labelArr, datasets: result };
+    const maxLength = Math.max(...result.map(d => d.data.length));
+
+    this.saleOnChannelData = {
+      labels: labelArr.splice(0, maxLength),
+      datasets: result,
+    };
   }
 
   handleHeatMap(data: BaseChart[]): void {
@@ -178,7 +201,10 @@ export class TotalSaleByChannelComponent implements OnInit {
     data.forEach(item => {
       const { displayText, value, date } = item;
 
-      const currentDate = new Date(date).toLocaleDateString('en-EN');
+      const currentDate = this.helperService.convertToDisplayDate(
+        date,
+        this.dateRange
+      );
 
       let resultItem = result.find(item => item.name === displayText);
 
@@ -196,6 +222,7 @@ export class TotalSaleByChannelComponent implements OnInit {
 
       dataItem.y += value;
     });
+
     this.saleByChannelHeatmapData = {
       series: result,
       ...heatmapChartOptions,
@@ -207,6 +234,8 @@ export class TotalSaleByChannelComponent implements OnInit {
       this.handleParams('fromDate', dateRange[0]);
 
       this.handleParams('toDate', dateRange[1]);
+
+      this.dateRange = [dateRange[0], dateRange[1]];
 
       this.getComponentData();
     }
@@ -232,5 +261,10 @@ export class TotalSaleByChannelComponent implements OnInit {
       ...this.params,
       [key]: value,
     };
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next('');
+    this.destroy$.complete();
   }
 }

@@ -1,19 +1,18 @@
 <app-topbar></app-topbar>
 
 <div class="flex-between-center w-full mb-2">
-  <h1 class="text-3xl font-bold">Total Sales</h1>
+  <h1 class="title">Sales Analytics</h1>
 
   <oms-date-filter
     (dateFilterChange)="dateFilterChanged($event)"
     (filter)="filterChanged($event)"
+    [(dateFilter)]="dateRange"
   ></oms-date-filter>
 </div>
 
 <div class="grid md:grid-cols-fit-300 lg:grid-cols-6 w-full gap-2 mb-4 md:mb-2">
   <div class="w-full md:col-span-3 lg:col-span-1 dashboard-detail-container">
-    <div class="font-bold text-black">Sales</div>
-
-    <div class="flex flex-col gap-2 mb-4">
+    <div class="flex flex-col h-full gap-2 justify-between">
       <overview-box
         [dateRange]="dateRange"
         [type]="saleBoxTitle"
@@ -38,7 +37,7 @@
   </div>
 
   <div class="flex flex-col col-span-3 w-full dashboard-detail-container">
-    <div class="font-bold text-black">Revenue</div>
+    <div class="font-bold text-black" i18n>Revenue</div>
 
     <div class="h-full w-full">
       <oms-chart
@@ -52,7 +51,17 @@
   <div
     class="flex flex-col lg:col-span-2 md:col-span-3 w-full dashboard-detail-container"
   >
-    <div class="font-bold text-black">Overview</div>
+    <div class="flex justify-between">
+      <p class="font-bold text-black" i18n>Sales by marketplace</p>
+
+      <p-dropdown
+        [(ngModel)]="selectedMarketplace"
+        [options]="marketplaces"
+        optionLabel="marketPlaceName"
+        (onChange)="onSelectedChannel($event)"
+        placeholder="All channels"
+      ></p-dropdown>
+    </div>
 
     <div class="h-full w-full">
       <oms-chart

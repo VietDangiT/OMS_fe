@@ -3,14 +3,14 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import {
   Channel,
   Country,
-} from '../demo/components/channel/interface/channel.component';
+} from '../demo/components/channel/interface/channel.model';
+import { InventoryChannel } from '../demo/components/inventory/interfaces/inventory.component';
+import { InventoryService } from '../demo/components/inventory/services/inventory.service';
 import { MarketplaceService } from '../demo/components/marketplace/services/marketplace.service';
 import { ChannelService } from '../demo/service/channel.service';
+import { UserService } from '../demo/service/user.service';
 import { LayoutService } from './service/app.layout.service';
 import { MenuElement, MenuElementItem } from './service/models/menu.models';
-import { UserService } from '../demo/service/user.service';
-import { InventoryService } from '../demo/components/inventory/services/inventory.service';
-import { Inventory, InventoryByChannelResponse, InventoryChannel } from '../demo/components/inventory/interfaces/inventory.component';
 
 @Component({
   selector: 'app-menu',
@@ -42,8 +42,6 @@ import { Inventory, InventoryByChannelResponse, InventoryChannel } from '../demo
 export class AppMenuComponent {
   channels: Channel[];
 
-  userId = localStorage.getItem('userId') ?? 0;
-
   menuElements: MenuElement[] = [
     {
       name: 'dashboard',
@@ -54,14 +52,14 @@ export class AppMenuComponent {
         items: [
           {
             name: 'totalSales',
-            content: 'Total Sales',
+            content: 'Sales Analytics',
             path: 'dashboard/total-sales',
             icon: 'pi-dollar',
             param: {},
           },
           {
             name: 'totalOrder',
-            content: 'Total Orders',
+            content: 'Orders Analytics',
             path: 'dashboard/total-orders',
             icon: 'pi-shopping-cart',
             param: {},
@@ -70,13 +68,13 @@ export class AppMenuComponent {
           {
             name: 'saleByLocation',
             path: 'dashboard/sale-by-location',
-            content: 'Sales by Location',
+            content: 'Sales by Location Analytics',
             icon: 'pi-globe',
           },
           {
             name: 'saleByChannel',
             path: 'dashboard/total-sale-by-channel',
-            content: 'Total sales by Channel',
+            content: 'Sales by Channel Analytics',
             icon: 'pi-home',
           },
         ],
@@ -152,6 +150,12 @@ export class AppMenuComponent {
             icon: 'pi-user',
           },
           {
+            name: 'editprofile',
+            content: 'Edit Profile',
+            path: `user/edit`,
+            icon: 'pi-pencil',
+          },
+          {
             name: 'changepassword',
             content: 'Change Password',
             path: `user/change-password`,
@@ -199,7 +203,6 @@ export class AppMenuComponent {
     this.initMarketplaces();
     this.initUserRole();
     this.initSubMenuInventory();
-
   }
 
   getNavbarState(): void {
@@ -253,7 +256,7 @@ export class AppMenuComponent {
           channelWithTotalProduct.forEach((i: InventoryChannel) => {
             resultArr.push({
               name: i.displayText,
-              content: i.displayText ,
+              content: i.displayText,
               path: `/inventory`,
               param: { channelId: i.id },
               icon: 'pi pi-box',
@@ -294,7 +297,7 @@ export class AppMenuComponent {
             catalogueArr.push({
               name: m.marketPlaceName,
               content: m.marketPlaceName,
-              path: `/catalogue`,
+              path: `/catalogues`,
               param: { marketplaceId: m.id },
               icon: 'pi-home',
             });
@@ -304,7 +307,7 @@ export class AppMenuComponent {
             c => c.path === '/orders'
           );
           const catalogueIndex = this.menuElements.findIndex(
-            c => c.path === '/catalogue'
+            c => c.path === '/catalogues'
           );
 
           this.menuElements[orderIndex].submenu.items = orderArr;
@@ -332,7 +335,7 @@ export class AppMenuComponent {
               path: `/user/list`,
               param: { role: m.displayText },
               icon: 'pi-user',
-              value: m.value
+              value: m.value,
             });
           });
 
