@@ -173,9 +173,9 @@ export class SaleByLocationComponent {
           const { saleLeads: data } = res;
 
           this.leadData = this.helperService.setupBasicChartData(
-            true,
             data,
-            this.dateRange
+            this.dateRange,
+            true
           );
         }),
         takeUntil(this.destroy$)

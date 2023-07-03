@@ -105,9 +105,9 @@ export abstract class HelperService {
   }
 
   setupBasicChartData(
-    isText = false,
     data: BaseChart[],
     dateRange: Date[] | string[],
+    isText = false,
     label = ''
   ): ChartData {
     let totalArr: number[] = [];

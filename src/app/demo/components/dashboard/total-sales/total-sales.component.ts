@@ -112,9 +112,9 @@ export class TotalSalesComponent {
 
     this.getTotalSales();
 
-    this.getReturn();
-
     this.getSalesByChannel();
+
+    this.getSalesStatistic();
   }
 
   getSalesByChannel(): void {
@@ -125,9 +125,9 @@ export class TotalSalesComponent {
           const { totalSaleByChannel: data } = res;
 
           this.overviewData = this.helperService.setupBasicChartData(
-            true,
             data,
             this.dateRange,
+            true,
             $localize`Sales by channel`
           );
         }),
@@ -192,79 +192,38 @@ export class TotalSalesComponent {
 
   getTotalSales() {
     this.totalSalesService
-      .getTotalSales(this.dateRange[0], this.dateRange[1])
+      .getRevenue(this.dateRange[0], this.dateRange[1])
       .pipe(
         tap(res => {
-          const { totalSales: data } = res;
+          const { revenue: data } = res;
 
-          const { compareData, selectedData } = data[0];
-
-          if (selectedData) {
-            let totalArr: number[] = [];
-            let labelArr: string[] = [];
-
-            let totalSales = 0;
-            let totalSalesCompareData = 0;
-
-            compareData.forEach(i => {
-              totalSalesCompareData += i.value;
-            });
-
-            selectedData.forEach(i => {
-              totalSales += i.value;
-
-              totalArr.push(i.value);
-              labelArr.push(
-                this.helperService.convertToDisplayDate(i.date, this.dateRange)
-              );
-            });
-
-            this.totalSales = totalSales;
-            this.totalSalesPercent = totalSales / totalSalesCompareData;
-
-            let avgSalesCompareData =
-              totalSalesCompareData / compareData.length;
-
-            this.avgSales = totalSales / selectedData.length;
-            this.avgSalesPercent = this.avgSales / avgSalesCompareData;
-
-            this.revenueData = this.helperService.setChartData(
-              labelArr,
-              totalArr
-            );
-          }
+          this.revenueData = this.helperService.setupBasicChartData(
+            data,
+            this.dateRange,
+            false
+          );
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
   }
 
-  getReturn() {
+  getSalesStatistic(): void {
     this.totalSalesService
-      .getReturn(this.dateRange[0], this.dateRange[1])
+      .getSaleStatistic(this.dateRange[0], this.dateRange[1])
       .pipe(
         tap(res => {
-          const { return: data } = res;
+          const { totalSalesStatistic: data } = res;
 
-          const { compareData, selectedData } = data[0];
+          this.totalSales = data[0].current;
+          this.totalSalesPercent = data[0].current;
 
-          if (selectedData) {
-            let totalReturn = 0;
-            let totalReturnCompareData = 0;
+          this.avgSales = data[1].current;
+          this.avgSalesPercent = data[1].current;
 
-            compareData.forEach(i => {
-              totalReturnCompareData += i.value;
-            });
-
-            selectedData.forEach(i => {
-              totalReturn += i.value;
-            });
-
-            this.totalReturnPercent = totalReturn / totalReturnCompareData;
-            this.totalReturn = totalReturn;
-          }
-        }),
-        takeUntil(this.destroy$)
+          this.totalReturn = data[2].current;
+          this.totalReturnPercent = data[2].current;
+        })
       )
       .subscribe();
   }

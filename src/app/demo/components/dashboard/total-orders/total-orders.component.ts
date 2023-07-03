@@ -190,7 +190,6 @@ export class TotalOrdersComponent implements OnInit {
       .pipe(
         tap(res => {
           this.orderSummary = res.totalOrderSummary;
-
         }),
         takeUntil(this.destroy$)
       )
@@ -205,9 +204,9 @@ export class TotalOrdersComponent implements OnInit {
           const { totalOrderByChannel: data } = res;
 
           this.orderByChannel = this.helperService.setupBasicChartData(
-            false,
             data,
-            this.dateRange
+            this.dateRange,
+            false
           );
         })
       )
@@ -256,9 +255,9 @@ export class TotalOrdersComponent implements OnInit {
           const { totalOrdersBy: totalOrders } = result;
 
           this.overviewData = this.helperService.setupBasicChartData(
-            false,
             totalOrders,
             this.dateRange,
+            false,
             $localize`Total Orders`
           );
         }),
@@ -275,9 +274,9 @@ export class TotalOrdersComponent implements OnInit {
           const { averagePricePerOrder: data } = res;
 
           this.avgPricePerOrder = this.helperService.setupBasicChartData(
-            false,
             data,
-            this.dateRange
+            this.dateRange,
+            false
           );
         })
       )
@@ -292,9 +291,9 @@ export class TotalOrdersComponent implements OnInit {
           const { topSoldProduct: data } = res;
 
           this.topSoldProducts = this.helperService.setupBasicChartData(
-            true,
             data,
-            this.dateRange
+            this.dateRange,
+            true
           );
         })
       )

@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable, map } from 'rxjs';
 import {
-  GET_RETURN,
-  GET_TOTAL_SALES,
+  GET_REVENUE,
+  GET_SALE_STATISTIC,
   GET_TOTAL_SALES_TABLE,
 } from '../constants/total-sales.constants';
 import {
-  ReturnApiResponse,
-  TotalSalesApiResponse,
+  TotalSalesApiResponse as RevenueApiResponse,
+  SaleStatisticApiResponse,
   TotalSalesTableApiResponse,
 } from '../models/total-sales.models';
 
@@ -37,13 +37,10 @@ export class TotalSalesService {
       .valueChanges.pipe(map(res => res.data));
   }
 
-  getTotalSales(
-    fromDate: Date,
-    toDate: Date
-  ): Observable<TotalSalesApiResponse> {
+  getRevenue(fromDate: Date, toDate: Date): Observable<RevenueApiResponse> {
     return this.apollo
-      .watchQuery<TotalSalesApiResponse>({
-        query: GET_TOTAL_SALES,
+      .watchQuery<RevenueApiResponse>({
+        query: GET_REVENUE,
         variables: {
           fromDate,
           toDate,
@@ -52,10 +49,13 @@ export class TotalSalesService {
       .valueChanges.pipe(map(res => res.data));
   }
 
-  getReturn(fromDate: Date, toDate: Date): Observable<ReturnApiResponse> {
+  getSaleStatistic(
+    fromDate: Date,
+    toDate: Date
+  ): Observable<SaleStatisticApiResponse> {
     return this.apollo
-      .watchQuery<ReturnApiResponse>({
-        query: GET_RETURN,
+      .watchQuery<SaleStatisticApiResponse>({
+        query: GET_SALE_STATISTIC,
         variables: {
           fromDate,
           toDate,

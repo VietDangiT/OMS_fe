@@ -81,9 +81,9 @@ export class ProductCatalogComponent {
                 const { itemsSoldByProductVariant: data } = result;
 
                 this.dataChart = this.helperService.setupBasicChartData(
-                  false,
                   data,
                   this.filterArr,
+                  false,
                   $localize`Product Catalogs`
                 );
               })
