@@ -33,7 +33,7 @@ interface DataSetItem {
   selector: 'dashboard-total-sale-by-channel',
   templateUrl: './total-sale-by-channel.component.html',
   styleUrls: ['./total-sale-by-channel.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class TotalSaleByChannelComponent implements OnInit {
   private readonly service = inject(TotalSaleByChannelService);
@@ -176,12 +176,15 @@ export class TotalSaleByChannelComponent implements OnInit {
           borderColor: randomColor,
           pointRadius: 0,
         };
+
         result.push(dataSetItem);
+      } else {
+        dataSetItem.data.push(value);
       }
 
-      dataSetItem.data.push(value);
-
-      labelArr.push(currentDate);
+      if (!labelArr.includes(currentDate)) {
+        labelArr.push(currentDate);
+      }
     });
 
     const maxLength = Math.max(...result.map(d => d.data.length));

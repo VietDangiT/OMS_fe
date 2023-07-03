@@ -1,12 +1,12 @@
-oms-sales-channel-performance dashboard-detail-statistic>div {
+oms-sales-channel-performance dashboard-detail-statistic > div {
   margin-bottom: 0 !important;
 }
 
-oms-sales-channel-performance dashboard-detail-statistic>div>div {
+oms-sales-channel-performance dashboard-detail-statistic > div > div {
   padding: 0 !important;
 }
 
-oms-sales-channel-performance dashboard-detail-statistic>div>div>div {
+oms-sales-channel-performance dashboard-detail-statistic > div > div > div {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -14,7 +14,7 @@ oms-sales-channel-performance dashboard-detail-statistic>div>div>div {
   padding: 24px !important;
 }
 
-oms-sales-channel-performance dashboard-detail-statistic>div>div>div>span:first-child {
+oms-sales-channel-performance dashboard-detail-statistic > div > div > div > span:first-child {
   font-size: medium;
 }
 
@@ -22,11 +22,11 @@ oms-sales-channel-performance p-chart div {
   @apply w-[95%] mx-auto;
 }
 
-.chart-container {
+oms-sales-channel-performance .chart-container {
   height: 293px;
 }
 
-.p-sidebar-mask {
+oms-sales-channel-performance .p-sidebar-mask {
   position: fixed;
   top: 0;
   left: 0;
@@ -34,15 +34,15 @@ oms-sales-channel-performance p-chart div {
   height: 100%;
 }
 
-body:has(.p-sidebar-mask) {
-    overflow: hidden;
+oms-sales-channel-performance body:has(.p-sidebar-mask) {
+  overflow: hidden;
 }
 
-.p-sidebar-content::-webkit-scrollbar {
+oms-sales-channel-performance .p-sidebar-content::-webkit-scrollbar {
   display: none;
 }
 
-.p-sidebar-content {
+oms-sales-channel-performance .p-sidebar-content {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }

@@ -1,27 +1,24 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { OmsTable } from '../../share/model/oms-table';
 
 @Component({
   selector: 'app-customer-allcustomer',
   templateUrl: './customer-allcustomer.component.html',
-  styleUrls: ['./customer-allcustomer.component.css']
+  styleUrls: ['./customer-allcustomer.component.scss'],
 })
 export class CustomerAllcustomerComponent implements OnInit {
   @HostBinding('class') hostClass = 'app-customer-allcustomer';
 
-  table: OmsTable<any>= {
+  table: OmsTable<any> = {
     page: 0,
     first: 0,
     rows: 0,
     pageCount: 0,
     totalRecord: 0,
     data: {
-      header: [
-      ],
-      body: [
-
-      ],
+      header: [],
+      body: [],
     },
   };
   items: MenuItem[] = [
@@ -31,15 +28,12 @@ export class CustomerAllcustomerComponent implements OnInit {
   ];
   activeItem: MenuItem = this.items[0];
   countryId: string | number;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
 
-}
-
-onActiveItemChange(event: any){
+  onActiveItemChange(event: any) {
     this.activeItem = event;
-    console.log(event);
   }
 
   // popup show details
@@ -48,7 +42,6 @@ onActiveItemChange(event: any){
 
   handleAction(e: Event): void {
     e.stopPropagation();
-    console.log('click action icon');
   }
 
   handleOrderDetail(e: Event): void {
@@ -58,9 +51,4 @@ onActiveItemChange(event: any){
   handleCloseModal() {
     this.modalVisible = false;
   }
-
-
-
 }
-
-

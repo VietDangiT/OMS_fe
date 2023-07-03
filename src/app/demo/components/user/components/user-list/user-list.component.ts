@@ -138,7 +138,7 @@ export class UserListComponent {
       .pipe(
         tap(res => {
           const { userStatus: data } = res;
-          // userLabelItems[0].badge = '0';
+          userLabelItems[0].badge = '0';
           const labelItems: MenuItem[] = [userLabelItems[0]];
 
           data.forEach(d => {
@@ -157,8 +157,6 @@ export class UserListComponent {
           labelItems[0].badge = sum + '';
 
           this.labelItems = labelItems;
-
-          console.log(labelItems);
 
           this.activeItem = this.labelItems[0];
         }),

@@ -63,7 +63,7 @@ export const CHANGE_PASSWORD = gql`
 
 export const EDIT_USER = gql`
   mutation EditUserProfile(
-    $avatar: [Byte!]!
+    $avatar: [Byte!] = null
     $dob: String!
     $email: String!
     $fullAddress: String!

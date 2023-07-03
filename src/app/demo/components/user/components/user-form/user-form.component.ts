@@ -94,6 +94,12 @@ export class UserFormComponent {
   }
 
   edit(): void {
+    if (!this.tempImg) {
+      this.editForm.patchValue({
+        avatar: null,
+      });
+    }
+
     this.handleEditForm.emit(this.editForm);
   }
 

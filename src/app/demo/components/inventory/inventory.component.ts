@@ -1,46 +1,37 @@
-import {
-  Component,
-  HostBinding,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { Subject, takeUntil, tap } from 'rxjs';
+import { tableConfig } from '../../constants/table.config';
+import { PageChangeEvent } from '../../interface/event';
+import { HelperService } from '../../service/helper.service';
 import { OmsTable } from '../share/model/oms-table';
+import {
+  inventoryLabelItems,
+  inventoryTableHeader,
+} from './constrants/inventory.constants';
 import {
   CardInventory,
   CardInventoryApiResponse,
   Inventory,
   InventoryParams,
-  InventoryTableApiResponse,
 } from './interfaces/inventory.component';
-import {
-  CHANNEL_ID,
-  inventoryLabelItems,
-  inventoryTableHeader,
-} from './constrants/inventory.constants';
-import { tableConfig } from '../../constants/table.config';
-import { Subject, takeUntil, tap } from 'rxjs';
 import { InventoryService } from './services/inventory.service';
-import { ActivatedRoute } from '@angular/router';
-import { HelperService } from '../../service/helper.service';
-import { PageChangeEvent } from '../../interface/event';
 
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
-  styleUrls: ['./inventory.component.css'],
+  styleUrls: ['./inventory.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class InventoryComponent implements OnInit {
   @Input() inventory: Inventory;
-  available:number= 0;
-  cardInventory:CardInventory;
+  available: number = 0;
+  cardInventory: CardInventory;
   sidebarVisible: boolean = false;
   productVariantId: number;
   productSku: string;
   modalVisible: boolean;
-  countInventory:Inventory[];
+  countInventory: Inventory[];
   table: OmsTable<Inventory> = {
     page: 0,
     first: 0,
@@ -52,7 +43,7 @@ export class InventoryComponent implements OnInit {
       body: [],
     },
   };
-  apiUrl = "https://localhost:7121/api";
+  apiUrl = 'https://localhost:7121/api';
   dateRange: Date[] = this.helperService.defaultDateRange;
   dateFilterValue: string[];
   labelItems: MenuItem[] = inventoryLabelItems;
@@ -73,35 +64,33 @@ export class InventoryComponent implements OnInit {
 
   constructor(
     private inventoryService: InventoryService,
-    private route: ActivatedRoute,
     private helperService: HelperService
   ) {}
 
   ngOnInit(): void {
-        this.getInventoryData();
-        this.getListCardsComponent();
-        this.getOrderStatus();
+    this.getInventoryData();
+    this.getListCardsComponent();
+    this.getOrderStatus();
   }
   getInventoryData(): void {
     this.inventoryService
-    .getInventoryTableData(this.params)
-    .pipe(
-      tap(res => {
-        const { products } = res;
+      .getInventoryTableData(this.params)
+      .pipe(
+        tap(res => {
+          const { products } = res;
 
-
-        this.table = {
-          data: {
-            header: [...this.table.data.header],
-            body: [...products.data],
-          },
-          first: products.first,
-          page: products.page,
-          pageCount: products.pageCount,
-          rows: products.rows,
-          totalRecord: products.totalRecord,
-        };
-      }),
+          this.table = {
+            data: {
+              header: [...this.table.data.header],
+              body: [...products.data],
+            },
+            first: products.first,
+            page: products.page,
+            pageCount: products.pageCount,
+            rows: products.rows,
+            totalRecord: products.totalRecord,
+          };
+        }),
 
         takeUntil(this.destroy$)
       )
@@ -146,44 +135,47 @@ export class InventoryComponent implements OnInit {
     this.destroy$.complete();
   }
 
-  handleClickActions(productVariantId: number, productSku: string){
+  handleClickActions(productVariantId: number, productSku: string) {
     this.productSku = productSku;
     this.productVariantId = productVariantId;
     this.sidebarVisible = true;
   }
- // filter
-  getListCardsComponent():void {
-    this.inventoryService.getCardInventory()
-    .pipe(
-      tap((res : CardInventoryApiResponse)=> {
-      const  {productStatistic : cardInventory } = res;
-      this.cardInventory = cardInventory;
-      console.log(cardInventory);
-    })
-    )
-    .subscribe();
+  // filter
+  getListCardsComponent(): void {
+    this.inventoryService
+      .getCardInventory()
+      .pipe(
+        tap((res: CardInventoryApiResponse) => {
+          const { productStatistic: cardInventory } = res;
+          this.cardInventory = cardInventory;
+        })
+      )
+      .subscribe();
   }
 
   getOrderStatus(): void {
     this.inventoryService
       .getCardInventory()
       .pipe(
-        tap((res : CardInventoryApiResponse)=> {
-          const  {productStatistic : data } = res;
+        tap((res: CardInventoryApiResponse) => {
+          const { productStatistic: data } = res;
           const entries = Object.entries(data);
-          console.log(entries);
           const labelItems: MenuItem[] = [];
           let total = 0;
           entries.forEach(d => {
-            if(d[0] !== '__typename'){
-            labelItems.push({
-              title: d[0].replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toLocaleUpperCase(); }),
-              badge: d[1].toString(),
-              label: d[0].toLowerCase(),
-            });
+            if (d[0] !== '__typename') {
+              labelItems.push({
+                title: d[0]
+                  .replace(/([A-Z])/g, ' $1')
+                  .replace(/^./, function (str) {
+                    return str.toLocaleUpperCase();
+                  }),
+                badge: d[1].toString(),
+                label: d[0].toLowerCase(),
+              });
 
-            total += d[1];
-          }
+              total += d[1];
+            }
           });
 
           this.labelItems = labelItems;
@@ -195,13 +187,10 @@ export class InventoryComponent implements OnInit {
       .subscribe();
   }
 
-
   onActiveItemChange(label: MenuItem): void {
     this.activeItem = label;
 
     this.handleChannelParams('stockStatusFilter', this.activeItem.label!);
-
-    console.log(this.params);
 
     this.getInventoryData();
   }

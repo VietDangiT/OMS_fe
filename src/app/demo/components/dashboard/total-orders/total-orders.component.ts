@@ -190,6 +190,7 @@ export class TotalOrdersComponent implements OnInit {
       .pipe(
         tap(res => {
           this.orderSummary = res.totalOrderSummary;
+
         }),
         takeUntil(this.destroy$)
       )
