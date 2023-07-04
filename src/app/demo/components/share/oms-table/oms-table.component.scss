@@ -16,4 +16,8 @@
   table tr:nth-child(even) {
     @apply bg-gray-100;
   }
+
+  .p-datatable .p-datatable-thead > tr > th {
+    @apply px-4 py-2;
+  }
 }

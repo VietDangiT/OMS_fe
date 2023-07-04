@@ -24,8 +24,10 @@
   <a
     [routerLink]="routerLink"
     [queryParams]="queryParams"
-    class="w-full chart-container"
+    class="w-full chart-container group relative"
   >
+    <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
     <oms-chart
       type="bar"
       [data]="totalOrderData"

@@ -38,7 +38,7 @@
       [contentRef]="contentRef"
     >
       <ng-template #contentRef let-rowData>
-        <tr>
+        <tr (click)="handleClickActions(rowData.id, rowData.sku)">
           <td>
             <div class="w-10 h-10 rounded-md">
               <oms-avatar
@@ -59,7 +59,6 @@
           <td class="!text-left">
             <i
               class="pi pi-arrow-up-left cursor-pointer text-white bg-primary p-1 rounded-full"
-              (click)="handleClickActions(rowData.id, rowData.sku)"
               >{{ rowData.action }}</i
             >
           </td>

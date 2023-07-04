@@ -40,6 +40,7 @@ export class OrderDetailComponent {
     shippingAddress: '',
     phoneNumber: '',
     address: '',
+    image: '',
     products: [],
   };
 
@@ -72,7 +73,9 @@ export class OrderDetailComponent {
 
           this.orderDetail = orderDetail;
 
-          this.tableData.data.body = this.orderDetail.products;
+          this.tableData.data.body = this.orderDetail.products.map(p => {
+            return { ...p, image: this.helperService.prefixImgSrc(p.image!) };
+          });
         })
       )
       .subscribe();

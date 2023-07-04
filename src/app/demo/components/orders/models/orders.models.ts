@@ -19,6 +19,7 @@ export interface OrderDetail extends Order {
   customerName: string;
   phoneNumber: string;
   address: string;
+  image: string;
   products: Partial<Product>[];
 }
 

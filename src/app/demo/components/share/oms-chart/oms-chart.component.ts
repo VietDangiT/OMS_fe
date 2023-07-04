@@ -151,12 +151,12 @@ export const heatmapChartOptions: Partial<heatChartOptions> | any = {
           },
           {
             from: 20000,
-            to: 70000,
+            to: 100000,
             color: colors.primaryLight2,
           },
           {
-            from: 70000,
-            to: 100000,
+            from: 100000,
+            to: 200000,
             color: colors.primary,
           },
         ],

@@ -22,8 +22,10 @@
     <a
       [routerLink]="routerLink"
       [queryParams]="queryParams"
-      class="h-full flex-1"
+      class="h-full flex-1 group relative"
     >
+      <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
       <oms-chart
         type="doughnut"
         [data]="pieData"

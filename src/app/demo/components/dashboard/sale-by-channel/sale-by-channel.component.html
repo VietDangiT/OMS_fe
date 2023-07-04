@@ -19,7 +19,13 @@
       >
     </div>
 
-    <a class="h-full" [routerLink]="routerLink" [queryParams]="queryParams">
+    <a
+      class="h-full relative group"
+      [routerLink]="routerLink"
+      [queryParams]="queryParams"
+    >
+      <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
       <oms-chart
         type="treemap"
         class="w-full"

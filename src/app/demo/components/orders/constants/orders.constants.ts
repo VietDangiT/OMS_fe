@@ -5,10 +5,10 @@ import { TableHeader } from 'src/app/demo/interface/global.model';
 export const orderHeaderTable: TableHeader[] = [
   { field: 'order', col: 'Order' },
   { field: 'date', col: 'Date' },
-  { field: 'channelName', col: 'Channel name' },
+  { field: 'channelName', col: 'Channel Name' },
   { field: 'productUnits', col: 'Product Units' },
   { field: 'price', col: 'Price' },
-  { field: 'shippingCarrier', col: 'Shipping carrier' },
+  { field: 'shippingCarrier', col: 'Shipping Carrier' },
   { field: 'status', col: 'Status' },
   { field: 'view', col: 'View' },
 ];
@@ -79,6 +79,7 @@ export const GET_ORDER_DETAIL = gql`
       products {
         name
         barcode
+        image
         quantity
         price
       }

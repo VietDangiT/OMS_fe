@@ -36,7 +36,9 @@
       </p>
     </div>
 
-    <a [routerLink]="routerLink">
+    <a [routerLink]="routerLink" class="relative group">
+      <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
       <oms-chart
         type="bar"
         [data]="dataChart"

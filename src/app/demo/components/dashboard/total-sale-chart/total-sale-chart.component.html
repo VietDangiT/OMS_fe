@@ -22,8 +22,10 @@
     <a
       [routerLink]="routerLink"
       [queryParams]="queryParams"
-      class="flex-1 chart-container"
+      class="flex-1 chart-container group relative"
     >
+      <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
       <oms-chart
         type="line"
         [data]="totalSaleData"

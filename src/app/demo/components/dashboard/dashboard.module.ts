@@ -14,6 +14,7 @@ import { AppTopBarModule } from 'src/app/layout/app.topbar.module';
 import { ChartsModule } from '../charts/charts.module';
 import { DateFilterComponent } from '../share/date-filter/date-filter.component';
 import { ShareModule } from '../share/share.module';
+import { TooltipComponent } from '../share/tooltip/tooltip.component';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
 import { DashboardStatisticComponent } from './dashboard-statistic/dashboard-statistic.component';
 import { DetailStatisticComponent } from './dashboard-statistic/detail-statistic/detail-statistic.component';
@@ -54,6 +55,7 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
     ChartsModule,
     DateFilterComponent,
     CalendarModule,
+    TooltipComponent,
   ],
   declarations: [
     DashboardComponent,
@@ -77,9 +79,6 @@ import { TotalSalesComponent } from './total-sales/total-sales.component';
     SaleByLocationItemComponent,
     SaleTotalBoxComponent,
   ],
-  exports: [
-    DashboardStatisticComponent, 
-    DetailStatisticComponent
-  ],
+  exports: [DashboardStatisticComponent, DetailStatisticComponent],
 })
 export class DashboardModule {}
