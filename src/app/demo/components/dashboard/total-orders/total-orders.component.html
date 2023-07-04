@@ -100,9 +100,11 @@
   </div>
 </div>
 
-<oms-table
-  (pagingInfo)="onPageChange($event)"
-  [isPaginationShown]="true"
-  [table]="tableData"
->
-</oms-table>
+<div class="mt-2">
+  <oms-table
+    (pagingInfo)="onPageChange($event)"
+    [isPaginationShown]="true"
+    [table]="tableData"
+  >
+  </oms-table>
+</div>

@@ -54,7 +54,7 @@ export class UserChangePasswordComponent {
 
       this.handleChangePassword(currentPassword, Number(id)!, newPassword);
     } else {
-      this.notificationService.successNotification(
+      this.notificationService.errorNotification(
         $localize`Form must be valid or filled`
       );
     }

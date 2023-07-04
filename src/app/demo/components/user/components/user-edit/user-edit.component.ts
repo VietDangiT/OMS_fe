@@ -44,6 +44,8 @@ export class UserEditComponent {
         }),
         tap(() => {
           this.notificationService.successNotification($localize`User edited`);
+
+          this.route.navigateByUrl('/user/detail');
         })
       )
       .subscribe();

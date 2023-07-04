@@ -45,6 +45,8 @@ export class AppMenuComponent {
 
   isNavbarOn: boolean | undefined;
 
+  logoSrc = 'https://bbv.ch/wp-content/uploads/2021/08/bbv-Logo.png';
+
   private readonly destroy$ = new Subject();
 
   constructor(
@@ -85,21 +87,25 @@ export class AppMenuComponent {
           const customerArr: MenuElementItem[] = [];
 
           countries.forEach((c: Country) => {
-            channelArr.push({
-              name: c.countryName,
-              content: c.countryName,
-              path: `/channels`,
-              param: { countryId: c.id },
-              icon: 'pi-home',
-            });
+            channelArr.push(
+              new MenuElementItem(
+                c.countryName,
+                c.countryName,
+                `/channels`,
+                'pi-home',
+                { countryId: c.id }
+              )
+            );
 
-            customerArr.push({
-              name: c.countryName,
-              content: c.countryName,
-              path: `/customer`,
-              param: { countryId: c.id },
-              icon: 'pi-user-plus',
-            });
+            customerArr.push(
+              new MenuElementItem(
+                c.countryName,
+                c.countryName,
+                `/customer`,
+                'pi-user-plus',
+                { countryId: c.id }
+              )
+            );
           });
 
           const channelIndex = this.menuElements.findIndex(
@@ -132,29 +138,35 @@ export class AppMenuComponent {
           const inventoryArr: MenuElementItem[] = [];
 
           marketPlaces.forEach(m => {
-            orderArr.push({
-              name: m.marketPlaceName,
-              content: m.marketPlaceName,
-              path: `/orders`,
-              param: { marketplaceId: m.id },
-              icon: 'pi-home',
-            });
+            orderArr.push(
+              new MenuElementItem(
+                m.marketPlaceName,
+                m.marketPlaceName,
+                `/orders`,
+                'pi-home',
+                { marketplaceId: m.id }
+              )
+            );
 
-            catalogueArr.push({
-              name: m.marketPlaceName,
-              content: m.marketPlaceName,
-              path: `/catalogues`,
-              param: { marketplaceId: m.id },
-              icon: 'pi-home',
-            });
+            catalogueArr.push(
+              new MenuElementItem(
+                m.marketPlaceName,
+                m.marketPlaceName,
+                `/catalogues`,
+                'pi-home',
+                { marketplaceId: m.id }
+              )
+            );
 
-            inventoryArr.push({
-              name: m.marketPlaceName,
-              content: m.marketPlaceName,
-              path: `/inventory`,
-              param: { marketplaceId: m.id },
-              icon: 'pi-box',
-            });
+            inventoryArr.push(
+              new MenuElementItem(
+                m.marketPlaceName,
+                m.marketPlaceName,
+                `/inventory`,
+                'pi-home',
+                { marketplaceId: m.id }
+              )
+            );
           });
 
           const orderIndex = this.menuElements.findIndex(
@@ -168,11 +180,11 @@ export class AppMenuComponent {
             c => c.path === inventoryArr[0].path
           );
 
-          this.menuElements[orderIndex].submenu!.items = orderArr;
+          this.menuElements[orderIndex].submenu.items = orderArr;
 
-          this.menuElements[catalogueIndex].submenu!.items = catalogueArr;
+          this.menuElements[catalogueIndex].submenu.items = catalogueArr;
 
-          this.menuElements[inventoryIndex].submenu!.items = inventoryArr;
+          this.menuElements[inventoryIndex].submenu.items = inventoryArr;
         }),
         takeUntil(this.destroy$)
       )
@@ -189,14 +201,16 @@ export class AppMenuComponent {
           const userArr: MenuElementItem[] = [];
 
           userRole.forEach(m => {
-            userArr.push({
-              name: m.displayText,
-              content: m.displayText,
-              path: `/user/list`,
-              param: { role: m.displayText },
-              icon: 'pi-user',
-              value: m.value,
-            });
+            userArr.push(
+              new MenuElementItem(
+                m.displayText,
+                m.displayText,
+                `/user/list`,
+                'pi-user',
+                { role: m.displayText },
+                m.value
+              )
+            );
           });
 
           const userIndex = this.menuElements.findIndex(

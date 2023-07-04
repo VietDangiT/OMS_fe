@@ -5,13 +5,13 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from '../../constants/table.config';
 import { PageChangeEvent } from '../../interface/event';
 import { HelperService } from '../../service/helper.service';
+import { BaseChart } from '../dashboard/interfaces/dashboard.models';
 import { OmsTable } from '../share/model/oms-table';
 import {
   inventoryLabelItems,
   inventoryTableHeader,
 } from './constrants/inventory.constants';
 import {
-  CardInventory,
   CardInventoryApiResponse,
   Inventory,
   InventoryParams,
@@ -26,13 +26,21 @@ import { InventoryService } from './services/inventory.service';
 })
 export class InventoryComponent implements OnInit {
   @Input() inventory: Inventory;
-  available: number = 0;
-  cardInventory: CardInventory;
-  sidebarVisible: boolean = false;
-  productVariantId: number;
-  productSku: string;
-  modalVisible: boolean;
+
+  cardInventory: BaseChart[];
+
+  sidebarVisible = false;
+
+  productVariantId = 0;
+
+  productSku = '';
+
+  modalVisible = false;
+
+  dateRange: Date[] = [];
+
   countInventory: Inventory[];
+
   table: OmsTable<Inventory> = {
     page: 0,
     first: 0,
@@ -44,12 +52,13 @@ export class InventoryComponent implements OnInit {
       body: [],
     },
   };
-  dateRange: Date[] = [];
-  dateFilterValue: string[];
+
   labelItems: MenuItem[] = inventoryLabelItems;
+
   activeItem: MenuItem = this.labelItems[0];
-  gapPageNumber = 1;
+
   marketPlaceId = 0;
+
   params: InventoryParams = {
     channelId: null,
     stockStatusFilter: '',
@@ -75,9 +84,9 @@ export class InventoryComponent implements OnInit {
           this.marketPlaceId = Number(params.get('marketplaceId'));
 
           if (this.marketPlaceId) {
-            this.handleChannelParams('channelId', this.marketPlaceId);
+            this.handleInventoryParams('channelId', this.marketPlaceId);
           } else {
-            this.handleChannelParams('channelId', null);
+            this.handleInventoryParams('channelId', null);
           }
 
           this.getComponentData();
@@ -87,9 +96,9 @@ export class InventoryComponent implements OnInit {
   }
 
   getComponentData(): void {
-    this.getInventoryData();
-
     this.getOrderStatus();
+
+    this.getInventoryData();
   }
 
   getInventoryData(): void {
@@ -127,15 +136,16 @@ export class InventoryComponent implements OnInit {
   }
 
   onPageChange(e: PageChangeEvent): void {
-    this.handleChannelParams('page', e.page + tableConfig.gapPageNumber);
+    this.handleInventoryParams('page', e.page + tableConfig.gapPageNumber);
 
     this.getInventoryData();
   }
+
   dateFilterChange(dateRange: Date[]): void {
     if (dateRange[1] != null) {
-      this.handleChannelParams('fromDate', dateRange[0]);
+      this.handleInventoryParams('fromDate', dateRange[0]);
 
-      this.handleChannelParams('toDate', dateRange[1]);
+      this.handleInventoryParams('toDate', dateRange[1]);
 
       this.getInventoryData();
     }
@@ -143,13 +153,13 @@ export class InventoryComponent implements OnInit {
 
   searchValue(search: string): void {
     if (search) {
-      this.handleChannelParams('keyword', search);
+      this.handleInventoryParams('keyword', search);
 
       this.getInventoryData();
     }
   }
 
-  handleChannelParams(
+  handleInventoryParams(
     key: keyof InventoryParams,
     value: string | number | Date | null
   ): void {
@@ -161,7 +171,9 @@ export class InventoryComponent implements OnInit {
 
   handleClickActions(productVariantId: number, productSku: string) {
     this.productSku = productSku;
+
     this.productVariantId = productVariantId;
+
     this.sidebarVisible = true;
   }
 
@@ -174,44 +186,48 @@ export class InventoryComponent implements OnInit {
 
           this.cardInventory = data;
 
-          const entries = Object.entries(data);
           const labelItems: MenuItem[] = [];
-          let total = 0;
-          entries.forEach(d => {
-            if (d[0] !== '__typename') {
-              labelItems.push({
-                title: d[0]
-                  .replace(/([A-Z])/g, ' $1')
-                  .replace(/^./, function (str) {
-                    return str.toLocaleUpperCase();
-                  }),
-                badge: d[1].toString(),
-                label: d[0].toLowerCase(),
-              });
 
-              total += d[1];
-            }
+          data.forEach(d => {
+            labelItems.push({
+              title:
+                this.helperService.stockStatuses[d.displayText.toLowerCase()],
+              badge: d.value.toString(),
+              label:
+                d.displayText === 'Inactive'
+                  ? d.displayText
+                  : d.displayText.toLowerCase(),
+            });
           });
 
           this.labelItems = labelItems;
-          inventoryLabelItems[0].badge = total.toString();
-          this.labelItems.unshift(inventoryLabelItems[0]);
+
           this.activeItem = this.labelItems[0];
-        })
+
+          this.handleInventoryParams(
+            'stockStatusFilter',
+            this.activeItem.label!
+          );
+
+          this.getInventoryData();
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
 
   onActiveItemChange(label: MenuItem): void {
     this.activeItem = label;
+    console.log(label);
 
-    this.handleChannelParams('stockStatusFilter', this.activeItem.label!);
+    this.handleInventoryParams('stockStatusFilter', this.activeItem.label!);
 
     this.getInventoryData();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next('');
+
     this.destroy$.complete();
   }
 }

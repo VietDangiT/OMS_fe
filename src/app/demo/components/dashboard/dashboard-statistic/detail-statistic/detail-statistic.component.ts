@@ -1,5 +1,6 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { Statistic, StockStatus } from '../../interfaces/dashboard.models';
+import { Component, Input, SimpleChanges, inject } from '@angular/core';
+import { HelperService } from 'src/app/demo/service/helper.service';
+import { BaseChart, Statistic } from '../../interfaces/dashboard.models';
 
 @Component({
   selector: 'dashboard-detail-statistic',
@@ -9,26 +10,25 @@ import { Statistic, StockStatus } from '../../interfaces/dashboard.models';
 export class DetailStatisticComponent {
   @Input() detailStatistic: Statistic[];
 
-  @Input() stockStatistic: StockStatus;
+  @Input() stockStatistic: BaseChart[];
 
   @Input() heading: string;
 
-  stockArr: [string, number][] = [];
+  @Input() routerLink: string;
 
-  formattedArr: { name: string; value: number }[] = [];
+  @Input() queryParams: { [key: string]: string };
+
+  helperService = inject(HelperService);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['stockStatistic']?.currentValue) {
-      this.stockArr = Object.entries(changes['stockStatistic']?.currentValue);
-
-      this.formattedArr = this.stockArr.map(([name, value]) => ({
-        name: name.replace(/([A-Z])/g, ' $1').replace(/^./, function (str) {
-          return str.toLocaleUpperCase();
-        }),
-        value,
-      }));
-
-      this.formattedArr.pop();
+      this.stockStatistic = this.stockStatistic.map(s => {
+        return {
+          ...s,
+          displayText:
+            this.helperService.stockStatuses[s.displayText.toLowerCase()],
+        };
+      });
     }
   }
 }

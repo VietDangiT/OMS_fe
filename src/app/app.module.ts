@@ -39,6 +39,7 @@ import { AppLayoutModule } from './layout/app.layout.module';
     PhotoService,
     ProductService,
     MessageService,
+
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,

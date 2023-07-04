@@ -1,10 +1,11 @@
-<div class="mb-1">
+<div
+  class="mb-1 cursor-pointer"
+  [routerLink]="routerLink"
+  [queryParams]="queryParams"
+>
   <span class="text-sm font-bold">{{ heading | titlecase }}</span>
 
-  <div
-    class="grid gap-2 flex-wrap py-2"
-    *ngIf="detailStatistic; else stockStatistic"
-  >
+  <div class="grid gap-2 flex-wrap py-2" *ngIf="detailStatistic; else stockTmp">
     <div
       class="bg-light-yellow rounded-lg py-2 px-3 relative group"
       *ngFor="let item of detailStatistic"
@@ -32,7 +33,7 @@
 
       <div
         class="text-xs font-medium gap-1 mt-1 flex items-center"
-        *ngIf="item.value"
+        [ngClass]="item.value ? 'opacity-100' : 'opacity-0'"
       >
         <i
           class="pi"
@@ -48,14 +49,14 @@
     </div>
   </div>
 
-  <ng-template #stockStatistic>
+  <ng-template #stockTmp>
     <div class="grid gap-2 flex-wrap py-2">
       <div
         class="bg-light-yellow rounded-lg py-2 px-3 relative group"
-        *ngFor="let item of formattedArr"
+        *ngFor="let item of stockStatistic"
       >
         <span class="flex items-center font-medium mb-1 text-sm"
-          >{{ item.name }}
+          >{{ item.displayText }}
         </span>
 
         <span

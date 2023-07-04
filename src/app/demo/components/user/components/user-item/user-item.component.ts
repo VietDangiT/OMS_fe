@@ -12,12 +12,12 @@ export class UserItemComponent {
 
   modalVisible = false;
 
-  constructor(private _helperService: HelperService) {}
+  constructor(private helperService: HelperService) {}
 
   ngOnInit(): void {
     this.user = {
       ...this.user,
-      avatar: this._helperService.prefixImgSrc(this.user.avatar!),
+      avatar: this.helperService.prefixImgSrc(this.user.avatar!),
     };
   }
 

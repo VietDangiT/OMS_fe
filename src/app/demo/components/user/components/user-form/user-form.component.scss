@@ -7,10 +7,6 @@ oms-user-form {
     @apply flex w-full mt-8 justify-between items-center;
   }
 
-  label {
-    @apply font-bold text-xl cursor-pointer;
-  }
-
   input {
     @apply text-xl cursor-text;
   }

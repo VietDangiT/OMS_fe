@@ -30,6 +30,17 @@ import {
 export class InventoryService {
   constructor(private apollo: Apollo) {}
 
+  transformStatus(status: string): string {
+    const transformedWords = status
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(
+        /\b(\w)(\w+)\b/g,
+        (_, firstChar, restOfWord) =>
+          `${firstChar.toUpperCase()}${restOfWord.toLowerCase()}`
+      );
+    return transformedWords;
+  }
+
   getInventoryTableData(
     params: InventoryParams
   ): Observable<InventoryTableApiResponse> {

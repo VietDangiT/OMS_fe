@@ -69,13 +69,5 @@ export interface BaseItem {
 }
 
 export interface StockApiResponse {
-  productStatistic: StockStatus;
-}
-
-export interface StockStatus {
-  live: number;
-  delistedAndSuspended: number;
-  outOfStock: number;
-  onDemand: number;
-  lowOfStock: number;
+  productStatistic: BaseChart[];
 }

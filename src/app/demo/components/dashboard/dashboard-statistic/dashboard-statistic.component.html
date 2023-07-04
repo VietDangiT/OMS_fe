@@ -31,15 +31,21 @@
   <dashboard-detail-statistic
     heading="Order"
     [detailStatistic]="orderStatistic"
+    [routerLink]="orderRouterLink"
+    [queryParams]="queryParams"
   ></dashboard-detail-statistic>
 
   <dashboard-detail-statistic
+    [routerLink]="inventoryRouterLink"
     heading="Product"
     [detailStatistic]="productStatistic"
+    [queryParams]="queryParams"
   ></dashboard-detail-statistic>
 
   <dashboard-detail-statistic
+    [routerLink]="inventoryRouterLink"
     heading="Stock status"
     [stockStatistic]="stockStatistic"
+    [queryParams]="queryParams"
   ></dashboard-detail-statistic>
 </div>

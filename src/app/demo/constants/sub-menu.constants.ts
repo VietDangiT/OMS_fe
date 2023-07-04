@@ -73,16 +73,16 @@ export const defaultSubMenu = [
       items: [],
     },
   },
-  // {
-  //   name: 'customer',
-  //   path: '/customer',
-  //   icon: 'pi pi-user-plus',
+  {
+    name: 'customer',
+    path: '/customer',
+    icon: 'pi pi-user-plus',
 
-  //   submenu: {
-  //     title: 'Customer',
-  //     items: [],
-  //   },
-  // },
+    submenu: {
+      title: 'Customer',
+      items: [],
+    },
+  },
   {
     name: 'user',
     path: '/user/detail',

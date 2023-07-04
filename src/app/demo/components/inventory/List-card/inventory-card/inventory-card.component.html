@@ -1,8 +1,17 @@
-<div>
-  <div  class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-     <a >
-         <h3 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white text-primary">{{displayText}}</h3>
-     </a>
-     <h5 class="p-3 mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{value}}</h5>
-   </div>
- </div>
+<div class="h-full">
+  <div
+    class="max-w-sm h-full flex flex-col justify-between p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+  >
+    <h3
+      class="mb-2 lg:text-xl text-lg font-bold tracking-tight dark:text-white text-primary"
+    >
+      {{ displayText }}
+    </h3>
+
+    <h5
+      class="lg:py-3 py-1 lg:text-xl text-lg font-bold text-gray-900 dark:text-white"
+    >
+      {{ value }}
+    </h5>
+  </div>
+</div>

@@ -14,6 +14,14 @@ export abstract class HelperService {
     year: [this.addDays(new Date(), -365), new Date()],
   };
 
+  stockStatuses: StatusMap = {
+    live: 'Live',
+    inactive: 'In Active',
+    outofstock: 'Out Of Stock',
+    lowofstock: 'Low Of Stock',
+    ondemand: 'On Demand',
+  };
+
   statusClasses: StatusMap = {
     active: 'text-success',
     completed: 'text-success',

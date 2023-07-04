@@ -1,7 +1,8 @@
-#userStatus, #actions {
-  text-align: center;
+#userStatus,
+#actions {
+  @apply text-center;
 }
 
 #search {
-  padding: 1rem;
+  @apply p-3;
 }

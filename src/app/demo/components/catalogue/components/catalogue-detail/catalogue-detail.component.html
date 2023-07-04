@@ -10,16 +10,21 @@
     <div class="flex gap-2 w-1/2 h-full">
       <div class="flex flex-col justify-between">
         <oms-avatar
+          *ngFor="let i of catalogueDetail.images"
           [imgSrc]="i"
           size="xlarge"
-          *ngFor="let i of catalogueDetail.images"
           (click)="mainImg = i"
-          class="w-20 h-20 cursor-pointer"
+          class="cursor-pointer"
+          styleClass="!w-20 !h-20 "
         ></oms-avatar>
       </div>
 
       <div class="w-full h-full">
-        <img [src]="mainImg" alt="main-img" class="w-full h-full" />
+        <oms-avatar
+          [imgSrc]="mainImg"
+          alt="main-img"
+          styleClass="!w-full !h-full"
+        ></oms-avatar>
       </div>
     </div>
 

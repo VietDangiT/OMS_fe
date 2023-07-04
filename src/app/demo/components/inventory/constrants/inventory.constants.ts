@@ -38,11 +38,8 @@ export const GET_INVENTORY_TABLE = gql`
 export const GET_CARD_INVENTORY = gql`
   query GetInventoryTableData($channelId: Int) {
     productStatistic(channelId: $channelId) {
-      live
-      outOfStock
-      lowOfStock
-      delistedAndSuspended
-      onDemand
+      displayText
+      value
     }
   }
 `;

@@ -18,11 +18,11 @@ import {
 } from '../../marketplace/models/marketplace.models';
 import { MarketplaceService } from '../../marketplace/services/marketplace.service';
 import {
+  BaseChart,
   Statistic,
   StatisticOrderStatusApiResponse,
   StatisticProductChannelByStatusApiResponse,
   StockApiResponse,
-  StockStatus,
 } from '../interfaces/dashboard.models';
 import { DashboardService } from '../services/dashboard.service';
 
@@ -48,7 +48,13 @@ export class DashboardStatisticComponent {
 
   productStatistic: Statistic[];
 
-  stockStatistic: StockStatus;
+  stockStatistic: BaseChart[];
+
+  orderRouterLink = '/orders';
+
+  inventoryRouterLink = '/inventory';
+
+  queryParams: { [key: string | number]: string };
 
   private marketplaceId = new BehaviorSubject<number>(0);
 
@@ -127,5 +133,7 @@ export class DashboardStatisticComponent {
     this.marketplaceId.next(this.marketplace.id!);
 
     this.selectedMarketplace = { ...this.marketplace };
+
+    this.queryParams = { marketplaceId: this.marketplace.id!.toString() };
   }
 }

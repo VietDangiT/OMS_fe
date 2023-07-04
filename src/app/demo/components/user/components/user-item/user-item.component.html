@@ -1,7 +1,4 @@
-<tr
-  class="mt-3 cursor-pointer hover:!bg-gray-200 transition-all duration-100"
-  (click)="handleUserDetail($event)"
->
+<tr (click)="handleUserDetail($event)">
   <td class="user-item-row text-left">
     <oms-avatar
       [imgSrc]="user.avatar!"
@@ -11,9 +8,13 @@
   </td>
 
   <td class="user-item-row text-left">{{ user.fullName | titlecase }}</td>
+
   <td class="user-item-row text-left">{{ user.email }}</td>
+
   <td class="user-item-row text-left">{{ user.phoneNumber }}</td>
+
   <td class="user-item-row text-left">{{ user.fullAddress }}</td>
+
   <td class="user-item-row text-left">{{ user.userRole | titlecase }}</td>
 
   <td
@@ -23,6 +24,7 @@
   >
     <div class="flex gap-2 justify-center items-center">
       <i class="pi-circle-fill pi"></i>
+
       <span class="font-bold">
         {{ user.userStatus | titlecase }}
       </span>
