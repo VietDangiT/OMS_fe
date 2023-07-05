@@ -30,6 +30,7 @@ export class CustomerLocationComponent implements OnChanges {
       if (this.filterArr[0] && this.filterArr[1]) {
         this.filterArr = changes['filterArr']?.currentValue;
         this.getTotalSaleByLocation(this.filterArr);
+
         this.queryParams = {
           fDate: this.filterArr[0],
           tDate: this.filterArr[1],
@@ -38,24 +39,52 @@ export class CustomerLocationComponent implements OnChanges {
     }
   }
 
+
   getTotalSaleByLocation(filterArr = ['', '']) {
     this.customerService
       .getCustomerByCountry(filterArr)
       .pipe(
         tap((result: LocationByCustomerResponse) => {
           const { customerByCountry: data } = result;
-          const temp = [['Country','Value']];
+
+          this.totalSale = 0;
+
+          this.locationCustomer.length = 0;
+
+          const temp = [['Country', 'Sale']];
+
           data.forEach((item: BaseChart) => {
+            this.totalSale += item.value;
             temp.push([`${item.displayText}`, item.value.toString()]);
             this.locationCustomer.push({
               displayText: item.displayText,
               value: item.value,
             });
           });
+
           this.chartData = [...temp];
         })
       )
       .subscribe();
   }
+
+
+  // getTotalSaleByLocation(filterArr = ['', '']) {
+  //   this.customerService
+  //     .getCustomerByCountry(filterArr)
+  //     .pipe(
+  //       tap((result: LocationByCustomerResponse) => {
+  //         const { customerByCountry: data } = result;
+  //         this.locationCustomer.length = 0;
+  //         const temp = [['Country','Value']];
+  //         data.forEach((item: BaseChart) => {
+  //           temp.push([`${item.displayText}`, item.value.toString()]);
+  //         this.locationCustomer = data;
+  //         });
+  //         this.chartData = [...temp];
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
 }

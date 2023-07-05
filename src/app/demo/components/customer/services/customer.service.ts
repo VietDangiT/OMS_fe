@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { Observable, map } from 'rxjs';
-import { GET_CUSTOMER_BY, GET_CUSTOMER_LOCATION, GET_FEEDBACK_BY, GET_LOYALTY_BY, GET_PRODUCT_CUSTOMER, GET_RATING_BY, HIGH_THRESHOLD, LOW_THRESHOLD } from '../constants/customer.constants';
-import { CustomerByChannelResponse, FeedbackByCustomerResponse, LocationByCustomerResponse, LoyaltyByApiResponse, RatingByChannelResponse, TopProductByCustomerResponse } from '../interfaces/customer.models';
+import { Observable, filter, map } from 'rxjs';
+import { GET_CHANNEL_BY_RATING, GET_CUSTOMER_BY, GET_CUSTOMER_LOCATION, GET_FEEDBACK_BY, GET_LOYALTY_BY, GET_PRODUCT_CUSTOMER, GET_RATING_BY, HIGH_THRESHOLD, LOW_THRESHOLD } from '../constants/customer.constants';
+import { ChannelByRatingCustomerResponse, CustomerByChannelResponse, FeedbackByCustomerResponse, LocationByCustomerResponse, LoyaltyByApiResponse, RatingByChannelResponse, TopProductByCustomerResponse,  } from '../interfaces/customer.models';
 import { number } from 'echarts';
 
 
@@ -82,5 +82,14 @@ export class CustomerService {
       },
     })
     .valueChanges.pipe(map(res =>res.data));
-  }
-}
+  };
+  getRatingCustomerByChannel():Observable<ChannelByRatingCustomerResponse>{
+    return this.apollo.watchQuery<ChannelByRatingCustomerResponse>({
+      query: GET_CHANNEL_BY_RATING,
+      variables : {
+      },
+    })
+    .valueChanges.pipe(map(res =>res.data));
+  };
+
+};

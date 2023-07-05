@@ -23,7 +23,7 @@ export const GET_CUSTOMER_BY = gql`
 `;
 export const GET_RATING_BY = gql`
   query GetRatingByChannel($fromDate: String!, $toDate: String!) {
-    ratingByChannel(fDate: $fromDate, tDate: $toDate) {
+    ratingByChannel(fDate: $fromDate, tDate: $toDate, ) {
       displayText
       value
       percentage
@@ -54,6 +54,16 @@ query GetTopProductByCustomer($fromDate: String!, $toDate: String!)  {
     displayText
     value
     percentage
+  }
+}
+`;
+export const GET_CHANNEL_BY_RATING = gql `
+query GetChannelsTableData  {
+  channelsTableData{
+  data {
+    id
+    channelName
+  }
   }
 }
 `;

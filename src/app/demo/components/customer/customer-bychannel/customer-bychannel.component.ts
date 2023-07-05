@@ -26,6 +26,9 @@ export class CustomerBychannelComponent implements OnChanges {
     fDate: '',
     tDate: '',
   };
+ customerBy: number = 0;
+ CustomerByTitle = "Customers By Channel";
+
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr']?.currentValue && this.filterArr[1]) {
@@ -37,6 +40,7 @@ export class CustomerBychannelComponent implements OnChanges {
             const { customerByChannel: data } = result;
             this.initTotalOrderChart(data);
             this.channelByCustomer = data;
+            this.customerBy;
           })
         )
         .subscribe();
@@ -50,9 +54,12 @@ export class CustomerBychannelComponent implements OnChanges {
   initTotalOrderChart(result: BaseChart[]) {
     let totalArr: number[] = [];
     let labelArr: string[] = [];
+    let customerTotal = 0;
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
-      labelArr.push (`${item.displayText}`)
+      labelArr.push (`${item.displayText}`);
+      customerTotal += item.value;
+      this.customerBy = customerTotal;
     });
 
     this.pieData = {

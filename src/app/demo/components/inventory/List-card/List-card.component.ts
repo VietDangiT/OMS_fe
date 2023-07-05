@@ -11,9 +11,8 @@ import { tap } from 'rxjs';
 export class ListCardComponent implements OnInit {
   @Input()card:CardInventory;
 
-  constructor(private inventoryService:InventoryService) { }
+  constructor() { }
   ngOnInit() {
-    console.log(this.card);
 
   }
 }

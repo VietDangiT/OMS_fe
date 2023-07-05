@@ -1,3 +1,5 @@
+import { PagingParams } from "src/app/demo/interface/global.model";
+
 export interface BaseChart {
   id: number;
   text: string;
@@ -27,3 +29,13 @@ export interface LocationByCustomerResponse {
 export interface TopProductByCustomerResponse{
   topSaleProductEachChannel:BaseChart[];
 }
+
+export interface ChannelByRatingCustomer{
+  channelName: String;
+}
+export interface ChannelByRatingCustomerResponse{
+  channelsTableData : ChannelByRatingCustomer [];
+}
+// export interface RatingByChannelParams extends Partial<PagingParams> {
+//   channelId: number;
+// }

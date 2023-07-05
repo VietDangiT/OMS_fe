@@ -1,12 +1,10 @@
 <div class=" bg-white ">
-  <div >
-      <div class="text-lg mb-4 font-bold flex flex-col justify-content-between">Rating by Channel - Shoppe</div> <br>
-      <div>
-        <div> RETAIL CUSTOMER RATING </div>
-    </div>
-
-    <oms-chart type="doughnut"[data]="pieData" [options]="pieOptions"></oms-chart>
+  <div>
+  <div class="flex items-center justify-between" >
+      <div class="text-lg mb-4 font-bold flex flex-col justify-content-between">Rating by Channel</div>
+      <p-dropdown [options]="channel" [(ngModel)]="selectedChannel" optionLabel="name" ></p-dropdown>
   </div>
+  <oms-chart type="doughnut"[data]="pieData" [options]="pieOptions"></oms-chart>
   <div class="flex flex-col justify-content-start text-left rounded-b-lg bg-white h-full">
     <hr class="m-0 mb-3"/>
     <div class="flex px-2 items-center">

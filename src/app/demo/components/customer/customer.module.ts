@@ -73,11 +73,6 @@ import { CustomerItemComponent } from './components/customer-item/customer-item.
     CustomerInfoComponent,
     CustomerActivityComponent,
     CustomerItemComponent
-
-
-
-
-
   ]
 })
 export class CustomerModule { }

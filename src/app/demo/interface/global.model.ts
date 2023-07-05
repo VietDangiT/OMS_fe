@@ -3,7 +3,7 @@ export interface TableHeader {
   col: string;
 }
 
-export interface PagingParams {
+export interface  PagingParams {
   fromDate?: Date;
   toDate?: Date;
   keyword?: string;

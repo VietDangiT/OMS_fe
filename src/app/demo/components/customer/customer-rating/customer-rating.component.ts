@@ -2,9 +2,11 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@ang
 import { ChartData } from 'chart.js';
 import { ListboxModule } from 'primeng/listbox';
 import { CustomerService } from '../services/customer.service';
-import { BaseChart, RatingByChannelResponse } from '../interfaces/customer.models';
+import { BaseChart, ChannelByRatingCustomer , ChannelByRatingCustomerResponse, RatingByChannelResponse } from '../interfaces/customer.models';
 import { BehaviorSubject, tap } from 'rxjs';
 import { pieChartColors, pieChartColorsCustomer, pieChartColorsCustomerRating } from '../../share/oms-chart/oms-chart.component';
+import { ChannelByCustomer } from '../models/customer.models';
+import { log } from 'console';
 
 @Component({
   selector: 'app-customer-rating',
@@ -15,6 +17,7 @@ export class CustomerRatingComponent implements OnChanges {
   @Input() pieOptions: unknown;
   @Input() filterArr: string[];
   public colors = pieChartColorsCustomerRating;
+  params: any;
   constructor(private customerService: CustomerService) {}
   pieData: ChartData;
   totalReturn: string = '0';
@@ -26,6 +29,9 @@ export class CustomerRatingComponent implements OnChanges {
   };
   ratingByCustomer: { displayText: string; value: number , percentage: number}[] = [];
   reversedObject : { displayText: string; value: number , percentage: number}[] = [];
+  // dropdown
+  channel:ChannelByRatingCustomer[] ;
+  selectedChannel : ChannelByCustomer;
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr']?.currentValue && this.filterArr[1]) {
       this.filterArr = changes['filterArr'].currentValue;
@@ -36,6 +42,7 @@ export class CustomerRatingComponent implements OnChanges {
             const { ratingByChannel: data } = result;
             this.initTotalOrderChart(data);
             this.ratingByCustomer = data;
+            // this.onChangeCountry();
             console.log(data)
           })
         )
@@ -44,7 +51,10 @@ export class CustomerRatingComponent implements OnChanges {
         fDate: this.filterArr[0],
         tDate: this.filterArr[1],
       };
-    }
+    };
+
+
+
   }
 
   initTotalOrderChart(result: BaseChart[]) {

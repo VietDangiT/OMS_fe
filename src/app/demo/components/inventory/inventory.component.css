@@ -16,4 +16,6 @@
 .p-sidebar-right {
   @apply w-[50vw];
 }
-
+.p-datatable >.p-datatable-wrapper {
+   overflow : hidden !important;
+}

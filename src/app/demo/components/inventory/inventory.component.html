@@ -33,7 +33,7 @@
         <tr>
           <td>
             <div class="w-10 h-10 rounded-md">
-              <p-avatar image="{{apiUrl + rowData.productVariantImage}}" styleClass="mr-2" size="xlarge" shape="circle"></p-avatar>
+              <p-avatar [image]="apiUrl + '/' +  rowData.productVariantImage" styleClass="mr-2" size="xlarge" shape="circle"></p-avatar>
             </div>
           </td>
           <td class="!text-left"> {{ rowData.sku }} </td>

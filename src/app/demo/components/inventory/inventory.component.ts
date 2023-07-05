@@ -158,7 +158,6 @@ export class InventoryComponent implements OnInit {
       tap((res : CardInventoryApiResponse)=> {
       const  {productStatistic : cardInventory } = res;
       this.cardInventory = cardInventory;
-      console.log(cardInventory);
     })
     )
     .subscribe();
@@ -200,8 +199,6 @@ export class InventoryComponent implements OnInit {
     this.activeItem = label;
 
     this.handleChannelParams('stockStatusFilter', this.activeItem.label!);
-
-    console.log(this.params);
 
     this.getInventoryData();
   }
