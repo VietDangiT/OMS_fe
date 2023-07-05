@@ -40,7 +40,6 @@ export class CustomerLoyaltyComponent  {
           tap((result: LoyaltyByApiResponse) => {
             const { customerLoyalty: data } = result;
             this.initTotalOrderChart(data);
-            console.log(data)
           })
         )
         .subscribe();

@@ -1,21 +1,16 @@
-<div class="p-2 bg-white  ">
-  <div class="mb-4  font-bold " >
-    <div class="w-full">
-      <div>
-        <div class="flex flex-col mb-4">
-          <h2 class="text-lg font-bold">Customers by location</h2>
-        </div>
-      </div>
-        <oms-chart type="geomap" [data]="chartData">  </oms-chart>
-      <div class="pt-10 flex flex-col gap-2 line-height-3 overflow-y-scroll h-[327px] ">
-        <div *ngFor="let item of locationCustomer"  class="flex justify-between font-semibold pt-2 text-lg">
-          <span>{{item.displayText}}</span>
-          <span>{{item.value | number}}</span>
-        </div>
+<div class="p-2 bg-white row-span-3 font-bold h-full">
+  <div class="w-full h-full flex flex-col">
+    <div>
+      <div class="flex flex-col mb-4">
+        <h2 class="text-lg font-bold">Customers by location</h2>
       </div>
     </div>
-
-      <p>
-
-      </p>
+    <oms-chart type="geomap" [data]="chartData" [marker]="marker" [region]="region"> </oms-chart>
+    <div class="pt-10 flex flex-col gap-2 line-height-3 max-h-60 overflow-y-scroll hide-scrollbar p-2">
+      <div *ngFor="let item of locationCustomer" class="flex justify-between font-semibold pt-2 text-lg">
+        <span>{{item.displayText}}</span>
+        <span>{{item.value | number}}</span>
+      </div>
+    </div>
   </div>
+</div>

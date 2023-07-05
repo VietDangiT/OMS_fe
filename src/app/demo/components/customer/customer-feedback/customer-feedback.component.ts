@@ -47,12 +47,9 @@ export class CustomerFeedbackComponent implements OnChanges {
 
 initFeedBackChart(result: BaseChart[]) {
     let totalArr: number[] = [];
-
     let labelArr: string[] = [];
-
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
-
       labelArr.push(new Date(item.displayText).toLocaleDateString());
     });
 
@@ -61,7 +58,7 @@ initFeedBackChart(result: BaseChart[]) {
       labels: labelArr,
       datasets: [
         {
-          label: 'Total Sales',
+          label: 'Feedback',
           data: totalArr,
           borderColor: environment.primaryColor,
           backgroundColor: environment.primaryColor,

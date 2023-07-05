@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { CustomerService } from '../services/customer.service';
 import { tap } from 'rxjs';
 import { BaseChart, LocationByCustomerResponse } from '../interfaces/customer.models';
@@ -7,12 +7,14 @@ import { BaseChart, LocationByCustomerResponse } from '../interfaces/customer.mo
 @Component({
   selector: 'app-customer-location',
   templateUrl: './customer-location.component.html',
-  styleUrls: ['./customer-location.component.scss']
+  styleUrls: ['./customer-location.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CustomerLocationComponent implements OnChanges {
   @Input() filterArr: string[] = ['', ''];
-  totalSale: number = 0;
   chartData: string[][];
+  marker: string = "regions";
+  region: string = "035";
 
   locationCustomer: { displayText: string; value: number }[] = [];
 
@@ -46,22 +48,16 @@ export class CustomerLocationComponent implements OnChanges {
       .pipe(
         tap((result: LocationByCustomerResponse) => {
           const { customerByCountry: data } = result;
-
-          this.totalSale = 0;
-
           this.locationCustomer.length = 0;
-
-          const temp = [['Country', 'Sale']];
+          const temp: any = [['City', 'Sale']];
 
           data.forEach((item: BaseChart) => {
-            this.totalSale += item.value;
             temp.push([`${item.displayText}`, item.value.toString()]);
             this.locationCustomer.push({
               displayText: item.displayText,
               value: item.value,
             });
           });
-
           this.chartData = [...temp];
         })
       )

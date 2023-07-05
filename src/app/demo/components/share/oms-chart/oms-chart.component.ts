@@ -205,6 +205,8 @@ export class OMSChartComponent implements OnChanges {
   @Input() type: ChartType | 'heatmap' | 'treemap' | 'geomap';
   @Input() data: ChartData | any[][];
   @Input() options: OmsChartOptions | any;
+  @Input() region: string;
+  @Input() marker: string;
 
   @Output() dataSelect = new EventEmitter();
 
@@ -226,7 +228,7 @@ export class OMSChartComponent implements OnChanges {
       // then chart is getting updated
       setTimeout(() => {
         this.type === 'geomap'
-          ? this.drawRegionsMap(this.data)
+          ? this.drawRegionsMap(this.data, this.region, this.marker)
           : this.chartJS?.refresh();
       }, 100);
     }
@@ -242,21 +244,21 @@ export class OMSChartComponent implements OnChanges {
   }
 
   onResize($event: any) {
-    this.type === 'geomap' && this.drawRegionsMap(this.data);
+    this.type === 'geomap' && this.drawRegionsMap(this.data, this.region, this.marker);
   }
 
-  drawRegionsMap(apiData: any = undefined) {
+  drawRegionsMap(apiData: any = undefined, region: string = '035', marker: string = 'regions') {
     let data = google.visualization.arrayToDataTable(
       apiData ? apiData : [['Country', 'Value']]
     );
-
+    
     let options = {
       legend: 'none',
       backgroundColor: `${colors.geomapBackground}`,
       colorAxis: { colors: [`${colors.primary}`, `${colors.primary}`] },
-      // displayMode: 'markers',
+      displayMode: marker,
       datalessRegionColor: `${colors.datalessRegion}`,
-      region: '035'
+      region: region
     };
 
     let chart = new google.visualization.GeoChart(

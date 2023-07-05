@@ -5,6 +5,6 @@ export const environment = {
   secondaryColor: '#FCA310',
   thirdColor: '#ED7D2D',
   fourthColor: '#F3F4F6',
-  mapsApiKey: 'AIzaSyBXq9H07NStjZLBPYIPDcnV3oUJpPTMSXA',
+  mapsApiKey: 'AIzaSyCbvib7KXVuiD69R6hZikvEUMN8YLhb9Pw',
   apiUrl: 'https://localhost:7121/api',
 };
