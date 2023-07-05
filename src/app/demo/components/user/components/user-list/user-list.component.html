@@ -1,43 +1,30 @@
 <app-topbar></app-topbar>
 
 <div>
-  <div>
-    <p-tabMenu
-      [model]="labelItems"
-      [activeItem]="activeItem"
-      (activeItemChange)="onActiveItemChange($event)"
-    >
-      <ng-template pTemplate="item" let-item let-i="index">
-        {{ item.label }}
-        <span
-          class="rounded-full badge bg-primary bg-opacity-20 text-opacity-60 font-medium text-primary text-center px-3 py-1 ml-2"
-          >{{ item.badge }}</span
-        >
-      </ng-template>
-    </p-tabMenu>
-
-    <div class="mt-3">
-      <oms-screen-filter
-        [isDateFilterShow]="false"
-        (searchValue)="searchValue($event)"
-      >
-      </oms-screen-filter>
-    </div>
-  </div>
+  <oms-tab-menu
+    [labelItems]="labelItems"
+    [activeItem]="activeItem"
+    (onActiveItemChange)="onActiveItemChange($event)"
+  ></oms-tab-menu>
 
   <div class="mt-3">
-    <oms-table
-      (pagingInfo)="onPageChange($event)"
-      [isPaginationShown]="true"
-      [table]="tableData"
-      [contentRef]="contentRef"
+    <oms-screen-filter
+      [isDateFilterShow]="false"
+      (searchValue)="searchValue($event)"
     >
-    <ng-template #contentRef let-rowData>
-
-      <oms-user-item
-        [user]="rowData"
-      ></oms-user-item>
-    </ng-template>
-    </oms-table>
+    </oms-screen-filter>
   </div>
+</div>
+
+<div class="mt-3">
+  <oms-table
+    (pagingInfo)="onPageChange($event)"
+    [isPaginationShown]="true"
+    [table]="tableData"
+    [contentRef]="contentRef"
+  >
+    <ng-template #contentRef let-rowData>
+      <oms-user-item [user]="rowData"></oms-user-item>
+    </ng-template>
+  </oms-table>
 </div>

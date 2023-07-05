@@ -6,9 +6,11 @@ import {
   Output,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { tap } from 'rxjs';
 import { Product } from 'src/app/demo/api/product';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { OmsTable } from '../../../share/model/oms-table';
 import { orderDetailHeaderTable } from '../../constants/orders.constants';
 import { Order, OrderDetail } from '../../models/orders.models';
@@ -29,6 +31,8 @@ export class OrderDetailComponent {
 
   @Output('onClose') onClose: EventEmitter<boolean> = new EventEmitter();
 
+  helperService = inject(HelperService);
+
   orderDetail: OrderDetail = {
     id: 1,
     status: 'completed',
@@ -36,6 +40,7 @@ export class OrderDetailComponent {
     shippingAddress: '',
     phoneNumber: '',
     address: '',
+    image: '',
     products: [],
   };
 
@@ -68,7 +73,9 @@ export class OrderDetailComponent {
 
           this.orderDetail = orderDetail;
 
-          this.tableData.data.body = this.orderDetail.products;
+          this.tableData.data.body = this.orderDetail.products.map(p => {
+            return { ...p, image: this.helperService.prefixImgSrc(p.image!) };
+          });
         })
       )
       .subscribe();

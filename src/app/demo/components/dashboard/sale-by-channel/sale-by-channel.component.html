@@ -19,13 +19,19 @@
       >
     </div>
 
-    <div class="h-full">
+    <a
+      class="h-full relative group"
+      [routerLink]="routerLink"
+      [queryParams]="queryParams"
+    >
+      <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
       <oms-chart
         type="treemap"
         class="w-full"
         [options]="chartOptions"
       ></oms-chart>
-    </div>
+    </a>
 
     <div class="w-full flex-1">
       <dashboard-sale-store [data]="saleStoreData"></dashboard-sale-store>

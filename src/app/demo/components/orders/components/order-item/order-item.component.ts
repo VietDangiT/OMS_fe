@@ -1,4 +1,5 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, Input, inject } from '@angular/core';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { Order } from '../../models/orders.models';
 import { OrdersService } from '../../services/orders.service';
 
@@ -12,13 +13,21 @@ export class OrderItemComponent {
 
   @Input() order: Order;
 
+  orderService = inject(OrdersService);
+
+  helperService = inject(HelperService);
+
   modalVisible = false;
 
-  constructor(private orderService: OrdersService) {}
+  ngOnInit(): void {
+    this.refactorImage();
+  }
 
-  handleAction(e: Event): void {
-    e.stopPropagation();
-    console.log('click action icon');
+  refactorImage(): void {
+    this.order = {
+      ...this.order,
+      channelImage: this.helperService.prefixImgSrc(this.order.channelImage!),
+    };
   }
 
   handleOrderDetail(e: Event): void {

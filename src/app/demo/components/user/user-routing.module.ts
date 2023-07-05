@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserChangePasswordComponent } from './components/user-change-password/user-change-password.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
-import { UserComponent } from './user.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { UserComponent } from './user.component';
 
 const routes: Routes = [
   {
@@ -30,7 +30,7 @@ const routes: Routes = [
         path: 'list',
         data: { breadcrumbs: ['User List'] },
         component: UserListComponent,
-      }
+      },
     ],
   },
 ];

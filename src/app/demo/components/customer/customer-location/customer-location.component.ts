@@ -1,21 +1,31 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CustomerService } from '../services/customer.service';
-import { tap } from 'rxjs';
-import { BaseChart, LocationByCustomerResponse } from '../interfaces/customer.models';
-
+import { Subject, takeUntil, tap } from 'rxjs';
+import {
+  BaseChart,
+  LocationByCustomerResponse,
+} from '../interfaces/customer.models';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-customer-location',
   templateUrl: './customer-location.component.html',
   styleUrls: ['./customer-location.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class CustomerLocationComponent implements OnChanges {
   @Input() filterArr: string[] = ['', ''];
   chartData: string[][];
-  marker: string = "regions";
-  region: string = "035";
-
+  marker: string = 'markers';
+  region: string = '035';
+  countryName: string;
   locationCustomer: { displayText: string; value: number }[] = [];
 
   routerLink = 'sale-by-location';
@@ -25,26 +35,38 @@ export class CustomerLocationComponent implements OnChanges {
     tDate: '',
   };
 
-  constructor(private customerService: CustomerService) {}
+  constructor(
+    private customerService: CustomerService,
+    private route: ActivatedRoute
+  ) {}
+  
+  destroy$ = new Subject();
+
+  ngOnInit(){
+  this.route.queryParamMap
+      .pipe(
+        tap(params => {
+          this.region = params.get('shortCode') ?? '035';
+          this.countryName = params.get('countryName') ?? '';
+          this.getCustomerByLocation();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr'].currentValue) {
       if (this.filterArr[0] && this.filterArr[1]) {
         this.filterArr = changes['filterArr']?.currentValue;
-        this.getTotalSaleByLocation(this.filterArr);
-
-        this.queryParams = {
-          fDate: this.filterArr[0],
-          tDate: this.filterArr[1],
-        };
+        this.getCustomerByLocation(this.filterArr);
       }
     }
   }
 
-
-  getTotalSaleByLocation(filterArr = ['', '']) {
+  getCustomerByLocation(filterArr = ['', '']) {
     this.customerService
-      .getCustomerByCountry(filterArr)
+      .getCustomerByCountry(filterArr, this.countryName)
       .pipe(
         tap((result: LocationByCustomerResponse) => {
           const { customerByCountry: data } = result;
@@ -64,7 +86,6 @@ export class CustomerLocationComponent implements OnChanges {
       .subscribe();
   }
 
-
   // getTotalSaleByLocation(filterArr = ['', '']) {
   //   this.customerService
   //     .getCustomerByCountry(filterArr)
@@ -82,5 +103,4 @@ export class CustomerLocationComponent implements OnChanges {
   //     )
   //     .subscribe();
   // }
-
 }

@@ -3,14 +3,13 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import {
   Channel,
   Country,
-} from '../demo/components/channel/interface/channel.component';
+} from '../demo/components/channel/interface/channel.model';
 import { MarketplaceService } from '../demo/components/marketplace/services/marketplace.service';
+import { defaultSubMenu } from '../demo/constants/sub-menu.constants';
 import { ChannelService } from '../demo/service/channel.service';
+import { UserService } from '../demo/service/user.service';
 import { LayoutService } from './service/app.layout.service';
 import { MenuElement, MenuElementItem } from './service/models/menu.models';
-import { UserService } from '../demo/service/user.service';
-import { InventoryService } from '../demo/components/inventory/services/inventory.service';
-import { Inventory, InventoryByChannelResponse, InventoryChannel } from '../demo/components/inventory/interfaces/inventory.component';
 
 @Component({
   selector: 'app-menu',
@@ -42,144 +41,11 @@ import { Inventory, InventoryByChannelResponse, InventoryChannel } from '../demo
 export class AppMenuComponent {
   channels: Channel[];
 
-  userId = localStorage.getItem('userId') ?? 0;
-
-  menuElements: MenuElement[] = [
-    {
-      name: 'dashboard',
-      path: '/dashboard',
-      icon: 'pi pi-th-large',
-      submenu: {
-        title: 'Dashboard',
-        items: [
-          {
-            name: 'totalSales',
-            content: 'Total Sales',
-            path: 'dashboard/total-sales',
-            icon: 'pi-dollar',
-            param: {},
-          },
-          {
-            name: 'totalOrder',
-            content: 'Total Orders',
-            path: 'dashboard/total-orders',
-            icon: 'pi-shopping-cart',
-            param: {},
-          },
-
-          {
-            name: 'saleByLocation',
-            path: 'dashboard/sale-by-location',
-            content: 'Sales by Location',
-            icon: 'pi-globe',
-          },
-          {
-            name: 'saleByChannel',
-            path: 'dashboard/total-sale-by-channel',
-            content: 'Total sales by Channel',
-            icon: 'pi-home',
-          },
-        ],
-      },
-    },
-    {
-      name: 'orders',
-      path: '/orders',
-      icon: 'pi pi-box',
-      submenu: {
-        title: 'Orders',
-        items: [],
-      },
-    },
-    {
-      name: 'catalogue',
-      path: '/catalogues',
-      icon: 'pi pi-inbox',
-      submenu: {
-        title: 'Catalogue',
-        items: [],
-      },
-    },
-
-    //   name: 'inventory',
-    //   path: '/inventory',
-    //   icon: 'pi pi-inbox',
-    //   submenu: {
-    //     title: 'Inventory',
-    //     items: [],
-    //   },
-    // {
-    //   name: 'payment',
-    //   path: '/payment',
-    //   icon: 'pi pi-credit-card',
-    //   submenu: {
-    //     title: 'Payment',
-    //     items: [],
-    //   },
-    // },
-    //
-    // },
-    {
-      name: 'inventory',
-      path: '/inventory',
-      icon: 'pi pi-box',
-      submenu: {
-        title: 'Inventory',
-        items: [],
-      },
-    },
-    {
-      name: 'customer',
-      path: '/customer',
-      icon: 'pi pi-user-plus',
-
-      submenu: {
-        title: 'Customer',
-        items: [],
-      },
-    },
-    {
-      name: 'user',
-      path: '/user/detail',
-      icon: 'pi pi-user',
-      submenu: {
-        title: 'Profile',
-        items: [
-          {
-            name: 'personalinfo',
-            content: 'Personal Info',
-            path: `user/detail`,
-            icon: 'pi-user',
-          },
-          {
-            name: 'changepassword',
-            content: 'Change Password',
-            path: `user/change-password`,
-            icon: 'pi-lock',
-          },
-        ],
-      },
-    },
-    {
-      name: 'users',
-      path: '/user/list',
-      icon: 'pi pi-users',
-      submenu: {
-        title: 'Users',
-        items: [],
-      },
-    },
-    {
-      name: 'channel',
-      path: '/channels',
-      icon: 'pi pi-phone',
-      submenu: {
-        title: 'Channels',
-      },
-    },
-  ];
+  menuElements: MenuElement[] = defaultSubMenu;
 
   isNavbarOn: boolean | undefined;
+
+  logoSrc = 'https://bbv.ch/wp-content/uploads/2021/08/bbv-Logo.png';
 
   private readonly destroy$ = new Subject();
 
@@ -187,8 +53,7 @@ export class AppMenuComponent {
     public layoutService: LayoutService,
     private channelService: ChannelService,
     private marketPlaceService: MarketplaceService,
-    private _userService: UserService,
-    private inventoryService: InventoryService
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -197,9 +62,8 @@ export class AppMenuComponent {
     this.initCountries();
 
     this.initMarketplaces();
-    this.initUserRole();
-    this.initSubMenuInventory();
 
+    this.initUserRole();
   }
 
   getNavbarState(): void {
@@ -218,53 +82,43 @@ export class AppMenuComponent {
         tap(res => {
           const { countries } = res;
 
-          const resultArr: MenuElementItem[] = [];
+          const channelArr: MenuElementItem[] = [];
+
+          const customerArr: MenuElementItem[] = [];
 
           countries.forEach((c: Country) => {
-            resultArr.push({
-              name: c.countryName,
-              content: c.countryName,
-              path: `/channels`,
-              param: { countryId: c.id },
-              icon: 'pi-home',
-            });
+            channelArr.push(
+              new MenuElementItem(
+                c.countryName,
+                c.countryName,
+                `/channels`,
+                'pi-home',
+                { countryId: c.id }
+              )
+            );
+
+            customerArr.push(
+              new MenuElementItem(
+                c.countryName,
+                c.countryName,
+                `/customer`,
+                'pi-user-plus',
+                { countryId: c.id , countryName: c.countryName, shortCode: c.shortCode}
+              )
+            );
           });
 
-          const index = this.menuElements.findIndex(
-            c => c.path === '/channels'
+          const channelIndex = this.menuElements.findIndex(
+            c => c.path === channelArr[0].path
           );
 
-          this.menuElements[index].submenu.items = resultArr;
-        }),
+          this.menuElements[channelIndex].submenu.items = channelArr;
 
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
-  initSubMenuInventory(): void {
-    this.inventoryService
-      .getSubmenuInventory()
-      .pipe(
-        tap(res => {
-          const { channelWithTotalProduct } = res;
-
-          const resultArr: MenuElementItem[] = [];
-
-          channelWithTotalProduct.forEach((i: InventoryChannel) => {
-            resultArr.push({
-              name: i.displayText,
-              content: i.displayText ,
-              path: `/inventory`,
-              param: { channelId: i.id },
-              icon: 'pi pi-box',
-            });
-          });
-
-          const index = this.menuElements.findIndex(
-            i => i.path === '/inventory'
+          const customerIndex = this.menuElements.findIndex(
+            c => c.path === customerArr[0].path
           );
 
-          this.menuElements[index].submenu.items = resultArr;
+          this.menuElements[customerIndex].submenu.items = customerArr;
         }),
 
         takeUntil(this.destroy$)
@@ -274,41 +128,63 @@ export class AppMenuComponent {
 
   initMarketplaces(): void {
     this.marketPlaceService
-      .getMarketPlaces()
+      .getMarketPlaces(null)
       .pipe(
         tap(res => {
           const { marketPlaces } = res;
 
           const orderArr: MenuElementItem[] = [];
           const catalogueArr: MenuElementItem[] = [];
+          const inventoryArr: MenuElementItem[] = [];
 
           marketPlaces.forEach(m => {
-            orderArr.push({
-              name: m.marketPlaceName,
-              content: m.marketPlaceName,
-              path: `/orders`,
-              param: { marketplaceId: m.id },
-              icon: 'pi-home',
-            });
+            orderArr.push(
+              new MenuElementItem(
+                m.marketPlaceName,
+                m.marketPlaceName,
+                `/orders`,
+                'pi-home',
+                { marketplaceId: m.id }
+              )
+            );
 
-            catalogueArr.push({
-              name: m.marketPlaceName,
-              content: m.marketPlaceName,
-              path: `/catalogue`,
-              param: { marketplaceId: m.id },
-              icon: 'pi-home',
-            });
+            catalogueArr.push(
+              new MenuElementItem(
+                m.marketPlaceName,
+                m.marketPlaceName,
+                `/catalogues`,
+                'pi-home',
+                { marketplaceId: m.id }
+              )
+            );
+
+            inventoryArr.push(
+              new MenuElementItem(
+                m.marketPlaceName,
+                m.marketPlaceName,
+                `/inventory`,
+                'pi-home',
+                { marketplaceId: m.id }
+              )
+            );
           });
 
           const orderIndex = this.menuElements.findIndex(
-            c => c.path === '/orders'
+            c => c.path === orderArr[0].path
           );
           const catalogueIndex = this.menuElements.findIndex(
-            c => c.path === '/catalogue'
+            c => c.path === catalogueArr[0].path
+          );
+
+          const inventoryIndex = this.menuElements.findIndex(
+            c => c.path === inventoryArr[0].path
           );
 
           this.menuElements[orderIndex].submenu.items = orderArr;
+
           this.menuElements[catalogueIndex].submenu.items = catalogueArr;
+
+          this.menuElements[inventoryIndex].submenu.items = inventoryArr;
         }),
         takeUntil(this.destroy$)
       )
@@ -316,24 +192,25 @@ export class AppMenuComponent {
   }
 
   initUserRole(): void {
-    this._userService
+    this.userService
       .getUserRole()
       .pipe(
         tap(res => {
           const { userRole } = res;
 
           const userArr: MenuElementItem[] = [];
-          const catalogueArr: MenuElementItem[] = [];
 
           userRole.forEach(m => {
-            userArr.push({
-              name: m.displayText,
-              content: m.displayText,
-              path: `/user/list`,
-              param: { role: m.displayText },
-              icon: 'pi-user',
-              value: m.value
-            });
+            userArr.push(
+              new MenuElementItem(
+                m.displayText,
+                m.displayText,
+                `/user/list`,
+                'pi-user',
+                { role: m.displayText },
+                m.value
+              )
+            );
           });
 
           const userIndex = this.menuElements.findIndex(

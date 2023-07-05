@@ -8,7 +8,16 @@
     }
   }
 
-  table .oms-order-item:nth-child(even) > tr {
+  table [class^="oms-"],
+  [class*="oms-"]:nth-child(even) > tr {
     @apply bg-gray-100;
+  }
+
+  table tr:nth-child(even) {
+    @apply bg-gray-100;
+  }
+
+  .p-datatable .p-datatable-thead > tr > th {
+    @apply px-4 py-2;
   }
 }

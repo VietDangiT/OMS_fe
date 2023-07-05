@@ -22,12 +22,17 @@ export interface FeedbackByCustomerResponse {
   feedback: BaseChart[];
 }
 
+export interface CustomerTopProduct{
+  displayText: string;
+  value: number;
+  extraValue: number;
+}
 
 export interface LocationByCustomerResponse {
   customerByCountry: BaseChart[];
 }
 export interface TopProductByCustomerResponse{
-  topSaleProductEachChannel:BaseChart[];
+  topSaleProductEachChannel:CustomerTopProduct[];
 }
 
 export interface ChannelByRatingCustomer{

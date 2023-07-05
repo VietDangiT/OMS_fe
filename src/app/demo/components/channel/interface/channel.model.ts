@@ -4,10 +4,11 @@ import { BaseChart } from '../../dashboard/interfaces/dashboard.models';
 export interface Channel {
   description: string;
   id: number;
-  name: string;
+  channelName: string;
   number: number;
-  numberOrders?: number;
-  value?: number;
+  numberOfOrder?: number;
+  shortCode?: string;
+  totalSale?: number;
   status?: ChannelStatus;
   createdAt?: string;
   updatedAt?: string;
@@ -44,4 +45,22 @@ export type ChannelStatus = 'Active' | 'Inactive';
 
 export interface ChannelStatusApiResponse {
   channelStatus: BaseChart[];
+}
+
+export interface StoresApiResponse {
+  storesFromChannel: {
+    data: Store[];
+    first: number;
+    page: number;
+    pageCount: number;
+    rows: number;
+    totalRecord: number;
+  };
+}
+
+export interface Store extends Partial<BaseChart> {
+  totalSale: number;
+  totalOrders: number;
+  location: string;
+  storeImage: string;
 }

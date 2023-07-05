@@ -1,4 +1,4 @@
-import { ChannelStatus } from '../../../channel/interface/channel.component';
+import { ChannelStatus } from '../../../channel/interface/channel.model';
 import { BaseChart } from '../../interfaces/dashboard.models';
 
 export interface TotalSaleByChannel {

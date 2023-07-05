@@ -4,14 +4,20 @@ import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
-import { DateFilterKey } from 'src/app/demo/interface/global.model';
+import {
+  DateFilterKey,
+  DropdownChangeEvent,
+} from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { environment } from 'src/environments/environment';
+import { Marketplace } from '../../marketplace/models/marketplace.models';
+import { MarketplaceService } from '../../marketplace/services/marketplace.service';
 import { OmsTable } from '../../share/model/oms-table';
 import {
   barBaseChartOptions,
   baseChartOptions,
 } from '../../share/oms-chart/oms-chart.component';
+import { Statistic } from '../interfaces/dashboard.models';
+import { DashboardService } from '../services/dashboard.service';
 import { totalSalesTableHeader } from './constants/total-sales.constants';
 import { TotalSalesTableDTO } from './models/total-sales.models';
 import { TotalSalesService } from './services/total-sales.service';
@@ -28,64 +34,31 @@ export class TotalSalesComponent {
 
   private router = inject(ActivatedRoute);
 
+  private marketplaceService = inject(MarketplaceService);
+
+  private dashboardService = inject(DashboardService);
+
   baseChartOptions = baseChartOptions;
 
   barChartOptions = barBaseChartOptions;
 
-  saleBoxTitle = 'sales';
+  selectedMarketplace: Marketplace;
 
-  avgOrderSaleBoxTitle = 'avg. order sales';
-
-  returnBoxTitle = 'return';
+  marketplaces: Marketplace[] = [];
 
   dateRange = this.helperService.defaultDateRange;
 
+  salesStatistic: Statistic[] = [];
+
   pageNumber = 1;
-
-  totalSales = 0;
-
-  totalSalesPercent = 0;
-
-  avgSales = 0;
-
-  avgSalesPercent = 0;
-
-  totalReturn = 0;
-
-  totalReturnPercent = 0;
 
   revenueData: ChartData;
 
+  channelId = 1;
+
   overviewData: ChartData = {
-    labels: [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-    ],
-    datasets: [
-      {
-        label: 'Orders on Swiggy',
-        data: [66, 49, 81, 71, 26, 65, 60],
-        backgroundColor: environment.primaryColor,
-        hoverOffset: 10000,
-        offset: 1000,
-        // barThickness: 50,
-        barPercentage: 2,
-        borderColor: '#FF0000',
-        borderWidth: 3,
-        fill: 30,
-      },
-      {
-        label: 'Orders on Zomato',
-        data: [56, 69, 89, 61, 36, 75, 50],
-        backgroundColor: environment.secondaryColor,
-        hoverOffset: 100,
-      },
-    ],
+    labels: [],
+    datasets: [],
   };
 
   tableData: OmsTable<TotalSalesTableDTO> = {
@@ -103,6 +76,8 @@ export class TotalSalesComponent {
   destroy$ = new Subject();
 
   ngOnInit(): void {
+    this.getChannels();
+
     this.router.queryParams
       .pipe(
         tap(params => {
@@ -111,7 +86,8 @@ export class TotalSalesComponent {
           }
 
           this.getComponentData();
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -121,7 +97,44 @@ export class TotalSalesComponent {
 
     this.getTotalSales();
 
-    this.getReturn();
+    this.getSalesByChannel();
+
+    this.getSalesStatistic();
+  }
+
+  getSalesByChannel(): void {
+    this.dashboardService
+      .getTotalSaleByChannel(this.dateRange, this.channelId)
+      .pipe(
+        tap(res => {
+          const { totalSaleByChannel: data } = res;
+
+          this.overviewData = this.helperService.setupBasicChartData(
+            data,
+            this.dateRange,
+            true,
+            $localize`Sales by channel`
+          );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  getChannels(): void {
+    this.marketplaceService
+      .getMarketPlaces(null)
+      .pipe(
+        tap(res => {
+          const { marketPlaces: data } = res;
+
+          this.marketplaces = data;
+
+          this.selectedMarketplace = data[0];
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   getTotalSalesTable(page: number) {
@@ -138,6 +151,13 @@ export class TotalSalesComponent {
 
           const { paging, data } = detailTotalSales;
 
+          const updatedData = data.map(d => {
+            return {
+              ...d,
+              date: new Date(d.date).toLocaleDateString(),
+            };
+          });
+
           this.tableData = {
             page: paging.currentPage,
             first: paging.first,
@@ -146,7 +166,7 @@ export class TotalSalesComponent {
             totalRecord: paging.totalCount,
             data: {
               header: totalSalesTableHeader,
-              body: data,
+              body: updatedData,
             },
           };
         }),
@@ -157,83 +177,31 @@ export class TotalSalesComponent {
 
   getTotalSales() {
     this.totalSalesService
-      .getTotalSales(this.dateRange[0], this.dateRange[1])
+      .getRevenue(this.dateRange[0], this.dateRange[1])
       .pipe(
         tap(res => {
-          const { totalSales: data } = res;
+          const { revenue: data } = res;
 
-          const { compareData, selectedData } = data[0];
-
-          if (selectedData) {
-            let totalArr: number[] = [];
-            let labelArr: string[] = [];
-
-            let totalSales = 0;
-            let totalSalesCompareData = 0;
-
-            compareData.forEach(i => {
-              totalSalesCompareData += i.value;
-            });
-
-            selectedData.forEach(i => {
-              totalSales += i.value;
-
-              totalArr.push(i.value);
-              labelArr.push(new Date(i.date).toLocaleDateString('en-EN'));
-            });
-
-            this.totalSales = totalSales;
-            this.totalSalesPercent = totalSales / totalSalesCompareData;
-
-            let avgSalesCompareData =
-              totalSalesCompareData / compareData.length;
-
-            this.avgSales = totalSales / selectedData.length;
-            this.avgSalesPercent = this.avgSales / avgSalesCompareData;
-
-            this.revenueData = {
-              labels: labelArr,
-              datasets: [
-                {
-                  data: totalArr,
-                  borderColor: environment.primaryColor,
-                  fill: false,
-                },
-              ],
-            };
-          }
+          this.revenueData = this.helperService.setupBasicChartData(
+            data,
+            this.dateRange,
+            false
+          );
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
   }
 
-  getReturn() {
+  getSalesStatistic(): void {
     this.totalSalesService
-      .getReturn(this.dateRange[0], this.dateRange[1])
+      .getSaleStatistic(this.dateRange[0], this.dateRange[1])
       .pipe(
         tap(res => {
-          const { return: data } = res;
+          const { totalSalesStatistic: data } = res;
 
-          const { compareData, selectedData } = data[0];
-
-          if (selectedData) {
-            let totalReturn = 0;
-            let totalReturnCompareData = 0;
-
-            compareData.forEach(i => {
-              totalReturnCompareData += i.value;
-            });
-
-            selectedData.forEach(i => {
-              totalReturn += i.value;
-            });
-
-            this.totalReturnPercent = totalReturn / totalReturnCompareData;
-            this.totalReturn = totalReturn;
-          }
-        }),
-        takeUntil(this.destroy$)
+          this.salesStatistic = data;
+        })
       )
       .subscribe();
   }
@@ -241,6 +209,7 @@ export class TotalSalesComponent {
   dateFilterChanged(dates: Date[]): void {
     if (dates[1] != null) {
       this.dateRange = dates;
+
       this.getComponentData();
     }
   }
@@ -255,6 +224,12 @@ export class TotalSalesComponent {
 
   onPageChange(e: PageChangeEvent): void {
     this.getTotalSalesTable(e.page + 1);
+  }
+
+  onSelectedChannel(e: DropdownChangeEvent): void {
+    this.channelId = e.value.id;
+
+    this.getSalesByChannel();
   }
 
   ngOnDestroy(): void {

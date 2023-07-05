@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { debounceTime, tap } from 'rxjs';
 
 @Component({
   selector: 'oms-screen-filter',
@@ -14,16 +16,28 @@ export class ScreenFilterComponent {
 
   @Input('isDateFilterShow') isDateFilterShow = true;
 
-  dateFilter: string[];
+  @Input() dateFilter: Date[];
 
   searchValue: string;
-  
+
+  queryField = new FormControl();
+
+  ngOnInit(): void {
+    this.getSearchValueInternal();
+  }
 
   getDateRange(dateRange: Date[]) {
     this.dateFilterChange.emit(dateRange);
   }
 
-  getSearchValueInternal(search: string) {
-    this.getSearchValue.emit(search);
+  getSearchValueInternal() {
+    this.queryField.valueChanges
+      .pipe(
+        debounceTime(500),
+        tap(res => {
+          this.getSearchValue.emit(res);
+        })
+      )
+      .subscribe();
   }
 }

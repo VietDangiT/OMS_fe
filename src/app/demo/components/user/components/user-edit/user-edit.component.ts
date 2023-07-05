@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { catchError, tap } from 'rxjs';
+import { NotificationService } from '../../../share/message/notification.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -21,46 +21,33 @@ export class UserEditComponent {
 
   userService = inject(UserService);
 
-  messageService = inject(MessageService);
+  notificationService = inject(NotificationService);
 
   route = inject(Router);
 
   edit(form: FormGroup): void {
     if (!form.valid) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: $localize`Edit form must be valid or filled`,
-        closable: true,
-      });
+      this.notificationService.errorNotification(
+        $localize`Edit form must be valid or filled`
+      );
+
+      return;
     }
 
     this.userService
       .editUser(form.value)
       .pipe(
         catchError(async err => {
-          const errMes = err.networkError.error.errors[0].extensions.message;
+          const errMes = err.networkError.error.errors[0].extensions?.message;
 
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: errMes,
-            closable: true,
-          });
+          this.notificationService.errorNotification(errMes);
         }),
         tap(() => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: $localize`User edited`,
-            closable: true,
-          });
+          this.notificationService.successNotification($localize`User edited`);
 
-          this.route.navigate(['user/detail']);
+          this.route.navigateByUrl('/user/detail');
         })
       )
       .subscribe();
   }
-
-  handleEdit(): void {}
 }

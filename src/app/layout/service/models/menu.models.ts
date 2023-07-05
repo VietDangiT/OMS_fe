@@ -4,15 +4,36 @@ export interface MenuElement {
   icon: string;
   submenu: {
     title: string;
-    items?: MenuElementItem[];
+    items: MenuElementItem[];
   };
 }
 
-export interface MenuElementItem {
+export class MenuElementItem {
   name: string;
+
   content: string;
+
   path: string;
+
   icon: string;
+
   param?: object;
+
   value?: number;
+
+  constructor(
+    name: string,
+    content: string,
+    path: string,
+    icon: string,
+    param?: object,
+    value?: number
+  ) {
+    this.name = name;
+    this.content = content;
+    this.path = path;
+    this.icon = icon;
+    this.param = param;
+    this.value = value;
+  }
 }

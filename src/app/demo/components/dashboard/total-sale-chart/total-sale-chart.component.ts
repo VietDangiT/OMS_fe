@@ -3,10 +3,11 @@ import {
   Input,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import {
   BaseChart,
   TotalSalesApiResponse,
@@ -23,9 +24,13 @@ export class TotalSaleChartComponent {
 
   @Input() filterArr: string[];
 
+  helperService = inject(HelperService);
+
   totalSaleData: ChartData;
 
   totalSale: string;
+
+  formatDate = {};
 
   routerLink = 'total-sales';
 
@@ -66,25 +71,19 @@ export class TotalSaleChartComponent {
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
 
-      labelArr.push(new Date(item.date).toLocaleDateString());
+      labelArr.push(
+        this.helperService.convertToDisplayDate(item.date, this.filterArr)
+      );
 
       sale += item.value;
     });
 
     this.totalSale = sale.toLocaleString('en-US');
 
-    this.totalSaleData = {
-      labels: labelArr,
-      datasets: [
-        {
-          label: 'Total Sales',
-          data: totalArr,
-          borderColor: environment.primaryColor,
-          backgroundColor: environment.primaryColor,
-          tension: 0.4,
-          pointBorderWidth: 2,
-        },
-      ],
-    };
+    this.totalSaleData = this.helperService.setChartData(
+      labelArr,
+      totalArr,
+      $localize`Total Sales`
+    );
   }
 }

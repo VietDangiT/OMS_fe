@@ -5,8 +5,8 @@ import { MarketplaceApiResponse } from '../models/marketplace.models';
 import { UserRoleApiResponse } from '../../user/models/user.models';
 
 const GET_MARKETPLACES = gql`
-  query {
-    marketPlaces {
+  query GetChannelStatus($countryId: Int) {
+    marketPlaces(countryId: $countryId) {
       marketPlaceName
       id
     }
@@ -19,10 +19,13 @@ const GET_MARKETPLACES = gql`
 export class MarketplaceService {
   constructor(private apollo: Apollo) {}
 
-  getMarketPlaces(): Observable<MarketplaceApiResponse> {
+  getMarketPlaces(countryId: Number | null): Observable<MarketplaceApiResponse> {
     return this.apollo
       .watchQuery<MarketplaceApiResponse>({
         query: GET_MARKETPLACES,
+        variables: {
+          countryId: countryId
+        },
       })
       .valueChanges.pipe(map(res => res.data));
   }

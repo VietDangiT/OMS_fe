@@ -5,6 +5,7 @@ export interface BaseChart {
   date: string | number | Date;
   percentage: number;
   displayText: string;
+  image?: string;
 }
 
 export interface TotalSalesApiResponse {
@@ -65,4 +66,8 @@ export interface BaseItem {
   name: string;
   description: string;
   number: number;
+}
+
+export interface StockApiResponse {
+  productStatistic: BaseChart[];
 }

@@ -1,14 +1,17 @@
-import { UserService } from 'src/app/demo/service/user.service';
 import { Component, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subject, takeUntil, tap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { UserItem, UserParams } from '../../models/user.models';
-import { userHeaderTable, userLabelItems } from '../../constants/user.constants';
+import { UserService } from 'src/app/demo/service/user.service';
 import { OmsTable } from '../../../share/model/oms-table';
+import {
+  userHeaderTable,
+  userLabelItems,
+} from '../../constants/user.constants';
+import { UserItem, UserParams } from '../../models/user.models';
 
 @Component({
   selector: 'oms-user-list',
@@ -21,7 +24,7 @@ export class UserListComponent {
 
   activeItem: MenuItem = this.labelItems[0];
 
-  dateRange = this._helperService.defaultDateRange;
+  dateRange = this.helperService.defaultDateRange;
 
   dateFilterValue: string[];
 
@@ -52,13 +55,13 @@ export class UserListComponent {
   destroy$ = new Subject();
 
   constructor(
-    private _usersService: UserService,
-    private _helperService: HelperService,
-    private _route: ActivatedRoute
+    private usersService: UserService,
+    private helperService: HelperService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this._route.queryParamMap
+    this.route.queryParamMap
       .pipe(
         tap(params => {
           this.role = params.get('role') ?? '';
@@ -74,7 +77,7 @@ export class UserListComponent {
   }
 
   getUserTable(): void {
-    this._usersService
+    this.usersService
       .getUsers(this.userParams)
       .pipe(
         tap(res => {
@@ -130,7 +133,7 @@ export class UserListComponent {
   }
 
   getUserStatus(): void {
-    this._usersService
+    this.usersService
       .getUserStatus(this.userParams?.role)
       .pipe(
         tap(res => {
@@ -143,19 +146,21 @@ export class UserListComponent {
               title: d.displayText,
               badge: d.value.toString(),
               label: d.displayText,
-              id: d.displayText
+              id: d.displayText,
             });
           });
 
           const sum = labelItems
-          .map(obj => Number(obj.badge))
-          .reduce((accumulator, current) => accumulator + current, 0);
+            .map(obj => Number(obj.badge))
+            .reduce((accumulator, current) => accumulator + current, 0);
 
           labelItems[0].badge = sum + '';
+
           this.labelItems = labelItems;
 
           this.activeItem = this.labelItems[0];
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }

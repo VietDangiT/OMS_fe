@@ -12,7 +12,7 @@ import { number } from 'echarts';
 export class CustomerService {
 
   constructor(private apollo:Apollo) { }
-  getLoyalty(filter: string[]): Observable<LoyaltyByApiResponse> {
+  getLoyalty(filter: string[], countryId: Number | null): Observable<LoyaltyByApiResponse> {
     return this.apollo
       .watchQuery<LoyaltyByApiResponse>({
         query: GET_LOYALTY_BY,
@@ -21,53 +21,57 @@ export class CustomerService {
           toDate: filter[1],
           highThreshold: HIGH_THRESHOLD,
           lowThreshold: LOW_THRESHOLD,
-          country: ''
+          countryId: countryId
         },
       })
       .valueChanges.pipe(map(res => res.data));
   }
 
-  getCustomerByChannel(filter: string[]): Observable<CustomerByChannelResponse> {
+  getCustomerByChannel(filter: string[], countryId: number | null): Observable<CustomerByChannelResponse> {
     return this.apollo
       .watchQuery<CustomerByChannelResponse>({
         query: GET_CUSTOMER_BY,
         variables: {
           fromDate: filter[0],
           toDate: filter[1],
+          countryId: countryId
         },
       })
       .valueChanges.pipe(map(res => res.data));
   }
 
 
-  getRatingByChannel(filter: string[] ): Observable<RatingByChannelResponse> {
+  getRatingByChannel(filter: string[] , channelId: number | null): Observable<RatingByChannelResponse> {
     return this.apollo
       .watchQuery<RatingByChannelResponse>({
         query: GET_RATING_BY,
         variables: {
           fromDate: filter[0],
           toDate: filter[1],
+          channelId: channelId
         },
       })
       .valueChanges.pipe(map(res => res.data));
   }
 
-  getFeedbackByCustomer(filter:string[]):Observable<FeedbackByCustomerResponse>{
+  getFeedbackByCustomer(filter:string[], countryId: number | null):Observable<FeedbackByCustomerResponse>{
     return this.apollo.watchQuery<FeedbackByCustomerResponse>({
           query:GET_FEEDBACK_BY,
           variables: {
             fromDate : filter[0],
             toDate : filter [1],
+            countryId: countryId
           },
     })
     .valueChanges.pipe(map(res =>res.data));
   };
-  getCustomerByCountry(filter:string[]):Observable<LocationByCustomerResponse>{
+  getCustomerByCountry(filter:string[], countryName: string):Observable<LocationByCustomerResponse>{
     return this.apollo.watchQuery<LocationByCustomerResponse>({
           query:GET_CUSTOMER_LOCATION,
           variables: {
             fromDate : filter[0],
             toDate : filter [1],
+            country: countryName
           },
     })
     .valueChanges.pipe(map(res =>res.data));

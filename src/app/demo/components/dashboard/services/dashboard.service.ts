@@ -8,6 +8,7 @@ import {
   GET_PRODUCT_VARIANTS,
   GET_PRODUCT_VARIANT_ITEMS_SOLD,
   GET_RETURNS_BY,
+  GET_STOCK,
   GET_TOTAL_ORDERS,
   GET_TOTAL_SALES,
   GET_TOTAL_SALES_BY_CHANNEL,
@@ -20,6 +21,7 @@ import {
   StatisticOrderStatusApiResponse,
   StatisticProductChannelByStatusApiResponse,
   StatisticProductMarketplaceStockApiResponse,
+  StockApiResponse,
   TotalOrderApiResponse,
   TotalReturnByApiResponse,
   TotalSalesApiResponse,
@@ -99,12 +101,14 @@ export class DashboardService {
   }
 
   getTotalSaleByChannel(
-    filter: string[]
+    filter: Date[] | string[],
+    channelId: number | null = null
   ): Observable<TotalSalesByChannelApiResponse> {
     return this.apollo
       .watchQuery<TotalSalesByChannelApiResponse>({
         query: GET_TOTAL_SALES_BY_CHANNEL,
         variables: {
+          channelId,
           fromDate: filter[0],
           toDate: filter[1],
         },
@@ -136,7 +140,7 @@ export class DashboardService {
       .valueChanges.pipe(map(res => res.data));
   }
 
-  getOrderStatus(
+  getOrderStatistic(
     id: number,
     filter: string[]
   ): Observable<StatisticOrderStatusApiResponse> {
@@ -160,6 +164,17 @@ export class DashboardService {
         query: GET_PRODUCT_CHANNEL_STOCK,
         variables: {
           channelId: id,
+        },
+      })
+      .valueChanges.pipe(map(res => res.data));
+  }
+
+  getStock(channelId: number): Observable<StockApiResponse> {
+    return this.apollo
+      .watchQuery<StockApiResponse>({
+        query: GET_STOCK,
+        variables: {
+          channelId,
         },
       })
       .valueChanges.pipe(map(res => res.data));

@@ -5,13 +5,13 @@
     <label for="search" class="pl-3">
       <i class="pi pi-search"></i>
     </label>
+
     <input
       id="search"
       type="text"
       placeholder="Search"
-      [(ngModel)]="searchValue"
-      (ngModelChange)="getSearchValueInternal($event)"
       class="h-full ml-2 bg-transparent outline-none"
+      [formControl]="queryField"
     />
   </span>
 
@@ -19,10 +19,11 @@
     *ngIf="isDateFilterShow"
     placeholder="Choose range of date"
     (ngModelChange)="getDateRange($event)"
-    [ngModel]="dateFilter"
+    [(ngModel)]="dateFilter"
     selectionMode="range"
     view="date"
     dateFormat="dd.mm.yy"
+    [showIcon]="true"
     appendTo="body"
     inputId="icon"
     class="cursor-pointer"

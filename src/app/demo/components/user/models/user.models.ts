@@ -1,27 +1,32 @@
-import { gql } from "apollo-angular";
-import { PagingParams } from "src/app/demo/interface/global.model";
-import { BaseChart } from "../../dashboard/interfaces/dashboard.models";
+import { gql } from 'apollo-angular';
+import { PagingParams } from 'src/app/demo/interface/global.model';
+import { BaseChart } from '../../dashboard/interfaces/dashboard.models';
 import { User } from '../../login/models/login.models';
+import { OrderParams } from '../../orders/models/orders.models';
 
 export interface UserItem {
   id?: number;
-  fullName?: string,
-  phoneNumber?: string,
-  DOB?: string,
-  gender?: string,
-  email?: string,
-  userRole?: string,
-  fullAddress?: string,
-  userStatus?: string,
-  facebook?: string,
-  instagram?: string,
-  userName?: string,
-  userPassword?: string,
-  avatar?: string,
+  fullName?: string;
+  phoneNumber?: string;
+  DOB?: string;
+  gender?: string;
+  email?: string;
+  userRole?: string;
+  fullAddress?: string;
+  userStatus?: string;
+  facebook?: string;
+  instagram?: string;
+  userName?: string;
+  userPassword?: string;
+  avatar?: string;
 }
 
 export interface UserParams extends PagingParams {
   role: string;
+}
+
+export interface UserOrderParams extends OrderParams {
+  userId?: number | null;
 }
 
 export interface UserApiResponse {
@@ -34,6 +39,7 @@ export interface UserApiResponse {
     totalRecord: number;
   };
 }
+
 export interface UserStatusApiResponse {
   userStatus: BaseChart[];
 }
@@ -62,7 +68,7 @@ export const GET_USERS = gql`
       rows
       pageCount
       totalRecord
-      data{
+      data {
         avatar
         fullName
         email

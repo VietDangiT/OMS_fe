@@ -2,18 +2,18 @@ import { gql } from 'apollo-angular';
 export const HIGH_THRESHOLD = 100;
 export const LOW_THRESHOLD = 30;
 export const GET_LOYALTY_BY = gql`
-  query GetLoyalty($fromDate: String!, $toDate: String!, $highThreshold: Int!, $lowThreshold: Int!, $country: String!) {
-    customerLoyalty(fDate: $fromDate, tDate: $toDate, highThreshold: $highThreshold, lowThreshold: $lowThreshold, country: $country ) {
+  query GetLoyalty($fromDate: String!, $toDate: String!, $highThreshold: Int!, $lowThreshold: Int!, $countryId: Int) {
+    customerLoyalty(fDate: $fromDate, tDate: $toDate, highThreshold: $highThreshold, lowThreshold: $lowThreshold, countryId: $countryId ) {
       value
       displayText
-
+      
     }
   }
 `;
 
 export const GET_CUSTOMER_BY = gql`
-  query GetCustomerByChannel($fromDate: String!, $toDate: String!) {
-    customerByChannel(fDate: $fromDate, tDate: $toDate ) {
+  query GetCustomerByChannel($fromDate: String!, $toDate: String!, $countryId: Int) {
+    customerByChannel(fDate: $fromDate, tDate: $toDate, countryId: $countryId) {
       displayText
       value
       percentage
@@ -22,8 +22,8 @@ export const GET_CUSTOMER_BY = gql`
   }
 `;
 export const GET_RATING_BY = gql`
-  query GetRatingByChannel($fromDate: String!, $toDate: String!) {
-    ratingByChannel(fDate: $fromDate, tDate: $toDate, ) {
+  query GetRatingByChannel($fromDate: String!, $toDate: String!, $channelId: Int) {
+    ratingByChannel(fDate: $fromDate, tDate: $toDate, channelId: $channelId) {
       displayText
       value
       percentage
@@ -32,16 +32,16 @@ export const GET_RATING_BY = gql`
 `;
 
 export const GET_FEEDBACK_BY = gql`
-query GetFeedbackByCustomer($fromDate: String!, $toDate: String!) {
-  feedback(fDate: $fromDate, tDate: $toDate ) {
+query GetFeedbackByCustomer($fromDate: String!, $toDate: String!, $countryId: Int) {
+  feedback(fDate: $fromDate, tDate: $toDate, countryId: $countryId ) {
     displayText
     value
   }
 }
 `;
 export const GET_CUSTOMER_LOCATION = gql`
-  query GetCustomerByCountry($fromDate: String!, $toDate: String!)  {
-    customerByCountry (fDate: $fromDate, tDate: $toDate ) {
+  query GetCustomerByCountry($fromDate: String!, $toDate: String!, $country: String)  {
+    customerByCountry (fDate: $fromDate, tDate: $toDate, country: $country ) {
       value
       displayText
     }
@@ -53,7 +53,7 @@ query GetTopProductByCustomer($fromDate: String!, $toDate: String!)  {
     id
     displayText
     value
-    percentage
+    extraValue
   }
 }
 `;

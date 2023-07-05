@@ -1,15 +1,22 @@
 <tr
   class="mb-2 px-4 cursor-pointer hover:!bg-gray-200 transition-all duration-100"
+  (click)="modalVisible = true"
 >
   <td>
-    <p-avatar [image]="catalogue.productVariantImage"></p-avatar>
+    <oms-avatar [imgSrc]="catalogue.productVariantImage"></oms-avatar>
   </td>
 
   <td>{{ catalogue.sku }}</td>
 
   <td class="font-bold">{{ catalogue.productName | titlecase }}</td>
 
-  <td>{{ catalogue.createdAt | date : 'shortDate' }}</td>
+  <td class="flex items-center gap-2">
+    <oms-avatar [imgSrc]="catalogue.channelImage"></oms-avatar>
+
+    <span>{{ catalogue.channelName }}</span>
+  </td>
+
+  <td>{{ catalogue.createdAt | date }}</td>
 
   <td>{{ catalogue.availableStock }}</td>
 
@@ -17,17 +24,16 @@
 
   <td
     class="flex gap-2 items-center"
-    [class.text-success]="catalogue.productChannelStatus === 'Active'"
-    [class.text-danger]="catalogue.productChannelStatus === 'Inactive'"
+    [class]="helperService.statusClasses[catalogue.status?.toLowerCase()!]"
   >
     <i class="pi-circle-fill pi"></i>
 
     <span class="font-medium">
-      {{ catalogue.productChannelStatus | titlecase }}
+      {{ catalogue.status | titlecase }}
     </span>
   </td>
 
-  <td class="font-bold cursor-pointer">
+  <!-- <td class="font-bold cursor-pointer">
     <i
       (click)="handleEdit()"
       class="pi pi-pencil text-primary p-1 border-b-2 border-primary mr-2"
@@ -37,5 +43,12 @@
       (click)="handleAction()"
       class="pi pi-arrow-up-left text-white bg-primary p-1 rounded-full"
     ></i>
-  </td>
+  </td> -->
 </tr>
+
+<oms-catalogue-detail
+  *ngIf="modalVisible"
+  [visible]="modalVisible"
+  [catalogue]="catalogue"
+  (onClose)="modalVisible = false"
+></oms-catalogue-detail>

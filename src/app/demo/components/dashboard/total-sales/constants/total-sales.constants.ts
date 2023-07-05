@@ -39,44 +39,22 @@ export const GET_TOTAL_SALES_TABLE = gql`
     }
   }
 `;
-export const GET_TOTAL_SALES = gql`
-  query GetTotalSales($fromDate: String!, $toDate: String!) {
-    totalSales(fromDate: $fromDate, toDate: $toDate) {
-      compareData {
-        date
-        numberOfOrders
-        text
-        value
-        percentage
-      }
-      selectedData {
-        date
-        numberOfOrders
-        text
-        value
-        percentage
-      }
+export const GET_REVENUE = gql`
+  query GetRevenue($fromDate: String!, $toDate: String!) {
+    revenue(fromDate: $fromDate, toDate: $toDate) {
+      value
+      date
     }
   }
 `;
 
-export const GET_RETURN = gql`
-  query GetReturn($fromDate: String!, $toDate: String!) {
-    return(fromDate: $fromDate, toDate: $toDate) {
-      compareData {
-        date
-        numberOfOrders
-        text
-        value
-        percentage
-      }
-      selectedData {
-        date
-        numberOfOrders
-        text
-        value
-        percentage
-      }
+export const GET_SALE_STATISTIC = gql`
+  query GetSalesStatistic($fromDate: String!, $toDate: String!) {
+    totalSalesStatistic(fromDate: $fromDate, toDate: $toDate) {
+      current
+      previous
+      percentage
+      text
     }
   }
 `;

@@ -8,9 +8,7 @@
 
     <span class="my-auto font-bold"
       >{{ value | number : '1.1-1' }}
-      <span *ngIf="type === 'currency'; else percentage">k</span>
-
-      <ng-template #percentage>%</ng-template>
+      <span *ngIf="type">{{ type === 'currency' ? 'k' : '%' }}</span>
     </span>
   </div>
 

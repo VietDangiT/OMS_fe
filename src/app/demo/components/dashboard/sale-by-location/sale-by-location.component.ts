@@ -10,8 +10,7 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { DateFilterKey, ResultItem } from 'src/app/demo/interface/global.model';
 import { HelperService } from 'src/app/demo/service/helper.service';
-import { environment } from 'src/environments/environment';
-import { Country } from '../../channel/interface/channel.component';
+import { Country } from '../../channel/interface/channel.model';
 import { ChannelService } from '../../channel/services/channel.service';
 import { heatChartOptions } from '../../charts/apex-chart.component';
 import { OmsTable } from '../../share/model/oms-table';
@@ -173,24 +172,11 @@ export class SaleByLocationComponent {
         tap(res => {
           const { saleLeads: data } = res;
 
-          const labelArr: string[] = [];
-          const valueArr: number[] = [];
-
-          data.forEach(d => {
-            labelArr.push(d.displayText);
-
-            valueArr.push(d.value);
-          });
-
-          this.leadData = {
-            labels: labelArr,
-            datasets: [
-              {
-                data: valueArr,
-                backgroundColor: environment.primaryColor,
-              },
-            ],
-          };
+          this.leadData = this.helperService.setupBasicChartData(
+            data,
+            this.dateRange,
+            true
+          );
         }),
         takeUntil(this.destroy$)
       )
@@ -218,7 +204,9 @@ export class SaleByLocationComponent {
           currentData.forEach(d => {
             totalCurrentVal += d.value;
 
-            labelArr.push(new Date(d.date).toLocaleDateString());
+            labelArr.push(
+              this.helperService.convertToDisplayDate(d.date, this.dateRange)
+            );
             valueArr.push(d.value);
           });
 
@@ -227,15 +215,7 @@ export class SaleByLocationComponent {
           this.comparedPercentage =
             totalPreviousVal > 0 ? totalCurrentVal / totalPreviousVal : -100;
 
-          this.salesData = {
-            labels: labelArr,
-            datasets: [
-              {
-                data: valueArr,
-                borderColor: environment.primaryColor,
-              },
-            ],
-          };
+          this.salesData = this.helperService.setChartData(labelArr, valueArr);
         }),
         takeUntil(this.destroy$)
       )
@@ -312,7 +292,10 @@ export class SaleByLocationComponent {
           data.forEach(item => {
             const { displayText, value, date } = item;
 
-            const currentDate = new Date(date).toLocaleDateString('en-EN');
+            const currentDate = this.helperService.convertToDisplayDate(
+              date,
+              this.dateRange
+            );
 
             // Check if there's displayText existed
             let resultItem = result.find(item => item.name === displayText);

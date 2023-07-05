@@ -14,22 +14,22 @@ const route: Routes = [
   },
   {
     path: 'total-sale-by-channel',
-    data: { breadcrumbs: ['Dashboard', 'Total sale by channel'] },
+    data: { breadcrumbs: ['Dashboard', 'Sale by Channel Analytics'] },
     component: TotalSaleByChannelComponent,
   },
   {
     path: 'sale-by-location',
-    data: { breadcrumbs: ['Dashboard', 'Sale by location'] },
+    data: { breadcrumbs: ['Dashboard', 'Sales by Location Analytics'] },
     component: SaleByLocationComponent,
   },
   {
     path: 'total-sales',
-    data: { breadcrumbs: ['Dashboard', 'Total sales'] },
+    data: { breadcrumbs: ['Dashboard', 'Sales Analytics'] },
     component: TotalSalesComponent,
   },
   {
     path: 'total-orders',
-    data: { breadcrumbs: ['Dashboard', 'Total orders'] },
+    data: { breadcrumbs: ['Dashboard', 'Orders Analytics'] },
     component: TotalOrdersComponent,
   },
 ];

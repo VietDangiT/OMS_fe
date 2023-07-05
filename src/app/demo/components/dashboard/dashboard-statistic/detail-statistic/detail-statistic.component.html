@@ -1,7 +1,13 @@
-<div class="mb-1">
+<div
+  class="mb-1 cursor-pointer group relative"
+  [routerLink]="routerLink"
+  [queryParams]="queryParams"
+>
+  <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
   <span class="text-sm font-bold">{{ heading | titlecase }}</span>
 
-  <div class="grid gap-2 flex-wrap py-2">
+  <div class="grid gap-2 flex-wrap py-2" *ngIf="detailStatistic; else stockTmp">
     <div
       class="bg-light-yellow rounded-lg py-2 px-3 relative group"
       *ngFor="let item of detailStatistic"
@@ -19,15 +25,13 @@
       <div
         class="font-bold text-lg md:text-xl max-w-[150px] text-ellipsis overflow-hidden whitespace-nowrap"
       >
-        {{ item.current | number: '1.0-2' }}
+        {{ item.current | number : '1.0-2' }}
       </div>
 
-      <span
-        class="group-hover:opacity-100 transition-opacity bg-gray-400 px-1 text-sm text-white rounded-md absolute left-1/2 -translate-x-1/2 -translate-y-full opacity-0 m-4 mx-auto"
-        >{{ item.current }}</span
+      <div
+        class="text-xs font-medium gap-1 mt-1 flex items-center"
+        [ngClass]="item.value ? 'opacity-100' : 'opacity-0'"
       >
-
-      <div [ngClass]="{'opacity-0': !item.value}" class="text-xs font-medium gap-1 mt-1 flex items-center">
         <i
           class="pi"
           [ngClass]="
@@ -41,4 +45,23 @@
       </div>
     </div>
   </div>
+
+  <ng-template #stockTmp>
+    <div class="grid gap-2 flex-wrap py-2">
+      <div
+        class="bg-light-yellow rounded-lg py-2 px-3 relative group"
+        *ngFor="let item of stockStatistic"
+      >
+        <span class="flex items-center font-medium mb-1 text-sm"
+          >{{ item.displayText }}
+        </span>
+
+        <div
+          class="font-bold text-lg md:text-xl max-w-[150px] text-ellipsis overflow-hidden whitespace-nowrap"
+        >
+          {{ item.value }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>

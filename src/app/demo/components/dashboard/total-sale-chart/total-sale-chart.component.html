@@ -19,12 +19,18 @@
       >
     </div>
 
-    <div class="flex-1 chart-container">
+    <a
+      [routerLink]="routerLink"
+      [queryParams]="queryParams"
+      class="flex-1 chart-container group relative"
+    >
+      <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
       <oms-chart
         type="line"
         [data]="totalSaleData"
         [options]="option"
       ></oms-chart>
-    </div>
+    </a>
   </div>
 </div>

@@ -44,7 +44,7 @@ export class OmsTableComponent {
     this.pagingInfo.emit(event);
   }
 
-  isNumber(val: any): boolean {
+  isNumber(val: unknown): boolean {
     return typeof val === 'number';
   }
 }

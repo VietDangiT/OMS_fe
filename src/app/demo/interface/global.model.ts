@@ -3,9 +3,9 @@ export interface TableHeader {
   col: string;
 }
 
-export interface  PagingParams {
-  fromDate?: Date;
-  toDate?: Date;
+export interface PagingParams {
+  fromDate?: Date | null;
+  toDate?: Date | null;
   keyword?: string;
   status?: string | number;
   limit: number;
@@ -19,6 +19,10 @@ export interface TableConfig {
   gapPageNumber: number;
 }
 
+export interface StatusMap {
+  [key: string]: string;
+}
+
 export type DateFilterKey = 'week' | 'month' | 'year';
 
 export type DateFilterValues = {
@@ -28,4 +32,9 @@ export type DateFilterValues = {
 export interface ResultItem {
   name: string;
   data: { x: string | number | Date; y: number }[];
+}
+
+export interface DropdownChangeEvent {
+  originalEvent: Event;
+  value: any;
 }

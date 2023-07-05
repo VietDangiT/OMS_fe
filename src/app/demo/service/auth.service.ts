@@ -32,7 +32,7 @@ export class AuthService {
   }
 
   get getAuthenticationToken(): string {
-    const token = localStorage.getItem('token');
-    return token ? token : '';
+    const token = localStorage.getItem('token')!;
+    return token;
   }
 }

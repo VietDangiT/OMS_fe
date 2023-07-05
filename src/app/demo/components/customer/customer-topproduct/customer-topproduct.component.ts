@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { BaseChart, TopProductByCustomerResponse } from '../interfaces/customer.models';
+import { BaseChart, CustomerTopProduct, TopProductByCustomerResponse } from '../interfaces/customer.models';
 import { CustomerService } from '../services/customer.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { CustomerService } from '../services/customer.service';
 })
 export class CustomerTopproductComponent  {
 
-  products: BaseChart[];
+  products: CustomerTopProduct[];
   @Input() filterArr: string[];
 
   constructor(private customerService: CustomerService) {}

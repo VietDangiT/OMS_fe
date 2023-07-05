@@ -7,61 +7,44 @@
   (onHide)="closeModal()"
 >
   <ng-template pTemplate="header">
-    <span class="font-bold text-3xl text-primary"
+    <span class="title text-primary"
       ><span i18n>Order </span> #{{ orderDetail.id }}</span
     >
   </ng-template>
 
   <div>
-    <div
-      [class.text-success]="orderDetail.status === 'completed'"
-      [class.text-danger]="orderDetail.status === 'failed'"
-      [class.text-orange-400]="orderDetail.status === 'pending'"
-      [class.text-warning]="orderDetail.status === 'delivery'"
-      [class.text-blue-500]="orderDetail.status === 'return'"
-    >
+    <div [class]="helperService.statusClasses[order.status?.toLowerCase()!]">
       <i class="pi-circle-fill pi"></i>
 
       <span class="font-bold">
-        {{ orderDetail.status | titlecase }}
+        {{ order.status | titlecase }}
       </span>
     </div>
 
     <ul class="my-3">
-      <li class="text-heading mb-2"><span i18n>Customer Info</span>:</li>
+      <li class="text-heading mb-2"><span i18n>Customer Info</span></li>
 
-      <li class="oms-order-detail-header">
+      <li class="order-detail-header">
         <span i18n>Buyer</span>
 
-        :
-
-        <span class="oms-order-detail-info">{{
-          orderDetail.customerName
-        }}</span>
+        <span class="order-detail-info">{{ orderDetail.customerName }}</span>
       </li>
 
-      <li class="oms-order-detail-header">
+      <li class="order-detail-header">
         <span i18n> Address </span>
-        :
-        <span class="oms-order-detail-info">{{
-          orderDetail.shippingAddress
-        }}</span>
+        <span class="order-detail-info">{{ orderDetail.shippingAddress }}</span>
       </li>
 
-      <li class="oms-order-detail-header">
+      <li class="order-detail-header">
         <span i18n>Recipient Name</span>
-        :
 
-        <span class="oms-order-detail-info">{{
-          orderDetail.customerName
-        }}</span>
+        <span class="order-detail-info">{{ orderDetail.customerName }}</span>
       </li>
 
-      <li class="oms-order-detail-header">
+      <li class="order-detail-header">
         <span i18n>Recipient Phone Number</span>
-        :
 
-        <span class="oms-order-detail-info">{{ orderDetail.phoneNumber }}</span>
+        <span class="order-detail-info">{{ orderDetail.phoneNumber }}</span>
       </li>
     </ul>
 
@@ -74,7 +57,7 @@
         <tr>
           <td>
             <div class="flex items-center gap-4">
-              <div>{{ rowData.image }}</div>
+              <oms-avatar [imgSrc]="rowData.image"></oms-avatar>
 
               <div>
                 <div class="font-bold text-lg">{{ rowData.name }}</div>
@@ -88,7 +71,7 @@
 
           <td>{{ rowData.quantity }}</td>
 
-          <td>{{ rowData.price }}</td>
+          <td>{{ rowData.price | number }}</td>
         </tr>
       </ng-template>
     </oms-table>

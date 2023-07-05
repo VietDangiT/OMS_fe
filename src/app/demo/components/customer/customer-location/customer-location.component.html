@@ -1,12 +1,9 @@
-<div class="p-2 bg-white row-span-3 font-bold h-full">
+<div class=" bg-white row-span-3 font-bold h-full ">
   <div class="w-full h-full flex flex-col">
-    <div>
-      <div class="flex flex-col mb-4">
-        <h2 class="text-lg font-bold">Customers by location</h2>
-      </div>
-    </div>
-    <oms-chart type="geomap" [data]="chartData" [marker]="marker" [region]="region"> </oms-chart>
-    <div class="pt-10 flex flex-col gap-2 line-height-3 max-h-60 overflow-y-scroll hide-scrollbar p-2">
+        <h2 class="text-lg font-bold p-4">Customers by location</h2>
+
+        <oms-chart type="geomap" [data]="chartData" [marker]="marker" [region]="region"> </oms-chart>
+    <div class="pt-3 flex flex-col gap-2 line-height-3 max-h-60 overflow-y-scroll hide-scrollbar p-2">
       <div *ngFor="let item of locationCustomer" class="flex justify-between font-semibold pt-2 text-lg">
         <span>{{item.displayText}}</span>
         <span>{{item.value | number}}</span>

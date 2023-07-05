@@ -3,10 +3,11 @@ import {
   Input,
   SimpleChanges,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { tap } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import {
   BaseChart,
   TotalOrderApiResponse,
@@ -24,6 +25,8 @@ export class DashboardTotalOrdersComponent {
   @Input() basicOptions!: ChartOptions;
 
   @Input() filterArr: string[];
+
+  helperService = inject(HelperService);
 
   totalOrderData: ChartData;
 
@@ -66,22 +69,20 @@ export class DashboardTotalOrdersComponent {
 
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
-      labelArr.push(new Date(item.text).toLocaleDateString());
+
+      labelArr.push(
+        this.helperService.convertToDisplayDate(item.date, this.filterArr)
+      );
+
       order += item.value;
     });
 
     this.totalOrder = order.toLocaleString('en-US');
 
-    this.totalOrderData = {
-      labels: labelArr,
-      datasets: [
-        {
-          label: $localize`Total Orders`,
-          data: totalArr,
-          borderColor: environment.primaryColor,
-          backgroundColor: environment.primaryColor,
-        },
-      ],
-    };
+    this.totalOrderData = this.helperService.setChartData(
+      labelArr,
+      totalArr,
+      $localize`Total Orders`
+    );
   }
 }

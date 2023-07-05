@@ -7,7 +7,7 @@ module.exports = {
       md: "640px",
       lg: "1024px",
       xl: "1280px",
-      "2xl": "1536px",
+      "2xl": "1740px",
     },
     extend: {
       colors: {
@@ -24,7 +24,7 @@ module.exports = {
         "fifth": "#E05858",
         "errors": "#DD3B3B",
         "warning": "#EFB034",
-        "success": "#1DD75B",
+        "success": "#5eb439",
         "grayData": "#6C757D",
         "danger":"#DE3B3B",
         "light-yellow": "#fff9ee",

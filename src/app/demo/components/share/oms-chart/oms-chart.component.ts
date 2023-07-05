@@ -93,6 +93,29 @@ export const pieChartOptions: ChartOptions = {
     },
   },
 };
+export const pieChartWithLegend: ChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
+  plugins: {
+    legend: {
+      position: 'bottom'
+    },
+  },
+  scales: {
+    x: {
+      display: false,
+    },
+    y: {
+      display: false,
+    },
+  },
+};
+
 
 export const barBaseChartOptions: ChartOptions = {
   responsive: true,
@@ -105,6 +128,34 @@ export const barBaseChartOptions: ChartOptions = {
   plugins: {
     legend: {
       display: false,
+    },
+  },
+};
+
+export const barHorizontalBaseChartOptions: ChartOptions = {
+  responsive: true,
+  indexAxis: 'y',
+  maintainAspectRatio: false,
+  aspectRatio: 1,
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
     },
   },
 };
@@ -123,12 +174,12 @@ export const heatmapChartOptions: Partial<heatChartOptions> | any = {
           },
           {
             from: 20000,
-            to: 70000,
+            to: 100000,
             color: colors.primaryLight2,
           },
           {
-            from: 70000,
-            to: 100000,
+            from: 100000,
+            to: 200000,
             color: colors.primary,
           },
         ],
@@ -167,26 +218,26 @@ export const pieChartColorsCustomer: string[] = [
 ];
 export const pieChartColorsCustomerRating: string[] = [
   colors.danger,
-  colors.warning,
   colors.fifth,
   colors.secondary,
+  colors.warning,
   colors.primary,
 ];
 
-export const colorArr: string[] = [
-  colors.primary,
-  colors.secondary,
-  colors.third,
-  colors.forth,
-  colors.fifth,
-  colors.errors,
-  colors.warning,
-  colors.success,
-  colors.danger,
-  colors.brightOrange,
-  colors.geomapBackground,
-  colors.datalessRegion,
-];
+export const colorObj: { [key: string]: any } = {
+  primary: colors.primary,
+  secondary: colors.secondary,
+  third: colors.third,
+  forth: colors.forth,
+  fifth: colors.fifth,
+  errors: colors.errors,
+  warning: colors.warning,
+  success: colors.success,
+  danger: colors.danger,
+  brightOrange: colors.brightOrange,
+  geomapBackground: colors.geomapBackground,
+  datalessRegion: colors.datalessRegion,
+};
 
 export interface OmsChartOptions
   extends Partial<ApexChartOptions>,

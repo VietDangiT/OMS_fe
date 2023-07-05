@@ -1,7 +1,7 @@
 <app-topbar></app-topbar>
 
 <div class="flex items-center justify-between w-full mb-2">
-  <h1 class="mb-0 text-3xl font-bold" i18n>Sale by location</h1>
+  <h1 class="title" i18n>Sale by Location Analytics</h1>
 
   <div class="flex gap-2">
     <p-dropdown
@@ -16,6 +16,7 @@
     <oms-date-filter
       (dateFilterChange)="dateFilterChanged($event)"
       (filter)="filterChanged($event)"
+      [(dateFilter)]="dateRange"
     >
     </oms-date-filter>
   </div>
@@ -41,7 +42,7 @@
       ></oms-sale-total-box>
 
       <oms-sale-total-box
-        [color]="comparedPercentage < 0 ? 'bg-danger' : 'bg-success'"
+        color="bg-primary"
         [dateRange]="comparedDateRange"
         [icon]="comparedPercentage < 0 ? 'pi-arrow-down' : 'pi-arrow-up'"
         [value]="comparedPercentage"
@@ -80,6 +81,8 @@
           <span class="text-lg">{{ c.name | titlecase }}</span>
 
           <div class="flex items-center">
+            <span class="mr-2"> {{ c.percentage | number : '1.0-0' }} %</span>
+
             <i
               class="pi"
               [ngClass]="
@@ -88,8 +91,6 @@
                   : 'text-danger pi-angle-down'
               "
             ></i>
-
-            <span class="ml-2"> {{ c.percentage | number : '1.0-0' }} %</span>
           </div>
         </li>
       </ul>

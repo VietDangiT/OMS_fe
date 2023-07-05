@@ -2,6 +2,12 @@
   display: contents;
 
   & td {
-    @apply p-2;
+    @apply p-4;
+  }
+}
+
+.oms-order-item {
+  .p-avatar img {
+    @apply object-contain;
   }
 }

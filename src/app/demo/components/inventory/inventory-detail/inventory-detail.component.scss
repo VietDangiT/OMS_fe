@@ -1,19 +1,26 @@
-.p-tabview-nav-container {
-  @apply pt-2 pl-2 pr-2 border-solid border-y-[1px];
-}
+oms-inventory-detail {
+  .p-tabview-nav-container {
+    @apply pt-2 pl-2 pr-2 border-solid border-y-[1px];
+  }
 
-.p-fieldset-legend {
-  @apply w-full;
-}
+  .p-fieldset-legend {
+    @apply w-full;
+  }
 
-.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a .p-fieldset-toggler {
-  @apply hidden;
-}
+  .p-fieldset.p-fieldset-toggleable .p-fieldset-legend a .p-fieldset-toggler {
+    @apply hidden;
+  }
 
-.p-ripple {
-  @apply py-3
-}
+  .p-ripple {
+    @apply py-3;
+  }
 
-table{
-  min-width: 0 !important;
+  table {
+    min-width: 0 !important;
+  }
+
+  .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus,
+  .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    @apply border-primary text-primary shadow-none;
+  }
 }

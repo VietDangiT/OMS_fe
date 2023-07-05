@@ -11,6 +11,7 @@
     <oms-screen-filter
       (dateFilterChange)="dateFilterChange($event)"
       (searchValue)="searchValue($event)"
+      [(dateFilter)]="dateRange"
     >
     </oms-screen-filter>
   </div>
@@ -23,7 +24,7 @@
     [table]="tableData"
     [contentRef]="contentRef"
   >
-    <ng-template #contentRef let-rowData let-columns="columns">
+    <ng-template #contentRef let-rowData>
       <oms-order-item [order]="rowData"></oms-order-item>
     </ng-template>
   </oms-table>

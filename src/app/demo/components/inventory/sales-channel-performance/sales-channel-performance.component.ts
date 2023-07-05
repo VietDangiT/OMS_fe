@@ -1,18 +1,17 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { HelperService } from 'src/app/demo/service/helper.service';
-import { Statistic } from '../../dashboard/interfaces/dashboard.models';
 import { ChartData } from 'chart.js';
-import { environment } from 'src/environments/environment';
-import {
-  barBaseChartOptions,
-  pieChartColors,
-  pieChartColorsCustomer,
-} from '../../share/oms-chart/oms-chart.component';
-import resolveConfig from 'tailwindcss/resolveConfig';
-import { InventoryService } from '../services/inventory.service';
 import { Subject, takeUntil, tap } from 'rxjs';
-import { SaleChannelParams, SaleChannelStatisticApiResponse } from '../interfaces/inventory.component';
+import { HelperService } from 'src/app/demo/service/helper.service';
 import { FIRST_INDEX, SECOND_INDEX } from 'src/app/utils/utils';
+import { environment } from 'src/environments/environment';
+import resolveConfig from 'tailwindcss/resolveConfig';
+import { Statistic } from '../../dashboard/interfaces/dashboard.models';
+import { pieChartColorsCustomer } from '../../share/oms-chart/oms-chart.component';
+import {
+  SaleChannelParams,
+  SaleChannelStatisticApiResponse,
+} from '../interfaces/inventory.models';
+import { InventoryService } from '../services/inventory.service';
 
 const tailwindConfig = require('tailwind.config.js');
 const fullConfig = resolveConfig(tailwindConfig);
@@ -89,12 +88,12 @@ export class SalesChannelPerformanceComponent {
       },
       tooltip: {
         callbacks: {
-            label: function(context: any) {
-                var value = context.raw;
-                return value + '%';
-            }
-        }
-    }
+          label: function (context: any) {
+            var value = context.raw;
+            return value + '%';
+          },
+        },
+      },
     },
   };
 
@@ -152,17 +151,22 @@ export class SalesChannelPerformanceComponent {
     ],
   };
 
-  constructor(private _helperService: HelperService, private _inventoryService: InventoryService) {}
+  constructor(
+    private _helperService: HelperService,
+    private _inventoryService: InventoryService
+  ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.saleChannelParams.Id = this.productVariantId;
     this.getSaleChannelStatistic();
   }
 
   dateFilterChanged(dateRange: Date[]): void {
     if (dateRange[1] != null) {
-      this.saleChannelParams.fromDate = dateRange[FIRST_INDEX].toLocaleDateString('en-EN');
-      this.saleChannelParams.toDate = dateRange[SECOND_INDEX].toLocaleDateString('en-EN');
+      this.saleChannelParams.fromDate =
+        dateRange[FIRST_INDEX].toLocaleDateString('en-EN');
+      this.saleChannelParams.toDate =
+        dateRange[SECOND_INDEX].toLocaleDateString('en-EN');
       this.getSaleChannelStatistic();
       // this.filterArr = dateRange.map((date: Date) => {
       //   return date.toLocaleDateString('en-EN');
@@ -171,32 +175,49 @@ export class SalesChannelPerformanceComponent {
   }
 
   getSaleChannelStatistic(): void {
-    if(!this.productVariantId) return;
+    if (!this.productVariantId) return;
     this._inventoryService
       .getSaleChannelStatistic(this.saleChannelParams)
       .pipe(
         tap((res: SaleChannelStatisticApiResponse) => {
           //Summary
-          this.productSummary = [res.totalSaleByProductVariant, res.totalSoldProductVariant];
-          this.grossProfitSummary = [res.grossProfitByProductVariant, res.grossProfitMarginByProductVariant];
+          this.productSummary = [
+            res.totalSaleByProductVariant,
+            res.totalSoldProductVariant,
+          ];
+          this.grossProfitSummary = [
+            res.grossProfitByProductVariant,
+            res.grossProfitMarginByProductVariant,
+          ];
 
           //Sale by Channel Chart
           const tmpPieData = this.pieData;
-          tmpPieData.labels = [...res.saleProductByChannel.map(item => item.displayText)];
-          tmpPieData.datasets[FIRST_INDEX].data = [...res.saleProductByChannel.map(item => item.percentage)];
-          this.pieData = {...tmpPieData}
+          tmpPieData.labels = [
+            ...res.saleProductByChannel.map(item => item.displayText),
+          ];
+          tmpPieData.datasets[FIRST_INDEX].data = [
+            ...res.saleProductByChannel.map(item => item.percentage),
+          ];
+          this.pieData = { ...tmpPieData };
 
           //Overview Chart
           const tmpOverviewData = this.overviewData;
-          tmpOverviewData.labels = res.productSaleOverview.map(item => new Date(item.date).toLocaleDateString());
-          tmpOverviewData.datasets[FIRST_INDEX].data = [...res.productSaleOverview].map(item => item.value);
-          this.overviewData = {...tmpOverviewData};
+          tmpOverviewData.labels = res.productSaleOverview.map(item =>
+            new Date(item.date).toLocaleDateString()
+          );
+          tmpOverviewData.datasets[FIRST_INDEX].data = [
+            ...res.productSaleOverview,
+          ].map(item => item.value);
+          this.overviewData = { ...tmpOverviewData };
 
           //Sale Growth Chart
           const tmpSalesGrowthData = this.salesGrowth;
-          tmpSalesGrowthData.labels = res.salesGrowthByProductVariant.map(item => new Date(item.date).toLocaleDateString());
-          tmpSalesGrowthData.datasets[FIRST_INDEX].data = res.salesGrowthByProductVariant.map(item => item.extraValue);
-          this.salesGrowth = {...tmpSalesGrowthData};
+          tmpSalesGrowthData.labels = res.salesGrowthByProductVariant.map(
+            item => new Date(item.date).toLocaleDateString()
+          );
+          tmpSalesGrowthData.datasets[FIRST_INDEX].data =
+            res.salesGrowthByProductVariant.map(item => item.extraValue);
+          this.salesGrowth = { ...tmpSalesGrowthData };
         }),
         takeUntil(this.destroy$)
       )
