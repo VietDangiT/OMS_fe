@@ -38,22 +38,23 @@ export class CustomerLoyaltyComponent {
 
   destroy$ = new Subject();
 
-  ngOnInit(){
-  this.route.queryParamMap
-      .pipe(
-        tap(params => {
-          this.countryId = Number(params.get('countryId')) === 0 ? null :  Number(params.get('countryId'));
-          this.getCustomerLoyalty();
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
-  
+  ngOnInit() {}
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr']?.currentValue && this.filterArr[1]) {
       this.filterArr = changes['filterArr'].currentValue;
-      this.getCustomerLoyalty();
+      this.route.queryParamMap
+        .pipe(
+          tap(params => {
+            this.countryId =
+              Number(params.get('countryId')) === 0
+                ? null
+                : Number(params.get('countryId'));
+            this.getCustomerLoyalty();
+          }),
+          takeUntil(this.destroy$)
+        )
+        .subscribe();
     }
   }
 

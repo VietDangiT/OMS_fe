@@ -39,27 +39,25 @@ export class CustomerLocationComponent implements OnChanges {
     private customerService: CustomerService,
     private route: ActivatedRoute
   ) {}
-  
+
   destroy$ = new Subject();
 
-  ngOnInit(){
-  this.route.queryParamMap
-      .pipe(
-        tap(params => {
-          this.region = params.get('shortCode') ?? '035';
-          this.countryName = params.get('countryName') ?? '';
-          this.getCustomerByLocation();
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr'].currentValue) {
       if (this.filterArr[0] && this.filterArr[1]) {
         this.filterArr = changes['filterArr']?.currentValue;
-        this.getCustomerByLocation(this.filterArr);
+        this.route.queryParamMap
+          .pipe(
+            tap(params => {
+              this.region = params.get('shortCode') ?? '035';
+              this.countryName = params.get('countryName') ?? '';
+              this.getCustomerByLocation(this.filterArr);
+            }),
+            takeUntil(this.destroy$)
+          )
+          .subscribe();
       }
     }
   }

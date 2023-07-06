@@ -115,6 +115,14 @@ export class SalesChannelPerformanceComponent {
           },
         },
       },
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            var value = context.raw;
+            return value + '%';
+          },
+        },
+      },
     },
   };
 
@@ -181,47 +189,66 @@ export class SalesChannelPerformanceComponent {
       .pipe(
         tap((res: SaleChannelStatisticApiResponse) => {
           //Summary
-          this.productSummary = [
-            res.totalSaleByProductVariant,
-            res.totalSoldProductVariant,
-          ];
-          this.grossProfitSummary = [
-            res.grossProfitByProductVariant,
-            res.grossProfitMarginByProductVariant,
-          ];
+          this.handleSummaryData(res);
 
           //Sale by Channel Chart
-          const tmpPieData = this.pieData;
-          tmpPieData.labels = [
-            ...res.saleProductByChannel.map(item => item.displayText),
-          ];
-          tmpPieData.datasets[FIRST_INDEX].data = [
-            ...res.saleProductByChannel.map(item => item.percentage),
-          ];
-          this.pieData = { ...tmpPieData };
+          this.handleSaleByChannelData(res);
 
           //Overview Chart
-          const tmpOverviewData = this.overviewData;
-          tmpOverviewData.labels = res.productSaleOverview.map(item =>
-            new Date(item.date).toLocaleDateString()
-          );
-          tmpOverviewData.datasets[FIRST_INDEX].data = [
-            ...res.productSaleOverview,
-          ].map(item => item.value);
-          this.overviewData = { ...tmpOverviewData };
+          this.handleSaleOverviewData(res);
 
           //Sale Growth Chart
-          const tmpSalesGrowthData = this.salesGrowth;
-          tmpSalesGrowthData.labels = res.salesGrowthByProductVariant.map(
-            item => new Date(item.date).toLocaleDateString()
-          );
-          tmpSalesGrowthData.datasets[FIRST_INDEX].data =
-            res.salesGrowthByProductVariant.map(item => item.extraValue);
-          this.salesGrowth = { ...tmpSalesGrowthData };
+          this.handleSaleGrowthData(res);
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+
+  handleSaleGrowthData(res: SaleChannelStatisticApiResponse) {
+    const tmpSalesGrowthData = this.salesGrowth;
+    tmpSalesGrowthData.labels = res.salesGrowthByProductVariant.map(
+      item => new Date(item.date).toLocaleDateString()
+    );
+    tmpSalesGrowthData.datasets[FIRST_INDEX].data =
+      res.salesGrowthByProductVariant.map(
+        item => Math.round((item.extraValue + Number.EPSILON) * 100) / 100
+      );
+    this.salesGrowth = { ...tmpSalesGrowthData };
+  }
+
+  handleSaleOverviewData(res: SaleChannelStatisticApiResponse) {
+    const tmpOverviewData = this.overviewData;
+    tmpOverviewData.labels = res.productSaleOverview.map(item => new Date(item.date).toLocaleDateString()
+    );
+    tmpOverviewData.datasets[FIRST_INDEX].data = [
+      ...res.productSaleOverview,
+    ].map(item => item.value);
+    this.overviewData = { ...tmpOverviewData };
+  }
+
+  handleSaleByChannelData(res: SaleChannelStatisticApiResponse) {
+    const tmpPieData = this.pieData;
+    tmpPieData.labels = [
+      ...res.saleProductByChannel.map(item => item.displayText),
+    ];
+    tmpPieData.datasets[FIRST_INDEX].data = [
+      ...res.saleProductByChannel.map(
+        item => Math.round((item.percentage + Number.EPSILON) * 100) / 100
+      ),
+    ];
+    this.pieData = { ...tmpPieData };
+  }
+
+  handleSummaryData(res: SaleChannelStatisticApiResponse) {
+    this.productSummary = [
+      res.totalSaleByProductVariant,
+      res.totalSoldProductVariant,
+    ];
+    this.grossProfitSummary = [
+      res.grossProfitByProductVariant,
+      res.grossProfitMarginByProductVariant,
+    ];
   }
 
   handleBarColor(ctx: any) {

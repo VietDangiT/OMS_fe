@@ -49,24 +49,21 @@ export class CustomerBychannelComponent implements OnChanges {
 
   destroy$ = new Subject();
 
-  ngOnInit() {
-    this.route.queryParamMap
-      .pipe(
-        tap(params => {
-          this.countryId =
-            Number(params.get('countryId')) === 0
-              ? null
-              : Number(params.get('countryId'));
-          this.getCustomerByChannel();
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
-  }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filterArr']?.currentValue && this.filterArr[1]) {
+    if ((changes['filterArr']?.currentValue && this.filterArr[1]) || changes) {
       this.filterArr = changes['filterArr'].currentValue;
-      this.getCustomerByChannel();
+      this.route.queryParamMap
+        .pipe(
+          tap(params => {
+            this.countryId =
+              Number(params.get('countryId')) === 0
+                ? null
+                : Number(params.get('countryId'));
+            this.getCustomerByChannel();
+          }),
+          takeUntil(this.destroy$)
+        )
+        .subscribe();
     }
   }
 
