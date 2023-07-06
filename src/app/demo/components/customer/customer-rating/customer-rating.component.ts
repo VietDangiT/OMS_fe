@@ -58,11 +58,12 @@ export class CustomerRatingComponent implements OnChanges {
   countryId: Number | null;
   // dropdown
   channel: Marketplace[];
-  selectedChannel: Marketplace;
+  selectedChannel: Marketplace = {
+    id: null,
+    marketPlaceName: "",
+    marketPlaceImage: ""
+  };
 
-  ngOnInit() {
-    
-  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr']?.currentValue && this.filterArr[1]) {
       this.filterArr = changes['filterArr'].currentValue;
@@ -73,8 +74,9 @@ export class CustomerRatingComponent implements OnChanges {
             Number(params.get('countryId')) === 0
               ? null
               : Number(params.get('countryId'));
+              console.log(1);
+              
           this.getChannels();
-          this.getRatingByChannel();
         }),
         takeUntil(this.destroy$)
       )
@@ -129,6 +131,7 @@ export class CustomerRatingComponent implements OnChanges {
           const { marketPlaces: data } = res;
           this.channel = [...data];
           this.selectedChannel = this.channel[FIRST_INDEX];
+          this.getRatingByChannel();
         }),
 
         takeUntil(this.destroy$)
