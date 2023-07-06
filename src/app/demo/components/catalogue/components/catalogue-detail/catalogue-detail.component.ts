@@ -75,6 +75,8 @@ export class CatalogueDetailComponent implements OnInit {
       return { ...c, image: this.helperService.prefixImgSrc(c.image!) };
     });
 
+    data.rating = Number(data.rating.toFixed());
+
     this.mainImg = data.images[0];
 
     return data;
