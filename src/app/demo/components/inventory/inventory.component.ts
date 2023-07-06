@@ -218,9 +218,10 @@ export class InventoryComponent implements OnInit {
 
   onActiveItemChange(label: MenuItem): void {
     this.activeItem = label;
-    console.log(label);
 
     this.handleInventoryParams('stockStatusFilter', this.activeItem.label!);
+
+    this.handleInventoryParams('page', tableConfig.gapPageNumber);
 
     this.getInventoryData();
   }

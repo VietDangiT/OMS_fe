@@ -18,10 +18,6 @@ oms-sales-channel-performance dashboard-detail-statistic > div > div > div > spa
   font-size: medium;
 }
 
-oms-sales-channel-performance p-chart div {
-  @apply w-[95%] mx-auto;
-}
-
 oms-sales-channel-performance .chart-container {
   height: 293px;
 }

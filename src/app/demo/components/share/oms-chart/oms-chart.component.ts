@@ -107,6 +107,18 @@ export const barBaseChartOptions: ChartOptions = {
       display: false,
     },
   },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+    },
+  },
 };
 
 export const barHorizontalBaseChartOptions: ChartOptions = {

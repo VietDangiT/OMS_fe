@@ -12,20 +12,20 @@ export interface IBreadCrumb {
   encapsulation: ViewEncapsulation.None,
 })
 export class BreadcrumbComponent {
-  readonly home = { label: 'Home', url: '/', target: '_self' };
+  readonly home = { label: 'Home', url: `/#/dashboard`, target: '_self' };
 
   menuItems: MenuItem[] = [];
 
   constructor(private activatedRoute: ActivatedRoute) {}
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe((routeData) => {
+    this.activatedRoute.data.subscribe(routeData => {
       this.createBreadCrumb(routeData);
     });
   }
 
   createBreadCrumb(routeData: Data) {
-    var breadcrumbs = routeData['breadcrumbs'];
-    var url: string = '';
+    const breadcrumbs = routeData['breadcrumbs'];
+    let url: string = '';
     breadcrumbs.forEach((route: string) => {
       //create URL (split by ' ' space and join by '-')
       url += route.toLowerCase().split(' ').join('-') + '/';

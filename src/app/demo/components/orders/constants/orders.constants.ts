@@ -10,7 +10,7 @@ export const orderHeaderTable: TableHeader[] = [
   { field: 'price', col: 'Price' },
   { field: 'shippingCarrier', col: 'Shipping Carrier' },
   { field: 'status', col: 'Status' },
-  { field: 'view', col: 'View' },
+  // { field: 'view', col: 'View' },
 ];
 
 export const orderLabelItems: MenuItem[] = [

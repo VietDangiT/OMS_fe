@@ -19,6 +19,7 @@ import { MarketplaceService } from '../../marketplace/services/marketplace.servi
 import { OmsTable } from '../../share/model/oms-table';
 import { PagingInfo } from '../../share/model/paginginfo';
 import {
+  barBaseChartOptions,
   barHorizontalBaseChartOptions,
   baseChartOptions,
 } from '../../share/oms-chart/oms-chart.component';
@@ -57,6 +58,8 @@ export class TotalOrdersComponent implements OnInit {
   baseChartOptions = baseChartOptions;
 
   barHorizontalBaseChartOptions = barHorizontalBaseChartOptions;
+
+  barChartOptions = barBaseChartOptions;
 
   dateRange = this.helperService.defaultDateRange;
 
