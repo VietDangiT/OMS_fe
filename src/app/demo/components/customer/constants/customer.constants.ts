@@ -36,6 +36,7 @@ query GetFeedbackByCustomer($fromDate: String!, $toDate: String!, $countryId: In
   feedback(fDate: $fromDate, tDate: $toDate, countryId: $countryId ) {
     displayText
     value
+    date
   }
 }
 `;

@@ -14,6 +14,7 @@ import {
 } from '../interfaces/customer.models';
 import { CustomerService } from '../services/customer.service';
 import { ActivatedRoute } from '@angular/router';
+import { HelperService } from 'src/app/demo/service/helper.service';
 
 @Component({
   selector: 'app-customer-feedback',
@@ -25,6 +26,7 @@ export class CustomerFeedbackComponent implements OnChanges {
   @Input() filterArr: string[];
 
   private readonly customerService = inject(CustomerService);
+  private readonly helperService = inject(HelperService)
   constructor(private route: ActivatedRoute) {}
   feedBackChartData: ChartData;
   totalReturn: string = '0';
@@ -77,7 +79,7 @@ export class CustomerFeedbackComponent implements OnChanges {
     let labelArr: string[] = [];
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);
-      labelArr.push(new Date(item.displayText).toLocaleDateString());
+      labelArr.push(this.helperService.convertToDisplayDate(item.date, this.filterArr));
     });
 
     this.feedBackChartData = {
