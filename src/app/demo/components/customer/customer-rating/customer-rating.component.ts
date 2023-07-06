@@ -61,7 +61,12 @@ export class CustomerRatingComponent implements OnChanges {
   selectedChannel: Marketplace;
 
   ngOnInit() {
-    this.route.queryParamMap
+    
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['filterArr']?.currentValue && this.filterArr[1]) {
+      this.filterArr = changes['filterArr'].currentValue;
+      this.route.queryParamMap
       .pipe(
         tap(params => {
           this.countryId =
@@ -69,15 +74,11 @@ export class CustomerRatingComponent implements OnChanges {
               ? null
               : Number(params.get('countryId'));
           this.getChannels();
+          this.getRatingByChannel();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe();
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['filterArr']?.currentValue && this.filterArr[1]) {
-      this.filterArr = changes['filterArr'].currentValue;
-      this.getRatingByChannel();
     }
   }
 
