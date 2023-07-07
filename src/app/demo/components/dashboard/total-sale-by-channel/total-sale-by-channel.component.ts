@@ -165,6 +165,8 @@ export class TotalSaleByChannelComponent implements OnInit {
           ];
 
         usedColors.push(randomColor);
+
+        console.log(usedColors);
       }
 
       let dataSetItem = result.find(i => i.label === displayText);

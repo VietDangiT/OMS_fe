@@ -17,6 +17,7 @@ import {
   MarketplaceApiResponse,
 } from '../../marketplace/models/marketplace.models';
 import { MarketplaceService } from '../../marketplace/services/marketplace.service';
+import { ProductStatistic } from '../../share/enums/product.enum';
 import {
   BaseChart,
   Statistic,
@@ -104,7 +105,9 @@ export class DashboardStatisticComponent {
               tap((result: StatisticProductChannelByStatusApiResponse) => {
                 const { productChannelByStatus: data } = result;
 
-                this.productStatistic = data;
+                this.productStatistic = data.filter(
+                  d => d.text !== ProductStatistic.INACTIVE
+                );
               })
             );
 

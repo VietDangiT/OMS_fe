@@ -1,8 +1,4 @@
 oms-order-detail {
-  .p-datatable .p-datatable-tbody > tr > td {
-    @apply text-center;
-  }
-
   .order-detail {
     &-header {
       @apply w-1/2 flex justify-between;

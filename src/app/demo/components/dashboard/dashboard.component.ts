@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { HelperService } from '../../service/helper.service';
 import {
+  barBaseChartOptions,
   baseChartOptions,
   colorObj,
 } from '../share/oms-chart/oms-chart.component';
@@ -14,6 +15,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   pieOptions: any;
 
   chartOptions = baseChartOptions;
+
+  barChartOptions = barBaseChartOptions;
 
   subscription!: Subscription;
 

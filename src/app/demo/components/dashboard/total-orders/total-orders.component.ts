@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
+import { dateOptions } from 'src/app/demo/constants/date.constants';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import {
   DateFilterKey,
@@ -19,6 +20,7 @@ import { MarketplaceService } from '../../marketplace/services/marketplace.servi
 import { OmsTable } from '../../share/model/oms-table';
 import { PagingInfo } from '../../share/model/paginginfo';
 import {
+  barBaseChartOptions,
   barHorizontalBaseChartOptions,
   baseChartOptions,
 } from '../../share/oms-chart/oms-chart.component';
@@ -57,6 +59,8 @@ export class TotalOrdersComponent implements OnInit {
   baseChartOptions = baseChartOptions;
 
   barHorizontalBaseChartOptions = barHorizontalBaseChartOptions;
+
+  barChartOptions = barBaseChartOptions;
 
   dateRange = this.helperService.defaultDateRange;
 
@@ -226,7 +230,7 @@ export class TotalOrdersComponent implements OnInit {
           const updatedData = res.data.map(o => {
             return {
               ...o,
-              date: new Date(o.date).toLocaleDateString('en-EN'),
+              date: new Date(o.date).toLocaleDateString('en-EN', dateOptions),
             };
           });
 

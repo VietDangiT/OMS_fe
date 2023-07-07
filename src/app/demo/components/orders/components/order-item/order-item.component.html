@@ -24,7 +24,7 @@
 
   <td
     class="p-4 flex gap-2 items-center"
-    [class]="helperService.statusClasses[order.status?.toLowerCase()!]"
+    [class]="helperService.statusClasses[order.status!.toLowerCase()]"
   >
     <i class="pi-circle-fill pi"></i>
 
@@ -33,11 +33,11 @@
     </span>
   </td>
 
-  <td>
+  <!-- <td>
     <i
       class="pi pi-arrow-up-left pointer-events-none text-white bg-primary p-1 rounded-full"
     ></i>
-  </td>
+  </td> -->
 </tr>
 
 <oms-order-detail

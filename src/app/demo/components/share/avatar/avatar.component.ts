@@ -1,17 +1,12 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'oms-avatar',
   standalone: true,
-  imports: [CommonModule, AvatarModule],
+  imports: [CommonModule, AvatarModule, SkeletonModule],
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
 })
@@ -28,15 +23,11 @@ export class AvatarComponent {
 
   @Input() styleClass = '';
 
-  @Output() onImageError = new EventEmitter();
-
-  imageError(e: Event): void {
-    this.onImageError.emit(e);
-
-    if (e) this.imgSrc = '/assets/avt.jpg';
-  }
+  isLoading = true;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.imgSrc = changes['imgSrc']?.currentValue;
+
+    this.isLoading = false;
   }
 }

@@ -130,6 +130,18 @@ export const barBaseChartOptions: ChartOptions = {
       display: false,
     },
   },
+  scales: {
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+    y: {
+      grid: {
+        display: false,
+      },
+    },
+  },
 };
 
 export const barHorizontalBaseChartOptions: ChartOptions = {
@@ -234,9 +246,9 @@ export const colorObj: { [key: string]: any } = {
   warning: colors.warning,
   success: colors.success,
   danger: colors.danger,
-  brightOrange: colors.brightOrange,
-  geomapBackground: colors.geomapBackground,
-  datalessRegion: colors.datalessRegion,
+  // brightOrange: colors.brightOrange,
+  // geomapBackground: colors.geomapBackground,
+  // datalessRegion: colors.datalessRegion,
 };
 
 export interface OmsChartOptions
@@ -261,21 +273,30 @@ export class OMSChartComponent implements OnChanges {
 
   @Output() dataSelect = new EventEmitter();
 
+  isDataExist = true;
+
   onDataSelect(e: any): void {
     this.dataSelect.emit(e);
   }
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes['data']?.currentValue) {
+      const data = changes['data'].currentValue;
+      this.isDataExist = !!data.labels?.length;
+
+      // update this.data here
+      this.data = changes['data'].currentValue;
+
       if (this.type === 'geomap') {
+        this.isDataExist = data?.length !== 1;
+
         await google.charts.load('current', {
           packages: ['geochart'],
           mapsApiKey: `${environment.mapsApiKey}`,
         });
         await google.charts.setOnLoadCallback(this.drawRegionsMap);
       }
-      // update this.data here
-      this.data = changes['data'].currentValue;
+
       // then chart is getting updated
       setTimeout(() => {
         this.type === 'geomap'
@@ -287,6 +308,11 @@ export class OMSChartComponent implements OnChanges {
       // update this.data here
 
       this.options = changes['options'].currentValue;
+
+      if (this.options?.series?.length && this.type === 'treemap') {
+        this.isDataExist = !!this.options?.series[0].data.length;
+      }
+
       // then chart is getting updated
       setTimeout(() => {
         this.apexChart?.updateSeries(this.options.series);

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ChartData } from 'chart.js';
 import { BaseChart } from '../components/dashboard/interfaces/dashboard.models';
+import { ProductStatistic } from '../components/share/enums/product.enum';
+import { StatusColor } from '../components/share/enums/status.enum';
 import { colorObj } from '../components/share/oms-chart/oms-chart.component';
 import { DateFilterValues, StatusMap } from '../interface/global.model';
 
@@ -15,35 +17,35 @@ export abstract class HelperService {
   };
 
   stockStatuses: StatusMap = {
-    live: 'Live',
-    inactive: 'In Active',
-    outofstock: 'Out Of Stock',
-    lowofstock: 'Low Of Stock',
-    ondemand: 'On Demand',
+    live: ProductStatistic.LIVE,
+    inactive: ProductStatistic.INACTIVE,
+    outofstock: ProductStatistic.OUT_OF_STOCK,
+    lowofstock: ProductStatistic.LOW_OF_STOCK,
+    ondemand: ProductStatistic.ON_DEMAND,
   };
 
   statusClasses: StatusMap = {
-    active: 'text-success',
-    completed: 'text-success',
-    on_process: 'text-fifth',
-    on_shipping: 'text-secondary',
-    inactive: 'text-danger',
-    failed: 'text-danger',
-    pending: 'text-secondary',
-    delivery: 'text-secondary',
-    return: 'text-primary',
-    cancelled: 'text-danger',
-    unpaid: 'text-black',
+    active: StatusColor.SUCCESS,
+    completed: StatusColor.SUCCESS,
+    on_process: StatusColor.FIFTH,
+    on_shipping: StatusColor.WARNING,
+    inactive: StatusColor.DANGER,
+    failed: StatusColor.DANGER,
+    pending: StatusColor.WARNING,
+    delivery: StatusColor.WARNING,
+    return: StatusColor.PRIMARY,
+    cancelled: StatusColor.WARNING,
+    unpaid: StatusColor.BLACK,
   };
 
   defaultDateRange: Date[] = [this.addDays(new Date(), -7), new Date()];
 
-  addDays(date: Date, days: number) {
+  addDays(date: Date | string, days: number): Date {
     let result = new Date(date);
 
     result.setDate(result.getDate() + days);
 
-    return result;
+    return new Date(result);
   }
 
   base64ToBytes(base64String: string): Uint8Array {
@@ -89,27 +91,33 @@ export abstract class HelperService {
     date: Date | string | number,
     dateRange: Date[] | string[]
   ): string {
-    const dates = dateRange.map(m => new Date(m));
-
-    const diffOfDays = Math.floor(
-      (dates[1].getTime() - dates[0].getTime()) / (1000 * 60 * 60 * 24)
-    );
+    const months = this.getMonthGap(dateRange);
 
     const formattingOptions: { [key: number]: Intl.DateTimeFormatOptions } = {
-      60: { month: 'long', year: 'numeric' },
-      720: { year: 'numeric' },
+      2: { month: 'long', year: 'numeric' },
+      12: { year: 'numeric' },
     };
 
-    for (const daysThreshold in formattingOptions) {
-      if (diffOfDays > Number(daysThreshold)) {
+    for (const monthsThreshold in formattingOptions) {
+      if (months >= Number(monthsThreshold)) {
         return new Date(date).toLocaleDateString(
           'en-us',
-          formattingOptions[daysThreshold]
+          formattingOptions[monthsThreshold]
         );
       }
     }
 
     return new Date(date).toLocaleDateString();
+  }
+
+  getMonthGap(dateRange: Date[] | string[]): number {
+    return (
+      (new Date(dateRange[1]).getFullYear() -
+        new Date(dateRange[0]).getFullYear()) *
+        12 +
+      new Date(dateRange[1]).getMonth() -
+      new Date(dateRange[0]).getMonth()
+    );
   }
 
   setupBasicChartData(
