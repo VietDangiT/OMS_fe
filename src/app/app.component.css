@@ -230,3 +230,15 @@ oms-table tr {
 .p-link:focus {
   @apply shadow-none;
 }
+
+.p-sidebar-mask{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 200%;
+  width: 100%;
+}
+
+body:has(> .p-sidebar-mask) {
+  overflow: hidden;
+}

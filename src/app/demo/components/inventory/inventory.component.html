@@ -5,7 +5,10 @@
   [blockScroll]="true"
 >
   <ng-template pTemplate="header">
-    <span class="font-bold text-2xl">{{ productSku }}</span>
+    <div class="flex flex-col">
+      <span class="font-bold text-2xl">{{ productName }}</span>
+      <span class="text-gray-400">{{ productSku }}</span>
+    </div>
   </ng-template>
   <oms-inventory-detail
     *ngIf="sidebarVisible"
@@ -38,7 +41,7 @@
       [contentRef]="contentRef"
     >
       <ng-template #contentRef let-rowData>
-        <tr (click)="handleClickActions(rowData.id, rowData.sku)">
+        <tr (click)="handleClickActions(rowData.id, rowData.sku, rowData.productName)">
           <td>
             <div class="w-10 h-10 rounded-md">
               <p-avatar [image]="rowData.productVariantImage" styleClass="mr-2" size="xlarge" shape="circle"></p-avatar>

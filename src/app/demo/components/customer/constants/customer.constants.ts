@@ -49,8 +49,8 @@ export const GET_CUSTOMER_LOCATION = gql`
   }
 `;
 export const GET_PRODUCT_CUSTOMER = gql `
-query GetTopProductByCustomer($fromDate: String!, $toDate: String!)  {
-  topSaleProductEachChannel(fDate: $fromDate, tDate: $toDate ) {
+query GetTopProductByCustomer($fromDate: String!, $toDate: String!, $countryId: Int)  {
+  topSaleProductEachChannel(fDate: $fromDate, tDate: $toDate, countryId: $countryId ) {
     id
     displayText
     value

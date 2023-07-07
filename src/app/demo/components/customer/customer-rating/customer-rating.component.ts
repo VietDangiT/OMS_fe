@@ -57,30 +57,31 @@ export class CustomerRatingComponent implements OnChanges {
     [];
   countryId: Number | null;
   // dropdown
-  channel: Marketplace[];
-  selectedChannel: Marketplace = {
-    id: null,
-    marketPlaceName: "",
-    marketPlaceImage: ""
-  };
+  channel: Marketplace[] = [
+    {
+      id: null,
+      marketPlaceName: 'All',
+      marketPlaceImage: '',
+    },
+  ];
+  selectedChannel: Marketplace = this.channel[FIRST_INDEX];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filterArr']?.currentValue && this.filterArr[1]) {
       this.filterArr = changes['filterArr'].currentValue;
       this.route.queryParamMap
-      .pipe(
-        tap(params => {
-          this.countryId =
-            Number(params.get('countryId')) === 0
-              ? null
-              : Number(params.get('countryId'));
-              console.log(1);
-              
-          this.getChannels();
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
+        .pipe(
+          tap(params => {
+            this.countryId =
+              Number(params.get('countryId')) === 0
+                ? null
+                : Number(params.get('countryId'));
+
+            this.getChannels();
+          }),
+          takeUntil(this.destroy$)
+        )
+        .subscribe();
     }
   }
 
@@ -92,8 +93,6 @@ export class CustomerRatingComponent implements OnChanges {
           const { ratingByChannel: data } = result;
           this.initTotalOrderChart(data);
           this.ratingByCustomer = data;
-          // this.onChangeCountry();
-          console.log(data);
         })
       )
       .subscribe();
@@ -128,8 +127,15 @@ export class CustomerRatingComponent implements OnChanges {
       .getMarketPlaces(this.countryId)
       .pipe(
         tap((res: MarketplaceApiResponse) => {
+          const tmp: Marketplace[] = [
+            {
+              id: null,
+              marketPlaceName: 'All',
+              marketPlaceImage: '',
+            },
+          ];
           const { marketPlaces: data } = res;
-          this.channel = [...data];
+          this.channel = this.countryId ? [...data] : [...tmp, ...data];
           this.selectedChannel = this.channel[FIRST_INDEX];
           this.getRatingByChannel();
         }),

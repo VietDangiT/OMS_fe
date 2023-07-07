@@ -77,12 +77,13 @@ export class CustomerService {
     .valueChanges.pipe(map(res =>res.data));
   };
 
-  getCustomerByTopProduct(filter:string[]):Observable<TopProductByCustomerResponse>{
+  getTopProduct(filter:string[], countryId: number | null):Observable<TopProductByCustomerResponse>{
     return this.apollo.watchQuery<TopProductByCustomerResponse>({
       query: GET_PRODUCT_CUSTOMER,
       variables : {
         fromDate: filter[0],
         toDate : filter [1],
+        countryId : countryId
       },
     })
     .valueChanges.pipe(map(res =>res.data));

@@ -38,6 +38,8 @@ export class InventoryComponent implements OnInit {
 
   productSku = '';
 
+  productName = '';
+
   modalVisible = false;
 
   dateRange: Date[] = [];
@@ -172,10 +174,12 @@ export class InventoryComponent implements OnInit {
     };
   }
 
-  handleClickActions(productVariantId: number, productSku: string) {
+  handleClickActions(productVariantId: number, productSku: string, productName: string) {
     this.productSku = productSku;
 
     this.productVariantId = productVariantId;
+
+    this.productName = productName;
 
     this.sidebarVisible = true;
   }
@@ -221,7 +225,6 @@ export class InventoryComponent implements OnInit {
 
   onActiveItemChange(label: MenuItem): void {
     this.activeItem = label;
-    console.log(label);
 
     this.handleInventoryParams('stockStatusFilter', this.activeItem.label!);
 

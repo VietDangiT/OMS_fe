@@ -88,6 +88,7 @@ export class CustomerBychannelComponent implements OnChanges {
   initTotalOrderChart(result: BaseChart[]) {
     let totalArr: number[] = [];
     let labelArr: string[] = [];
+    this.customerBy = 0;
     let customerTotal = 0;
     result.forEach((item: BaseChart) => {
       totalArr.push(item.value);

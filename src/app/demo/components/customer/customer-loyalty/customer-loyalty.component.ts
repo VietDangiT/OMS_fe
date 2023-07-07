@@ -58,7 +58,7 @@ export class CustomerLoyaltyComponent {
     }
   }
 
-  private getCustomerLoyalty() {
+  getCustomerLoyalty() {
     this.customerService
       .getLoyalty(this.filterArr, this.countryId)
       .pipe(
