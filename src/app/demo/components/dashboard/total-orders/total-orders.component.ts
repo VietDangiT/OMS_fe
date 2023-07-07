@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
+import { dateOptions } from 'src/app/demo/constants/date.constants';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import {
   DateFilterKey,
@@ -229,7 +230,7 @@ export class TotalOrdersComponent implements OnInit {
           const updatedData = res.data.map(o => {
             return {
               ...o,
-              date: new Date(o.date).toLocaleDateString('en-EN'),
+              date: new Date(o.date).toLocaleDateString('en-EN', dateOptions),
             };
           });
 

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { Subject, takeUntil, tap } from 'rxjs';
+import { dateOptions } from 'src/app/demo/constants/date.constants';
 import { tableConfig } from 'src/app/demo/constants/table.config';
 import { PageChangeEvent } from 'src/app/demo/interface/event';
 import {
@@ -154,7 +155,7 @@ export class TotalSalesComponent {
           const updatedData = data.map(d => {
             return {
               ...d,
-              date: new Date(d.date).toLocaleDateString(),
+              date: new Date(d.date).toLocaleDateString('en-US', dateOptions),
             };
           });
 

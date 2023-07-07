@@ -223,9 +223,9 @@ export const colorObj: { [key: string]: any } = {
   warning: colors.warning,
   success: colors.success,
   danger: colors.danger,
-  brightOrange: colors.brightOrange,
-  geomapBackground: colors.geomapBackground,
-  datalessRegion: colors.datalessRegion,
+  // brightOrange: colors.brightOrange,
+  // geomapBackground: colors.geomapBackground,
+  // datalessRegion: colors.datalessRegion,
 };
 
 export interface OmsChartOptions
