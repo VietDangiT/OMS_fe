@@ -31,6 +31,8 @@ export class CatalogueDetailComponent implements OnInit {
 
   mainImg = '';
 
+  selectedIndex = 0;
+
   catalogueDetail: CatalogueDetail = {
     date: new Date(),
     description: '',
