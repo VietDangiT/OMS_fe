@@ -6,6 +6,7 @@ import { tableConfig } from '../../constants/table.config';
 import { PageChangeEvent } from '../../interface/event';
 import { HelperService } from '../../service/helper.service';
 import { BaseChart } from '../dashboard/interfaces/dashboard.models';
+import { ProductStatistic } from '../share/enums/product.enum';
 import { OmsTable } from '../share/model/oms-table';
 import {
   inventoryLabelItems,
@@ -194,7 +195,7 @@ export class InventoryComponent implements OnInit {
                 this.helperService.stockStatuses[d.displayText.toLowerCase()],
               badge: d.value.toString(),
               label:
-                d.displayText === 'Inactive'
+                d.displayText === ProductStatistic.INACTIVE
                   ? d.displayText
                   : d.displayText.toLowerCase(),
             });
