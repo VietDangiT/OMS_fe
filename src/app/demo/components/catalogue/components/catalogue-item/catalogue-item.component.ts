@@ -17,6 +17,7 @@ export class CatalogueItemComponent {
   modalVisible = false;
 
   ngOnInit(): void {
+ 
     this.catalogue = {
       ...this.catalogue,
       productVariantImage: this.helperService.prefixImgSrc(

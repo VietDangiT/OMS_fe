@@ -41,6 +41,29 @@ export interface ChannelByRatingCustomer{
 export interface ChannelByRatingCustomerResponse{
   channelsTableData : ChannelByRatingCustomer [];
 }
-// export interface RatingByChannelParams extends Partial<PagingParams> {
-//   channelId: number;
-// }
+export interface ListCustomer { 
+  id: number;
+  name : string; 
+  totalOrder: number; 
+  address: string;
+  totalspend: number; 
+  phoneNumber: number;
+  lastorder: number;
+}
+
+export interface ListCustomerResponse {
+  listCustomer: {
+    data : ListCustomer[];
+    first: number;
+    page: number;
+    pageCount: number;
+    rows: number;
+    totalRecord: number;
+
+  }
+}
+export interface ListCustomerParams extends PagingParams {
+  channelId: number | null;
+  fDate : String | null  ; 
+  tDate : String | null;
+}

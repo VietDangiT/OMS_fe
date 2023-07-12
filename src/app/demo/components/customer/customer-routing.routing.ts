@@ -8,6 +8,7 @@ import { CustomerRatingComponent } from './customer-rating/customer-rating.compo
 import { CustomerLocationComponent } from './customer-location/customer-location.component';
 import { CustomerTopproductComponent } from './customer-topproduct/customer-topproduct.component';
 import { CustomerAllcustomerComponent } from './customer-allcustomer/customer-allcustomer.component';
+import { CustomerListComponent } from './components/customer-list/customer-list.component';
 
 const routes: Routes = [
   {
@@ -15,10 +16,16 @@ const routes: Routes = [
     data: { breadcrumbs: ['Customer'] },
     component: CustomerComponent,
   },
+  // {
+  //   path: 'all-customer',
+  //   data: { breadcrumbs: ['Customer', 'All Customer'] },
+  //   component: CustomerAllcustomerComponent,
+  // },
   {
-    path: 'all-customer',
-    data: { breadcrumbs: ['Customer', 'All Customer'] },
-    component: CustomerAllcustomerComponent,
+    path: 'customerlist',
+    data: { breadcrumbs: ['Customer','List Customer'] },
+    component: CustomerListComponent,
+
   },
 
 

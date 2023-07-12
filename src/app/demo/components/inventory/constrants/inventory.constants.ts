@@ -172,7 +172,6 @@ export const inventoryTableHeader = [
   { field: 'availableStock', col: 'Available Stock' },
   { field: 'inProcess', col: 'In-process' },
   { field: 'sold', col: 'Sold' },
-  // { field: 'action', col: 'Action' },
 ];
 export const inventoryLabelItems = [
   { label: '', id: '0', badge: '0', title: 'All' },

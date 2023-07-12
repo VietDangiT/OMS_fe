@@ -17,8 +17,10 @@ export class CustomerAllcustomerComponent implements OnInit {
     pageCount: 0,
     totalRecord: 0,
     data: {
-      header: [],
-      body: [],
+      header: [ ],
+      body: [
+       
+      ],
     },
   };
   items: MenuItem[] = [

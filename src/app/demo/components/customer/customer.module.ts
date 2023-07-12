@@ -33,6 +33,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { CustomerInfoComponent } from './detail-customer/customer-info/customer-info.component';
 import { CustomerActivityComponent } from './detail-customer/customer-activity/customer-activity.component';
 import { CustomerItemComponent } from './components/customer-item/customer-item.component';
+import { CustomerListComponent } from './components/customer-list/customer-list.component';
 
 @NgModule({
   imports: [
@@ -72,7 +73,8 @@ import { CustomerItemComponent } from './components/customer-item/customer-item.
     DetailCustomerComponent,
     CustomerInfoComponent,
     CustomerActivityComponent,
-    CustomerItemComponent
+    CustomerItemComponent,
+    CustomerListComponent
   ]
 })
 export class CustomerModule { }

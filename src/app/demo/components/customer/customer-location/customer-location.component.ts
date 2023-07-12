@@ -23,7 +23,7 @@ import { ActivatedRoute } from '@angular/router';
 export class CustomerLocationComponent implements OnChanges {
   @Input() filterArr: string[] = ['', ''];
   chartData: string[][];
-  marker: string = 'markers';
+  marker: string = 'regions';
   region: string = '035';
   countryName: string;
   locationCustomer: { displayText: string; value: number }[] = [];

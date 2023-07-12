@@ -1,5 +1,7 @@
+import { Console, log } from 'console';
 import { Component, Input } from '@angular/core';
-import { Customer } from '../../models/customer.models';
+import { ListCustomer } from '../../interfaces/customer.models';
+
 
 @Component({
   selector: 'oms-customer-item',
@@ -7,5 +9,11 @@ import { Customer } from '../../models/customer.models';
   styleUrls: ['./customer-item.component.scss'],
 })
 export class CustomerItemComponent {
-  @Input() customer: Customer;
+  @Input() customerlist: ListCustomer;
+
+  ngOnInit(){
+    
+  }
+
 }
+

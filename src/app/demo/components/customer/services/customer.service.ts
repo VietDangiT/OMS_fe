@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable, filter, map } from 'rxjs';
-import { GET_CHANNEL_BY_RATING, GET_CUSTOMER_BY, GET_CUSTOMER_LOCATION, GET_FEEDBACK_BY, GET_LOYALTY_BY, GET_PRODUCT_CUSTOMER, GET_RATING_BY, HIGH_THRESHOLD, LOW_THRESHOLD } from '../constants/customer.constants';
-import { ChannelByRatingCustomerResponse, CustomerByChannelResponse, FeedbackByCustomerResponse, LocationByCustomerResponse, LoyaltyByApiResponse, RatingByChannelResponse, TopProductByCustomerResponse,  } from '../interfaces/customer.models';
+import { GET_CHANNEL_BY_RATING, GET_CUSTOMER_BY, GET_CUSTOMER_LOCATION, GET_FEEDBACK_BY, GET_LIST_CUSTOMER, GET_LOYALTY_BY, GET_PRODUCT_CUSTOMER, GET_RATING_BY, HIGH_THRESHOLD, LOW_THRESHOLD } from '../constants/customer.constants';
+import { ChannelByRatingCustomerResponse, CustomerByChannelResponse, FeedbackByCustomerResponse, ListCustomerParams, ListCustomerResponse, LocationByCustomerResponse, LoyaltyByApiResponse, RatingByChannelResponse, TopProductByCustomerResponse,  } from '../interfaces/customer.models';
 import { number } from 'echarts';
+import { PagingParams } from 'src/app/demo/interface/global.model';
 
 
 @Injectable({
@@ -95,6 +96,32 @@ export class CustomerService {
       },
     })
     .valueChanges.pipe(map(res =>res.data));
+  };
+
+  getCustomerList(params : ListCustomerParams):Observable<ListCustomerResponse> {
+    const { 
+      channelId,
+      fDate,
+      tDate,
+      limit,
+      page,
+      status,
+      fromDate,
+      toDate} = params;
+    return this.apollo.watchQuery<ListCustomerResponse>({
+      query: GET_LIST_CUSTOMER,
+      variables : {
+        limit,
+        page,
+        status,
+        fromDate,
+        toDate,
+        channelId,
+        fDate,
+        tDate
+      },
+    })
+    .valueChanges.pipe(map(res=>res.data));
   };
 
 };

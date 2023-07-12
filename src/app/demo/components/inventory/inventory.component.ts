@@ -113,6 +113,7 @@ export class InventoryComponent implements OnInit {
       .pipe(
         tap(res => {
           const { products } = res;
+          console.log(products)
 
           const updatedData = products.data.map(d => {
             return {

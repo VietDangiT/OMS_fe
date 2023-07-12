@@ -1,5 +1,5 @@
 <app-topbar></app-topbar>
-<div>
+<div class="justify-between">
   <div>
     <p-tabMenu
       [model]="labelItems"
@@ -22,16 +22,25 @@
     </div>
   </div>
 
-  <div class="mt-3">
+  <div class="mt-3 justify-between">
     <oms-table
-      (pagingInfo)="onPageChange($event)"
-      [isPaginationShown]="true"
-      [contentRef]="contentRef"
-      [table]="tableData"
-    >
-      <ng-template #contentRef let-rowData let-columns="columns">
-        <oms-customer-item [customer]="rowData"></oms-customer-item>
-      </ng-template>
-    </oms-table>
+    (pagingInfo)="onPageChange($event)"
+    [isPaginationShown]="true"
+    [contentRef]="contentRef"
+    [table]="tableData"
+  >
+    <ng-template #contentRef let-rowData>
+      <tr>
+        <td>{{ rowData.name }}</td>
+        <td>{{ rowData.address }}</td>
+        <td>{{ rowData.totalOrder }}</td>
+        <td>{{ rowData.totalSpend }}</td>
+        <td>{{ rowData.phoneNumber }}</td>
+        <td>{{ rowData.lastOrder | date }}</td>
+    
+      </tr>
+        
+    </ng-template>
+  </oms-table>
   </div>
 </div>

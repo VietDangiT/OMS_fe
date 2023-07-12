@@ -4,9 +4,10 @@ import { CustomerListComponent } from './components/customer-list/customer-list.
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'customerlist',
     data: { breadcrumbs: ['Customer'] },
     component: CustomerListComponent,
+
   },
 ];
 

@@ -68,3 +68,50 @@ query GetChannelsTableData  {
   }
 }
 `;
+export const GET_LIST_CUSTOMER = gql `
+  query GetChannelsTableData (
+    $fDate : String 
+    $tDate : String 
+    $page : Int 
+    $limit : Int
+    $channelId : Int
+  ) {
+    listCustomer (
+      fDate: $fDate
+      tDate: $tDate
+      page: $page
+      limit: $limit
+      channelId : $channelId
+      ){
+      page
+      first
+      rows
+      pageCount
+      totalRecord
+      data { 
+        id
+        name 
+        totalOrder
+        totalSpend
+        phoneNumber
+        address
+        lastOrder
+      }
+    }
+
+   }
+`;
+export const ListCustomerHeader = [
+  { field: 'name', col: 'Customer Name' },
+  { field: 'totalOrder', col: 'Total Order' },
+  { field: 'address', col: 'Address' },
+  { field: 'totalSpend', col: 'Total Spend' },
+  { field: 'phoneNumber', col: 'Phone Number' },
+  { field: 'lastOrder', col: 'Last Order' },
+];
+export const CustomerLabel  = [
+  { label: '', id: '0', badge: '0', title: 'All' },
+];
+
+
+
