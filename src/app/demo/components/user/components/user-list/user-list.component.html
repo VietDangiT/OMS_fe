@@ -1,0 +1,30 @@
+<app-topbar></app-topbar>
+
+<div>
+  <oms-tab-menu
+    [labelItems]="labelItems"
+    [activeItem]="activeItem"
+    (onActiveItemChange)="onActiveItemChange($event)"
+  ></oms-tab-menu>
+
+  <div class="mt-3">
+    <oms-screen-filter
+      [isDateFilterShow]="false"
+      (searchValue)="searchValue($event)"
+    >
+    </oms-screen-filter>
+  </div>
+</div>
+
+<div class="mt-3">
+  <oms-table
+    (pagingInfo)="onPageChange($event)"
+    [isPaginationShown]="true"
+    [table]="tableData"
+    [contentRef]="contentRef"
+  >
+    <ng-template #contentRef let-rowData>
+      <oms-user-item [user]="rowData"></oms-user-item>
+    </ng-template>
+  </oms-table>
+</div>

@@ -1,0 +1,13 @@
+oms-user-form {
+  .p-avatar img {
+    @apply object-cover;
+  }
+
+  .input-field {
+    @apply flex w-full mt-8 justify-between items-center;
+  }
+
+  input {
+    @apply text-xl cursor-text;
+  }
+}

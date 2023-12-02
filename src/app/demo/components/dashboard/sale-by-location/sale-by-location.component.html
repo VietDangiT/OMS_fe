@@ -1,0 +1,135 @@
+<app-topbar></app-topbar>
+
+<div class="flex items-center justify-between w-full mb-2">
+  <h1 class="title" i18n>Sale by Location Analytics</h1>
+
+  <div class="flex gap-2">
+    <p-dropdown
+      [(ngModel)]="selectedCountry"
+      [options]="countries"
+      optionLabel="displayName"
+      (onChange)="onChangeCountry()"
+      placeholder="All countries"
+    >
+    </p-dropdown>
+
+    <oms-date-filter
+      (dateFilterChange)="dateFilterChanged($event)"
+      (filter)="filterChanged($event)"
+      [(dateFilter)]="dateRange"
+    >
+    </oms-date-filter>
+  </div>
+</div>
+
+<div
+  class="flex flex-wrap lg:flex-nowrap justify-between w-full gap-2 mb-4 md:mb-2"
+>
+  <div class="flex flex-col w-full overflow-auto dashboard-detail-container">
+    <div class="mb-2">
+      <div class="flex justify-between">
+        <p class="mb-0 font-bold" i18n>Sales</p>
+      </div>
+    </div>
+
+    <div class="flex gap-2 mb-4">
+      <oms-sale-total-box
+        color="bg-primary "
+        [dateRange]="dateRange"
+        icon="pi-dollar"
+        [value]="totalCurrentSale"
+        type="currency"
+      ></oms-sale-total-box>
+
+      <oms-sale-total-box
+        color="bg-primary"
+        [dateRange]="comparedDateRange"
+        [icon]="comparedPercentage < 0 ? 'pi-arrow-down' : 'pi-arrow-up'"
+        [value]="comparedPercentage"
+        type="percentage"
+      ></oms-sale-total-box>
+    </div>
+
+    <div class="h-full">
+      <oms-chart
+        type="line"
+        [options]="baseChartOptions"
+        [data]="salesData"
+      ></oms-chart>
+    </div>
+  </div>
+
+  <div class="w-full dashboard-detail-container">
+    <div class="mb-2">
+      <p class="font-bold" i18n>Country</p>
+    </div>
+
+    <div class="w-[50vh] lg:h-1/2 mx-auto lg:w-10/12 xl:w-8/12">
+      <oms-chart
+        type="doughnut"
+        [data]="countryData"
+        [options]="pieChartOptions"
+      ></oms-chart>
+    </div>
+
+    <ng-container *ngIf="countryPercentage">
+      <ul class="px-4 mt-[5vh]">
+        <li
+          class="flex justify-between font-bold"
+          *ngFor="let c of countryPercentage"
+        >
+          <span class="text-lg">{{ c.name | titlecase }}</span>
+
+          <div class="flex items-center">
+            <span class="mr-2"> {{ c.percentage | number : '1.0-0' }} %</span>
+
+            <i
+              class="pi"
+              [ngClass]="
+                c.percentage >= 0
+                  ? 'text-success pi-angle-up'
+                  : 'text-danger pi-angle-down'
+              "
+            ></i>
+          </div>
+        </li>
+      </ul>
+    </ng-container>
+  </div>
+
+  <div class="w-full overflow-auto dashboard-detail-container">
+    <div class="flex flex-col h-full">
+      <p class="font-bold" i18n>Leads</p>
+
+      <div class="h-full">
+        <oms-chart
+          type="bar"
+          [data]="leadData"
+          [options]="barBaseChartOptions"
+        ></oms-chart>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dashboard-detail-container mb-4 overflow-y-auto">
+  <div class="w-full">
+    <p class="font-bold" i18n>Sales Analytics</p>
+
+    <app-apex-chart [heatChartOptions]="heatChartOptions"></app-apex-chart>
+  </div>
+</div>
+
+<oms-table
+  (pagingInfo)="pagingInfo($event)"
+  [table]="tableData"
+  [contentRef]="contentRef"
+  [isPaginationShown]="true"
+>
+  <ng-template #contentRef let-rowData>
+    <oms-sale-by-location-item
+      [item]="rowData"
+      [dateRange]="dateRange"
+    ></oms-sale-by-location-item>
+  </ng-template>
+</oms-table>

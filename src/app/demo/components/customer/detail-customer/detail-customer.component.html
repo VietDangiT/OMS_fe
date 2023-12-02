@@ -1,0 +1,19 @@
+
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '65vw' }"
+  [draggable]="true"
+  [resizable]="true"
+  (onHide)="closeModal()"
+>
+<div class=" md:grid md:grid-cols-9 sm:flex-col" >
+    <div class="p-4 md:col-span-3 sm:flex-row">
+      <app-customer-info></app-customer-info>
+    </div>
+    <div class="lg:col-span-6 md:col-span-2">
+   <app-customer-activity></app-customer-activity>
+    </div>
+</div>
+</p-dialog>
+

@@ -1,0 +1,20 @@
+<div class="bg-white px-4 text-left rounded-md h-full">
+  <p class="py-4 font-bold" i18n>Top Selling Products</p>
+
+  <div class="flex flex-row justify-between text-sm text-gray-500">
+    <p i18n>Products</p>
+
+    <p i18n>Value Sales</p>
+  </div>
+
+  <div class="flex flex-col justify-between py-4 gap-2">
+    <div
+      class="flex justify-between text-primary font-bold"
+      *ngFor="let product of products"
+    >
+      <p>{{ product.text | titlecase }}</p>
+
+      <p>{{ product.value | number }}</p>
+    </div>
+  </div>
+</div>

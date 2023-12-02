@@ -1,0 +1,39 @@
+<tr (click)="modalVisible = true">
+  <td>
+    <div class="flex items-center gap-2">
+      <oms-avatar
+        [imgSrc]="channel.image!"
+        label="channel-img.alt"
+        size="normal"
+      ></oms-avatar>
+
+      <span>{{ channel.channelName }}- {{ channel.shortCode }}</span>
+    </div>
+  </td>
+
+  <td>{{ channel.numberOfOrder | number }}</td>
+
+  <td>{{ channel.totalSale | number }}</td>
+
+  <td
+    [class]="helperService.statusClasses[channel.status?.toLowerCase()!]"
+    class="flex gap-2 items-center"
+  >
+    <i class="pi-circle-fill pi"></i>
+
+    <span class="font-bold">
+      {{ channel.status | titlecase }}
+    </span>
+  </td>
+
+  <td>{{ channel.createdAt | date }}</td>
+
+  <td>{{ channel.updatedAt | date }}</td>
+</tr>
+
+<oms-channel-dialog
+  *ngIf="modalVisible"
+  [visible]="modalVisible"
+  [channel]="channel"
+  (onClose)="modalVisible = false"
+></oms-channel-dialog>

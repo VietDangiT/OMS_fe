@@ -1,0 +1,30 @@
+<div class="px-4  py-3 rounded-lg bg-nude  {{ styleClass }}">
+  <div class="font-medium">
+    <p>
+      {{ type | titlecase }}
+    </p>
+
+    <!-- <span class="text-sm">
+      {{ dateRange[0] | date : 'shortDate' }}
+      -
+      {{ dateRange[1] | date : 'shortDate' }}
+    </span> -->
+  </div>
+
+  <p class="font-bold text-xl my-1">{{ total | number : '1.1-1' }}</p>
+
+  <div>
+    <i
+      class="pi"
+      [ngClass]="
+        percentage >= 0
+          ? 'text-success pi-angle-up'
+          : 'text-danger pi-angle-down'
+      "
+    ></i>
+
+    <span class="text-sm font-bold ml-1"
+      >{{ percentage | number : '1.2-2' }} %</span
+    >
+  </div>
+</div>

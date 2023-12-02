@@ -1,0 +1,45 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '70vw' }"
+  [draggable]="true"
+  [resizable]="true"
+  (onHide)="closeModal()"
+>
+  <ng-template pTemplate="header">
+    <span class="title text-primary"> {{ channel.channelName }}</span>
+  </ng-template>
+
+  <oms-table
+    [table]="tableData"
+    [contentRef]="contentRef"
+    [isPaginationShown]="true"
+    (pagingInfo)="pagingInfo($event)"
+  >
+    <ng-template #contentRef let-rowData>
+      <tr>
+        <td>
+          <div class="flex items-center gap-4">
+            <oms-avatar [imgSrc]="rowData.storeImage"></oms-avatar>
+
+            <div>
+              <div class="font-bold text-lg">{{ rowData.name }}</div>
+
+              <div>{{ rowData.description }}</div>
+            </div>
+          </div>
+        </td>
+
+        <td>{{ rowData.displayText }}</td>
+
+        <td>{{ rowData.date | date }}</td>
+
+        <td>{{ rowData.location }}</td>
+
+        <td>{{ rowData.totalOrders | number }}</td>
+
+        <td>{{ rowData.totalSale | number }}</td>
+      </tr>
+    </ng-template>
+  </oms-table>
+</p-dialog>

@@ -1,0 +1,40 @@
+<div class="bg-white">
+  <div class="mb-4 font-bold">
+    <p i18n>Total Sale by Channel</p>
+
+    <br />
+  </div>
+  <div class="flex flex-col">
+    <div class="flex items-center justify-between gap-2">
+      <p class="font-medium md:font-normal text-sm text-gray-500" i18n>
+        Sales share by stores
+      </p>
+
+      <a
+        [routerLink]="routerLink"
+        [queryParams]="queryParams"
+        class="text-sm font-normal text-primary"
+        i18n
+        >Analyze</a
+      >
+    </div>
+
+    <a
+      class="h-full relative group"
+      [routerLink]="routerLink"
+      [queryParams]="queryParams"
+    >
+      <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
+      <oms-chart
+        type="treemap"
+        class="w-full"
+        [options]="chartOptions"
+      ></oms-chart>
+    </a>
+
+    <div class="w-full flex-1">
+      <dashboard-sale-store [data]="saleStoreData"></dashboard-sale-store>
+    </div>
+  </div>
+</div>

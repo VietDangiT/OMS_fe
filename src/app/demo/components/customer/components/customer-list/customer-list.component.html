@@ -1,0 +1,46 @@
+<app-topbar></app-topbar>
+<div class="justify-between">
+  <div>
+    <p-tabMenu
+      [model]="labelItems"
+      [activeItem]="activeItem"
+      (activeItemChange)="onActiveItemChange($event)"
+    >
+      <ng-template pTemplate="item" let-item let-i="index">
+        <span class="px-3 py-1 ml-2">
+          {{ item.title | titlecase }}
+        </span>
+      </ng-template>
+    </p-tabMenu>
+
+    <div class="mt-3">
+      <oms-screen-filter
+        (dateFilterChange)="dateFilterChange($event)"
+        (searchValue)="searchValue($event)"
+      >
+      </oms-screen-filter>
+    </div>
+  </div>
+
+  <div class="mt-3 justify-between">
+    <oms-table
+    (pagingInfo)="onPageChange($event)"
+    [isPaginationShown]="true"
+    [contentRef]="contentRef"
+    [table]="tableData"
+  >
+    <ng-template #contentRef let-rowData>
+      <tr>
+        <td>{{ rowData.name }}</td>
+        <td>{{ rowData.address }}</td>
+        <td>{{ rowData.totalOrder }}</td>
+        <td>{{ rowData.totalSpend }}</td>
+        <td>{{ rowData.phoneNumber }}</td>
+        <td>{{ rowData.lastOrder | date }}</td>
+    
+      </tr>
+        
+    </ng-template>
+  </oms-table>
+  </div>
+</div>

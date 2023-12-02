@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "month": "10/27/2023 12:00:00 AM",
+      "sales": 25360,
+      "location": "Singapore"
+    },
+    {
+      "month": "11/27/2023 12:00:00 AM",
+      "sales": 15468,
+      "location": "Malaysia"
+    },
+    {
+      "month": "12/27/2023 12:00:00 AM",
+      "sales": 12107,
+      "location": "Viet Nam"
+    },
+    {
+      "month": "12/27/2023 12:00:00 AM",
+      "sales": 52110,
+      "location": "Malaysia"
+    },
+    {
+      "month": "11/27/2023 12:00:00 AM",
+      "sales": 15468,
+      "location": "Malaysia"
+    },
+    {
+      "month": "12/27/2023 12:00:00 AM",
+      "sales": 12107,
+      "location": "Viet Nam"
+    },
+    {
+      "month": "12/27/2023 12:00:00 AM",
+      "sales": 52110,
+      "location": "Malaysia"
+    }
+  ]
+}

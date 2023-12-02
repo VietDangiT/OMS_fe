@@ -1,0 +1,64 @@
+{
+    "data":[
+        {
+            "date": "01/27/2023 12:00:00 AM ",
+            "sales": 20003,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "02/27/2023 12:00:00 AM ",
+            "sales": 25500,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "03/27/2023 12:00:00 AM ",
+            "sales": 8000,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "04/27/2023 12:00:00 AM ",
+            "sales": 9000,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "05/27/2023 12:00:00 AM ",
+            "sales": 25572,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "06/27/2023 12:00:00 AM ",
+            "sales": 45682,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "07/27/2023 12:00:00 AM ",
+            "sales": 24357,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "08/27/2023 12:00:00 AM ",
+            "sales": 20458,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "09/27/2023 12:00:00 AM ",
+            "sales": 34572,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "10/27/2023 12:00:00 AM ",
+            "sales": 5752,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "11/27/2023 12:00:00 AM ",
+            "sales": 21471,
+            "location": "Malaysia"
+        }
+        ,{
+            "date": "12/27/2023 12:00:00 AM ",
+            "sales": 23545,
+            "location": "Malaysia"
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+<div class="bg-white">
+  <div class="mb-4 font-bold">
+    <p i18n>Total Sales</p>
+
+    <p>{{ totalSale }}</p>
+  </div>
+  <div class="flex flex-col">
+    <div class="flex items-center justify-between gap-2">
+      <p class="font-medium md:font-normal text-sm text-gray-500" i18n>
+        Sale Over Time
+      </p>
+
+      <a
+        [routerLink]="routerLink"
+        [queryParams]="queryParams"
+        class="text-sm font-normal text-primary"
+        i18n
+        >Analyze</a
+      >
+    </div>
+
+    <a
+      [routerLink]="routerLink"
+      [queryParams]="queryParams"
+      class="flex-1 chart-container group relative"
+    >
+      <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
+      <oms-chart
+        type="line"
+        [data]="totalSaleData"
+        [options]="option"
+      ></oms-chart>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+oms-order-detail {
+  .order-detail {
+    &-header {
+      @apply w-1/2 flex justify-between;
+    }
+
+    &-info {
+      @apply font-bold ml-4;
+    }
+  }
+}

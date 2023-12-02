@@ -1,0 +1,44 @@
+oms-sales-channel-performance dashboard-detail-statistic > div {
+  margin-bottom: 0 !important;
+}
+
+oms-sales-channel-performance dashboard-detail-statistic > div > div {
+  padding: 0 !important;
+}
+
+oms-sales-channel-performance dashboard-detail-statistic > div > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 24px !important;
+}
+
+oms-sales-channel-performance dashboard-detail-statistic > div > div > div > span:first-child {
+  font-size: medium;
+}
+
+oms-sales-channel-performance .chart-container {
+  height: 293px;
+}
+
+oms-sales-channel-performance .p-sidebar-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+oms-sales-channel-performance body:has(.p-sidebar-mask) {
+  overflow: hidden;
+}
+
+oms-sales-channel-performance .p-sidebar-content::-webkit-scrollbar {
+  display: none;
+}
+
+oms-sales-channel-performance .p-sidebar-content {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

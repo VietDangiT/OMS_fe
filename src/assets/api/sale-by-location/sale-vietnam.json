@@ -1,0 +1,64 @@
+{
+    "data":[
+        {
+            "date": "01/27/2023 12:00:00 AM ",
+            "sales": 1000,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "02/27/2023 12:00:00 AM ",
+            "sales": 200,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "03/27/2023 12:00:00 AM ",
+            "sales": 500,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "04/27/2023 12:00:00 AM ",
+            "sales": 1000,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "05/27/2023 12:00:00 AM ",
+            "sales": 5000,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "06/27/2023 12:00:00 AM ",
+            "sales": 4500,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "07/27/2023 12:00:00 AM ",
+            "sales": 9000,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "08/27/2023 12:00:00 AM ",
+            "sales": 8000,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "09/27/2023 12:00:00 AM ",
+            "sales": 6540,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "10/27/2023 12:00:00 AM ",
+            "sales": 2536,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "11/27/2023 12:00:00 AM ",
+            "sales": 1234,
+            "location": "Viet Nam"
+        }
+        ,{
+            "date": "12/27/2023 12:00:00 AM ",
+            "sales": 500,
+            "location": "Viet Nam"
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+<div class="flex-col bg-white p-4 rounded-md">
+  <div>
+    <div class="mb-4 font-bold">
+      <p i18n>Total Orders</p>
+
+      <span>{{ totalOrder }}</span>
+    </div>
+
+    <div class="flex flex-row justify-between">
+      <p class="font-normal text-sm text-gray-500 capitalize">
+        {{ 'Orders over time' | titlecase }}
+      </p>
+
+      <a
+        [routerLink]="routerLink"
+        [queryParams]="queryParams"
+        class="text-sm text-primary"
+        i18n
+        >Analyze</a
+      >
+    </div>
+  </div>
+
+  <a
+    [routerLink]="routerLink"
+    [queryParams]="queryParams"
+    class="w-full chart-container group relative"
+  >
+    <oms-tooltip [destination]="routerLink"></oms-tooltip>
+
+    <oms-chart
+      type="bar"
+      [data]="totalOrderData"
+      [options]="basicOptions"
+    ></oms-chart>
+  </a>
+</div>

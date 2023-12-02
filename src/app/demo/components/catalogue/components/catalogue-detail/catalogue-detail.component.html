@@ -1,0 +1,89 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '70vw', minHeight: '60vh' }"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="closeModal()"
+>
+  <div class="flex gap-4">
+    <div class="flex gap-2 w-1/2 h-full">
+      <div class="flex flex-col gap-2">
+       <div         [ngClass]="{' !opacity-100': index === selectedIndex}" class=" opacity-50 transition-opacity" 
+       *ngFor="let i of catalogueDetail.images; let index = index"
+       >
+        <oms-avatar
+        [imgSrc]="i"
+        size="xlarge"
+        (click)="mainImg = i; selectedIndex = index"
+        class="cursor-pointer"
+        styleClass="!w-20 !h-20 "
+      ></oms-avatar>
+       </div>
+
+        
+      </div>
+
+      <div class="w-full max-h-[60vh] h-[60vh]">
+        <img
+          [src]="mainImg"
+          alt="main-img"
+          class="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+
+    <div class="w-1/2">
+      <h3 class="text-3xl font-bold">{{ catalogueDetail.displayText }}</h3>
+
+      <h2 class="text-primary font-bold my-8">
+        {{ catalogueDetail.value | number }}
+      </h2>
+
+      <p class="mt-2">{{ catalogueDetail.description }}</p>
+
+      <div class="flex gap-2 items-center mt-8">
+        <div>
+          <span class="font-bold text-lg">{{ catalogueDetail.reviews }} </span>
+
+          <span i18n>reviews</span>
+        </div>
+
+        <div>
+          <span class="font-bold text-lg ml-2"
+            >{{ catalogueDetail.sold }}
+          </span>
+
+          <span i18n>sold</span>
+        </div>
+
+        <div class="flex gap-2 items-center ml-2">
+          <p-rating
+            [(ngModel)]="catalogueDetail.rating"
+            [readonly]="true"
+            [cancel]="false"
+            class="pointer-events-none"
+          ></p-rating>
+
+          <span class="font-bold text-lg ml-2"
+            >{{ catalogueDetail.rating }}
+          </span>
+        </div>
+      </div>
+
+      <div class="flex gap-8 mt-8 overflow-x-scroll">
+        <div *ngFor="let i of catalogueDetail.channelsStock">
+          <a class="flex flex-col items-center" routerLink="/channels">
+            <oms-avatar [imgSrc]="i.image!" size="xlarge"></oms-avatar>
+
+            <div class="text-center">
+              <span i18n class="text-black">Available Stock: </span>
+
+              <span class="font-bold text-primary">{{ i.value }}</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

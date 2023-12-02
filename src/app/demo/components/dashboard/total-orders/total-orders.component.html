@@ -1,0 +1,110 @@
+<app-topbar></app-topbar>
+
+<div class="flex-between-center w-full mb-2">
+  <h1 class="title" i18n>Orders Analytics</h1>
+
+  <div class="flex gap-2">
+    <p-dropdown
+      [(ngModel)]="selectedMarketplace"
+      [options]="marketplaces"
+      optionLabel="marketPlaceName"
+      (onChange)="onSelectedChannel($event)"
+      placeholder="All channels"
+    ></p-dropdown>
+
+    <oms-date-filter
+      (dateFilterChange)="dateFilterChanged($event)"
+      (filter)="filterChanged($event)"
+      [(dateFilter)]="dateRange"
+    ></oms-date-filter>
+  </div>
+</div>
+
+<div class="grid grid-cols-6 w-full gap-2">
+  <div class="w-full flex flex-col col-span-5 justify-between">
+    <div class="flex gap-2">
+      <div class="dashboard-detail-container w-full">
+        <p class="font-bold text-black" i18n>Orders</p>
+
+        <div class="w-full h-full max-h-[35vh]">
+          <oms-chart
+            [data]="overviewData"
+            [options]="barChartOptions"
+            type="bar"
+          ></oms-chart>
+        </div>
+      </div>
+
+      <div class="dashboard-detail-container w-full">
+        <p class="font-bold text-black" i18n>Orders By Marketplace</p>
+
+        <div class="w-full h-full max-h-[35vh]">
+          <oms-chart
+            [data]="orderByChannel"
+            [options]="barChartOptions"
+            type="bar"
+          ></oms-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex gap-2 mt-2">
+      <div class="dashboard-detail-container w-full">
+        <p class="font-bold text-black mb-8" i18n>Avg Price Per Order</p>
+
+        <div class="w-full h-full max-h-[35vh]">
+          <oms-chart
+            [data]="avgPricePerOrder"
+            [options]="baseChartOptions"
+            type="line"
+          ></oms-chart>
+        </div>
+      </div>
+
+      <div class="dashboard-detail-container w-full">
+        <div class="flex justify-between">
+          <p class="font-bold text-black" i18n>Top Sold Catalogs</p>
+
+          <div>
+            <span i18n class="mr-2 font-medium">Products Quantity</span>
+
+            <p-dropdown
+              [(ngModel)]="selectedNumber"
+              [options]="numbers"
+              (onChange)="onSelectedNumber()"
+              placeholder="{{ numbers.length }} Items"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <div class="w-full h-full max-h-[35vh]">
+          <oms-chart
+            [data]="topSoldProducts"
+            [options]="barHorizontalBaseChartOptions"
+            type="bar"
+          ></oms-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-detail-container flex flex-col justify-between">
+    <overview-box
+      *ngFor="let o of orderSummary"
+      [dateRange]="dateRange"
+      [type]="o.displayText"
+      [total]="o.value"
+      [percentage]="o.percentage"
+      styleClass="md:py-1 2xl:py-4"
+    ></overview-box>
+  </div>
+</div>
+
+<div class="mt-2">
+  <oms-table
+    (pagingInfo)="onPageChange($event)"
+    [isPaginationShown]="true"
+    [table]="tableData"
+  >
+  </oms-table>
+</div>

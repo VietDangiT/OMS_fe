@@ -1,0 +1,76 @@
+<app-topbar></app-topbar>
+
+<div class="w-full">
+  <app-global-filter
+    (dateFilterChange)="dateFilterChanged($event)"
+  ></app-global-filter>
+
+  <div class="gap-2 md:grid md:grid-cols-11 sm:flex-col">
+    <!-- dashboard component -->
+    <div class="md:col-span-9">
+      <div class="grid-cols-6 gap-2 md:grid">
+        <!-- total sale component -->
+        <div class="p-4 main-dashboard-container">
+          <dashboard-total-sale-chart
+            [filterArr]="filterArr"
+            [option]="chartOptions"
+          ></dashboard-total-sale-chart>
+        </div>
+
+        <!-- total return component -->
+        <div class="p-4 main-dashboard-container">
+          <dashboard-total-return
+            [filterArr]="filterArr"
+            [pieOptions]="pieOptions"
+          >
+          </dashboard-total-return>
+        </div>
+
+        <!-- product catalog component -->
+        <div class="p-4 main-dashboard-container">
+          <dashboard-product-catalog
+            [filterArr]="filterArr"
+            [basicOptions]="barChartOptions"
+          ></dashboard-product-catalog>
+        </div>
+
+        <!-- total sale by location component -->
+        <div class="main-dashboard-container">
+          <dashboard-total-sale-by-location
+            [filterArr]="filterArr"
+          ></dashboard-total-sale-by-location>
+        </div>
+
+        <!-- total order & top selling product component -->
+        <div class="rounded-md lg:col-span-2 md:col-span-3">
+          <div class="flex flex-col gap-2 h-full">
+            <!-- order component -->
+            <dashboard-total-orders
+              [filterArr]="filterArr"
+              [basicOptions]="barChartOptions"
+            ></dashboard-total-orders>
+
+            <!-- top selling product component -->
+            <div class="sm:mb-2 md:mb-0 h-full">
+              <dashboard-top-selling-product
+                [filterArr]="filterArr"
+              ></dashboard-top-selling-product>
+            </div>
+          </div>
+        </div>
+
+        <!-- total sale by channel component -->
+        <div class="p-4 main-dashboard-container">
+          <dashboard-sale-by-channel
+            [filterArr]="filterArr"
+          ></dashboard-sale-by-channel>
+        </div>
+      </div>
+    </div>
+
+    <!-- statistic component -->
+    <div class="p-2 bg-white rounded-md md:col-span-2">
+      <dashboard-statistic [filterArr]="filterArr"></dashboard-statistic>
+    </div>
+  </div>
+</div>

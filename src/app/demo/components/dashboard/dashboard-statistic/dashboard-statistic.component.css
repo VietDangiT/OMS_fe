@@ -1,0 +1,19 @@
+dashboard-statistic .p-hidden-accessible {
+  @apply hidden;
+}
+dashboard-statistic .p-dropdown-label {
+  @apply hidden !important;
+}
+dashboard-statistic .p-dropdown .p-dropdown-trigger {
+  @apply py-2 w-8;
+}
+dashboard-statistic .p-dropdown-item {
+  @apply p-0 !important;
+}
+dashboard-statistic .p-inputtext {
+  @apply p-2;
+}
+
+dashboard-statistic .p-dropdown-panel .p-dropdown-items {
+  @apply p-0;
+}

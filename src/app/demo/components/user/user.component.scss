@@ -1,0 +1,21 @@
+.oms-user {
+  .p-fileupload {
+    @apply absolute rounded-full right-0  bottom-0  w-8 h-8 cursor-pointer text-white bg-primary;
+
+    & .p-button-icon {
+      @apply w-full h-full text-center;
+    }
+  }
+
+  .p-button-icon {
+    @apply flex justify-center items-center;
+  }
+
+  .p-button:focus {
+    @apply shadow-none;
+  }
+
+  label {
+    @apply font-bold text-xl cursor-pointer;
+  }
+}
